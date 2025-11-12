@@ -46,8 +46,7 @@ export default function Hero() {
     <section
       className="
         relative overflow-hidden
-        bg-white dark:bg-[#0b0f15]
-        text-gray-900 dark:text-white
+        bg-black text-white
         py-28 md:py-18
         flex items-center
       "
@@ -57,63 +56,61 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="space-y-6"
         >
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-6">
-            <span className="block bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
-              {t.title1}
-            </span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight">
+            <span className="block text-[#E2C07C]">{t.title1}</span>
           </h1>
 
-          <p className="text-gray-600 dark:text-gray-400 mb-10 text-lg leading-relaxed max-w-lg">
+          <p className="text-gray-400 text-lg leading-relaxed max-w-lg">
             {t.desc}
           </p>
 
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 pt-2">
             <Link
               href="/contact"
-              className="px-7 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold hover:scale-[1.03] hover:shadow-lg transition-transform"
+              className="px-7 py-3 rounded-xl bg-[#E2C07C] text-black font-semibold hover:brightness-110 hover:scale-[1.03] transition-all duration-300"
             >
               {t.btn1}
             </Link>
             <Link
               href="/projects"
-              className="px-7 py-3 rounded-xl border border-gray-300 dark:border-white/20 text-gray-800 dark:text-gray-200 font-semibold hover:bg-gray-50 dark:hover:bg-white/10 transition-all"
+              className="px-7 py-3 rounded-xl border border-[#E2C07C]/70 text-[#E2C07C] font-semibold hover:bg-[#E2C07C]/10 hover:scale-[1.03] transition-all duration-300"
             >
               {t.btn2}
             </Link>
           </div>
         </motion.div>
 
-        {/* === RIGHT IMAGE (TRANSPARENT COLLAGE) === */}
+        {/* === RIGHT IMAGE === */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, x: 40 }}
+          initial={{ opacity: 0, scale: 0.95, x: 40 }}
           animate={{ opacity: 1, scale: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.2 }}
+          transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           className="relative flex justify-center md:justify-end"
         >
-          {/* Soft glow background */}
+          {/* subtle background circle for depth */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.25 }}
+            animate={{ opacity: 0.08 }}
             transition={{ duration: 1.5 }}
-            className="absolute -z-10 top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-tr from-blue-500 to-cyan-400 rounded-full blur-[180px]"
+            className="absolute -z-10 top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] bg-[#E2C07C]/30 rounded-full blur-[120px]"
           />
-          
-          {/* Transparent collage image (no frame, no border) */}
+
           <Image
             src="/Combine.png"
-            alt="Collage Transparent"
+            alt="Collage"
             width={700}
             height={700}
-            className="object-contain w-full h-auto max-w-xl drop-shadow-[0_0_25px_rgba(59,130,246,0.3)]"
+            className="object-contain w-full h-auto max-w-xl"
             priority
           />
         </motion.div>
       </div>
 
-      {/* === Subtle gradient overlay bottom === */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white dark:from-[#0b0f15] to-transparent pointer-events-none" />
+      {/* === Bottom fade transition === */}
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent pointer-events-none" />
     </section>
   );
 }
