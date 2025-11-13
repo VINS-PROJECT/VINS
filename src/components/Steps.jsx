@@ -49,8 +49,8 @@ export default function PortfolioSection() {
         >
           <div className="relative w-80 h-96 rounded-[2.5rem] overflow-hidden border border-[#E2C07C]/20 bg-[#111]">
             <img
-              src="/images/profile-portfolio.png"
-              alt="Portfolio Photo"
+              src="/KVNS.jpg"
+              alt="KEVINSIMORANGKIR"
               className="w-full h-full object-cover rounded-[2.5rem]"
             />
           </div>
@@ -62,7 +62,7 @@ export default function PortfolioSection() {
             viewport={{ once: true }}
             className="mt-8 text-2xl font-signature text-[#E2C07C]/80 italic"
           >
-            — Anin Dev
+            — Kevin Simorangkir
           </motion.p>
         </motion.div>
 

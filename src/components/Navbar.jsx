@@ -52,7 +52,7 @@ export default function Navbar() {
   const navLinks = [
     { href: "/", label: t.home },
     { href: "/projects", label: t.projects },
-    { href: "/timeline", label: t.timeline },
+    // { href: "/timeline", label: t.timeline },
     { href: "/certificate", label: t.certificate },
     { href: "/experience", label: t.experience },
     { href: "/article", label: t.article },
