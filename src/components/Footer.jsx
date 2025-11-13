@@ -51,18 +51,16 @@ export default function Footer() {
           <div className="flex items-center gap-3 mb-5">
             <motion.img
               src="/logo.svg"
-              alt="AninDev"
+              alt="VINS"
               className="w-10 h-10 rounded-xl"
               whileHover={{ rotate: 8, scale: 1.05 }}
               transition={{ type: "spring", stiffness: 250 }}
             />
-            <span className="text-lg font-semibold text-white">
-              Anin<span className="text-[#E2C07C]">Dev</span>
-            </span>
+            <span className="text-[#E2C07C]">VINS</span>
           </div>
 
           <p className="text-sm leading-relaxed text-gray-400 max-w-sm">
-            A portfolio that blends creativity, precision, and modern technology —
+            A portfolio that blends creativity, precision, and modern technology,
             showcasing meaningful work crafted with detail and purpose.
           </p>
         </div>
@@ -138,7 +136,7 @@ export default function Footer() {
         {/* Copyright */}
         <p className="text-xs text-gray-500">
           © {new Date().getFullYear()}{" "}
-          <span className="text-white font-medium">AninDev</span> — All rights reserved.
+          <span className="text-white font-medium">VINS</span> — All rights reserved.
         </p>
         <p className="text-gray-600 mt-2 text-xs">
           Crafted with <span className="text-[#E2C07C]">passion</span> &{" "}

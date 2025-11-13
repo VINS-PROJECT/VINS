@@ -72,7 +72,7 @@ export default function ContactPage() {
             <div className="flex flex-col gap-4 text-sm">
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-[#E2C07C]" />
-                <span>anin.dev@mail.com</span>
+                <span>vin.simorangkir81@gmail.com</span>
               </div>
               <div className="flex gap-3 mt-4">
                 {socials.map((s, i) => (
@@ -97,7 +97,7 @@ export default function ContactPage() {
               className="mt-12 border-l-4 border-[#E2C07C] pl-5"
             >
               <p className="italic text-gray-400">
-                “Design and code are two sides of the same coin — one tells the story, the other makes it real.”
+                “Design and code are two sides of the same coin one tells the story, the other makes it real.”
               </p>
             </motion.div>
           </motion.div>

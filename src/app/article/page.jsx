@@ -4,7 +4,9 @@ import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { Search, Calendar, BookOpen, Tag, ArrowRight } from "lucide-react";
+import { Search, Calendar, Tag, ArrowRight } from "lucide-react";
+
+import { articles } from "@/data/articles";
 
 export default function ArticlesPage() {
   const [search, setSearch] = useState("");
@@ -12,80 +14,24 @@ export default function ArticlesPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  // === Data Artikel Dummy (bisa diganti nanti dengan fetch CMS / API)
-  const articles = [
-    {
-      id: 1,
-      title: "Building a High-Performance Portfolio with Next.js 15",
-      desc: "Learn how to create blazing-fast personal websites using the latest Next.js features and best optimization techniques.",
-      date: "June 2024",
-      image: "/articles/next15.png",
-      category: "Web Development",
-      slug: "nextjs-15-portfolio",
-    },
-    {
-      id: 2,
-      title: "Design Systems for Developers",
-      desc: "Why front-end engineers should think like designers — a guide to building consistent and scalable UI components.",
-      date: "May 2024",
-      image: "/articles/design-system.png",
-      category: "UI/UX",
-      slug: "design-systems-for-devs",
-    },
-    {
-      id: 3,
-      title: "Creating Animations with Framer Motion in Next.js",
-      desc: "Step-by-step tutorial to implement smooth UI animations that enhance user experience without hurting performance.",
-      date: "April 2024",
-      image: "/articles/framer-motion.png",
-      category: "Animation",
-      slug: "framer-motion-nextjs",
-    },
-    {
-      id: 4,
-      title: "The Power of Personal Branding in Tech",
-      desc: "How developers can build a strong online presence to attract opportunities and collaborations.",
-      date: "March 2024",
-      image: "/articles/personal-branding.png",
-      category: "Career",
-      slug: "personal-branding-in-tech",
-    },
-    {
-      id: 5,
-      title: "From Designer to Frontend Developer",
-      desc: "My journey of transitioning from UI design to full-stack development — and the lessons learned along the way.",
-      date: "January 2024",
-      image: "/articles/designer-to-dev.png",
-      category: "Journey",
-      slug: "designer-to-developer",
-    },
-    {
-      id: 6,
-      title: "Mastering Responsive Layouts with TailwindCSS",
-      desc: "Best practices for building adaptive and clean layouts using Tailwind’s utility-first approach.",
-      date: "December 2023",
-      image: "/articles/tailwindcss-layouts.png",
-      category: "Web Development",
-      slug: "responsive-tailwind-layouts",
-    },
-  ];
+  const categories = useMemo(
+    () => ["All", ...new Set(articles.map((a) => a.category))],
+    []
+  );
 
-  // === Generate Kategori ===
-  const categories = useMemo(() => ["All", ...new Set(articles.map((a) => a.category))], [articles]);
-
-  // === Filter Artikel Berdasarkan Search & Kategori ===
   const filteredArticles = useMemo(() => {
     return articles.filter((article) => {
-      const matchesCategory = category === "All" || article.category === category;
-      const matchesSearch =
+      const matchCat =
+        category === "All" || article.category === category;
+      const matchSearch =
         article.title.toLowerCase().includes(search.toLowerCase()) ||
         article.desc.toLowerCase().includes(search.toLowerCase());
-      return matchesCategory && matchesSearch;
+      return matchCat && matchSearch;
     });
-  }, [articles, category, search]);
+  }, [category, search]);
 
-  // === Pagination ===
   const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
+
   const displayedArticles = filteredArticles.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -97,7 +43,6 @@ export default function ArticlesPage() {
 
   return (
     <main className="min-h-screen bg-black text-gray-200 pt-28 pb-24 relative overflow-hidden">
-      {/* Background Glow */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.15 }}
@@ -106,7 +51,6 @@ export default function ArticlesPage() {
       />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -121,7 +65,7 @@ export default function ArticlesPage() {
           </p>
         </motion.div>
 
-        {/* Filter + Search */}
+        {/* Filters */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-12">
           {/* Categories */}
           <div className="flex flex-wrap gap-3">
@@ -179,15 +123,21 @@ export default function ArticlesPage() {
                   <div className="flex items-center gap-2 text-xs text-[#E2C07C] mb-2">
                     <Tag className="w-3 h-3" /> {article.category}
                   </div>
+
                   <h2 className="text-lg font-semibold text-white group-hover:text-[#E2C07C] transition">
                     {article.title}
                   </h2>
-                  <p className="text-gray-400 text-sm mt-2 line-clamp-3">{article.desc}</p>
+
+                  <p className="text-gray-400 text-sm mt-2 line-clamp-3">
+                    {article.desc}
+                  </p>
 
                   <div className="flex items-center justify-between mt-4 text-xs text-gray-500">
                     <span className="flex items-center gap-1">
-                      <Calendar className="w-3 h-3 text-[#E2C07C]" /> {article.date}
+                      <Calendar className="w-3 h-3 text-[#E2C07C]" />
+                      {article.date}
                     </span>
+
                     <Link
                       href={`/article/${article.slug}`}
                       className="flex items-center gap-1 text-[#E2C07C] hover:underline"
@@ -201,7 +151,7 @@ export default function ArticlesPage() {
           </div>
         ) : (
           <div className="text-center py-20 text-gray-400">
-            No articles found. Try adjusting filters or search terms.
+            No articles found.
           </div>
         )}
 
@@ -225,8 +175,7 @@ export default function ArticlesPage() {
         )}
       </div>
 
-      {/* Bottom Gradient */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent" />
     </main>
   );
 }
