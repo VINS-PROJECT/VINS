@@ -85,7 +85,7 @@ export default function Navbar() {
           </button>
 
           <a
-            href="https://github.com"
+            href="https://github.com/kevinsimorangkir21/"
             target="_blank"
             rel="noreferrer"
             className="p-1 group transition"
@@ -94,7 +94,7 @@ export default function Navbar() {
           </a>
 
           <a
-            href="https://linkedin.com"
+            href="https://linkedin.com/in/kevinsimorangkir/"
             target="_blank"
             rel="noreferrer"
             className="p-1 group transition"
