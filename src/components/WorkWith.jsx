@@ -3,16 +3,11 @@ import { motion } from "framer-motion";
 
 export default function WorkWith() {
   const partners = [
-    "/logos/google.svg",
-    "/logos/adobe.svg",
-    "/logos/figma.svg",
-    "/logos/notion.svg",
-    "/logos/github.svg",
-    "/logos/dribbble.svg",
-    "/logos/slack.svg",
-    "/logos/behance.svg",
-    "/logos/vercel.svg",
-    "/logos/netflix.svg",
+    "/Medsel.svg",
+    "/DC.svg",
+    "/YTZ.svg",
+    "/RO.svg",
+    "/LLF.svg",
   ];
 
   return (
@@ -49,7 +44,7 @@ export default function WorkWith() {
             bg-clip-text text-transparent
           "
         >
-          Worked With
+          Work & Organizational Partners
         </motion.h2>
 
         {/* Description */}
@@ -83,7 +78,7 @@ export default function WorkWith() {
               <div key={i} className="flex-shrink-0">
                 <img
                   src={logo}
-                  alt="Brand logo"
+                  alt="Logo Partner"
                   className="
                     h-10 md:h-12 object-contain
                     grayscale opacity-60

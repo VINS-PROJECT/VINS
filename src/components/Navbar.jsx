@@ -169,7 +169,7 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-3">
           <Link
-            href="/resume.pdf"
+            href="/File/CV KEVIN SIMORANGKIR.pdf"
             target="_blank"
             className="px-4 py-2 rounded-lg bg-[#E2C07C] text-black text-sm font-semibold hover:brightness-110 hover:scale-[1.03] transition"
           >

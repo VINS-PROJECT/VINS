@@ -4,11 +4,11 @@ import { Github, Linkedin, Instagram, Twitter, Youtube } from "lucide-react";
 
 export default function Footer() {
   const socials = [
-    { icon: <Twitter className="w-4 h-4" />, url: "https://twitter.com" },
-    { icon: <Linkedin className="w-4 h-4" />, url: "https://linkedin.com" },
-    { icon: <Instagram className="w-4 h-4" />, url: "https://instagram.com" },
-    { icon: <Github className="w-4 h-4" />, url: "https://github.com" },
-    { icon: <Youtube className="w-4 h-4" />, url: "https://youtube.com" },
+    { icon: <Twitter className="w-4 h-4" />, url: "#" },
+    { icon: <Linkedin className="w-4 h-4" />, url: "https://www.linkedin.com/in/kevinsimorangkir/" },
+    { icon: <Instagram className="w-4 h-4" />, url: "https://www.instagram.com/vins.ch/" },
+    { icon: <Github className="w-4 h-4" />, url: "https://github.com/kevinsimorangkir21/" },
+    { icon: <Youtube className="w-4 h-4" />, url: "#" },
   ];
 
   const navLinks = [
@@ -50,7 +50,7 @@ export default function Footer() {
         <div>
           <div className="flex items-center gap-3 mb-5">
             <motion.img
-              src="/logo.svg"
+              src="/TP K.svg"
               alt="VINS"
               className="w-10 h-10 rounded-xl"
               whileHover={{ rotate: 8, scale: 1.05 }}
