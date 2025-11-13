@@ -4,8 +4,14 @@ import Footer from "@/components/Footer";
 import ClientLayoutWrapper from "@/components/ClientLayoutWrapper";
 
 export const metadata = {
-  title: "MagangHub — Membangun Talenta Muda Indonesia",
+  title: "VINS - #BornToRise",
+  icons: {
+    icon: "/TP Logo.ico",
+    shortcut: "/TP Logo.ico",
+    apple: "/TP Logo.ico",
+  },
 };
+
 
 export default function RootLayout({ children }) {
   return (
