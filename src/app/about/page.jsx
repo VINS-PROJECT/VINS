@@ -15,17 +15,19 @@ import {
 export default function AboutPage() {
   const identity = [
     { label: "Full Name", value: "Kevin Simorangkir" },
-    { label: "Specialization", value: "Frontend Engineering & Experience Design" },
-    { label: "Education", value: "B.Sc – Informatics Engineering" },
-    { label: "Location", value: "Bandar Lampung, Indonesia" },
-    { label: "Experience", value: "3+ Years in Digital Product Development" },
+    { label: "Specialization", value: "UI/UX Design, Project Management, Data Analysis" },
+    { label: "Education", value: "S.Kom – Informatics Engineering" },
+    { label: "Location", value: "Lampung, Indonesia" },
+    { label: "Experience", value: "1+ Years in Product Development" },
     { label: "Focus Area", value: "Design Systems, Web Engineering, UX Flow Architecture" },
   ];
 
   const skills = {
     "Frontend Engineering": ["Next.js", "React", "TypeScript", "Tailwind", "Framer Motion"],
-    "Experience Design": ["Figma", "Adobe XD", "Interface Architecture"],
+    "Experience Design": ["Figma", "Canva", "Capcut", "Adobe Photoshop", "Adobe Premiere"],
     "Workflow & Tools": ["Git", "Vercel", "Notion", "Trello"],
+    "Project Management": ["Agile", "Leadership"],
+    "Data Analysis": ["Excel", "Google Sheets", "SQL Basics"],
   };
 
   const values = [
@@ -42,7 +44,7 @@ export default function AboutPage() {
     {
       icon: <Rocket className="w-5 h-5 text-[var(--accent)]" />,
       title: "Always Evolving",
-      desc: "A continuous pursuit of refinement—technically, visually, and personally.",
+      desc: "A continuous pursuit of refinement technically, visually, and personally.",
     },
   ];
 
@@ -94,33 +96,6 @@ export default function AboutPage() {
             thinking and intentional design with a calm, modern aesthetic.
           </motion.p>
 
-          {/* Buttons */}
-          <div className="flex gap-4 mt-12">
-            <Link
-              href="/projects"
-              className="
-                px-7 py-3 rounded-xl font-medium text-black
-                transition hover:opacity-90
-              "
-              style={{ background: "var(--accent)" }}
-            >
-              View Projects
-            </Link>
-
-            <Link
-              href="/contact"
-              className="
-                px-7 py-3 rounded-xl border
-                transition
-              "
-              style={{
-                borderColor: "var(--accent)",
-                color: "var(--accent)",
-              }}
-            >
-              Contact
-            </Link>
-          </div>
         </section>
 
         {/* ===== IDENTITY TABLE ===== */}
@@ -231,13 +206,13 @@ export default function AboutPage() {
           </h2>
 
           <p className="text-lg font-light leading-relaxed text-[var(--foreground)]/70">
-            My journey in product development began with early experimentation—
+            My journey in product development began with early experimentation
             from interfaces and design systems to structured workflow automation.
             I’ve contributed to projects such as REFORA ITERA, Harvesty, SIPAD,
             and Telkom Witel Lampung.
             <br /><br />
             Today, I focus on crafting experiences that are simple,
-            intentional, and efficient—aligned with user needs and product
+            intentional, and efficient aligned with user needs and product
             strategy.
           </p>
         </section>

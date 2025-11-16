@@ -2,12 +2,10 @@
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
 /* ===========================================================
-   🎨 COLOR SYSTEM (CSS VARIABLES)
-   Light / Dark theme controlled via <html class="dark">
+   🎨 COLOR SYSTEM
    =========================================================== */
 
 html {
-  /* LIGHT MODE */
   --background: #ffffff;
   --foreground: #111111;
 
@@ -22,7 +20,6 @@ html {
 }
 
 html.dark {
-  /* DARK MODE */
   --background: #0a0a0a;
   --foreground: #f2f2f2;
 
@@ -33,7 +30,6 @@ html.dark {
   --border: #2c2c2c;
 
   --btn-bg: #1c1c1c;
-  /* dark button variant */
   --btn-text: #ededed;
 }
 
@@ -55,7 +51,7 @@ body {
 }
 
 /* ===========================================================
-   ✨ GOLD BUTTON UTILITY (Tidak override semua <button>)
+   ✨ GOLD BUTTON
    =========================================================== */
 
 .btn-gold {
@@ -73,7 +69,6 @@ body {
   transform: translateY(-2px);
 }
 
-/* Outline gold */
 .btn-gold-outline {
   border: 1px solid var(--accent);
   color: var(--accent);
@@ -126,44 +121,18 @@ i:hover {
 }
 
 /* ===========================================================
-   🌙 NAVBAR RELATED (SEMUA DIBUAT CLEAN)
+   🌙 NAVBAR FIX — REMOVE OLD UNDERLINE
    =========================================================== */
 
-/* Navbar underline (untuk komponen baru, bukan layout lama) */
-.nav-link {
-  position: relative;
-  transition: color 0.2s ease;
-}
-
-.nav-link.active,
-.nav-link:hover {
-  color: var(--accent);
-}
-
+/* MATIKAN underline lama supaya tidak dobel */
+.nav-link::after,
 .nav-link.active::after,
 .nav-link:hover::after {
-  width: 60%;
+  display: none !important;
 }
-
-.nav-link::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-dark));
-  border-radius: 9999px;
-  transition: width 260ms ease;
-}
-
-/* NO LAYOUT / NO PADDING / NO BORDERS
-   Navbar layout full controlled by React component,
-   jadi CSS tidak boleh override tampilan. */
 
 /* ===========================================================
-   🛡 GENERAL FIX (Tanpa merusak layout modern)
+   🛡 GENERAL FIX
    =========================================================== */
 
 img,
