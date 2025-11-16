@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { Github, Linkedin, Instagram, Twitter, Youtube } from "lucide-react";
+import Link from "next/link";
 
 export default function Footer() {
   const socials = [
@@ -12,12 +13,12 @@ export default function Footer() {
   ];
 
   const navLinks = [
-    "Home",
-    "Projects",
-    "About",
-    "Contact",
-    "Timeline",
-    "Certificates",
+    { name: "Home", href: "/" },
+    { name: "Projects", href: "/projects" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
+    { name: "Experience", href: "/experience" },
+    { name: "Certificates", href: "/certificate" },
   ];
 
   const legalLinks = [
@@ -30,67 +31,70 @@ export default function Footer() {
   return (
     <footer
       className="
-        relative overflow-hidden
-        bg-black text-gray-300
-        pt-24 pb-12
-        border-t border-[#E2C07C]/20
+        relative pt-20 pb-10 border-t
+        bg-[var(--background)] text-[var(--foreground)]
+        border-[var(--accent)]/20 overflow-hidden
       "
     >
-      {/* === Soft Gold Glow Background === */}
+      {/* Gold Soft Glow */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.18 }}
-        transition={{ duration: 2 }}
-        className="absolute inset-0 bg-[radial-gradient(circle_at_30%_70%,rgba(226,192,124,0.1),transparent_70%),radial-gradient(circle_at_80%_20%,rgba(209,170,96,0.08),transparent_60%)]"
+        transition={{ duration: 1.8 }}
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `
+            radial-gradient(circle at 25% 75%, var(--accent)20 0%, transparent 70%),
+            radial-gradient(circle at 75% 25%, var(--accent-dark)12 0%, transparent 70%)
+          `,
+        }}
       />
 
-      {/* === Main Content === */}
-      <div className="relative max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-3 gap-12 z-10">
-        {/* === Brand Section === */}
+      <div className="relative max-w-6xl mx-auto px-6 md:px-10 grid md:grid-cols-3 gap-14 z-10">
+
+        {/* BRAND */}
         <div>
           <div className="flex items-center gap-3 mb-5">
             <motion.img
               src="/TP K.svg"
-              alt="VINS"
-              className="w-10 h-10 rounded-xl"
-              whileHover={{ rotate: 8, scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 250 }}
+              alt="VINS Logo"
+              className="w-10 h-10 opacity-90"
+              whileHover={{ rotate: 5, scale: 1.07 }}
+              transition={{ type: "spring", stiffness: 200 }}
             />
-            <span className="text-[#E2C07C]">VINS</span>
+            <span className="text-lg font-semibold text-[var(--accent)] tracking-wide">
+              VINS
+            </span>
           </div>
 
-          <p className="text-sm leading-relaxed text-gray-400 max-w-sm">
-            A portfolio that blends creativity, precision, and modern technology,
-            showcasing meaningful work crafted with detail and purpose.
+          <p className="text-sm text-[var(--foreground)]/70 leading-relaxed max-w-xs">
+            Crafting meaningful digital experiences with clarity, intention, and timeless direction.
           </p>
         </div>
 
-        {/* === Navigation Links === */}
+        {/* NAVIGATION */}
         <div>
-          <h4 className="font-semibold text-white mb-4">Explore</h4>
+          <h4 className="font-semibold text-[var(--accent)] mb-4 tracking-wide">Explore</h4>
           <ul className="space-y-2 text-sm">
             {navLinks.map((item, i) => (
-              <motion.li
-                key={i}
-                whileHover={{ x: 5 }}
-                transition={{ duration: 0.2 }}
-              >
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-[#E2C07C] transition-all duration-200"
+              <motion.li key={i} whileHover={{ x: 3 }} transition={{ duration: 0.2 }}>
+                <Link
+                  href={item.href}
+                  className="text-[var(--foreground)]/70 hover:text-[var(--accent)] transition-all"
                 >
-                  {item}
-                </a>
+                  {item.name}
+                </Link>
               </motion.li>
             ))}
           </ul>
         </div>
 
-        {/* === Social Media === */}
+        {/* SOCIAL */}
         <div>
-          <h4 className="font-semibold text-white mb-4">Connect</h4>
-          <p className="text-sm text-gray-400 mb-4">
-            Let’s collaborate — reach out or connect via social platforms.
+          <h4 className="font-semibold text-[var(--accent)] mb-4 tracking-wide">Connect</h4>
+
+          <p className="text-sm text-[var(--foreground)]/70 mb-4">
+            Let’s connect and create something extraordinary.
           </p>
 
           <div className="flex gap-3">
@@ -102,12 +106,14 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="
                   w-10 h-10 flex items-center justify-center rounded-full
-                  border border-white/10 text-gray-300
-                  hover:text-[#E2C07C] hover:border-[#E2C07C]/60
+                  border border-[var(--accent)]/25
+                  text-[var(--foreground)]/70 bg-white/5
+                  hover:border-[var(--accent)]/60 hover:text-[var(--accent)]
+                  hover:shadow-[0_0_10px_var(--accent)]
                   transition-all duration-300 backdrop-blur-sm
                 "
                 whileHover={{ scale: 1.15 }}
-                whileTap={{ scale: 0.9 }}
+                whileTap={{ scale: 0.92 }}
               >
                 {icon}
               </motion.a>
@@ -116,44 +122,33 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* === Legal / Policy Section === */}
+      {/* LEGAL */}
       <div className="relative mt-14 text-center z-10">
-        <div className="flex flex-wrap justify-center gap-6 text-xs text-gray-400 mb-6">
+
+        <div className="flex flex-wrap justify-center gap-6 text-xs text-[var(--foreground)]/60 mb-6">
           {legalLinks.map((link, i) => (
-            <a
+            <Link
               key={i}
               href={link.href}
-              className="hover:text-[#E2C07C] transition-colors duration-200"
+              className="hover:text-[var(--accent)] transition-colors"
             >
               {link.name}
-            </a>
+            </Link>
           ))}
         </div>
 
-        {/* Divider Line */}
-        <div className="w-full max-w-xs mx-auto h-[1px] bg-[#E2C07C]/20 mb-6" />
+        <div className="w-full max-w-[260px] mx-auto h-[1px] bg-[var(--accent)]/25 mb-6" />
 
-        {/* Copyright */}
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-[var(--foreground)]/60">
           © {new Date().getFullYear()}{" "}
-          <span className="text-white font-medium">VINS</span> — All rights reserved.
-        </p>
-        <p className="text-gray-600 mt-2 text-xs">
-          Crafted with <span className="text-[#E2C07C]">passion</span> &{" "}
-          <span className="text-[#d6b270]">precision</span>.
+          <span className="text-[var(--accent)] font-medium">VINS</span>. All rights reserved.
         </p>
 
-        {/* Glowing line accent */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.8 }}
-          transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-          className="absolute left-1/2 -translate-x-1/2 top-0 w-32 h-[2px] bg-gradient-to-r from-[#b99a5e] via-[#E2C07C] to-[#b99a5e] blur-sm"
-        />
+        <p className="text-[var(--foreground)]/60 mt-2 text-xs">
+          Built with <span className="text-[var(--accent)]">purpose</span> &{" "}
+          <span className="text-[var(--accent-dark)]">direction</span>.
+        </p>
       </div>
-
-      {/* === Subtle overlay for polish === */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
     </footer>
   );
 }

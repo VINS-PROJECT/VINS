@@ -6,30 +6,67 @@ import { Clock } from "lucide-react";
 
 export default function ServiceUnavailable503() {
   return (
-    <main className="min-h-screen bg-black text-gray-200 flex items-center justify-center px-6 relative">
+    <main
+      className="
+        min-h-screen flex items-center justify-center px-6
+        bg-[var(--background)] text-[var(--foreground)]
+        relative overflow-hidden transition-colors
+      "
+    >
 
+      {/* Premium Glow */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.12 }}
+        animate={{ opacity: 0.18 }}
         transition={{ duration: 1.3 }}
-        className="absolute inset-0 bg-[radial-gradient(circle_at_60%_40%,rgba(226,192,124,0.18),transparent_70%)]"
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `
+            radial-gradient(circle at 50% 40%, var(--accent)18 0%, transparent 70%),
+            radial-gradient(circle at 20% 80%, var(--accent-dark)12 0%, transparent 70%)
+          `,
+        }}
       />
 
-      <div className="relative text-center z-10">
-        <Clock className="w-16 h-16 text-[#E2C07C] mx-auto mb-6" />
+      <div className="relative text-center z-10 max-w-md">
 
-        <h1 className="text-5xl font-extrabold text-[#E2C07C]">503</h1>
-        <p className="text-gray-400 mt-4 text-lg">
-          Service Unavailable — try again later.
+        {/* Icon */}
+        <Clock className="w-16 h-16 mx-auto mb-6 text-[var(--accent)]" />
+
+        {/* Title */}
+        <h1
+          className="
+            text-5xl font-extrabold
+            bg-clip-text text-transparent
+          "
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, var(--accent), var(--accent-dark))",
+          }}
+        >
+          503
+        </h1>
+
+        {/* Message */}
+        <p className="opacity-70 text-lg mt-4 leading-relaxed">
+          Service Unavailable — please try again later.
         </p>
 
+        {/* Button */}
         <Link
           href="/"
-          className="inline-block mt-8 px-6 py-3 text-sm rounded-xl border border-[#E2C07C] text-[#E2C07C] hover:bg-[#E2C07C]/10 transition"
+          className="
+            inline-block mt-8 px-6 py-3 text-sm rounded-xl
+            border border-[var(--accent)] text-[var(--accent)]
+            hover:bg-[var(--accent)]/10
+            hover:shadow-[0_0_12px_var(--accent)]
+            transition-all
+          "
         >
           Back to Home
         </Link>
       </div>
+
     </main>
   );
 }

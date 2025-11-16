@@ -1,238 +1,341 @@
 "use client";
 
+import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
-import { Search, ArrowLeft, ArrowRight, LayoutGrid, List } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { RefreshCcw } from "lucide-react";
 import { projectsData } from "@/data/projects";
 
 export default function ProjectsPage() {
-  const allProjects = projectsData;
+  const projects = projectsData;
 
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("All Categories");
-  const [tech, setTech] = useState("All Technologies");
-  const [sort, setSort] = useState("Newest");
-  const [view, setView] = useState("grid");
-  const [currentPage, setCurrentPage] = useState(1);
-  const perPage = 6;
+  const GOLD = "var(--accent)";
+  const BG = "var(--background)";
+  const FG = "var(--foreground)";
+  const CARD = "var(--card)";
+  const BORDER = "var(--border)";
 
-  const categories = ["All Categories", ...new Set(allProjects.map((p) => p.category))];
-  const technologies = ["All Technologies", ...new Set(allProjects.flatMap((p) => p.tech))];
-  const sortOptions = ["Newest", "Oldest", "A–Z"];
+  const btnStyle = {
+    background: GOLD,
+    color: "#000",
+    padding: "10px 22px",
+    borderRadius: "12px",
+    fontWeight: 600,
+    border: "none",
+    boxShadow: "0 4px 14px rgba(216,199,154,0.25)",
+  };
 
-  const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase();
+  // ==================================================
+  // ⭐ AUTO LAST UPDATED
+  // ==================================================
+  const lastUpdate = useMemo(() => {
+    const dates = projects.map((p) => new Date(p.updatedAt || `${p.year}-11-15`).getTime());
+    const latest = new Date(Math.max(...dates));
 
-    let data = allProjects.filter((p) => {
-      const matchesSearch =
-        p.title.toLowerCase().includes(q) ||
-        p.desc.toLowerCase().includes(q);
-
-      const matchesCategory = category === "All Categories" || p.category === category;
-      const matchesTech = tech === "All Technologies" || p.tech.includes(tech);
-
-      return matchesSearch && matchesCategory && matchesTech;
+    return latest.toLocaleDateString("id-ID", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
     });
+  }, [projects]);
 
-    if (sort === "Newest") data = data.sort((a, b) => b.year - a.year);
-    if (sort === "Oldest") data = data.sort((a, b) => a.year - b.year);
-    if (sort === "A–Z") data = data.sort((a, b) => a.title.localeCompare(b.title));
+  // ==================================================
+  // ⭐ AUTO REFRESH INDICATOR
+  // ==================================================
+  const [counter, setCounter] = useState(15);
 
-    return data;
-  }, [search, category, tech, sort]);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCounter((c) => (c > 0 ? c - 1 : 15));
+    }, 1000);
 
-  const totalPages = Math.ceil(filtered.length / perPage);
-  const currentItems = filtered.slice((currentPage - 1) * perPage, currentPage * perPage);
+    return () => clearInterval(interval);
+  }, []);
 
-  useEffect(() => setCurrentPage(1), [search, category, tech, sort]);
+  // ==================================================
+  // UI STATE
+  // ==================================================
+  const [globalSearch, setGlobalSearch] = useState("");
+  const [sortColumn, setSortColumn] = useState(null);
+  const [sortOrder, setSortOrder] = useState("desc");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
-  const resetFilter = () => {
-    setSearch("");
-    setCategory("All Categories");
-    setTech("All Technologies");
-    setSort("Newest");
+  // SORT
+  const handleSort = (col) => {
+    if (sortColumn === col) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortColumn(col);
+      setSortOrder("asc");
+    }
   };
 
-  const changePage = (page) => {
-    if (page >= 1 && page <= totalPages) setCurrentPage(page);
+  // RESET
+  const resetAll = () => {
+    setGlobalSearch("");
+    setSortColumn(null);
+    setSortOrder("desc");
+    setPage(1);
   };
+
+  // ==================================================
+  // ⭐ FILTER + SORT
+  // ==================================================
+  const processed = useMemo(() => {
+    let arr = [...projects];
+
+    if (globalSearch.trim() !== "") {
+      const q = globalSearch.toLowerCase();
+      arr = arr.filter((p) =>
+        [p.title, p.desc, p.category, p.year, p.tech.join(", ")].some((f) =>
+          String(f).toLowerCase().includes(q)
+        )
+      );
+    }
+
+    if (sortColumn) {
+      arr.sort((a, b) => {
+        const A =
+          sortColumn === "tech"
+            ? a.tech.join(", ").toLowerCase()
+            : String(a[sortColumn]).toLowerCase();
+
+        const B =
+          sortColumn === "tech"
+            ? b.tech.join(", ").toLowerCase()
+            : String(b[sortColumn]).toLowerCase();
+
+        if (A < B) return sortOrder === "asc" ? -1 : 1;
+        if (A > B) return sortOrder === "asc" ? 1 : -1;
+        return 0;
+      });
+    } else {
+      arr.sort((a, b) => b.year - a.year);
+    }
+
+    return arr;
+  }, [projects, globalSearch, sortColumn, sortOrder]);
+
+  // ==================================================
+  // ⭐ PAGINATION
+  // ==================================================
+  const total = processed.length;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  const paged = processed.slice((page - 1) * pageSize, page * pageSize);
 
   return (
-    <main className="min-h-screen bg-black text-gray-200 pt-28 pb-24 relative overflow-hidden">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.15 }}
-        transition={{ duration: 1.5 }}
-        className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(226,192,124,0.12),transparent_70%),radial-gradient(circle_at_80%_70%,rgba(209,170,96,0.1),transparent_60%)]"
-      />
+    <main
+      className="
+        min-h-screen pt-28 pb-24
+        bg-[var(--background)]
+        text-[var(--foreground)]
+        transition-colors
+      "
+    >
+      <div className="max-w-7xl mx-auto px-6">
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-5 mb-10">
-          <div>
-            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-[#E2C07C] to-[#b99a5e] text-transparent bg-clip-text">
-              Projects
-            </h1>
-            <div className="mt-2 h-1 w-32 bg-[#E2C07C]" />
-          </div>
+        {/* TITLE */}
+        <h1
+          className="
+            text-4xl md:text-5xl font-extrabold text-center mb-4
+            bg-clip-text text-transparent
+          "
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, var(--accent), var(--accent-dark))",
+          }}
+        >
+          Projects
+        </h1>
 
-          <div className="relative w-full md:w-[400px]">
-            <Search className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
+        {/* ⭐ LAST UPDATED */}
+        <p className="text-center text-sm opacity-60 mb-1">
+          Last updated: {lastUpdate}
+        </p>
+
+        {/* ⭐ AUTO REFRESH INDICATOR */}
+        <p className="text-center text-xs opacity-40 mb-10">
+          Auto refresh indicator: refreshing in {counter}s
+        </p>
+
+        {/* FILTER BAR */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+
+          <div className="flex items-center gap-4">
+            {/* SEARCH */}
             <input
-              type="text"
+              value={globalSearch}
+              onChange={(e) => {
+                setGlobalSearch(e.target.value);
+                setPage(1);
+              }}
               placeholder="Search projects..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-24 py-3 rounded-xl bg-white/5 border border-[#E2C07C]/20 text-sm"
+              className="
+                px-4 py-3 rounded-xl text-sm w-72
+                bg-[var(--card)]
+                border border-[var(--border)]
+                text-[var(--foreground)]
+                focus:border-[var(--accent)]
+                transition
+              "
             />
-            {search && (
-              <button
-                onClick={() => setSearch("")}
-                className="absolute right-3 top-2.5 px-3 py-1.5 text-xs border border-[#E2C07C]/30 rounded-md"
-              >
-                Reset
-              </button>
-            )}
-          </div>
-        </div>
 
-        {/* Filters */}
-        <div className="flex flex-wrap items-center gap-3 mb-10">
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="px-4 py-3 rounded-lg bg-white/5 border border-[#E2C07C]/20 text-sm"
-          >
-            {categories.map((c) => <option key={c}>{c}</option>)}
-          </select>
-
-          <select
-            value={tech}
-            onChange={(e) => setTech(e.target.value)}
-            className="px-4 py-3 rounded-lg bg-white/5 border border-[#E2C07C]/20 text-sm"
-          >
-            {technologies.map((t) => <option key={t}>{t}</option>)}
-          </select>
-
-          <select
-            value={sort}
-            onChange={(e) => setSort(e.target.value)}
-            className="px-4 py-3 rounded-lg bg-white/5 border border-[#E2C07C]/20 text-sm"
-          >
-            {sortOptions.map((s) => <option key={s}>{s}</option>)}
-          </select>
-
-          {(search || category !== "All Categories" || tech !== "All Technologies" || sort !== "Newest") && (
+            {/* RESET */}
             <button
-              onClick={resetFilter}
-              className="px-4 py-3 rounded-lg border border-[#E2C07C]/30 text-[#E2C07C]"
+              onClick={resetAll}
+              style={btnStyle}
+              className="flex items-center gap-2 hover:brightness-110 transition"
             >
-              Reset Filter
-            </button>
-          )}
-
-          <div className="ml-auto flex gap-2">
-            <button onClick={() => setView("grid")} className={`p-3 rounded-lg border ${view === "grid" ? "bg-[#E2C07C]/20 border-[#E2C07C]" : "border-[#E2C07C]/30"}`}>
-              <LayoutGrid className="w-4 h-4 text-[#E2C07C]" />
-            </button>
-
-            <button onClick={() => setView("list")} className={`p-3 rounded-lg border ${view === "list" ? "bg-[#E2C07C]/20 border-[#E2C07C]" : "border-[#E2C07C]/30"}`}>
-              <List className="w-4 h-4 text-[#E2C07C]" />
+              <RefreshCcw className="w-4 h-4" />
+              Reset
             </button>
           </div>
-        </div>
 
-        {/* Content */}
-        {currentItems.length > 0 ? (
-          <motion.div
-            layout
-            className={view === "grid" ? "grid sm:grid-cols-2 lg:grid-cols-3 gap-8" : "flex flex-col gap-6"}
-          >
-            {currentItems.map((p, i) => (
-              <motion.div
-                key={p.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 }}
-                className={`rounded-2xl border border-[#E2C07C]/20 bg-white/5 overflow-hidden backdrop-blur-sm ${view === "list" ? "flex gap-6 items-center p-4" : ""}`}
-              >
-                <div className={`relative ${view === "grid" ? "w-full h-52" : "w-40 h-32 flex-shrink-0"}`}>
-                  <Image
-                    src={p.image}
-                    alt={p.title}
-                    fill
-                    className="object-cover rounded-xl"
-                  />
-                </div>
+          {/* ROWS PER PAGE */}
+          <div className="flex items-center gap-3">
+            <label className="text-sm text-[var(--foreground)]/70">Rows:</label>
 
-                <div className={`${view === "grid" ? "p-6" : "flex-1"}`}>
-                  <h3 className="text-lg font-semibold text-white mb-1">{p.title}</h3>
-                  <p className="text-sm text-gray-400 mb-3 line-clamp-2">{p.desc}</p>
-
-                  <div className="flex justify-between items-center text-xs text-[#E2C07C]">
-                    <span>{p.category} • {p.tech.join(", ")}</span>
-                    <Link href={`/projects/${p.slug}`} className="font-semibold hover:underline text-[#E2C07C]">
-                      Lihat Detail →
-                    </Link>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        ) : (
-          <div className="text-center py-20">
-            <p className="text-gray-400 mb-3">No matching projects found.</p>
-            <button
-              onClick={resetFilter}
-              className="px-4 py-2 rounded-lg border border-[#E2C07C] text-[#E2C07C]"
+            <select
+              className="
+                px-3 py-2 rounded-xl text-sm
+                bg-[var(--card)]
+                border border-[var(--border)]
+                text-[var(--foreground)]
+                transition
+              "
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value));
+                setPage(1);
+              }}
             >
-              Reset Filter
-            </button>
-          </div>
-        )}
-
-        {/* Pagination */}
-        {filtered.length > perPage && (
-          <div className="mt-12 flex flex-col items-center gap-4">
-            <div className="flex flex-wrap gap-2 justify-center">
-              <button
-                onClick={() => changePage(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="px-4 py-2 rounded-lg border border-[#E2C07C]/40 text-[#E2C07C] disabled:opacity-40"
-              >
-                <ArrowLeft className="w-4 h-4 inline-block" /> Prev
-              </button>
-
-              {[...Array(totalPages)].map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => changePage(i + 1)}
-                  className={`px-4 py-2 rounded-lg border text-sm ${
-                    i + 1 === currentPage
-                      ? "bg-[#E2C07C]/20 border-[#E2C07C] text-[#E2C07C]"
-                      : "border-[#E2C07C]/20 text-gray-400 hover:border-[#E2C07C]/50 hover:text-[#E2C07C]"
-                  }`}
-                >
-                  {i + 1}
-                </button>
+              {[10, 15, 20, 50].map((s) => (
+                <option key={s}>{s}</option>
               ))}
-
-              <button
-                onClick={() => changePage(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className="px-4 py-2 rounded-lg border border-[#E2C07C]/40 text-[#E2C07C] disabled:opacity-40"
-              >
-                Next <ArrowRight className="w-4 h-4 inline-block" />
-              </button>
-            </div>
-
-            <p className="text-sm text-gray-500">
-              Page {currentPage} of {totalPages}
-            </p>
+            </select>
           </div>
-        )}
+
+        </div>
+
+        {/* TABLE */}
+        <div
+          className="
+            overflow-x-auto rounded-xl
+            border border-[var(--border)]
+            bg-[var(--card)]
+            backdrop-blur-md
+            shadow-md
+          "
+        >
+          <table className="min-w-full text-left">
+            <thead
+              className="
+                border-b border-[var(--border)]
+                bg-[var(--card)]
+              "
+            >
+              <tr>
+                {[
+                  { col: "title", label: "Title" },
+                  { col: "category", label: "Category" },
+                  { col: "tech", label: "Technologies" },
+                  { col: "year", label: "Year" },
+                ].map((h) => (
+                  <th
+                    key={h.col}
+                    className="p-4 cursor-pointer select-none text-[var(--foreground)]"
+                    onClick={() => handleSort(h.col)}
+                  >
+                    <div className="flex items-center gap-2">
+                      {h.label}
+                      <span className="text-xs opacity-70">
+                        {sortColumn === h.col
+                          ? sortOrder === "asc"
+                            ? "▲"
+                            : "▼"
+                          : ""}
+                      </span>
+                    </div>
+                  </th>
+                ))}
+
+                <th className="p-4 text-[var(--foreground)]">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {paged.map((p, i) => (
+                <motion.tr
+                  key={p.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, delay: i * 0.04 }}
+                  viewport={{ once: true }}
+                  className="
+                    border-b border-[var(--border)]
+                    hover:bg-[var(--accent)]/10
+                    transition
+                  "
+                >
+                  <td className="p-4 font-medium">{p.title}</td>
+                  <td className="p-4">{p.category}</td>
+                  <td className="p-4 text-sm text-[var(--foreground)]/60">
+                    {p.tech.join(", ")}
+                  </td>
+                  <td className="p-4">{p.year}</td>
+
+                  <td className="p-4">
+                    <Link
+                      href={`/projects/${p.slug}`}
+                      style={btnStyle}
+                      className="inline-flex text-sm hover:brightness-110 transition"
+                    >
+                      Detail
+                    </Link>
+                  </td>
+                </motion.tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* PAGINATION */}
+        <div className="flex items-center justify-between mt-6">
+
+          <div className="text-sm text-[var(--foreground)]/70">
+            Showing {((page - 1) * pageSize) + 1} —{" "}
+            {Math.min(page * pageSize, total)} of {total}
+          </div>
+
+          <div className="flex items-center gap-3">
+            {[
+              { label: "First", action: () => setPage(1), disabled: page === 1 },
+              { label: "Prev", action: () => setPage((p) => Math.max(1, p - 1)), disabled: page === 1 },
+              { label: "Next", action: () => setPage((p) => Math.min(totalPages, p + 1)), disabled: page === totalPages },
+              { label: "Last", action: () => setPage(totalPages), disabled: page === totalPages },
+            ].map((btn, i) => (
+              <button
+                key={i}
+                onClick={btn.action}
+                disabled={btn.disabled}
+                className="px-5 py-2 rounded-xl font-semibold transition-all"
+                style={{
+                  background: GOLD,
+                  color: "#000",
+                  opacity: btn.disabled ? 0.6 : 1,
+                  cursor: btn.disabled ? "not-allowed" : "pointer",
+                  boxShadow: btn.disabled
+                    ? "none"
+                    : "0 4px 14px rgba(216,199,154,0.35)",
+                }}
+              >
+                {btn.label}
+              </button>
+            ))}
+          </div>
+
+        </div>
       </div>
     </main>
   );

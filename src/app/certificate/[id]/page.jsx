@@ -2,18 +2,27 @@
 
 import { useParams } from "next/navigation";
 import { useState } from "react";
-
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTheme } from "next-themes";
 
-// PDF viewer
+// PDF Viewer
 import { Document, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 export default function CertificateDetail() {
   const { id } = useParams();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
+  const BG = "var(--background)";
+  const FG = "var(--foreground)";
+  const CARD = "var(--card)";
+  const BORDER = "var(--border)";
+  const GOLD = "var(--accent)";
+
   const [numPages, setNumPages] = useState(null);
 
   const certificates = [
@@ -31,6 +40,7 @@ export default function CertificateDetail() {
       pdf: "/File/BaparekrafTraining.pdf",
       desc: "Comprehensive training on front-end and back-end web development, covering HTML, CSS, JavaScript, React, Node.js, Express, and database management.",
     },
+    // (other certificates… unchanged)
     {
       id: 2,
       title: "Becoming an Expert Front-End Web Developer",
@@ -60,32 +70,32 @@ export default function CertificateDetail() {
       desc: "Fundamental course on back-end application development, covering server-side programming, RESTful APIs, database integration, and security best practices.",
     },
     {
-        id: 4,
-        title: "Introduction to UX/UI Design",
-        issuer: "Coursera",
-        issuerLogo: "/Coursera.svg",
-        year: 2025,
-        issuedDate: "8 November 2025",
-        certificateId: "YQWIQGV43MOR",
-        duration: "15 Jam",
-        category: "UX/UI Design",
-        image: "/certificates/uxui.png",
-        pdf: "/File/CourseraUXUIDesign.pdf",
-        desc: "Introduction to the principles and practices of UX/UI design, focusing on user-centered design, wireframing, prototyping, and usability testing.",
+      id: 4,
+      title: "Introduction to UX/UI Design",
+      issuer: "Coursera",
+      issuerLogo: "/Coursera.svg",
+      year: 2025,
+      issuedDate: "8 November 2025",
+      certificateId: "YQWIQGV43MOR",
+      duration: "15 Jam",
+      category: "UX/UI Design",
+      image: "/certificates/uxui.png",
+      pdf: "/File/CourseraUXUIDesign.pdf",
+      desc: "Introduction to UX/UI design, focusing on user-centered design, wireframing, prototyping, and usability testing.",
     },
     {
-        id: 5,
-        title: "Project Initiation: Starting a Successful Project",
-        issuer: "Coursera",
-        issuerLogo: "/Coursera.svg",
-        year: 2025,
-        issuedDate: "12 November 2025",
-        certificateId: "9H2APOYYVASX",
-        duration: "17 Jam",
-        category: "Project Management",
-        image: "/certificates/projectmanagement.png",
-        pdf: "/File/CourseraProjectInitiation.pdf",
-        desc: "Comprehensive course on project initiation, covering project planning, stakeholder management, risk assessment, and effective communication strategies.",
+      id: 5,
+      title: "Project Initiation: Starting a Successful Project",
+      issuer: "Coursera",
+      issuerLogo: "/Coursera.svg",
+      year: 2025,
+      issuedDate: "12 November 2025",
+      certificateId: "9H2APOYYVASX",
+      duration: "17 Jam",
+      category: "Project Management",
+      image: "/certificates/projectmanagement.png",
+      pdf: "/File/CourseraProjectInitiation.pdf",
+      desc: "Comprehensive course on project initiation, covering project planning, stakeholder management, risk assessment, and effective communication strategies.",
     },
     {
       id: 6,
@@ -103,7 +113,7 @@ export default function CertificateDetail() {
     },
     {
       id: 7,
-      title: " AI Foundations & Design Thinking",
+      title: "AI Foundations & Design Thinking",
       issuer: "Coursera",
       issuerLogo: "/Coursera.svg",
       year: 2025,
@@ -135,66 +145,161 @@ export default function CertificateDetail() {
 
   if (!cert)
     return (
-      <div className="min-h-screen flex items-center justify-center text-gray-400 text-xl">
+      <main className="min-h-screen flex items-center justify-center bg-[var(--background)] text-[var(--foreground)]">
         Certificate not found.
-      </div>
+      </main>
     );
 
   return (
-    <main className="min-h-screen bg-black text-gray-200 pt-28 pb-24">
-      <div className="max-w-3xl mx-auto px-6">
+    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] pt-28 pb-24 transition-colors">
 
-        {/* Back */}
-        <Link href="/certificate" className="inline-flex items-center gap-2 text-[#E2C07C] mb-8">
-          <ArrowLeft className="w-4 h-4" /> Back
-        </Link>
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
 
-        {/* Header */}
-        <div className="flex items-center gap-5 mb-8">
-          <div className="w-16 h-16 rounded-xl overflow-hidden border border-[#E2C07C]/40 bg-white/10">
-            <Image src={cert.issuerLogo} alt="logo" width={64} height={64} />
+        {/* HEADER */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-14"
+        >
+          <h1
+            className="
+              text-4xl md:text-5xl font-extrabold 
+              bg-clip-text text-transparent
+            "
+            style={{
+              backgroundImage: "linear-gradient(to right, var(--accent), var(--accent-dark))",
+            }}
+          >
+            Certificate Details
+          </h1>
+
+          <p className="text-[var(--foreground)]/70 mt-3 text-lg max-w-3xl leading-relaxed">
+            A complete view of your certification, including metadata, issuer information,
+            and full document preview.
+          </p>
+
+          {/* Breadcrumb */}
+          <div className="mt-6 flex items-center gap-2 text-sm font-medium">
+            <Link href="/" className="text-[var(--accent)] hover:underline">
+              Home
+            </Link>
+
+            <ChevronRight className="w-4 h-4 text-[var(--accent)]/60" />
+
+            <Link href="/certificate" className="text-[var(--accent)] hover:underline">
+              Certificates
+            </Link>
+
+            <ChevronRight className="w-4 h-4 text-[var(--accent)]/60" />
+
+            <span className="text-[var(--foreground)]/70">
+              {cert.title.length > 40 ? cert.title.slice(0, 40) + "..." : cert.title}
+            </span>
+          </div>
+        </motion.div>
+
+        {/* Back Button */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-8">
+          <Link href="/certificate" className="inline-flex items-center gap-2 text-[var(--accent)] hover:text-[var(--foreground)] transition">
+            <ArrowLeft className="w-4 h-4" /> Back
+          </Link>
+        </motion.div>
+
+        {/* Title + Logo */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-12"
+        >
+          <div className="w-20 h-20 rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--card)] flex items-center justify-center">
+            <Image src={cert.issuerLogo} alt="logo" width={80} height={80} />
           </div>
 
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-white">{cert.title}</h1>
-            <p className="text-[#E2C07C] font-medium">
+            <h1 className="text-3xl md:text-5xl font-bold text-[var(--foreground)]">
+              {cert.title}
+            </h1>
+            <p className="text-[var(--accent)] tracking-wide font-medium mt-1">
               {cert.issuer} • {cert.year}
             </p>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Identity Section */}
-        <div className="mb-8 bg-white/5 border border-[#E2C07C]/20 rounded-xl p-5">
-          <h2 className="text-lg font-semibold text-[#E2C07C] mb-3">Certificate Details</h2>
+        {/* Certificate Info */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="
+            mb-12 p-6 md:p-8 rounded-xl
+            bg-[var(--card)] border border-[var(--border)]
+            shadow-lg
+          "
+        >
+          <h2 className="text-xl font-semibold text-[var(--accent)] mb-4">Certificate Details</h2>
 
-          <div className="grid grid-cols-1 gap-3 text-gray-300 text-sm">
-            <p><span className="text-[#E2C07C] font-medium">Issued Date:</span> {cert.issuedDate}</p>
-            <p><span className="text-[#E2C07C] font-medium">Publisher:</span> {cert.issuer}</p>
-            <p><span className="text-[#E2C07C] font-medium">Category:</span> {cert.category}</p>
-            <p><span className="text-[#E2C07C] font-medium">Duration:</span> {cert.duration}</p>
-            <p><span className="text-[#E2C07C] font-medium">Certificate ID:</span> {cert.certificateId}</p>
+          <div className="grid md:grid-cols-2 gap-x-10 gap-y-3 text-[var(--foreground)]/80 text-[15px]">
+            <Detail label="Issued Date" value={cert.issuedDate} />
+            <Detail label="Publisher" value={cert.issuer} />
+            <Detail label="Category" value={cert.category} />
+            <Detail label="Duration" value={cert.duration} />
+            <Detail label="Certificate ID" value={cert.certificateId} />
           </div>
-        </div>
+        </motion.div>
 
         {/* Description */}
-        <p className="text-gray-300 leading-relaxed mb-10">{cert.desc}</p>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="mb-12 max-w-4xl"
+        >
+          <h2 className="text-xl font-semibold text-[var(--accent)] mb-4">Description</h2>
 
-        {/* PDF Preview */}
-        <div className="w-full border border-[#E2C07C]/30 rounded-xl bg-white p-4 mb-10">
+          <p className="text-[var(--foreground)]/80 leading-relaxed text-lg">
+            {cert.desc}
+          </p>
+        </motion.div>
+
+        {/* PDF Viewer */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="
+            w-full rounded-xl p-6 md:p-10
+            bg-[var(--card)]
+            border border-[var(--border)]
+            shadow-xl
+          "
+        >
           <Document file={cert.pdf} onLoadSuccess={({ numPages }) => setNumPages(numPages)}>
-            {Array.from({ length: numPages }, (_, i) => (
-              <Page
-                key={`page_${i + 1}`}
-                pageNumber={i + 1}
-                renderAnnotationLayer={false}
-                renderTextLayer={false}
-                width={800}
-              />
-            ))}
+            {numPages &&
+              Array.from({ length: numPages }, (_, i) => (
+                <Page
+                  key={`page_${i + 1}`}
+                  pageNumber={i + 1}
+                  renderAnnotationLayer={false}
+                  renderTextLayer={false}
+                  width={1100}
+                  className="
+                    mx-auto mb-12 border border-[var(--border)]
+                    shadow-md bg-white
+                  "
+                />
+              ))}
           </Document>
-        </div>
+        </motion.div>
 
       </div>
     </main>
+  );
+}
+
+// DETAIL COMPONENT
+function Detail({ label, value }) {
+  return (
+    <p className="leading-relaxed">
+      <span className="text-[var(--accent)] font-medium">{label}:</span>{" "}
+      <span className="text-[var(--foreground)]/80">{value}</span>
+    </p>
   );
 }

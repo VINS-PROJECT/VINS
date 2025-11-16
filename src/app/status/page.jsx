@@ -4,46 +4,21 @@ import { motion } from "framer-motion";
 import { CheckCircle, AlertTriangle, XCircle, Activity } from "lucide-react";
 
 export default function StatusPage() {
-  // === Manual Status Data (bisa dibuat auto nanti) ===
   const services = [
-    {
-      name: "Website",
-      status: "Operational",
-      description: "All systems running normally.",
-    },
-    {
-      name: "API Server",
-      status: "Operational",
-      description: "All API routes are stable.",
-    },
-    {
-      name: "Database",
-      status: "Operational",
-      description: "Database responses optimal.",
-    },
-    {
-      name: "CDN / Asset Delivery",
-      status: "Operational",
-      description: "Static assets delivered without issues.",
-    },
-    {
-      name: "Authentication",
-      status: "Operational",
-      description: "Login, sessions, and tokens stable.",
-    },
-    {
-      name: "Email Delivery",
-      status: "Operational",
-      description: "Transactional emails are sending normally.",
-    },
+    { name: "Website", status: "Operational", description: "All systems running normally." },
+    { name: "API Server", status: "Operational", description: "All API routes are stable." },
+    { name: "Database", status: "Operational", description: "Database responses optimal." },
+    { name: "CDN / Asset Delivery", status: "Operational", description: "Static assets delivered without issues." },
+    { name: "Authentication", status: "Operational", description: "Login, sessions, and tokens stable." },
+    { name: "Email Delivery", status: "Operational", description: "Transactional emails are sending normally." },
   ];
 
   const getStatusIcon = (status) => {
     switch (status) {
       case "Operational":
-        return <CheckCircle className="w-5 h-5 text-green-400" />;
+        return <CheckCircle className="w-5 h-5 text-[#8CE99A]" />;
       case "Degraded":
-        return <AlertTriangle className="w-5 h-5 text-yellow-400" />;
+        return <AlertTriangle className="w-5 h-5 text-yellow-300" />;
       case "Outage":
         return <XCircle className="w-5 h-5 text-red-500" />;
       default:
@@ -54,9 +29,9 @@ export default function StatusPage() {
   const getStatusColor = (status) => {
     switch (status) {
       case "Operational":
-        return "text-green-400";
+        return "text-[#8CE99A]";
       case "Degraded":
-        return "text-yellow-400";
+        return "text-yellow-300";
       case "Outage":
         return "text-red-500";
       default:
@@ -65,63 +40,100 @@ export default function StatusPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-gray-200 pt-28 pb-24 relative overflow-hidden">
-      {/* Glow BG */}
+    <main
+      className="
+        min-h-screen pt-28 pb-24 relative overflow-hidden
+        bg-[var(--background)] text-[var(--foreground)]
+        transition-colors duration-500
+      "
+    >
+      {/* === Premium Gold Glow BG === */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.15 }}
-        transition={{ duration: 1.3 }}
-        className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(226,192,124,0.18),transparent_70%),radial-gradient(circle_at_80%_80%,rgba(209,170,96,0.12),transparent_60%)]"
+        animate={{ opacity: 0.17 }}
+        transition={{ duration: 1.4 }}
+        className="absolute inset-0"
+        style={{
+          background: `
+            radial-gradient(circle at 35% 30%, var(--accent)25, transparent 70%),
+            radial-gradient(circle at 80% 75%, var(--accent)18, transparent 60%)
+          `,
+        }}
       />
 
       <div className="max-w-5xl mx-auto px-6 relative z-10">
-        {/* Header */}
+
+        {/* === Header === */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <Activity className="w-12 h-12 text-[#E2C07C] mx-auto mb-4" />
-          <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-[#E2C07C] via-[#d6b270] to-[#b99a5e] text-transparent bg-clip-text">
+          <Activity className="w-14 h-14 text-[var(--accent)] mx-auto mb-4" />
+
+          <h1
+            className="
+              text-4xl md:text-5xl font-extrabold 
+              bg-clip-text text-transparent
+            "
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, var(--accent), var(--accent-dark))",
+            }}
+          >
             System Status
           </h1>
 
-          <p className="text-gray-400 mt-4 max-w-xl mx-auto">
-            Real-time overview of system health, services, and uptime performance.
+          <p className="opacity-70 mt-4 max-w-xl mx-auto leading-relaxed">
+            Real-time overview of service health, uptime logs, and system performance.
           </p>
         </motion.div>
 
-        {/* Global System State */}
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/5 border border-[#E2C07C]/30 rounded-xl backdrop-blur-lg">
-            <CheckCircle className="w-5 h-5 text-green-400" />
-            <span className="text-lg font-semibold text-green-400">
+        {/* === Global Status Box === */}
+        <div className="text-center mb-12">
+          <div
+            className="
+              inline-flex items-center gap-3 px-6 py-3 rounded-xl 
+              backdrop-blur-md shadow-[0_0_18px_var(--accent)]
+              border border-[var(--border)]
+              bg-[var(--card)]
+            "
+          >
+            <CheckCircle className="w-5 h-5 text-[#8CE99A]" />
+            <span className="text-lg font-semibold text-[#8CE99A]">
               All Systems Operational
             </span>
           </div>
         </div>
 
-        {/* Services List */}
+        {/* === Services List === */}
         <div className="space-y-5">
           {services.map((service, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
+              transition={{ duration: 0.4, delay: i * 0.07 }}
               viewport={{ once: true }}
-              className="flex justify-between items-center bg-white/5 border border-[#E2C07C]/20 px-6 py-5 rounded-xl hover:border-[#E2C07C]/40 transition-all duration-300"
+              className="
+                flex justify-between items-center 
+                rounded-xl px-6 py-5
+                backdrop-blur-sm
+                bg-[var(--card)]
+                border border-[var(--border)]
+                hover:border-[var(--accent)]/40
+                hover:bg-[var(--accent)]/10
+                transition-all shadow-[0_0_10px_rgba(0,0,0,0.15)]
+              "
             >
+              {/* Left */}
               <div>
-                <h3 className="text-lg font-semibold text-white">
-                  {service.name}
-                </h3>
-                <p className="text-gray-400 text-sm mt-1">
-                  {service.description}
-                </p>
+                <h3 className="text-lg font-semibold">{service.name}</h3>
+                <p className="opacity-70 text-sm mt-1">{service.description}</p>
               </div>
 
+              {/* Right status */}
               <div className="flex items-center gap-2">
                 {getStatusIcon(service.status)}
                 <span className={`font-medium ${getStatusColor(service.status)}`}>
@@ -132,30 +144,41 @@ export default function StatusPage() {
           ))}
         </div>
 
-        {/* Uptime History */}
+        {/* === Uptime History === */}
         <section className="mt-20">
-          <h2 className="text-xl font-bold text-[#E2C07C] mb-4">
+          <h2 className="text-xl font-bold text-[var(--accent)] mb-4">
             Uptime History (Past 30 Days)
           </h2>
 
-          <div className="grid grid-cols-12 gap-2">
+          <div className="grid grid-cols-30 gap-1">
             {Array.from({ length: 30 }).map((_, i) => (
               <div
                 key={i}
-                className="w-full h-4 rounded bg-green-500/70 hover:bg-green-400 transition cursor-pointer"
+                className="
+                  w-full h-4 rounded-sm cursor-pointer
+                  bg-[#8CE99A]/80 hover:bg-[#8CE99A]
+                  transition shadow-sm
+                "
                 title="100% Uptime"
               />
             ))}
           </div>
 
-          <p className="text-gray-400 text-xs mt-3">
-            All systems maintained 100% uptime over the last 30 days.
+          <p className="opacity-70 text-xs mt-3">
+            All systems maintained{" "}
+            <span className="text-[#8CE99A] font-semibold">100% uptime</span> over the last 30 days.
           </p>
         </section>
       </div>
 
       {/* Bottom Fade */}
-      <div className="absolute bottom-0 left-0 w-full h-28 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+      <div
+        className="
+          absolute bottom-0 left-0 w-full h-28 
+          bg-gradient-to-t from-[var(--background)] to-transparent
+          pointer-events-none
+        "
+      />
     </main>
   );
 }
