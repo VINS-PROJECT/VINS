@@ -154,7 +154,7 @@ export default function Hero() {
               <div className="grid sm:grid-cols-2 gap-5">
 
                 {/* UI/UX CARD */}
-                <Link href="/portfolio/uiux" onClick={() => setOpen(false)}>
+                <Link href="https://drive.google.com/file/d/1bL9ht_Zh0IMhR8pXQYuVN-cvziKeppcj/view?usp=sharing" onClick={() => setOpen(false)}>
                   <motion.div
                     whileHover={{ scale: 1.03 }}
                     className="
@@ -175,7 +175,7 @@ export default function Hero() {
                 </Link>
 
                 {/* DATA ANALYTICS CARD */}
-                <Link href="/portfolio/data" onClick={() => setOpen(false)}>
+                <Link href="https://drive.google.com/file/d/1p08WIXh4iXn74h3_A0N9yddU89fTXypx/view?usp=drive_link" onClick={() => setOpen(false)}>
                   <motion.div
                     whileHover={{ scale: 1.03 }}
                     className="
