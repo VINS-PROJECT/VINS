@@ -29,4 +29,20 @@ export const articles = [
       The 6th International Technology Enhanced Language Learning Symposium (iTELLS 2025), held under the theme “Next Gen Language Learning: The AI Revolution in the Classroom,” highlighted groundbreaking advancements in AI driven education and recognized the Gold Award–winning project “Snake Rush,” an innovative AI integrated language learning game developed by Anastasia Citra Negara, Muhammad Raffi Firdaus, John Heartman Simangunsong, Josevein Hutagalung, Ghendis Ayu, Tirtha Radanty, Kevin Simorangkir, and Nabila Balqis. Showcasing the powerful fusion of interactive gameplay and intelligent learning systems, Snake Rush offers personalized and adaptive experiences that help users strengthen language skills through dynamic challenges, real time feedback, and engaging mechanics. The symposium underscored how AI is reshaping modern language learning by enabling individualized progress, enhancing retention through gamification, and providing immersive environments that align with each learner’s needs. As a leading global platform for exploring future focused educational technologies, iTELLS 2025 continues to drive innovation, spotlight transformative projects, and inspire new possibilities in the rapidly evolving world of digital language education.
     `,
   },
+  {
+    id: 3,
+    title: "College Life VS School Life: Embracing Independence and Growth",
+    desc: "A reflective comparison between college life and school life, highlighting the newfound independence and personal growth experienced in higher education.",
+    date: "November 2025",
+    image: "/Journey/CollegeVSschool.png",
+    category: "Life",
+    slug: "college-life-vs-school-life",
+    content: `
+      The differences between school life and college life are significant not only in the way we learn, but also in how we think, build habits, and handle responsibilities. During school years, almost everything is structured: fixed schedules, mandatory uniforms, assigned classrooms, and teachers who guide us through every step. The environment is predictable, providing a routine that keeps us on track from day to day. However, everything shifts once we enter college. The freedom is much larger, but so is the responsibility. There are no teachers constantly reminding you about deadlines, no strict schedule that dictates your entire day, and no system that closely monitors whether you study or skip. You decide your pace, your priorities, and the learning strategy that works for you.
+
+School life is also often associated with a lighter atmosphere stable friendships, familiar faces, and activities centered in one place. College, on the other hand, introduces you to people from different backgrounds, new perspectives, and an environment that pushes you to adapt. Assignments and projects are no longer just about grades; they begin to reflect realworld challenges, teamwork, and professional expectations. Every choice whether joining an organization, selecting courses, or taking on a project plays a role in shaping your personal and academic growth.
+
+Ultimately, the biggest difference between school and college lies in personal development. School builds the foundation and routine, while college strengthens independence, critical thinking, and self discovery. School gives us warm memories of togetherness, while college becomes the stage where we begin to understand who we are and what kind of future we want to pursue. Both phases are equally important, and each contributes uniquely to the person we become today.
+    `,
+  },
 ];
