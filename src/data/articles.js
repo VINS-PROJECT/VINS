@@ -4,7 +4,7 @@ export const articles = [
     title: "Learning and Growing: My Journey as an Intern at Telkom Indonesia",
     desc: "A detailed account of my internship experience at Telkom Witel Lampung, focusing on data analysis and web development projects.",
     date: "July 2024",
-    image: "/articles/next15.png",
+    image: "/Journey/Intern.png",
     category: "Journey",
     slug: "internship-at-telkom-indonesia",
     content: `
@@ -20,9 +20,9 @@ export const articles = [
   {
     id: 2,
     title: "From Idea to Achievement: Securing Gold at iTELLS 2025",
-    desc: "Why front-end engineers should think like designers — a guide to building consistent and scalable UI components.",
+    desc: "An overview of the award-winning project 'Snake Rush' presented at the 6th International Technology Enhanced Language Learning Symposium (iTELLS 2025).",
     date: "July 2025",
-    image: "/articles/design-system.png",
+    image: "/Journey/iTELLS2025.png",
     category: "Journey",
     slug: "from-idea-to-achievement-itells-2025",
     content: `
