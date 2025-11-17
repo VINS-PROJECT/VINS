@@ -29,7 +29,7 @@ export default function ProjectsPage() {
   // ⭐ AUTO LAST UPDATED
   // ==================================================
   const lastUpdate = useMemo(() => {
-    const dates = projects.map((p) => new Date(p.updatedAt || `${p.year}-11-15`).getTime());
+    const dates = projects.map((p) => new Date(p.updatedAt || `${p.year}-11-17`).getTime());
     const latest = new Date(Math.max(...dates));
 
     return latest.toLocaleDateString("id-ID", {
