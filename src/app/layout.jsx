@@ -5,9 +5,9 @@ import Providers from "@/components/ThemeProvider";
 export const metadata = {
   title: "VINS - #BornToRise",
   icons: {
-    icon: "/TP Logo.ico",
-    shortcut: "/TP Logo.ico",
-    apple: "/TP Logo.ico",
+    icon: "/TPN.ico",
+    shortcut: "/TPN.ico",
+    apple: "/TPN.ico",
   },
 };
 
