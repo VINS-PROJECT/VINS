@@ -131,7 +131,7 @@ export default function ContactPage() {
               style={{ borderColor: "var(--accent)" }}
             >
               <p className="italic text-[var(--foreground)]/60">
-                “Design and code are two sides of the same vision —  
+                “Design and code are two sides of the same vision  
                 one imagines the future, the other builds it.”
               </p>
             </motion.div>
