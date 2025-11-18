@@ -6,11 +6,10 @@ import { CheckCircle, AlertTriangle, XCircle, Activity } from "lucide-react";
 export default function StatusPage() {
   const services = [
     { name: "Website", status: "Operational", description: "All systems running normally." },
-    { name: "API Server", status: "Operational", description: "All API routes are stable." },
+    { name: "API Server", status: "Degraded", description: "All API routes are stable." },
     { name: "Database", status: "Operational", description: "Database responses optimal." },
     { name: "CDN / Asset Delivery", status: "Operational", description: "Static assets delivered without issues." },
-    { name: "Authentication", status: "Operational", description: "Login, sessions, and tokens stable." },
-    { name: "Email Delivery", status: "Operational", description: "Transactional emails are sending normally." },
+    { name: "Email Delivery", status: "Degraded", description: "Transactional emails are sending normally." },
   ];
 
   const getStatusIcon = (status) => {
