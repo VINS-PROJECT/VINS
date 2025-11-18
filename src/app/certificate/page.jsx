@@ -8,8 +8,6 @@ import { useTheme } from "next-themes";
 
 export default function CertificatePage() {
   const { theme } = useTheme();
-  const isDark = theme === "dark";
-
   const GOLD = "var(--accent)";
 
   const certificates = [
@@ -23,15 +21,10 @@ export default function CertificatePage() {
     { id: 8, title: "Figma Pro Pt. 1: Auto Layouts, Grids & Components", issuer: "Coursera", year: 2025, issuedDate: "9 November 2025", certificateId: "VSEWK25EEQWD", duration: "7 Jam", category: "UI/UX", pdf: "/File/SkillShareFile1.pdf" },
   ];
 
-  /** 📌 AUTO-LAST UPDATE */
   const lastUpdate = useMemo(() => {
-    const dates = certificates.map(c => new Date(c.issuedDate));
+    const dates = certificates.map((c) => new Date(c.issuedDate));
     const latest = new Date(Math.max(...dates));
-    return latest.toLocaleDateString("id-ID", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    });
+    return latest.toLocaleDateString("id-ID", { day: "2-digit", month: "long", year: "numeric" });
   }, []);
 
   const btnStyle = {
@@ -43,7 +36,6 @@ export default function CertificatePage() {
     boxShadow: "0 3px 12px rgba(216,199,154,0.25)",
   };
 
-  // STATES
   const [category, setCategory] = useState("All");
   const [globalSearch, setGlobalSearch] = useState("");
   const [columnFilters, setColumnFilters] = useState({ title: "", issuer: "", year: "", duration: "", category: "" });
@@ -73,7 +65,6 @@ export default function CertificatePage() {
     setPage(1);
   };
 
-  /** PROCESSING DATA */
   const processed = useMemo(() => {
     let arr = [...certificates];
 
@@ -129,31 +120,31 @@ export default function CertificatePage() {
 
   return (
     <main className="min-h-screen pt-28 pb-24 bg-[var(--background)] text-[var(--foreground)]">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
         {/* TITLE */}
         <h1
-          className="text-5xl font-extrabold text-center mb-3 bg-clip-text text-transparent"
+          className="text-4xl sm:text-5xl font-extrabold text-center mb-3 bg-clip-text text-transparent"
           style={{ backgroundImage: `linear-gradient(to right, ${GOLD}, #b99a5e)` }}
         >
           Certificates
         </h1>
 
-        {/* LAST UPDATE */}
-        <p className="text-center text-sm opacity-60 -mt-2 mb-10">
+        <p className="text-center text-xs sm:text-sm opacity-60 -mt-2 mb-10">
           Last updated: {lastUpdate}
         </p>
 
         {/* CONTROLS */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5 mb-12">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
 
-          <div className="flex items-center gap-4">
+          {/* LEFT CONTROLS */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto">
             <input
               value={globalSearch}
               onChange={(e) => setGlobalSearch(e.target.value)}
               placeholder="Search certificates..."
               className="
-                px-4 py-3 rounded-xl text-sm w-64
+                px-4 py-3 rounded-xl text-sm w-full sm:w-64
                 bg-[var(--card)] border border-[var(--border)]
                 text-[var(--foreground)]
               "
@@ -163,7 +154,7 @@ export default function CertificatePage() {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               className="
-                px-4 py-3 rounded-xl text-sm
+                px-4 py-3 rounded-xl text-sm w-full sm:w-auto
                 bg-[var(--card)] border border-[var(--border)]
                 text-[var(--foreground)]
               "
@@ -173,36 +164,42 @@ export default function CertificatePage() {
               ))}
             </select>
 
-            <button onClick={resetAll} style={btnStyle}>Reset</button>
+            <button onClick={resetAll} style={btnStyle} className="w-full sm:w-auto text-center">
+              Reset
+            </button>
           </div>
 
-          <div className="flex items-center gap-4">
-            <label className="text-sm text-[var(--foreground)]">Rows:</label>
+          {/* RIGHT CONTROLS */}
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-2">
+              <label className="text-sm">Rows:</label>
 
-            <select
-              value={pageSize}
-              onChange={(e) => setPageSize(Number(e.target.value))}
-              className="
-                px-3 py-2 rounded-xl text-sm
-                bg-[var(--card)] border border-[var(--border)]
-                text-[var(--foreground)]
-              "
-            >
-              {[6, 10, 20, 50].map((n) => (
-                <option key={n}>{n}</option>
-              ))}
-            </select>
+              <select
+                value={pageSize}
+                onChange={(e) => setPageSize(Number(e.target.value))}
+                className="
+                  px-3 py-2 rounded-xl text-sm w-24
+                  bg-[var(--card)] border border-[var(--border)]
+                  text-[var(--foreground)]
+                "
+              >
+                {[6, 10, 20, 50].map((n) => (
+                  <option key={n}>{n}</option>
+                ))}
+              </select>
+            </div>
 
-            <button onClick={exportCSV} style={btnStyle} className="flex items-center gap-2">
+            <button onClick={exportCSV} style={btnStyle} className="flex items-center gap-2 w-full sm:w-auto justify-center">
               <Download className="w-4 h-4" />
               Export CSV
             </button>
           </div>
+
         </div>
 
         {/* TABLE */}
         <div className="overflow-x-auto rounded-xl bg-[var(--card)] border border-[var(--border)] shadow-md">
-          <table className="min-w-full text-left">
+          <table className="min-w-full text-left text-sm sm:text-base">
 
             <thead className="border-b border-[var(--border)] bg-[var(--card)]">
               <tr>
@@ -228,11 +225,11 @@ export default function CertificatePage() {
                     hover:bg-[var(--accent)]/10
                   "
                 >
-                  <td className="p-3">{cert.title}</td>
-                  <td className="p-3">{cert.issuer}</td>
+                  <td className="p-3 min-w-[180px]">{cert.title}</td>
+                  <td className="p-3 min-w-[120px]">{cert.issuer}</td>
                   <td className="p-3">{cert.year}</td>
                   <td className="p-3">{cert.duration}</td>
-                  <td className="p-3">{cert.category}</td>
+                  <td className="p-3 min-w-[120px]">{cert.category}</td>
 
                   <td className="p-3">
                     <Link
@@ -246,16 +243,17 @@ export default function CertificatePage() {
                 </motion.tr>
               ))}
             </tbody>
+
           </table>
         </div>
 
         {/* PAGINATION */}
-        <div className="flex items-center justify-between mt-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between mt-6 gap-4">
           <div className="text-sm text-[var(--foreground)]">
             Showing {((page - 1) * pageSize) + 1} – {Math.min(page * pageSize, total)} of {total}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap gap-2 justify-center">
             <button onClick={() => setPage(1)} disabled={page === 1} style={btnStyle}>First</button>
             <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} style={btnStyle}>Prev</button>
 
@@ -267,12 +265,13 @@ export default function CertificatePage() {
             <button onClick={() => setPage(totalPages)} disabled={page === totalPages} style={btnStyle}>Last</button>
           </div>
         </div>
+
       </div>
     </main>
   );
 }
 
-/* TABLE HEAD */
+/* TABLE HEADER COMPONENT */
 function Th({ label, col, sortColumn, sortOrder, onSort }) {
   return (
     <th
