@@ -13,14 +13,14 @@ export default function CertificatePage() {
   const GOLD = "var(--accent)";
 
   const certificates = [
-    { id: 1, title: "Front-End and Back-End Developer Training", issuer: "Baparekraf Digital Talent", year: 2024, issuedDate: "21 Juli 2024", certificateId: "DCD/BDT/GRAD/XXIV-7/D2024Y076", duration: "940 Jam", category: "Web Development", pdf: "/certificates/frontend.pdf" },
-    { id: 2, title: "Becoming an Expert Front-End Web Developer", issuer: "Dicoding Indonesia", year: 2024, issuedDate: "28 June 2024", certificateId: "JLX17KKQNX72", duration: "100 Jam", category: "Web Development", pdf: "/certificates/react.pdf" },
-    { id: 3, title: "Learning to Build Back-End Applications for Beginners", issuer: "Dicoding Indonesia", year: 2024, issuedDate: "1 June 2024", certificateId: "4EXGQ75O9ZRL", duration: "100 Jam", category: "Back-End Development", pdf: "/certificates/backend.pdf" },
-    { id: 4, title: "Introduction UX/UI Design", issuer: "Coursera", year: 2025, issuedDate: "8 November 2025", certificateId: "YQWIQGV43MOR", duration: "15 Jam", category: "UX/UI Design", pdf: "/certificates/uxui.pdf" },
-    { id: 5, title: "Project Initiation: Starting a Successful Project", issuer: "Coursera", year: 2025, issuedDate: "12 November 2025", certificateId: "9H2APOYYVASX", duration: "17 Jam", category: "Project Management", pdf: "/File/CourseraProjectInitiation.pdf" },
-    { id: 6, title: "Foundations of Project Management", issuer: "Coursera", year: 2025, issuedDate: "15 November 2025", certificateId: "KDBFPBMTGBA7", duration: "12 Jam", category: "Project Management", pdf: "/File/CourseraFoundationsProjectManagement.pdf" },
-    { id: 7, title: "AI Foundations & Design Thinking", issuer: "Coursera", year: 2025, issuedDate: "10 November 2025", certificateId: "PJD3D9Q7WVXD", duration: "9 Jam", category: "Artificial Intelligence", pdf: "/File/CourseraAIFoundationsDesignThinking.pdf" },
-    { id: 8, title: "Figma Pro Pt. 1: Auto Layouts, Grids & Components", issuer: "Coursera", year: 2025, issuedDate: "9 November 2025", certificateId: "VSEWK25EEQWD", duration: "7 Jam", category: "UX/UI Design", pdf: "/File/CourseraFigmaProPt1.pdf" },
+    { id: 1, title: "Front-End and Back-End Developer Training", issuer: "Baparekraf Digital Talent", year: 2024, issuedDate: "21 Juli 2024", certificateId: "DCD/BDT/GRAD/XXIV-7/D2024Y076", duration: "940 Jam", category: "Web Development", pdf: "public/File/BaparekrafTraining.pdf" },
+    { id: 2, title: "Becoming an Expert Front-End Web Developer", issuer: "Dicoding Indonesia", year: 2024, issuedDate: "28 June 2024", certificateId: "JLX17KKQNX72", duration: "100 Jam", category: "Web Development", pdf: "public/File/DicodingFile1.pdf" },
+    { id: 3, title: "Learning to Build Back-End Applications for Beginners", issuer: "Dicoding Indonesia", year: 2024, issuedDate: "1 June 2024", certificateId: "4EXGQ75O9ZRL", duration: "100 Jam", category: "Back-End Development", pdf: "public/File/DicodingFile2.pdf" },
+    { id: 4, title: "Introduction to UX/UI Design", issuer: "Coursera", year: 2025, issuedDate: "8 November 2025", certificateId: "YQWIQGV43MOR", duration: "15 Jam", category: "UI/UX", pdf: "public/File/IBMFile1.pdf" },
+    { id: 5, title: "Project Initiation: Starting a Successful Project", issuer: "Coursera", year: 2025, issuedDate: "12 November 2025", certificateId: "9H2APOYYVASX", duration: "17 Jam", category: "Project Management", pdf: "public/File/GoogleFile1.pdf" },
+    { id: 6, title: "Foundations of Project Management", issuer: "Coursera", year: 2025, issuedDate: "15 November 2025", certificateId: "KDBFPBMTGBA7", duration: "12 Jam", category: "Project Management", pdf: "public/File/GoogleFile2.pdf" },
+    { id: 7, title: "AI Foundations & Design Thinking", issuer: "Coursera", year: 2025, issuedDate: "10 November 2025", certificateId: "PJD3D9Q7WVXD", duration: "9 Jam", category: "Artificial Intelligence", pdf: "public/File/CourseFile1.pdf" },
+    { id: 8, title: "Figma Pro Pt. 1: Auto Layouts, Grids & Components", issuer: "Coursera", year: 2025, issuedDate: "9 November 2025", certificateId: "VSEWK25EEQWD", duration: "7 Jam", category: "UI/UX", pdf: "public/File/SkillShareFile1.pdf" },
   ];
 
   /** 📌 AUTO-LAST UPDATE */
