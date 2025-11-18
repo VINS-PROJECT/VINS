@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 export default function ChangelogPage() {
 
   // === COUNTDOWN TARGET ===
-  const targetDate = new Date("2025-11-18T00:00:00").getTime();
+  const targetDate = new Date("2025-11-19T00:00:00").getTime();
   const [timeLeft, setTimeLeft] = useState({ d: 0, h: 0, m: 0, s: 0 });
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function ChangelogPage() {
   const changelogs = [
     {
       version: "v0.0.2",
-      date: "18 November 2025",
+      date: "19 November 2025",
       comingSoon: true,
       changes: [
         "Revamped navigation structure for better accessibility and UX.",
