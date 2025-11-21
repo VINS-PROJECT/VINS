@@ -178,7 +178,7 @@ export default function ChangelogPage() {
                             bg-[var(--accent)] text-black tracking-wider
                           "
                         >
-                          COMING SOON
+                          IN PROGRESS
                         </span>
                       )}
                     </div>
