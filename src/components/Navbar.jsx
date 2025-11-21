@@ -40,7 +40,7 @@ export default function Navbar() {
 
   const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/vins+", label: "VINS+" },
+    { href: "/vins-plus", label: "VINS+" },
     { href: "/article", label: "Articles" },
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },

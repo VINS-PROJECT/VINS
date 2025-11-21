@@ -31,8 +31,8 @@ export default function VinsPlusPage() {
     },
     {
       title: "Certificate",
-      href: "/vins+/certificate",
-      locked: true,
+      href: "/vins-plus/certificate",
+      locked: false,
       icon: <Award className="w-6 h-6" />,
     },
     {

@@ -21,7 +21,6 @@ export default function CertificateDetail() {
   const [containerWidth, setContainerWidth] = useState(900);
   const pdfWrapperRef = useRef(null);
 
-  // Auto-resize PDF width
   useEffect(() => {
     const updateWidth = () => {
       if (pdfWrapperRef.current) {
@@ -199,7 +198,7 @@ export default function CertificateDetail() {
 
             <ChevronRight className="w-4 h-4 text-[var(--accent)]/60" />
 
-            <Link href="/certificate" className="text-[var(--accent)] hover:underline">
+            <Link href="/vins-plus/certificate" className="text-[var(--accent)] hover:underline">
               Certificates
             </Link>
 
@@ -213,7 +212,7 @@ export default function CertificateDetail() {
 
         {/* BACK BUTTON */}
         <Link
-          href="/certificate"
+          href="/vins-plus/certificate"
           className="inline-flex items-center gap-2 text-[var(--accent)] hover:text-[var(--foreground)] mb-10 transition"
         >
           <ArrowLeft className="w-4 h-4" /> Back
