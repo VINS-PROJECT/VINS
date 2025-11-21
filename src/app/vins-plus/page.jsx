@@ -44,7 +44,7 @@ export default function VinsPlusPage() {
     // Locked
     {
       title: "Next Project",
-      href: "/vins+/next-project",
+      href: "/vins-plus/next-project",
       locked: false,
       icon: <Sparkles className="w-6 h-6" />,
     },
