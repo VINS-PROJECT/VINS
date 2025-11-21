@@ -15,18 +15,53 @@ import { useState } from "react";
 export default function VinsPlusPage() {
   const [showPopup, setShowPopup] = useState(false);
 
+  // ITEMS — locked = tampilkan popup, unlocked = bisa diklik normal
   const items = [
-    { title: "Portfolio", href: "/portfolio", icon: <Layers className="w-6 h-6" /> },
-    { title: "Project", href: "/project", icon: <FolderKanban className="w-6 h-6" /> },
-    { title: "Certificate", href: "/certificate", icon: <Award className="w-6 h-6" /> },
-    { title: "Resume", href: "/resume", icon: <FileText className="w-6 h-6" /> },
-    { title: "Next Project", href: "/vins+/next-project", icon: <Sparkles className="w-6 h-6" /> },
-    { title: "Experience", href: "/experience", icon: <Briefcase className="w-6 h-6" /> },
+    {
+      title: "Portfolio",
+      href: "/portfolio",
+      locked: true,
+      icon: <Layers className="w-6 h-6" />,
+    },
+    {
+      title: "Project",
+      href: "/project",
+      locked: true,
+      icon: <FolderKanban className="w-6 h-6" />,
+    },
+    {
+      title: "Certificate",
+      href: "/vins+/certificate",
+      locked: true,
+      icon: <Award className="w-6 h-6" />,
+    },
+    {
+      title: "Resume",
+      href: "/resume",
+      locked: true,
+      icon: <FileText className="w-6 h-6" />,
+    },
+    // Locked
+    {
+      title: "Next Project",
+      href: "/vins+/next-project",
+      locked: false,
+      icon: <Sparkles className="w-6 h-6" />,
+    },
+    {
+      title: "Experience",
+      href: "/experience",
+      locked: true,
+      icon: <Briefcase className="w-6 h-6" />,
+    },
   ];
 
-  const handleClick = (e) => {
-    e.preventDefault();        // cegah pindah halaman
-    setShowPopup(true);        // tampilkan popup
+  // Klik handler — hanya blokir ketika item.locked === true
+  const handleClick = (e, item) => {
+    if (item.locked) {
+      e.preventDefault();
+      setShowPopup(true);
+    }
   };
 
   return (
@@ -48,23 +83,16 @@ export default function VinsPlusPage() {
         </div>
       )}
 
-      {/* HALAMAN UTAMA */}
+      {/* PAGE */}
       <div
-        className="
-          min-h-screen flex flex-col items-center justify-center 
-          px-6 md:px-16 py-24 relative
-          bg-[var(--background)] text-[var(--foreground)]
-        "
+        className="min-h-screen flex flex-col items-center justify-center px-6 md:px-16 py-24 relative bg-[var(--background)] text-[var(--foreground)]"
       >
         {/* Background Glow */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.22 }}
           transition={{ duration: 1.2 }}
-          className="
-            absolute inset-0 pointer-events-none 
-            bg-[radial-gradient(circle_at_50%_18%,var(--accent)18,transparent_70%)]
-          "
+          className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_18%,var(--accent)18,transparent_70%)]"
         />
 
         {/* Floating Orbs */}
@@ -84,11 +112,7 @@ export default function VinsPlusPage() {
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="
-            text-4xl md:text-5xl font-extrabold 
-            tracking-wide mb-14 text-center 
-            bg-clip-text text-transparent
-          "
+          className="text-4xl md:text-5xl font-extrabold tracking-wide mb-14 text-center bg-clip-text text-transparent"
           style={{
             backgroundImage:
               "linear-gradient(to right, var(--accent), var(--accent-dark))",
@@ -98,12 +122,7 @@ export default function VinsPlusPage() {
         </motion.h1>
 
         {/* Cards */}
-        <div
-          className="
-            grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
-            gap-10 w-full max-w-6xl
-          "
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-6xl">
           {items.map((item, i) => (
             <motion.div
               key={i}
@@ -113,29 +132,13 @@ export default function VinsPlusPage() {
               transition={{ duration: 0.4, delay: i * 0.08 }}
               whileHover={{ y: -6, rotateX: 3, rotateY: -3 }}
             >
-              {/* Klik = tampilkan popup */}
               <a
                 href={item.href}
-                onClick={handleClick}
-                className="
-                  group block p-7 rounded-2xl 
-                  border border-[var(--border)] 
-                  bg-[var(--card)]/60 backdrop-blur-2xl 
-                  shadow-[0_0_18px_rgba(0,0,0,0.10)]
-                  hover:shadow-[0_12px_26px_rgba(0,0,0,0.20)]
-                  transition-all duration-300
-                  hover:-translate-y-2 hover:scale-[1.02]
-                "
+                onClick={(e) => handleClick(e, item)}
+                className="group block p-7 rounded-2xl border border-[var(--border)] bg-[var(--card)]/60 backdrop-blur-2xl shadow-[0_0_18px_rgba(0,0,0,0.10)] hover:shadow-[0_12px_26px_rgba(0,0,0,0.20)] transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02]"
               >
                 <div
-                  className="
-                    w-12 h-12 rounded-xl flex items-center justify-center mb-6
-                    bg-[var(--accent)]/15 border border-[var(--accent)]/30 
-                    text-[var(--accent)]
-                    transition-all
-                    group-hover:bg-[var(--accent)] 
-                    group-hover:text-black
-                  "
+                  className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 bg-[var(--accent)]/15 border border-[var(--accent)]/30 text-[var(--accent)] transition-all group-hover:bg-[var(--accent)] group-hover:text-black"
                 >
                   {item.icon}
                 </div>
