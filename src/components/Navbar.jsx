@@ -46,6 +46,19 @@ export default function Navbar() {
     { href: "/contact", label: "Contact" },
   ];
 
+  /* GLOBAL BUTTON STYLE (uniformized) */
+  const iconBtn = `
+    flex items-center justify-center
+    w-10 h-10
+    rounded-lg border
+    transition-all duration-200
+    hover:scale-[1.04]
+  `;
+
+  const themeClass = isDark
+    ? "bg-white/5 border-white/10 text-gray-200 hover:bg-white/10"
+    : "bg-gray-50 border-black/20 text-gray-700 hover:bg-gray-100";
+
   return (
     <header
       className={`
@@ -61,20 +74,16 @@ export default function Navbar() {
       {/* TOP BAR */}
       <div className="px-6 md:px-10 py-2">
         <div className="flex items-center justify-between">
-          {/* LEFT ACTIONS */}
+
+          {/* LEFT ICONS */}
           <div className="flex items-center gap-2">
-            {/* THEME */}
+
+            {/* THEME BUTTON */}
             <motion.button
               onClick={toggleTheme}
               whileTap={{ scale: 0.9 }}
               aria-label="Toggle Theme"
-              className={`px-2.5 py-1 rounded-md border text-xs font-semibold transition
-                ${
-                  isDark
-                    ? "bg-white/5 border-white/10 text-gray-200 hover:bg-white/10"
-                    : "bg-gray-50 border-black/20 text-gray-700 hover:bg-gray-100"
-                }
-              `}
+              className={`${iconBtn} ${themeClass}`}
             >
               {isDark ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
             </motion.button>
@@ -84,13 +93,7 @@ export default function Navbar() {
               href="https://github.com/kevinsimorangkir21"
               target="_blank"
               aria-label="Github"
-              className={`p-2 rounded-md border transition
-                ${
-                  isDark
-                    ? "bg-white/5 border-white/10 text-gray-200 hover:bg-white/10"
-                    : "bg-gray-50 border-black/20 text-gray-700 hover:bg-gray-100"
-                }
-              `}
+              className={`${iconBtn} ${themeClass}`}
             >
               <Github className="w-4 h-4" />
             </a>
@@ -100,29 +103,19 @@ export default function Navbar() {
               href="https://linkedin.com/in/kevinsimorangkir"
               target="_blank"
               aria-label="LinkedIn"
-              className={`p-2 rounded-md border transition
-                ${
-                  isDark
-                    ? "bg-white/5 border-white/10 text-gray-200 hover:bg-white/10"
-                    : "bg-gray-50 border-black/20 text-gray-700 hover:bg-gray-100"
-                }
-              `}
+              className={`${iconBtn} ${themeClass}`}
             >
               <Linkedin className="w-4 h-4" />
             </a>
           </div>
 
-          {/* RIGHT ACTIONS */}
+          {/* RIGHT ICONS */}
           <div className="flex items-center gap-2">
+
+            {/* SEARCH */}
             <button
               aria-label="Search"
-              className={`p-2 rounded-md border transition
-                ${
-                  isDark
-                    ? "bg-white/5 border-white/10 text-gray-200 hover:bg-white/10"
-                    : "bg-gray-50 border-black/20 text-gray-700 hover:bg-gray-100"
-                }
-              `}
+              className={`${iconBtn} ${themeClass}`}
             >
               <Search className="w-4 h-4" />
             </button>
@@ -131,13 +124,7 @@ export default function Navbar() {
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Menu Toggle"
-              className={`p-2 rounded-md border transition md:hidden
-                ${
-                  isDark
-                    ? "bg-white/5 border-white/10 text-gray-200 hover:bg-white/10"
-                    : "bg-gray-50 border-black/20 text-gray-700 hover:bg-gray-100"
-                }
-              `}
+              className={`${iconBtn} ${themeClass} md:hidden`}
             >
               {menuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
@@ -147,15 +134,19 @@ export default function Navbar() {
 
       {/* NAV LINKS */}
       <div className="px-6 md:px-10 py-3 flex items-center justify-between">
+
+        {/* LOGO */}
         <Link href="/" className="flex items-center gap-3 group">
-          <motion.div whileHover={{ scale: 1.05 }}>
+          <motion.div whileHover={{ scale: 1.06 }}>
             <Image src="/TP K.svg" alt="VINS" width={40} height={40} />
           </motion.div>
-          <span className="font-bold text-lg tracking-widest text-[var(--accent)]">VINS</span>
+          <span className="font-bold text-lg tracking-widest text-[var(--accent)]">
+            VINS
+          </span>
         </Link>
 
         {/* DESKTOP NAV */}
-        <nav className="hidden md:flex items-center gap-8 text-[15px] font-medium">
+        <nav className="hidden md:flex items-center gap-9 text-[15px] font-medium">
           {navLinks.map((l) => {
             const active = pathname === l.href;
             return (
@@ -163,8 +154,8 @@ export default function Navbar() {
                 key={l.href}
                 href={l.href}
                 className={`
-                  relative px-1 transition nav-link
-                  ${active ? "active text-[var(--accent)]" : ""}
+                  relative px-1 transition font-medium
+                  ${active ? "text-[var(--accent)]" : ""}
                   ${
                     isDark
                       ? "text-gray-300 hover:text-[var(--accent)]"
@@ -187,17 +178,16 @@ export default function Navbar() {
 
         {/* RIGHT BUTTONS */}
         <div className="hidden md:flex items-center gap-3">
-          <Link
-            href="/File/CV KEVIN SIMORANGKIR.pdf"
-            target="_blank"
-            className="px-4 py-2 rounded-lg text-sm font-semibold bg-[var(--accent)] text-black hover:brightness-110"
-          >
-            Resume
-          </Link>
 
+          {/* UNIFORM HIRE ME BUTTON */}
           <Link
             href="/contact"
-            className="px-4 py-2 rounded-lg border text-sm font-semibold border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)]/10"
+            className="
+              w-32 h-10 flex items-center justify-center
+              rounded-lg border text-sm font-semibold
+              border-[var(--accent)] text-[var(--accent)]
+              hover:bg-[var(--accent)]/10 transition-all
+            "
           >
             Hire Me
           </Link>
@@ -211,10 +201,7 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            className={`
-              md:hidden px-6 py-4 backdrop-blur-lg
-              bg-[var(--background)]/90
-            `}
+            className="md:hidden px-6 py-4 backdrop-blur-lg bg-[var(--background)]/90"
           >
             {navLinks.map((l) => {
               const active = pathname === l.href;
@@ -226,13 +213,30 @@ export default function Navbar() {
                   className={`
                     block px-3 py-2 rounded-md text-sm transition
                     ${active ? "text-[var(--accent)] bg-[var(--accent)]/10" : ""}
-                    ${isDark ? "text-gray-200 hover:text-[var(--accent)]" : "text-gray-700 hover:text-[var(--accent)]"}
+                    ${
+                      isDark
+                        ? "text-gray-200 hover:text-[var(--accent)]"
+                        : "text-gray-700 hover:text-[var(--accent)]"
+                    }
                   `}
                 >
                   {l.label}
                 </Link>
               );
             })}
+
+            {/* MOBILE HIRE ME BUTTON */}
+            <Link
+              href="/contact"
+              className="
+                block mt-3 w-full h-10 flex items-center justify-center
+                rounded-lg border border-[var(--accent)]
+                text-[var(--accent)] text-sm font-semibold
+                hover:bg-[var(--accent)]/10
+              "
+            >
+              Hire Me
+            </Link>
           </motion.div>
         )}
       </AnimatePresence>
