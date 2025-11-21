@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -53,15 +54,15 @@ export default function ArticlesPage() {
         animate={{ opacity: 0.18 }}
         transition={{ duration: 1.5 }}
         className="
-        absolute inset-0
-        dark:bg-[radial-gradient(circle_at_30%_20%,rgba(216,199,154,0.10),transparent_70%),
-        radial-gradient(circle_at_80%_80%,rgba(216,199,154,0.08),transparent_60%)]
-        bg-[radial-gradient(circle_at_30%_20%,rgba(216,199,154,0.12),transparent_70%),
-        radial-gradient(circle_at_80%_80%,rgba(216,199,154,0.10),transparent_60%)]
+          absolute inset-0 pointer-events-none
+          dark:bg-[radial-gradient(circle_at_30%_20%,rgba(216,199,154,0.10),transparent_70%),
+          radial-gradient(circle_at_80%_80%,rgba(216,199,154,0.08),transparent_60%)]
+          bg-[radial-gradient(circle_at_30%_20%,rgba(216,199,154,0.12),transparent_70%),
+          radial-gradient(circle_at_80%_80%,rgba(216,199,154,0.10),transparent_60%)]
       "
       />
 
-      <div className="relative max-w-7xl mx-auto px-6 z-10">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
         {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
@@ -71,7 +72,7 @@ export default function ArticlesPage() {
         >
           <h1
             className="
-            text-5xl md:text-6xl font-extrabold tracking-tight
+            text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight
             bg-clip-text text-transparent
           "
             style={{
@@ -87,13 +88,12 @@ export default function ArticlesPage() {
           </h1>
 
           <div
-            className="w-32 h-[3px] mx-auto mt-4 mb-6 rounded-full"
+            className="w-24 h-[3px] mx-auto mt-4 mb-6 rounded-full"
             style={{ backgroundColor: BRAND }}
           />
 
-          <p className="text-gray-500 dark:text-gray-400 mt-2 max-w-2xl mx-auto text-lg leading-relaxed">
-            Deep insights & stories on design, engineering, and digital
-            craftsmanship.
+          <p className="opacity-70 mt-2 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
+            Deep insights & stories on design, engineering, and digital craftsmanship.
           </p>
         </motion.div>
 
@@ -102,41 +102,49 @@ export default function ArticlesPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-20 relative group rounded-3xl overflow-hidden shadow-xl"
+            className="
+            mb-20 relative group rounded-3xl overflow-hidden
+            shadow-xl transition-all duration-500
+          "
             style={{
               border: `1px solid ${BRAND}33`,
               background: "var(--background)",
-              boxShadow:
-                "0 0 25px -4px rgba(216,199,154,0.15), 0 8px 40px -8px rgba(0,0,0,0.2)",
             }}
           >
-            <div className="relative w-full h-[350px] md:h-[420px]">
+            <div className="relative w-full h-[300px] sm:h-[380px] md:h-[420px]">
               <Image
                 src={latestArticle.image}
                 alt={latestArticle.title}
                 fill
-                className="object-cover group-hover:scale-105 transition-all duration-700"
+                priority
+                className="
+                  object-cover group-hover:scale-105 
+                  transition-all duration-700
+                "
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
             </div>
 
-            <div className="absolute bottom-0 p-8 md:p-12 text-white">
-              <div className="flex items-center gap-2 text-sm mb-2">
+            <div className="absolute bottom-0 p-6 sm:p-10 md:p-12 text-white">
+              <div className="flex items-center gap-2 text-sm mb-2 opacity-90">
                 <Tag className="w-4 h-4" style={{ color: BRAND }} />
                 Featured • {latestArticle.category}
               </div>
 
-              <h2 className="text-3xl md:text-4xl font-bold drop-shadow">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold drop-shadow">
                 {latestArticle.title}
               </h2>
 
-              <p className="text-gray-200 mt-4 max-w-xl line-clamp-3">
+              <p className="text-gray-200 mt-4 max-w-xl line-clamp-3 text-sm sm:text-base">
                 {latestArticle.desc}
               </p>
 
               <Link
                 href={`/article/${latestArticle.slug}`}
-                className="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-xl font-semibold transition"
+                className="
+                  inline-flex items-center gap-2 mt-6 px-6 py-3 
+                  rounded-xl font-semibold transition
+                "
                 style={{ backgroundColor: BRAND, color: "#000" }}
               >
                 Read Featured <ArrowRight className="w-4 h-4" />
@@ -153,7 +161,7 @@ export default function ArticlesPage() {
               <button
                 key={cat}
                 onClick={() => setCategory(cat)}
-                className="px-6 py-2.5 rounded-2xl text-sm font-semibold transition-all duration-300"
+                className="px-5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300"
                 style={{
                   background: category === cat ? BRAND : "transparent",
                   color: category === cat ? "#000" : "var(--foreground)",
@@ -174,24 +182,21 @@ export default function ArticlesPage() {
 
           {/* SEARCH */}
           <div className="relative w-full md:w-[320px]">
-            <Search
-              className="absolute left-3 top-3 w-4 h-4 text-gray-400"
-              style={{ color: "gray" }}
-            />
+            <Search className="absolute left-3 top-3 w-4 h-4 opacity-60" />
             <input
               type="text"
               placeholder="Search articles..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="
-              w-full pl-10 pr-4 py-3 rounded-lg text-sm
-              bg-[var(--background)] text-[var(--foreground)]
-              border focus:ring-2 outline-none
-              transition-all duration-300
-            "
+                w-full pl-10 pr-4 py-3 rounded-lg text-sm
+                bg-[var(--background)] text-[var(--foreground)]
+                border outline-none
+                focus:ring-2 focus:ring-[var(--accent)]
+                transition-all duration-300
+              "
               style={{
                 borderColor: `${BRAND}55`,
-                boxShadow: "none",
               }}
             />
           </div>
@@ -199,7 +204,7 @@ export default function ArticlesPage() {
 
         {/* GRID */}
         {displayedArticles.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
             {displayedArticles.map((article, i) => (
               <motion.div
                 key={article.id}
@@ -207,19 +212,25 @@ export default function ArticlesPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.08 }}
                 className="
-                group rounded-3xl overflow-hidden transition-all backdrop-blur-sm
-              "
+                  group rounded-3xl overflow-hidden
+                  shadow-md hover:shadow-xl
+                  transition-all duration-300
+                  border backdrop-blur-sm
+                "
                 style={{
-                  background: "var(--background)",
-                  border: `1px solid ${BRAND}33`,
+                  background: "var(--card)",
+                  borderColor: `${BRAND}33`,
                 }}
               >
-                <div className="relative h-44">
+                <div className="relative h-44 sm:h-52">
                   <Image
                     src={article.image}
                     alt={article.title}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="
+                      object-cover group-hover:scale-105 
+                      transition-transform duration-700
+                    "
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/65 to-transparent" />
                 </div>
@@ -229,27 +240,25 @@ export default function ArticlesPage() {
                     className="flex items-center gap-2 text-xs mb-2"
                     style={{ color: BRAND }}
                   >
-                    <Tag className="w-3 h-3" /> {article.category}
+                    <Tag className="w-3 h-3" />
+                    {article.category}
                   </div>
 
                   <h3 className="text-lg font-semibold">{article.title}</h3>
 
-                  <p className="text-gray-500 dark:text-gray-400 text-sm mt-2 line-clamp-3">
+                  <p className="opacity-70 text-sm mt-2 line-clamp-3">
                     {article.desc}
                   </p>
 
-                  <div className="flex items-center justify-between mt-4 text-xs text-gray-500 dark:text-gray-300">
+                  <div className="flex items-center justify-between mt-4 text-xs opacity-70">
                     <span className="flex items-center gap-1">
-                      <Calendar
-                        className="w-3 h-3"
-                        style={{ color: BRAND }}
-                      />
+                      <Calendar className="w-3 h-3" style={{ color: BRAND }} />
                       {article.date}
                     </span>
 
                     <Link
                       href={`/article/${article.slug}`}
-                      className="flex items-center gap-1 hover:underline"
+                      className="flex items-center gap-1 hover:underline transition"
                       style={{ color: BRAND }}
                     >
                       Read More <ArrowRight className="w-3 h-3" />
@@ -260,38 +269,42 @@ export default function ArticlesPage() {
             ))}
           </div>
         ) : (
-          <div className="text-center text-gray-400 py-20">
-            No articles found.
-          </div>
+          <div className="text-center opacity-60 py-20">No articles found.</div>
         )}
 
         {/* PAGINATION */}
         {totalPages > 1 && (
           <div className="flex justify-center items-center gap-3 mt-14 text-sm">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-              (page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className="px-4 py-2 rounded-lg transition"
-                  style={{
-                    border: `1px solid ${
-                      currentPage === page ? BRAND : BRAND + "33"
-                    }`,
-                    backgroundColor:
-                      currentPage === page ? BRAND + "33" : "transparent",
-                    color: currentPage === page ? BRAND : "var(--foreground)",
-                  }}
-                >
-                  {page}
-                </button>
-              )
-            )}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className="
+                  px-4 py-2 rounded-lg transition-all
+                  font-medium
+                "
+                style={{
+                  border: `1px solid ${
+                    currentPage === page ? BRAND : BRAND + "33"
+                  }`,
+                  backgroundColor:
+                    currentPage === page ? BRAND + "33" : "transparent",
+                  color: currentPage === page ? BRAND : "var(--foreground)",
+                }}
+              >
+                {page}
+              </button>
+            ))}
           </div>
         )}
       </div>
 
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[var(--background)] to-transparent" />
+      <div
+        className="
+        absolute bottom-0 left-0 w-full h-32 
+        bg-gradient-to-t from-[var(--background)] to-transparent
+      "
+      />
     </main>
   );
 }

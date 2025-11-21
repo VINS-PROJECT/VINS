@@ -75,7 +75,7 @@ export default function TimelineEvolution() {
           </h1>
           <p className="text-gray-400 mt-3">
             A journey through the growth of{" "}
-            <span className="text-[#E2C07C] font-medium">VINS</span> from 2022–2025.
+            <span className="text-[#E2C07C]   -medium">VINS</span> from 2022–2025.
           </p>
         </motion.div>
 

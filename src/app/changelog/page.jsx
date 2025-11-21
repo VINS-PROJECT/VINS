@@ -1,11 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Calendar, CheckCircle, History, Timer } from "lucide-react";
+import { Calendar, CheckCircle, History, Timer, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function ChangelogPage() {
-
   // === COUNTDOWN TARGET ===
   const targetDate = new Date("2025-11-22T00:00:00").getTime();
   const [timeLeft, setTimeLeft] = useState({ d: 0, h: 0, m: 0, s: 0 });
@@ -43,7 +42,7 @@ export default function ChangelogPage() {
         "Revamped navigation bar (Projects, Experience, Certificates) for VINS+.",
         "Revamped navigation structure for better accessibility and UX.",
         "Fixed several UI/UX bugs across multiple pages.",
-        "Creating another new feature, please wait for it soon"
+        "Creating another new feature, please wait for it soon",
       ],
     },
     {
@@ -81,7 +80,6 @@ export default function ChangelogPage() {
       />
 
       <div className="max-w-4xl mx-auto px-6 relative z-10">
-
         {/* === Page Header === */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
@@ -111,7 +109,6 @@ export default function ChangelogPage() {
 
         {/* === Timeline === */}
         <div className="relative space-y-16">
-
           {/* Line */}
           <div
             className="
@@ -122,83 +119,111 @@ export default function ChangelogPage() {
             "
           />
 
-          {changelogs.map((log, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              viewport={{ once: true }}
-              className="relative pl-12 md:pl-16"
-            >
-              {/* Node */}
+          {changelogs.map((log, i) => {
+            const isSoon = log.comingSoon;
+
+            return (
               <motion.div
-                className="
-                  absolute left-0 md:left-2 
-                  w-6 h-6 rounded-full
-                  border-2 border-[var(--accent)]
-                  bg-[var(--accent)]/20
-                  shadow-[0_0_12px_var(--accent)]
-                "
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                transition={{ duration: 0.4 }}
-              />
-
-              {/* Card */}
-              <div
-                className="
-                  rounded-xl p-7 backdrop-blur-md
-                  transition-all shadow-[0_0_20px_rgba(0,0,0,0.15)]
-                  bg-[var(--card)]
-                  border border-[var(--border)]
-                  hover:border-[var(--accent)]/40
-                  hover:bg-[var(--accent)]/5
-                "
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                viewport={{ once: true }}
+                className="relative pl-12 md:pl-16"
               >
-                {/* Version + Date + Countdown */}
-                <div className="flex items-center justify-between flex-wrap gap-3 mb-5">
-                  <span className="text-2xl font-bold text-[var(--accent)] tracking-wide">
-                    {log.version}
-                  </span>
+                {/* Node */}
+                <motion.div
+                  className={`
+                    absolute left-0 md:left-2 
+                    w-7 h-7 rounded-full flex items-center justify-center
+                    border-2 
+                    ${
+                      isSoon
+                        ? "border-[var(--accent)] bg-[var(--accent)] text-black"
+                        : "border-[var(--accent)] bg-[var(--accent)]/20"
+                    }
+                    shadow-[0_0_12px_var(--accent)]
+                  `}
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  {isSoon && <Sparkles className="w-4 h-4" />}
+                </motion.div>
 
-                  {log.comingSoon ? (
-                    <div className="flex flex-col items-end text-right">
-                      <span className="flex items-center gap-2 text-sm text-[var(--accent)] font-medium">
-                        <Calendar className="w-4 h-4" /> {log.date}
+                {/* Card */}
+                <div
+                  className={`
+                    rounded-xl p-7 backdrop-blur-md transition-all
+                    border bg-[var(--card)]
+                    ${
+                      isSoon
+                        ? "border-[var(--accent)]/60 shadow-[0_0_18px_var(--accent)]/20"
+                        : "border-[var(--border)] shadow-[0_0_20px_rgba(0,0,0,0.15)]"
+                    }
+                    hover:border-[var(--accent)]/40 hover:bg-[var(--accent)]/5
+                  `}
+                >
+                  {/* Version + Date + Countdown */}
+                  <div className="flex items-center justify-between flex-wrap gap-3 mb-5">
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl font-bold text-[var(--accent)] tracking-wide">
+                        {log.version}
                       </span>
 
-                      {/* Countdown */}
-                      <span className="flex items-center gap-2 mt-1 text-xs opacity-80">
-                        <Timer className="w-3 h-3 text-[var(--accent)]" />
-                        {timeLeft.d}d : {timeLeft.h}h : {timeLeft.m}m : {timeLeft.s}s
-                      </span>
+                      {isSoon && (
+                        <span
+                          className="
+                            text-[10px] font-bold px-2.5 py-0.5 rounded-full 
+                            bg-[var(--accent)] text-black tracking-wider
+                          "
+                        >
+                          COMING SOON
+                        </span>
+                      )}
                     </div>
-                  ) : (
-                    <span className="flex items-center gap-2 text-sm opacity-75">
-                      <Calendar className="w-4 h-4 text-[var(--accent)]" />
-                      {log.date}
-                    </span>
-                  )}
+
+                    {isSoon ? (
+                      <div className="flex flex-col items-end text-right">
+                        <span className="flex items-center gap-2 text-sm text-[var(--accent)] font-medium">
+                          <Calendar className="w-4 h-4" /> {log.date}
+                        </span>
+
+                        {/* Countdown */}
+                        <div
+                          className="
+                            mt-2 px-3 py-1 rounded-lg text-xs flex items-center gap-2
+                            bg-[var(--accent)]/10 border border-[var(--accent)]/30
+                          "
+                        >
+                          <Timer className="w-3 h-3 text-[var(--accent)]" />
+                          {timeLeft.d}d • {timeLeft.h}h • {timeLeft.m}m • {timeLeft.s}s
+                        </div>
+                      </div>
+                    ) : (
+                      <span className="flex items-center gap-2 text-sm opacity-75">
+                        <Calendar className="w-4 h-4 text-[var(--accent)]" />
+                        {log.date}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Change Items */}
+                  <ul className="space-y-3">
+                    {log.changes.map((item, idx) => (
+                      <li
+                        key={idx}
+                        className="flex items-start gap-3 text-[var(--foreground)]/85 text-[15px] leading-relaxed"
+                      >
+                        <CheckCircle className="w-4 h-4 mt-1 text-[var(--accent)]" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-
-                {/* Change Items */}
-                <ul className="space-y-3">
-                  {log.changes.map((item, idx) => (
-                    <li
-                      key={idx}
-                      className="flex items-start gap-3 text-[var(--foreground)]/85 text-[15px] leading-relaxed"
-                    >
-                      <CheckCircle className="w-4 h-4 mt-1 text-[var(--accent)]" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-            </motion.div>
-          ))}
-
+              </motion.div>
+            );
+          })}
         </div>
       </div>
 

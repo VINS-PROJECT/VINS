@@ -1,5 +1,6 @@
 "use client";
 
+import React, { use } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,12 +11,13 @@ import {
   Tag,
   BookOpen,
 } from "lucide-react";
+
 import { articles as allArticles } from "@/data/articles";
 
 export default function ArticleDetail({ params }) {
-  const { slug } = params;
-  const article = allArticles.find((a) => a.slug === slug);
+  const { slug } = use(params); // ⬅ FIX Next.js 15 param Promise
 
+  const article = allArticles.find((a) => a.slug === slug);
   const BRAND = "var(--accent)";
 
   if (!article) {
@@ -36,9 +38,7 @@ export default function ArticleDetail({ params }) {
     );
   }
 
-  const relatedArticles = allArticles
-    .filter((a) => a.slug !== slug)
-    .slice(0, 3);
+  const relatedArticles = allArticles.filter((a) => a.slug !== slug).slice(0, 3);
 
   return (
     <main
@@ -48,7 +48,7 @@ export default function ArticleDetail({ params }) {
         transition-colors duration-500
       "
     >
-      {/* Ambient Glow */}
+      {/* BG Glow */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.15 }}
@@ -63,7 +63,7 @@ export default function ArticleDetail({ params }) {
       />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
-        {/* HEADER / BREADCRUMB */}
+        {/* HEADER & BREADCRUMB */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -71,9 +71,7 @@ export default function ArticleDetail({ params }) {
           className="mb-10"
         >
           <h1
-            className="
-              text-4xl font-extrabold bg-clip-text text-transparent
-            "
+            className="text-4xl font-extrabold bg-clip-text text-transparent"
             style={{
               backgroundImage:
                 "linear-gradient(to right, var(--accent), var(--accent-dark))",
@@ -86,6 +84,7 @@ export default function ArticleDetail({ params }) {
             Explore insights, knowledge, and perspectives curated for learning.
           </p>
 
+          {/* Breadcrumb */}
           <div className="mt-5 flex items-center gap-2 text-sm font-medium">
             <Link href="/" className="text-[var(--accent)] hover:underline">
               Home
@@ -115,23 +114,35 @@ export default function ArticleDetail({ params }) {
           <ArrowLeft className="w-4 h-4" /> Back to Articles
         </Link>
 
-        {/* COVER IMAGE */}
+        {/* RESPONSIVE BANNER */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="
-            relative w-full h-[420px] md:h-[520px]
-            rounded-2xl overflow-hidden mt-6 mb-10
+            relative w-full
+            h-[240px]        /* mobile */
+            sm:h-[300px]     /* small screens */
+            md:h-[420px]     /* tablets */
+            lg:h-[520px]     /* desktop */
+            rounded-xl md:rounded-2xl
+            overflow-hidden mt-6 mb-10
             border border-[var(--accent)]/30
             shadow-[0_0_25px_rgba(216,199,154,0.25)]
           "
         >
-          <Image src={article.image} alt={article.title} fill className="object-cover" />
+          <Image
+            src={article.image}
+            alt={article.title}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent dark:from-black/70" />
         </motion.div>
 
-        {/* META */}
+        {/* META INFO */}
         <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-6">
           <span className="flex items-center gap-1">
             <Tag className="w-4 h-4 text-[var(--accent)]" /> {article.category}

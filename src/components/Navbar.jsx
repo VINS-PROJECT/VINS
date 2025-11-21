@@ -40,9 +40,7 @@ export default function Navbar() {
 
   const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/projects", label: "Projects" },
-    { href: "/certificate", label: "Certificate" },
-    { href: "/experience", label: "Experience" },
+    { href: "/vins+", label: "VINS+" },
     { href: "/article", label: "Articles" },
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
@@ -53,7 +51,6 @@ export default function Navbar() {
       className={`
         fixed top-0 left-0 w-full z-50
         transition-all duration-300
-
         ${
           scrolled
             ? "backdrop-blur-xl bg-[var(--background)]/70 border-b border-[var(--border)] shadow-sm"
@@ -228,11 +225,8 @@ export default function Navbar() {
                   onClick={() => setMenuOpen(false)}
                   className={`
                     block px-3 py-2 rounded-md text-sm transition
-                    ${
-                      active
-                        ? "text-[var(--accent)] bg-white/5"
-                        : "text-[var(--foreground)] hover:bg-[var(--accent)]/10"
-                    }
+                    ${active ? "text-[var(--accent)] bg-[var(--accent)]/10" : ""}
+                    ${isDark ? "text-gray-200 hover:text-[var(--accent)]" : "text-gray-700 hover:text-[var(--accent)]"}
                   `}
                 >
                   {l.label}
