@@ -25,8 +25,8 @@ export default function VinsPlusPage() {
     },
     {
       title: "Project",
-      href: "/project",
-      locked: true,
+      href: "/vins-plus/project",
+      locked: false,
       icon: <FolderKanban className="w-6 h-6" />,
     },
     {

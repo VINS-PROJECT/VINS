@@ -1,24 +1,40 @@
 "use client";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Instagram, Twitter, Youtube } from "lucide-react";
+import {
+  Github,
+  Linkedin,
+  Instagram,
+  Twitter,
+  Youtube,
+} from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   const socials = [
     { icon: <Twitter className="w-4 h-4" />, url: "#" },
-    { icon: <Linkedin className="w-4 h-4" />, url: "https://www.linkedin.com/in/kevinsimorangkir/" },
-    { icon: <Instagram className="w-4 h-4" />, url: "https://www.instagram.com/vins.ch/" },
-    { icon: <Github className="w-4 h-4" />, url: "https://github.com/kevinsimorangkir21/" },
+    {
+      icon: <Linkedin className="w-4 h-4" />,
+      url: "https://www.linkedin.com/in/kevinsimorangkir/",
+    },
+    {
+      icon: <Instagram className="w-4 h-4" />,
+      url: "https://www.instagram.com/vins.ch/",
+    },
+    {
+      icon: <Github className="w-4 h-4" />,
+      url: "https://github.com/kevinsimorangkir21/",
+    },
     { icon: <Youtube className="w-4 h-4" />, url: "#" },
   ];
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Projects", href: "/projects" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
+    { name: "Projects", href: "/project" },
     { name: "Experience", href: "/experience" },
     { name: "Certificates", href: "/certificate" },
+    { name: "Contact", href: "/contact" },
+    { name: "About", href: "/about" },
   ];
 
   const legalLinks = [
@@ -31,38 +47,44 @@ export default function Footer() {
   return (
     <footer
       className="
-        relative pt-20 pb-10 border-t
-        bg-[var(--background)] text-[var(--foreground)]
-        border-[var(--accent)]/20 overflow-hidden
-      "
+      relative pt-20 pb-10 border-t
+      bg-[var(--background)] text-[var(--foreground)]
+      border-[var(--accent)]/15 overflow-hidden"
     >
-      {/* Gold Soft Glow */}
+      {/* Glow Background */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.18 }}
-        transition={{ duration: 1.8 }}
+        animate={{ opacity: 0.22 }}
+        transition={{ duration: 2 }}
         className="absolute inset-0 pointer-events-none"
         style={{
           background: `
-            radial-gradient(circle at 25% 75%, var(--accent)20 0%, transparent 70%),
-            radial-gradient(circle at 75% 25%, var(--accent-dark)12 0%, transparent 70%)
+            radial-gradient(circle at 25% 80%, var(--accent)15, transparent 60%),
+            radial-gradient(circle at 80% 20%, var(--accent-dark)15, transparent 60%)
           `,
         }}
       />
 
+      {/* MAIN GRID */}
       <div className="relative max-w-6xl mx-auto px-6 md:px-10 grid md:grid-cols-3 gap-14 z-10">
 
         {/* BRAND */}
-        <div>
-          <div className="flex items-center gap-3 mb-5">
-            <motion.img
-              src="/TP K.svg"
-              alt="VINS Logo"
-              className="w-10 h-10 opacity-90"
-              whileHover={{ rotate: 5, scale: 1.07 }}
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <motion.div
+              whileHover={{ rotate: 4, scale: 1.06 }}
               transition={{ type: "spring", stiffness: 200 }}
-            />
-            <span className="text-lg font-semibold text-[var(--accent)] tracking-wide">
+            >
+              <Image
+                src="/TP K.svg"
+                alt="VINS Logo"
+                width={42}
+                height={42}
+                className="opacity-95 drop-shadow"
+              />
+            </motion.div>
+
+            <span className="text-xl font-semibold text-[var(--accent)] tracking-wide">
               VINS
             </span>
           </div>
@@ -74,13 +96,16 @@ export default function Footer() {
 
         {/* NAVIGATION */}
         <div>
-          <h4 className="font-semibold text-[var(--accent)] mb-4 tracking-wide">Explore</h4>
+          <h4 className="font-semibold text-[var(--accent)] mb-4 tracking-wide uppercase text-xs">
+            Explore
+          </h4>
+
           <ul className="space-y-2 text-sm">
             {navLinks.map((item, i) => (
-              <motion.li key={i} whileHover={{ x: 3 }} transition={{ duration: 0.2 }}>
+              <motion.li key={i} whileHover={{ x: 3 }} transition={{ duration: 0.15 }}>
                 <Link
                   href={item.href}
-                  className="text-[var(--foreground)]/70 hover:text-[var(--accent)] transition-all"
+                  className="text-[var(--foreground)]/70 hover:text-[var(--accent)] transition"
                 >
                   {item.name}
                 </Link>
@@ -91,7 +116,9 @@ export default function Footer() {
 
         {/* SOCIAL */}
         <div>
-          <h4 className="font-semibold text-[var(--accent)] mb-4 tracking-wide">Connect</h4>
+          <h4 className="font-semibold text-[var(--accent)] mb-4 tracking-wide uppercase text-xs">
+            Connect
+          </h4>
 
           <p className="text-sm text-[var(--foreground)]/70 mb-4">
             Let’s connect and create something extraordinary.
@@ -106,14 +133,15 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="
                   w-10 h-10 flex items-center justify-center rounded-full
-                  border border-[var(--accent)]/25
+                  border border-[var(--accent)]/30
                   text-[var(--foreground)]/70 bg-white/5
-                  hover:border-[var(--accent)]/60 hover:text-[var(--accent)]
-                  hover:shadow-[0_0_10px_var(--accent)]
+                  hover:border-[var(--accent)]
+                  hover:text-[var(--accent)]
+                  hover:shadow-[0_0_12px_var(--accent)]
                   transition-all duration-300 backdrop-blur-sm
                 "
-                whileHover={{ scale: 1.15 }}
-                whileTap={{ scale: 0.92 }}
+                whileHover={{ scale: 1.18 }}
+                whileTap={{ scale: 0.9 }}
               >
                 {icon}
               </motion.a>
@@ -122,9 +150,10 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* LEGAL */}
-      <div className="relative mt-14 text-center z-10">
+      {/* LEGAL SECTION */}
+      <div className="relative mt-16 text-center z-10">
 
+        {/* Legal Links */}
         <div className="flex flex-wrap justify-center gap-6 text-xs text-[var(--foreground)]/60 mb-6">
           {legalLinks.map((link, i) => (
             <Link
@@ -137,8 +166,10 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="w-full max-w-[260px] mx-auto h-[1px] bg-[var(--accent)]/25 mb-6" />
+        {/* Divider */}
+        <div className="w-full max-w-[300px] mx-auto h-[1px] bg-[var(--accent)]/25 mb-6" />
 
+        {/* Copyright */}
         <p className="text-xs text-[var(--foreground)]/60">
           © {new Date().getFullYear()}{" "}
           <span className="text-[var(--accent)] font-medium">VINS</span>. All rights reserved.

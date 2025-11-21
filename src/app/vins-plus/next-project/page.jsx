@@ -17,7 +17,7 @@ export default function NextProjectPage() {
       title: "VINS MagangIn",
       desc: "An internship management platform connecting students with companies, tracking applications, and facilitating communication.",
       status: "In Progress",
-      progress: 30,
+      progress: 50,
     },
     {
       title: "B2F World Roblox",

@@ -46,13 +46,11 @@ export default function Navbar() {
     { href: "/contact", label: "Contact" },
   ];
 
-  /* GLOBAL BUTTON STYLE (uniformized) */
+  /* GLOBAL ICON BTN */
   const iconBtn = `
     flex items-center justify-center
-    w-10 h-10
-    rounded-lg border
-    transition-all duration-200
-    hover:scale-[1.04]
+    w-10 h-10 rounded-lg border
+    transition-all duration-200 hover:scale-[1.04]
   `;
 
   const themeClass = isDark
@@ -113,10 +111,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
 
             {/* SEARCH */}
-            <button
-              aria-label="Search"
-              className={`${iconBtn} ${themeClass}`}
-            >
+            <button aria-label="Search" className={`${iconBtn} ${themeClass}`}>
               <Search className="w-4 h-4" />
             </button>
 
@@ -148,7 +143,11 @@ export default function Navbar() {
         {/* DESKTOP NAV */}
         <nav className="hidden md:flex items-center gap-9 text-[15px] font-medium">
           {navLinks.map((l) => {
-            const active = pathname === l.href;
+            const active =
+              l.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(l.href);
+
             return (
               <Link
                 key={l.href}
@@ -178,8 +177,6 @@ export default function Navbar() {
 
         {/* RIGHT BUTTONS */}
         <div className="hidden md:flex items-center gap-3">
-
-          {/* UNIFORM HIRE ME BUTTON */}
           <Link
             href="/contact"
             className="
@@ -204,7 +201,11 @@ export default function Navbar() {
             className="md:hidden px-6 py-4 backdrop-blur-lg bg-[var(--background)]/90"
           >
             {navLinks.map((l) => {
-              const active = pathname === l.href;
+              const active =
+                l.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(l.href);
+
               return (
                 <Link
                   key={l.href}
@@ -225,7 +226,6 @@ export default function Navbar() {
               );
             })}
 
-            {/* MOBILE HIRE ME BUTTON */}
             <Link
               href="/contact"
               className="

@@ -5,10 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ChevronRight, Github, ExternalLink } from "lucide-react";
 import { notFound } from "next/navigation";
+import { useParams } from "next/navigation";
 import { projectsData } from "@/data/projects";
 
-export default function ProjectDetail({ params }) {
-  const project = projectsData.find((p) => p.slug === params.slug);
+export default function ProjectDetail() {
+  const { slug } = useParams();
+  const project = projectsData.find((p) => p.slug === slug);
+
   if (!project) return notFound();
 
   const GOLD = "var(--accent)";
@@ -26,8 +29,7 @@ export default function ProjectDetail({ params }) {
         transition-colors
       "
     >
-
-      {/* Premium Gold Glow */}
+      {/* Gold Glow */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.18 }}
@@ -69,14 +71,12 @@ export default function ProjectDetail({ params }) {
 
           {/* Breadcrumb */}
           <div className="mt-5 flex items-center gap-2 text-sm font-medium">
-
             <Link href="/" className="text-[var(--accent)] hover:underline">
               Home
             </Link>
-
             <ChevronRight className="w-4 h-4 text-[var(--accent)]/60" />
 
-            <Link href="/projects" className="text-[var(--accent)] hover:underline">
+            <Link href="/vins-plus/project" className="text-[var(--accent)] hover:underline">
               Projects
             </Link>
 
@@ -92,7 +92,7 @@ export default function ProjectDetail({ params }) {
 
         {/* BACK BUTTON */}
         <Link
-          href="/projects"
+          href="/vins-plus/project"
           className="inline-flex items-center gap-2 text-[var(--accent)] hover:text-[var(--foreground)] transition mb-8"
         >
           <ArrowLeft className="w-4 h-4" /> Back to Projects
@@ -100,7 +100,6 @@ export default function ProjectDetail({ params }) {
 
         {/* PROJECT HEADER */}
         <div className="flex flex-col md:flex-row items-start gap-10 mb-16">
-
           {/* Cover Image */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -245,7 +244,6 @@ export default function ProjectDetail({ params }) {
   );
 }
 
-/* Reusable detail text */
 function Detail({ label, value }) {
   return (
     <p className="text-[var(--foreground)]/85">
