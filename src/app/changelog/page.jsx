@@ -36,7 +36,7 @@ export default function ChangelogPage() {
   const changelogs = [
     {
       version: "v0.0.2",
-      date: "19 November 2025",
+      date: "22 November 2025",
       comingSoon: true,
       changes: [
         "Revamped navigation bar (Projects, Experience, Certificates) for VINS+.",
