@@ -7,8 +7,6 @@ import {
   AlertTriangle,
   XCircle,
   Activity,
-  Dot,
-  Info,
   X
 } from "lucide-react";
 
@@ -18,160 +16,111 @@ export default function StatusPage() {
       name: "Website",
       status: "Operational",
       description: "All systems running normally.",
-      detail:
-        "Main website is fully operational with no detected performance issues.",
+      detail: "Main website is fully operational."
     },
     {
       name: "API Server",
       status: "Degraded",
-      description: "All API routes are stable.",
-      detail:
-        "API is responding slower than usual due to internal maintenance.",
+      description: "Some endpoints may be slower.",
+      detail: "API experiencing minor slowdowns."
     },
     {
       name: "Database",
       status: "Operational",
       description: "Database responses optimal.",
-      detail: "Database latency is within expected thresholds.",
+      detail: "Latency is within expected thresholds."
     },
     {
       name: "CDN / Asset Delivery",
       status: "Operational",
       description: "Static assets delivered without issues.",
-      detail:
-        "Content delivery network is serving static assets with minimal latency.",
+      detail: "CDN fully online."
     },
     {
       name: "Email Delivery",
       status: "Degraded",
-      description: "Transactional emails are sending normally.",
-      detail:
-        "Some email queues are slightly delayed depending on the provider region.",
-    },
+      description: "Some delays in email delivery.",
+      detail: "Queues slightly delayed in some regions."
+    }
   ];
 
-  const getStatusColor = (status) =>
-    status === "Operational"
-      ? "#8CE99A"
-      : status === "Degraded"
-      ? "#FFD43B"
-      : "#FF6B6B";
-
-  const getStatusIcon = (status, size = "w-5 h-5") => {
-    switch (status) {
-      case "Operational":
-        return <CheckCircle className={`${size}`} style={{ color: "#8CE99A" }} />;
-      case "Degraded":
-        return (
-          <AlertTriangle className={`${size} animate-pulse`} style={{ color: "#FFD43B" }} />
-        );
-      case "Outage":
-        return (
-          <XCircle className={`${size} animate-pulse`} style={{ color: "#FF6B6B" }} />
-        );
-      default:
-        return <Activity className={`${size}`} />;
-    }
+  const getStatusData = (status) => {
+    if (status === "Operational")
+      return { color: "#65d46e", icon: CheckCircle };
+    if (status === "Degraded")
+      return { color: "#ffd43b", icon: AlertTriangle };
+    return { color: "#ff6b6b", icon: XCircle };
   };
 
-  // FILTER
   const [filter, setFilter] = useState("All");
-
-  const filteredServices =
-    filter === "All"
-      ? services
-      : services.filter((s) => s.status === filter);
-
-  // MODAL DETAIL
   const [selected, setSelected] = useState(null);
 
-  // RANDOM 30 DAYS UPTIME
-  const uptimeData = Array.from({ length: 30 }).map((_, i) => {
-    if (i === 5 || i === 17) return "degraded";
-    if (i === 11) return "down";
-    return "up";
-  });
+  const globalStatus = services.some((s) => s.status === "Degraded")
+    ? "Degraded"
+    : "Operational";
 
-  // GLOBAL STATUS CHECK
-  const globalStatus = (() => {
-    if (services.some((s) => s.status === "Outage")) return "Outage";
-    if (services.some((s) => s.status === "Degraded")) return "Degraded";
-    return "Operational";
-  })();
+  const filtered = filter === "All"
+    ? services
+    : services.filter((s) => s.status === filter);
 
   return (
-    <main className="min-h-screen pt-28 pb-24 relative bg-[var(--background)] text-[var(--foreground)]">
+    <main className="min-h-screen pt-32 pb-32 bg-[var(--background)] text-[var(--foreground)] transition-colors">
+      <div className="max-w-7xl mx-auto px-6">
 
-      {/* Glow */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.18 }}
-        className="absolute inset-0"
-        style={{
-          background: `
-            radial-gradient(circle at 30% 20%, var(--accent)25, transparent 70%),
-            radial-gradient(circle at 85% 75%, var(--accent)18, transparent 60%)
-          `,
-        }}
-      />
-
-      <div className="max-w-5xl mx-auto px-6 relative z-10">
-
-        {/* Header */}
+        {/* HEADER */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
+          className="text-center mb-14"
         >
           <Activity
-            className="w-14 h-14 mx-auto mb-4"
-            style={{ color: getStatusColor(globalStatus) }}
+            className="w-16 h-16 mx-auto mb-4"
+            style={{ color: getStatusData(globalStatus).color }}
           />
-
-          <h1
-            className="text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent"
-            style={{
-              backgroundImage:
-                "linear-gradient(to right, var(--accent), var(--accent-dark))",
-            }}
-          >
+          <h1 className="text-4xl md:text-6xl font-extrabold mb-3 tracking-tight">
             System Status
           </h1>
-
-          <p className="opacity-70 mt-4 max-w-xl mx-auto leading-relaxed">
-            Real-time overview of service health, uptime logs, and system performance.
+          <p className="text-base md:text-lg opacity-70 max-w-2xl mx-auto">
+            Simple status overview of all monitored services.
           </p>
         </motion.div>
 
-        {/* GLOBAL STATUS CARD */}
-        <div className="text-center mb-12">
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="inline-flex items-center gap-3 px-7 py-3 rounded-xl border border-[var(--border)] bg-[var(--card)] backdrop-blur-xl shadow-[0_0_18px_var(--accent)]"
-          >
-            <Dot className="w-10 h-10 animate-pulse" style={{ color: getStatusColor(globalStatus) }} />
-            <span
-              className="text-lg font-semibold tracking-wide"
-              style={{ color: getStatusColor(globalStatus) }}
-            >
-              {globalStatus === "Operational" && "All Systems Operational"}
-              {globalStatus === "Degraded" && "Some Systems Degraded"}
-              {globalStatus === "Outage" && "System Outage Detected"}
-            </span>
-          </motion.div>
-        </div>
+        {/* GLOBAL STATUS */}
+        <motion.div
+          initial={{ scale: 0.92, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="text-center mb-16"
+        >
+          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-xl border border-[var(--border)] bg-[var(--card)] text-lg font-semibold">
+            {(() => {
+              const S = getStatusData(globalStatus);
+              const Icon = S.icon;
+              return (
+                <>
+                  <Icon size={20} style={{ color: S.color }} />
+                  <span style={{ color: S.color }}>
+                    {globalStatus === "Operational"
+                      ? "All Systems Operational"
+                      : "Some Systems Degraded"}
+                  </span>
+                </>
+              );
+            })()}
+          </div>
+        </motion.div>
 
-        {/* FILTER BUTTONS */}
-        <div className="flex gap-3 justify-center mb-10">
-          {["All", "Operational", "Degraded", "Outage"].map((f) => (
+        {/* FILTER */}
+        <div className="flex flex-wrap gap-3 justify-center mb-12">
+          {["All", "Operational", "Degraded"].map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`
-                px-4 py-2 rounded-lg border text-sm font-semibold transition
-                ${filter === f ? "bg-[var(--accent)] text-black" : "bg-[var(--card)]"}
-              `}
+              className={`px-5 py-2 rounded-xl text-sm md:text-base font-semibold border transition
+                ${
+                  filter === f
+                    ? "bg-[var(--accent)] text-black"
+                    : "bg-[var(--card)]"
+                }`}
             >
               {f}
             </button>
@@ -179,63 +128,37 @@ export default function StatusPage() {
         </div>
 
         {/* SERVICE LIST */}
-        <div className="space-y-5">
-          {filteredServices.map((service, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              className="flex justify-between items-center p-5 rounded-xl bg-[var(--card)] border border-[var(--border)] hover:bg-[var(--accent)]/10 cursor-pointer transition"
-              onClick={() => setSelected(service)}
-            >
-              <div>
-                <h3 className="text-lg font-semibold">{service.name}</h3>
-                <p className="text-sm opacity-70 mt-1">{service.description}</p>
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {filtered.map((service, i) => {
+            const { icon: Icon, color } = getStatusData(service.status);
 
-              <div className="flex items-center gap-2">
-                {getStatusIcon(service.status)}
-                <span
-                  className="font-medium"
-                  style={{ color: getStatusColor(service.status) }}
-                >
-                  {service.status}
-                </span>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* UPTIME HISTORY */}
-        <section className="mt-20">
-          <h2 className="text-xl font-bold text-[var(--accent)] mb-4">
-            Uptime History (Past 30 Days)
-          </h2>
-
-          <div className="grid grid-cols-30 gap-1">
-            {uptimeData.map((status, i) => (
-              <div
+            return (
+              <motion.div
                 key={i}
-                className={`
-                  h-4 rounded-sm 
-                  ${status === "up" ? "bg-[#8CE99A]" : status === "degraded" ? "bg-yellow-300" : "bg-red-500"}
-                `}
-                title={`Day ${i + 1} • ${
-                  status === "up"
-                    ? "Operational"
-                    : status === "degraded"
-                    ? "Degraded"
-                    : "Outage"
-                }`}
-              />
-            ))}
-          </div>
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-7 rounded-2xl bg-[var(--card)] border border-[var(--border)] 
+                hover:shadow-lg hover:shadow-[var(--accent)]/10 
+                cursor-pointer transition"
+                onClick={() => setSelected(service)}
+              >
+                <div className="flex flex-col gap-3 justify-between h-full">
+                  <h3 className="text-xl font-bold">{service.name}</h3>
+                  <p className="text-sm opacity-70">
+                    {service.description}
+                  </p>
 
-          <p className="opacity-70 text-xs mt-3">
-            System performance over the last{" "}
-            <span className="text-[var(--accent)] font-semibold">30 days</span>.
-          </p>
-        </section>
+                  <div className="flex items-center gap-2 mt-auto">
+                    <Icon size={20} style={{ color }} />
+                    <span className="font-medium" style={{ color }}>
+                      {service.status}
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
 
       {/* MODAL */}
@@ -249,28 +172,22 @@ export default function StatusPage() {
             onClick={() => setSelected(null)}
           >
             <motion.div
-              initial={{ scale: 0.8 }}
+              initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              className="w-full max-w-md bg-[var(--card)] p-6 rounded-2xl border border-[var(--border)]"
+              exit={{ scale: 0.9 }}
+              className="w-full max-w-lg bg-[var(--card)] p-7 rounded-2xl border border-[var(--border)]"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold">{selected.name}</h3>
-
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-2xl font-bold">{selected.name}</h3>
                 <button onClick={() => setSelected(null)}>
-                  <X className="w-5 h-5" />
+                  <X size={22} />
                 </button>
               </div>
 
-              <div className="flex items-center gap-2 mb-3">
-                {getStatusIcon(selected.status)}
-                <span style={{ color: getStatusColor(selected.status) }}>
-                  {selected.status}
-                </span>
-              </div>
-
-              <p className="opacity-80 leading-relaxed">{selected.detail}</p>
+              <p className="opacity-80 text-base leading-relaxed">
+                {selected.detail}
+              </p>
             </motion.div>
           </motion.div>
         )}

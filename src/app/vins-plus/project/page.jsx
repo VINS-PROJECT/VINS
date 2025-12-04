@@ -1,21 +1,23 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
   RefreshCcw,
   Eye,
   ChevronLeft,
   ChevronRight,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
 } from "lucide-react";
 import { projectsData } from "@/data/projects";
 
 export default function ProjectsPage() {
   const projects = projectsData;
 
-  const GOLD = "var(--accent)";
-  const btnStyle = `inline-flex items-center gap-2 px-4 py-2 rounded-xl font-semibold shadow-sm`;
+  const btnStyle = `inline-flex items-center gap-2 px-4 py-2 rounded-xl font-semibold shadow-sm transition-all`;
 
   // =========================================
   // LAST UPDATED
@@ -33,9 +35,7 @@ export default function ProjectsPage() {
     });
   }, [projects]);
 
-  // =========================================
   // UI STATES
-  // =========================================
   const [globalSearch, setGlobalSearch] = useState("");
   const [sortColumn, setSortColumn] = useState(null);
   const [sortOrder, setSortOrder] = useState("desc");
@@ -50,7 +50,6 @@ export default function ProjectsPage() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // SORTER
   const handleSort = (col) => {
     if (sortColumn === col) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
@@ -67,13 +66,10 @@ export default function ProjectsPage() {
     setPage(1);
   };
 
-  // =========================================
   // FILTER + SORT
-  // =========================================
   const processed = useMemo(() => {
     let arr = [...projects];
 
-    // Search
     if (globalSearch.trim()) {
       const q = globalSearch.toLowerCase();
       arr = arr.filter((p) =>
@@ -87,7 +83,6 @@ export default function ProjectsPage() {
       );
     }
 
-    // Sort
     if (sortColumn) {
       arr.sort((a, b) => {
         const A =
@@ -111,21 +106,18 @@ export default function ProjectsPage() {
     return arr;
   }, [projects, globalSearch, sortColumn, sortOrder]);
 
-  // =========================================
   // PAGINATION
-  // =========================================
   const total = processed.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
-  const paged = processed.slice(
-    (page - 1) * pageSize,
-    page * pageSize
-  );
+  const paged = processed.slice((page - 1) * pageSize, page * pageSize);
 
   return (
     <main className="min-h-screen pt-28 pb-24 bg-[var(--background)] text-[var(--foreground)] transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* HEADER */}
-        <h1
+        <motion.h1
+          initial={{ y: 10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
           className="text-4xl md:text-5xl font-extrabold mb-3 text-center bg-clip-text text-transparent"
           style={{
             backgroundImage:
@@ -133,7 +125,7 @@ export default function ProjectsPage() {
           }}
         >
           Projects
-        </h1>
+        </motion.h1>
 
         <p className="text-center text-sm opacity-60 mb-8">
           Last updated: {lastUpdate}
@@ -142,7 +134,6 @@ export default function ProjectsPage() {
         {/* CONTROLS */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
           <div className="flex gap-3 flex-col sm:flex-row items-stretch">
-            {/* SEARCH */}
             <input
               value={globalSearch}
               onChange={(e) => {
@@ -150,19 +141,18 @@ export default function ProjectsPage() {
                 setPage(1);
               }}
               placeholder="Search projects..."
-              className="px-4 py-3 rounded-xl text-sm w-full sm:w-72 bg-[var(--card)] border border-[var(--border)]"
+              className="px-4 py-3 rounded-xl text-sm w-full sm:w-72 bg-[var(--card)] border border-[var(--border)] focus:border-[var(--accent)] outline-none"
             />
 
-            {/* RESET */}
-            <button
+            <motion.button
+              whileTap={{ scale: 0.92 }}
               onClick={resetAll}
-              className={`${btnStyle} bg-[var(--accent)] text-black`}
+              className={`${btnStyle} bg-[var(--accent)] text-black hover:opacity-90`}
             >
               <RefreshCcw className="w-4 h-4" /> Reset
-            </button>
+            </motion.button>
           </div>
 
-          {/* ROWS / SORT */}
           <div className="flex items-center gap-3">
             <select
               value={pageSize}
@@ -179,7 +169,7 @@ export default function ProjectsPage() {
 
             <button
               onClick={() => setMobileView((v) => !v)}
-              className={`sm:hidden ${btnStyle} bg-[var(--card)]`}
+              className={`sm:hidden ${btnStyle} bg-[var(--card)] hover:border-[var(--accent)] border border-[var(--border)]`}
             >
               {mobileView ? "Table view" : "Card view"}
             </button>
@@ -188,8 +178,12 @@ export default function ProjectsPage() {
 
         {/* TABLE VIEW */}
         {!mobileView ? (
-          <div className="overflow-x-auto rounded-xl bg-[var(--card)] border border-[var(--border)] shadow-md">
-            <table className="min-w-full text-left text-sm sm:text-base">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="overflow-x-auto rounded-xl bg-[var(--card)] border border-[var(--border)] shadow-md"
+          >
+            <table className="min-w-full text-sm sm:text-base">
               <thead className="border-b border-[var(--border)] bg-[var(--card)]">
                 <tr>
                   <Th col="title" label="Title" sortColumn={sortColumn} sortOrder={sortOrder} onSort={handleSort} />
@@ -208,17 +202,17 @@ export default function ProjectsPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.25, delay: i * 0.03 }}
                     viewport={{ once: true }}
-                    className="border-b border-[var(--border)] hover:bg-[var(--accent)]/10"
+                    className="border-b border-[var(--border)] hover:bg-[var(--accent)]/10 transition"
                   >
-                    <td className="p-4">{p.title}</td>
-                    <td className="p-4">{p.category}</td>
-                    <td className="p-4">{p.tech.join(", ")}</td>
+                    <td className="p-4 font-medium">{p.title}</td>
+                    <td className="p-4 opacity-80">{p.category}</td>
+                    <td className="p-4 opacity-70">{p.tech.join(", ")}</td>
                     <td className="p-4">{p.year}</td>
 
                     <td className="p-4">
                       <Link
                         href={`/vins-plus/project/${p.slug}`}
-                        className={`${btnStyle} bg-[color-mix(in srgb, var(--card) 70%, transparent)]`}
+                        className={`${btnStyle} bg-[var(--accent)]/10 hover:bg-[var(--accent)] hover:text-black`}
                       >
                         <Eye className="w-4 h-4" />
                       </Link>
@@ -227,41 +221,37 @@ export default function ProjectsPage() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </motion.div>
         ) : (
           /* CARD VIEW */
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {paged.map((p) => (
               <motion.article
                 key={p.id}
-                layout
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 shadow-sm"
+                whileHover={{ y: -6, scale: 1.02 }}
+                className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-lg hover:shadow-[0_8px_24px_rgba(0,0,0,0.25)] transition-all"
               >
-                <h3 className="text-lg font-semibold">{p.title}</h3>
+                <h3 className="text-lg font-bold">{p.title}</h3>
                 <p className="text-sm opacity-70 mt-1">
                   {p.category} • {p.year}
                 </p>
-                <p className="text-sm opacity-70 mt-1">
+                <p className="text-xs opacity-60 mt-2 line-clamp-2">
                   {p.tech.join(", ")}
                 </p>
 
-                <div className="flex gap-2 mt-4">
-                  <Link
-                    href={`/vins-plus/project/${p.slug}`}
-                    className={`${btnStyle} bg-[color-mix(in srgb, var(--card) 70%, transparent)]`}
-                  >
-                    <Eye className="w-4 h-4" />
-                  </Link>
-                </div>
+                <Link
+                  href={`/vins-plus/project/${p.slug}`}
+                  className={`mt-4 inline-flex ${btnStyle} bg-[var(--accent)]/10 hover:bg-[var(--accent)] hover:text-black`}
+                >
+                  <Eye className="w-4 h-4" /> View
+                </Link>
               </motion.article>
             ))}
           </div>
         )}
 
         {/* PAGINATION */}
-        <div className="flex flex-col sm:flex-row items-center justify-between mt-6 gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between mt-7 gap-4">
           <p className="text-sm opacity-70">
             Showing {(page - 1) * pageSize + 1} –{" "}
             {Math.min(page * pageSize, total)} of {total}
@@ -270,9 +260,11 @@ export default function ProjectsPage() {
           <div className="flex items-center gap-2">
             <PaginationBtn label="First" disabled={page === 1} onClick={() => setPage(1)} />
             <PaginationBtn label={<ChevronLeft />} disabled={page === 1} onClick={() => setPage((p) => p - 1)} />
-            <span className="px-3 py-1 rounded-xl bg-[var(--card)] border border-[var(--border)]">
-              Page {page} / {totalPages}
+
+            <span className="px-4 py-2 rounded-lg font-semibold bg-[var(--accent)]/20 border border-[var(--accent)]/40">
+              {page} / {totalPages}
             </span>
+
             <PaginationBtn label={<ChevronRight />} disabled={page === totalPages} onClick={() => setPage((p) => p + 1)} />
             <PaginationBtn label="Last" disabled={page === totalPages} onClick={() => setPage(totalPages)} />
           </div>
@@ -283,16 +275,17 @@ export default function ProjectsPage() {
 }
 
 function Th({ label, col, sortColumn, sortOrder, onSort }) {
+  const active = sortColumn === col;
+  const Icon = !active ? ArrowUpDown : sortOrder === "asc" ? ArrowUp : ArrowDown;
+
   return (
     <th
       onClick={() => onSort(col)}
-      className="p-4 cursor-pointer select-none text-[var(--foreground)]"
+      className="p-4 cursor-pointer select-none hover:text-[var(--accent)] transition group"
     >
       <div className="flex items-center gap-2">
         {label}
-        <span className="text-xs opacity-60">
-          {sortColumn === col ? (sortOrder === "asc" ? "▲" : "▼") : ""}
-        </span>
+        <Icon size={15} strokeWidth={2} className={active ? "text-[var(--accent)]" : "opacity-40 group-hover:opacity-80"} />
       </div>
     </th>
   );
@@ -300,12 +293,14 @@ function Th({ label, col, sortColumn, sortOrder, onSort }) {
 
 function PaginationBtn({ label, onClick, disabled }) {
   return (
-    <button
+    <motion.button
+      whileTap={{ scale: disabled ? 1 : 0.9 }}
       onClick={onClick}
       disabled={disabled}
-      className={`px-3 py-2 rounded-xl border border-[var(--border)] bg-[var(--card)] ${disabled ? "opacity-60 cursor-not-allowed" : ""}`}
+      className={`px-3 py-2 rounded-xl bg-[var(--card)] border border-[var(--border)]
+      ${disabled ? "opacity-40 cursor-not-allowed" : "hover:border-[var(--accent)] hover:text-[var(--accent)] transition"}`}
     >
       {label}
-    </button>
+    </motion.button>
   );
 }

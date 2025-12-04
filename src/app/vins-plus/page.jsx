@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  FolderKanban,
-  Layers,
+  BadgeCheck,
+  Wrench,
   Award,
-  FileText,
-  Sparkles,
-  Briefcase,
+  FileUser,
+  Rocket,
+  BriefcaseBusiness,
   Lock,
 } from "lucide-react";
 import { useState } from "react";
@@ -21,39 +21,48 @@ export default function VinsPlusPage() {
       title: "Portfolio",
       href: "/portfolio",
       locked: true,
-      icon: <Layers className="w-6 h-6" />,
+      icon: BadgeCheck,
     },
     {
       title: "Project",
       href: "/vins-plus/project",
       locked: false,
-      icon: <FolderKanban className="w-6 h-6" />,
+      icon: Wrench,
     },
     {
       title: "Certificate",
       href: "/vins-plus/certificate",
       locked: false,
-      icon: <Award className="w-6 h-6" />,
+      icon: Award,
     },
     {
       title: "Resume",
       href: "/resume",
       locked: true,
-      icon: <FileText className="w-6 h-6" />,
+      icon: FileUser,
     },
     {
       title: "Next Project",
       href: "/vins-plus/next-project",
       locked: false,
-      icon: <Sparkles className="w-6 h-6" />,
+      icon: Rocket,
     },
     {
       title: "Experience",
       href: "/experience",
       locked: true,
-      icon: <Briefcase className="w-6 h-6" />,
+      icon: BriefcaseBusiness,
     },
   ];
+
+  const getIcon = (Icon, locked) => (
+    <Icon
+      size={28}
+      strokeWidth={locked ? 2 : 1.8}
+      fill={locked ? "var(--accent)" : "none"}
+      className="transition-all"
+    />
+  );
 
   const handleClick = (e, item) => {
     if (item.locked) {
@@ -64,6 +73,7 @@ export default function VinsPlusPage() {
 
   return (
     <>
+      {/* Popup: Locked */}
       {showPopup && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-lg flex items-center justify-center z-50">
           <motion.div
@@ -88,6 +98,7 @@ export default function VinsPlusPage() {
         </div>
       )}
 
+      {/* Main */}
       <div className="min-h-screen flex flex-col items-center justify-center px-6 md:px-16 py-24 relative bg-[var(--background)] text-[var(--foreground)]">
         <motion.div
           initial={{ opacity: 0 }}
@@ -96,13 +107,7 @@ export default function VinsPlusPage() {
           className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_20%,var(--accent)/35,transparent_70%)]"
         />
 
-        {/* Soft floating lights */}
-        <motion.div
-          className="absolute top-1/3 right-16 w-32 h-32 bg-[var(--accent)]/10 blur-2xl rounded-full"
-          animate={{ y: [0, -14, 0] }}
-          transition={{ duration: 6, repeat: Infinity }}
-        />
-
+        {/* Title */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -118,44 +123,57 @@ export default function VinsPlusPage() {
           VINS+
         </motion.h1>
 
+        {/* Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-5xl">
-          {items.map((item, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: i * 0.07 }}
-              whileHover={{ y: -6 }}
-              className="relative"
-            >
-              {item.locked && (
-                <div className="absolute top-4 right-4 bg-[var(--accent)] text-black p-1.5 rounded-full shadow">
-                  <Lock className="w-3.5 h-3.5" />
-                </div>
-              )}
-
-              <a
-                href={item.href}
-                onClick={(e) => handleClick(e, item)}
-                className="group block p-7 rounded-2xl border border-white/10 bg-white/5 dark:bg-neutral-900/40 backdrop-blur-xl shadow-xl hover:shadow-[0_12px_28px_rgba(0,0,0,0.28)] transition-all duration-300 hover:scale-[1.03]"
+          {items.map((item, i) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: i * 0.07 }}
+                whileHover={{ y: -6 }}
+                className="relative"
               >
-                <div className="w-14 h-14 mb-5 rounded-xl flex items-center justify-center bg-[var(--accent)]/20 text-[var(--accent)] border border-[var(--accent)]/40 group-hover:bg-[var(--accent)] group-hover:text-black transition-all">
-                  {item.icon}
-                </div>
+                {item.locked && (
+                  <div className="absolute top-4 right-4 bg-[var(--accent)] text-black p-1.5 rounded-full shadow">
+                    <Lock size={14} strokeWidth={2.3} />
+                  </div>
+                )}
 
-                <h3 className="text-xl font-bold mb-1 group-hover:text-[var(--accent)] transition-all">
-                  {item.title}
-                </h3>
+                <Link
+                  href={item.href}
+                  onClick={(e) => handleClick(e, item)}
+                  className="group block p-7 rounded-2xl border border-white/10 
+                  bg-white/5 dark:bg-neutral-900/40
+                  backdrop-blur-xl shadow-xl hover:shadow-[0_12px_28px_rgba(0,0,0,0.28)]
+                  transition-all duration-300 hover:scale-[1.03]"
+                >
+                  <motion.div
+                    whileHover={{ rotate: 5, scale: 1.08 }}
+                    className="w-14 h-14 mb-5 rounded-xl flex items-center justify-center
+                    bg-[var(--accent)]/20 text-[var(--accent)]
+                    border border-[var(--accent)]/40 group-hover:bg-[var(--accent)]
+                    group-hover:text-black transition-all"
+                  >
+                    {getIcon(Icon, item.locked)}
+                  </motion.div>
 
-                <p className="text-sm opacity-70 group-hover:opacity-100 transition-all">
-                  {item.title === "Next Project"
-                    ? "Upcoming features and creative plans."
-                    : `Explore ${item.title}`}
-                </p>
-              </a>
-            </motion.div>
-          ))}
+                  <h3 className="text-xl font-bold mb-1 group-hover:text-[var(--accent)] transition-all">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-sm opacity-70 group-hover:opacity-100 transition-all">
+                    {item.title === "Next Project"
+                      ? "Upcoming features and creative plans."
+                      : `Explore ${item.title}`}
+                  </p>
+                </Link>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </>

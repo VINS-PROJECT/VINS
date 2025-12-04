@@ -1,14 +1,11 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 
 export default function PortfolioSection() {
   const [active, setActive] = useState(0);
   const [flip, setFlip] = useState(false);
-
-  const GOLD = "var(--accent)";
-  const BORDER = "var(--border)";
 
   const sections = [
     {
@@ -34,45 +31,34 @@ export default function PortfolioSection() {
   ];
 
   return (
-    <section
-      className="
-        relative overflow-hidden 
-        py-28 md:py-32
-        bg-[var(--background)] text-[var(--foreground)]
-        transition-colors duration-500
-      "
-    >
-      <div className="max-w-6xl mx-auto px-6 md:flex md:items-center md:gap-16 relative z-10">
+    <section className="relative overflow-hidden py-24 md:py-32 bg-[var(--background)] text-[var(--foreground)]">
 
-        {/* === LEFT: FLIP PHOTO === */}
+      <div className="max-w-7xl mx-auto px-6 md:grid md:grid-cols-2 md:gap-16 items-center">
+
+        {/* LEFT — FLIP CARD */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.7 }}
           viewport={{ once: true }}
-          className="md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left"
+          className="flex flex-col items-center md:items-start"
         >
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="relative w-80 h-96 perspective cursor-pointer"
+          <div
+            className="relative w-72 h-80 md:w-80 md:h-[22rem] perspective cursor-pointer"
             onClick={() => setFlip(!flip)}
           >
-            <div
-              className={`
-                relative w-full h-full duration-700 transform-style-preserve-3d
-                ${flip ? "rotate-y-180" : ""}
-              `}
+            <motion.div
+              animate={{ rotateY: flip ? 180 : 0 }}
+              transition={{ duration: 0.8 }}
+              style={{ transformStyle: "preserve-3d" }}
+              className="w-full h-full"
             >
               {/* FRONT */}
               <div
-                className="
-                  absolute inset-0 backface-hidden rounded-[2.5rem] overflow-hidden
-                  border border-[var(--accent)]/35 bg-[var(--background)]/90
-                  shadow-[0_8px_40px_-10px_rgba(0,0,0,0.25)]
-                "
+                className="absolute inset-0 rounded-3xl overflow-hidden border border-[var(--accent)]/30 
+                shadow-lg bg-[var(--background)]/80 backface-hidden"
+                style={{ WebkitBackfaceVisibility: "hidden" }}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent z-10" />
                 <img
                   src="/KVNS.jpg"
                   alt="Kevin Simorangkir"
@@ -82,104 +68,89 @@ export default function PortfolioSection() {
 
               {/* BACK */}
               <div
-                className="
-                  absolute inset-0 rotate-y-180 backface-hidden rounded-[2.5rem]
-                  bg-[var(--background)]/90 border border-[var(--accent)]/35 p-6 
-                  flex items-center justify-center text-center
-                  shadow-[0_8px_40px_-10px_rgba(0,0,0,0.25)]
-                "
+                className="absolute inset-0 rotate-y-180 rounded-3xl border border-[var(--accent)]/35
+                flex items-center justify-center px-6 text-center
+                bg-[var(--background)]/90 shadow-lg backface-hidden"
+                style={{ WebkitBackfaceVisibility: "hidden" }}
               >
                 <p className="text-lg font-medium text-[var(--accent)] leading-relaxed italic">
-                  “Design is not just what it looks like —  
+                  “Design is not just what it looks like —   
                   <span className="font-semibold"> it’s how it works.</span>”
                 </p>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
           {/* SIGNATURE */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="mt-8 text-2xl font-signature text-[var(--accent)] italic"
+            className="mt-8 text-xl md:text-2xl font-signature italic text-[var(--accent)]"
           >
             — Kevin Simorangkir
           </motion.p>
         </motion.div>
 
-        {/* === RIGHT: ACCORDION === */}
+        {/* RIGHT — INTERACTION */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7 }}
           viewport={{ once: true }}
-          className="mt-12 md:mt-0 md:w-1/2 flex flex-col gap-6"
+          className="mt-14 md:mt-0 flex flex-col gap-5"
         >
-          {sections.map((sec, i) => (
-            <motion.div
-              key={i}
-              onClick={() => setActive(i)}
-              whileHover={{ scale: active === i ? 1 : 1.015 }}
-              className={`
-                cursor-pointer p-6 rounded-2xl border transition-all duration-400
-                backdrop-blur-xl
-                ${
-                  active === i
-                    ? `
-                      bg-[var(--accent)]/18 
-                      border-[var(--accent)]/50 
-                      shadow-[0_0_20px_-4px_var(--accent)]
-                      text-[var(--accent)]
-                      `
-                    : `
-                      bg-[var(--background)]/40 dark:bg-black/40 
-                      border border-[var(--border)] dark:border-white/10 
-                      text-[var(--foreground)]/70
-                      hover:bg-[var(--accent)]/12 
-                      hover:border-[var(--accent)]/40
-                      hover:shadow-[0_0_18px_-4px_var(--accent)]
-                      `
-                }
-              `}
-            >
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold tracking-wide">
-                  {sec.title}
-                </h3>
+          {sections.map((sec, i) => {
+            const isActive = active === i;
+            return (
+              <motion.button
+                key={i}
+                onClick={() => setActive(i)}
+                className="
+                  w-full text-left p-6 rounded-2xl border backdrop-blur-xl transition-all duration-500
+                  focus:outline-none
+                "
+                style={{
+                  background: isActive
+                    ? "color-mix(in srgb, var(--accent), transparent 88%)"
+                    : "color-mix(in srgb, var(--background) 85%, transparent)",
+                  borderColor: isActive ? "var(--accent)" : "var(--border)",
+                  color: isActive ? "var(--accent)" : "var(--foreground)",
+                  boxShadow: isActive ? "0 0 14px -2px var(--accent)" : "none",
+                }}
+                whileHover={{ scale: isActive ? 1.01 : 1.02 }}
+              >
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold tracking-wide">
+                    {sec.title}
+                  </h3>
 
-                {active === i ? (
-                  <ArrowUpRight className="w-5 h-5 text-[var(--accent)]" />
-                ) : (
-                  <ArrowRight className="w-4 h-4 text-[var(--accent)]/70" />
-                )}
-              </div>
+                  {isActive ? (
+                    <ArrowUpRight className="w-5" />
+                  ) : (
+                    <ArrowRight className="w-4 opacity-70" />
+                  )}
+                </div>
 
-              {active === i && (
-                <motion.p
-                  initial={{ opacity: 0, y: -6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-3 text-sm leading-relaxed text-[var(--accent)]/90"
-                >
-                  {sec.desc}
-                </motion.p>
-              )}
-            </motion.div>
-          ))}
+                <AnimatePresence>
+                  {isActive && (
+                    <motion.p
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      className="mt-3 text-sm leading-relaxed opacity-90"
+                    >
+                      {sec.desc}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+              </motion.button>
+            );
+          })}
         </motion.div>
       </div>
 
-      {/* BOTTOM FADE */}
-      <div
-        className="
-          absolute bottom-0 left-0 w-full h-24 
-          bg-gradient-to-t 
-          from-[var(--background)] 
-          to-transparent 
-          pointer-events-none
-        "
-      />
     </section>
   );
 }

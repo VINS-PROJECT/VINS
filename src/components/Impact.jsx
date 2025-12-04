@@ -16,7 +16,6 @@ export default function Impact() {
     { label: "Years of Experience", value: 1 },
   ];
 
-  // Counter Animation Fix
   useEffect(() => {
     if (!isInView) return;
 
@@ -25,7 +24,7 @@ export default function Impact() {
     const interval = setInterval(() => {
       setCounts((prev) =>
         prev.map((num, i) => {
-          const target = Number(stats[i].value); // FIXED: ensure number
+          const target = Number(stats[i].value);
           if (num < target) {
             return Math.min(num + Math.ceil(target / 50), target);
           }
@@ -35,7 +34,7 @@ export default function Impact() {
     }, 30);
 
     return () => clearInterval(interval);
-  }, [isInView, controls]); // FIXED: controls added
+  }, [isInView, controls]);
 
   return (
     <section
@@ -48,24 +47,24 @@ export default function Impact() {
         transition-colors duration-500
       "
     >
-      {/* === PREMIUM GLOW BG === */}
+      {/* BG Glow */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.2 }}
-        transition={{ duration: 1.5 }}
+        animate={{ opacity: 0.22 }}
+        transition={{ duration: 1.8 }}
         className="absolute inset-0 pointer-events-none"
         style={{
           background: `
-            radial-gradient(circle at 22% 30%, var(--accent)/0.30 0%, transparent 60%),
-            radial-gradient(circle at 85% 75%, var(--accent-dark)/0.25 0%, transparent 65%)
+            radial-gradient(circle at 22% 30%, var(--accent)/0.25 0%, transparent 65%),
+            radial-gradient(circle at 80% 70%, var(--accent-dark)/0.25 0%, transparent 75%)
           `,
         }}
       />
 
-      {/* TOP FADE */}
+      {/* Gradient Top */}
       <div className="absolute top-0 left-0 w-full h-28 bg-gradient-to-b from-[var(--background)] to-transparent" />
 
-      {/* TITLE */}
+      {/* Title */}
       <motion.div
         initial={{ opacity: 0, y: 35 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -87,7 +86,7 @@ export default function Impact() {
         </p>
       </motion.div>
 
-      {/* === GRID === */}
+      {/* Stats Grid */}
       <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl w-full px-6 relative z-10">
         {stats.map((item, i) => (
           <motion.div
@@ -104,22 +103,50 @@ export default function Impact() {
               ease: [0.16, 1, 0.3, 1],
             }}
             className="
-              group p-8 rounded-2xl text-center backdrop-blur-xl
-              
-              /* CARD PREMIUM */
-              bg-[var(--foreground)]/[0.03]
-              border border-[var(--foreground)]/10
-              shadow-[0_4px_22px_-6px_rgba(0,0,0,0.15)]
+              group p-8 rounded-2xl text-center
+              relative overflow-hidden
+
+              /* GLASS */
+              backdrop-blur-xl
+              bg-white/[0.05] dark:bg-[var(--foreground)]/[0.04]
+              border border-white/10 dark:border-[var(--foreground)]/10
+
+              shadow-[0_8px_25px_-10px_rgba(0,0,0,0.4)]
 
               /* HOVER */
-              hover:-translate-y-1.5
-              hover:shadow-[0_8px_32px_-4px_var(--accent)]
-              hover:border-[var(--accent)]/40
-              hover:bg-[var(--accent)]/[0.06]
+              hover:-translate-y-2
+              hover:bg-[var(--accent)]/[0.1]
+              hover:border-[var(--accent)]/50
+              hover:shadow-[0_12px_40px_-5px_var(--accent)/35]
+              hover:backdrop-saturate-200
 
               transition-all duration-500
             "
+            style={{
+              WebkitBackdropFilter: "blur(18px)",
+              backdropFilter: "blur(18px)",
+            }}
           >
+            {/* Reflection Highlight */}
+            <span
+              className="
+                absolute inset-0 pointer-events-none
+                bg-gradient-to-t from-transparent via-white/[0.08] to-transparent
+                opacity-0 group-hover:opacity-100
+                blur-xl transition-opacity duration-700
+              "
+            />
+
+            {/* Glow Behind */}
+            <span
+              className="
+                absolute -inset-10 -z-10
+                bg-[var(--accent)]/20 rounded-full blur-2xl
+                opacity-0 group-hover:opacity-40
+                transition-all duration-700
+              "
+            />
+
             <h3 className="text-5xl font-extrabold tracking-tight" style={{ color: "var(--accent)" }}>
               {counts[i]}
               {item.label.includes("Years") ? "+" : ""}
@@ -132,7 +159,7 @@ export default function Impact() {
         ))}
       </div>
 
-      {/* BOTTOM FADE */}
+      {/* Gradient Bottom */}
       <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[var(--background)] to-transparent" />
     </section>
   );

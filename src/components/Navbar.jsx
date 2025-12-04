@@ -4,16 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Moon, Sun, Menu, X, Search, Github, Linkedin } from "lucide-react";
+import { Search, Moon, Sun, Menu, X } from "lucide-react";
 import Image from "next/image";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  /* INIT THEME */
   useEffect(() => {
     const saved = localStorage.getItem("theme");
     const prefersDark =
@@ -31,9 +30,8 @@ export default function Navbar() {
     document.documentElement.classList.toggle("dark", next);
   };
 
-  /* SCROLL EFFECT */
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 12);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -46,93 +44,20 @@ export default function Navbar() {
     { href: "/contact", label: "Contact" },
   ];
 
-  /* GLOBAL ICON BTN */
-  const iconBtn = `
-    flex items-center justify-center
-    w-10 h-10 rounded-lg border
-    transition-all duration-200 hover:scale-[1.04]
-  `;
-
-  const themeClass = isDark
-    ? "bg-white/5 border-white/10 text-gray-200 hover:bg-white/10"
-    : "bg-gray-50 border-black/20 text-gray-700 hover:bg-gray-100";
-
   return (
     <header
-      className={`
-        fixed top-0 left-0 w-full z-50
-        transition-all duration-300
-        ${
-          scrolled
-            ? "backdrop-blur-xl bg-[var(--background)]/70 border-b border-[var(--border)] shadow-sm"
-            : "bg-transparent border-b border-transparent"
-        }
-      `}
+      className={`fixed top-0 left-0 w-full z-50 backdrop-blur-2xl px-6 md:px-10 transition-all duration-300 border-b
+      ${
+        scrolled
+          ? "bg-[var(--background)]/85 border-[var(--border)] shadow-sm"
+          : "bg-transparent border-transparent"
+      }`}
     >
-      {/* TOP BAR */}
-      <div className="px-6 md:px-10 py-2">
-        <div className="flex items-center justify-between">
-
-          {/* LEFT ICONS */}
-          <div className="flex items-center gap-2">
-
-            {/* THEME BUTTON */}
-            <motion.button
-              onClick={toggleTheme}
-              whileTap={{ scale: 0.9 }}
-              aria-label="Toggle Theme"
-              className={`${iconBtn} ${themeClass}`}
-            >
-              {isDark ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
-            </motion.button>
-
-            {/* GITHUB */}
-            <a
-              href="https://github.com/kevinsimorangkir21"
-              target="_blank"
-              aria-label="Github"
-              className={`${iconBtn} ${themeClass}`}
-            >
-              <Github className="w-4 h-4" />
-            </a>
-
-            {/* LINKEDIN */}
-            <a
-              href="https://linkedin.com/in/kevinsimorangkir"
-              target="_blank"
-              aria-label="LinkedIn"
-              className={`${iconBtn} ${themeClass}`}
-            >
-              <Linkedin className="w-4 h-4" />
-            </a>
-          </div>
-
-          {/* RIGHT ICONS */}
-          <div className="flex items-center gap-2">
-
-            {/* SEARCH */}
-            <button aria-label="Search" className={`${iconBtn} ${themeClass}`}>
-              <Search className="w-4 h-4" />
-            </button>
-
-            {/* MOBILE MENU */}
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Menu Toggle"
-              className={`${iconBtn} ${themeClass} md:hidden`}
-            >
-              {menuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* NAV LINKS */}
-      <div className="px-6 md:px-10 py-3 flex items-center justify-between">
-
+      <div className="flex justify-between items-center h-16">
+        
         {/* LOGO */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <motion.div whileHover={{ scale: 1.06 }}>
+        <Link href="/" className="flex items-center gap-2">
+          <motion.div whileHover={{ scale: 1.08, rotate: 3 }}>
             <Image src="/TP K.svg" alt="VINS" width={40} height={40} />
           </motion.div>
           <span className="font-bold text-lg tracking-widest text-[var(--accent)]">
@@ -141,29 +66,22 @@ export default function Navbar() {
         </Link>
 
         {/* DESKTOP NAV */}
-        <nav className="hidden md:flex items-center gap-9 text-[15px] font-medium">
+        <nav className="hidden md:flex items-center gap-7 text-[15px] font-medium">
           {navLinks.map((l) => {
-            const active =
-              l.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(l.href);
-
+            const active = pathname === l.href;
             return (
               <Link
                 key={l.href}
                 href={l.href}
-                className={`
-                  relative px-1 transition font-medium
-                  ${active ? "text-[var(--accent)]" : ""}
+                className={`relative transition group
                   ${
-                    isDark
-                      ? "text-gray-300 hover:text-[var(--accent)]"
-                      : "text-gray-800 hover:text-[var(--accent)]"
+                    active
+                      ? "text-[var(--accent)]"
+                      : "text-gray-600 dark:text-gray-300"
                   }
-                `}
+                  hover:text-[var(--accent)]`}
               >
                 {l.label}
-
                 {active && (
                   <motion.span
                     layoutId="activeUnderline"
@@ -175,68 +93,74 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* RIGHT BUTTONS */}
-        <div className="hidden md:flex items-center gap-3">
-          <Link
-            href="/contact"
-            className="
-              w-32 h-10 flex items-center justify-center
-              rounded-lg border text-sm font-semibold
-              border-[var(--accent)] text-[var(--accent)]
-              hover:bg-[var(--accent)]/10 transition-all
-            "
+        {/* ACTIONS */}
+        <div className="flex items-center gap-3">
+          {/* Search */}
+          <motion.button
+            aria-label="Search"
+            className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10"
+            whileHover={{ scale: 1.12 }}
           >
-            Hire Me
-          </Link>
+            <Search size={20} strokeWidth={1.8} />
+          </motion.button>
+
+          {/* Theme */}
+          <motion.button
+            onClick={toggleTheme}
+            aria-label="Toggle Theme"
+            className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10"
+            whileTap={{ scale: 0.85 }}
+          >
+            {isDark ? (
+              <Sun size={20} strokeWidth={2} />
+            ) : (
+              <Moon size={20} strokeWidth={2} />
+            )}
+          </motion.button>
+
+          {/* Hamburger Mobile */}
+          <motion.button
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Menu"
+            className="md:hidden p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition"
+            whileTap={{ scale: 0.92 }}
+          >
+            {menuOpen ? (
+              <X size={26} strokeWidth={2.4} />
+            ) : (
+              <Menu size={26} strokeWidth={2.4} />
+            )}
+          </motion.button>
         </div>
       </div>
 
-      {/* MOBILE MENU */}
+      {/* MOBILE NAV */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -8 }}
+            initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            className="md:hidden px-6 py-4 backdrop-blur-lg bg-[var(--background)]/90"
+            exit={{ opacity: 0, y: -12 }}
+            className="md:hidden bg-[var(--background)] border border-[var(--border)] rounded-xl p-4 mt-2 shadow-xl"
           >
             {navLinks.map((l) => {
-              const active =
-                l.href === "/"
-                  ? pathname === "/"
-                  : pathname.startsWith(l.href);
-
+              const active = pathname === l.href;
               return (
                 <Link
                   key={l.href}
                   href={l.href}
                   onClick={() => setMenuOpen(false)}
-                  className={`
-                    block px-3 py-2 rounded-md text-sm transition
-                    ${active ? "text-[var(--accent)] bg-[var(--accent)]/10" : ""}
+                  className={`block w-full px-3 py-3 rounded-lg font-medium transition
                     ${
-                      isDark
-                        ? "text-gray-200 hover:text-[var(--accent)]"
-                        : "text-gray-700 hover:text-[var(--accent)]"
-                    }
-                  `}
+                      active
+                        ? "bg-[var(--accent)] text-black"
+                        : "text-[var(--foreground)] hover:bg-[var(--accent)] hover:text-black"
+                    }`}
                 >
                   {l.label}
                 </Link>
               );
             })}
-
-            <Link
-              href="/contact"
-              className="
-                block mt-3 w-full h-10 flex items-center justify-center
-                rounded-lg border border-[var(--accent)]
-                text-[var(--accent)] text-sm font-semibold
-                hover:bg-[var(--accent)]/10
-              "
-            >
-              Hire Me
-            </Link>
           </motion.div>
         )}
       </AnimatePresence>
