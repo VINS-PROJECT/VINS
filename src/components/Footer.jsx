@@ -107,11 +107,11 @@ export default function Footer() {
           <h4 className="text-sm font-semibold mb-3 opacity-90">Contact</h4>
 
           <p className="text-sm opacity-80 flex items-center gap-2 mb-2">
-            <Mail size={16} /> hello@vins.id
+            <Mail size={16} /> vin.simorangkir81@gmail.com
           </p>
 
           <p className="text-sm opacity-80 flex items-center gap-2 mb-4">
-            <Phone size={16} /> +62 8XX-XXXX-XXXX
+            <Phone size={16} /> +62 822-8251-2619
           </p>
 
           {/* SOCIALS */}
