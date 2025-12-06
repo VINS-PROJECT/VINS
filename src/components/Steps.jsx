@@ -32,7 +32,6 @@ export default function PortfolioSection() {
 
   return (
     <section className="relative overflow-hidden py-24 md:py-32 bg-[var(--background)] text-[var(--foreground)]">
-
       <div className="max-w-7xl mx-auto px-6 md:grid md:grid-cols-2 md:gap-16 items-center">
 
         {/* LEFT — FLIP CARD */}
@@ -44,21 +43,20 @@ export default function PortfolioSection() {
           className="flex flex-col items-center md:items-start"
         >
           <div
-            className="relative w-72 h-80 md:w-80 md:h-[22rem] perspective cursor-pointer"
+            className="relative w-72 h-80 md:w-80 md:h-[22rem] cursor-pointer [perspective:1000px]"
             onClick={() => setFlip(!flip)}
           >
             <motion.div
               animate={{ rotateY: flip ? 180 : 0 }}
               transition={{ duration: 0.8 }}
-              style={{ transformStyle: "preserve-3d" }}
-              className="w-full h-full"
+              className="w-full h-full [transform-style:preserve-3d]"
             >
               {/* FRONT */}
-              <div
-                className="absolute inset-0 rounded-3xl overflow-hidden border border-[var(--accent)]/30 
-                shadow-lg bg-[var(--background)]/80 backface-hidden"
-                style={{ WebkitBackfaceVisibility: "hidden" }}
-              >
+              <div className="
+                absolute inset-0 rounded-3xl overflow-hidden border 
+                border-[var(--border)] shadow-xl bg-[var(--background)]/70 
+                [backface-visibility:hidden]
+              ">
                 <img
                   src="/KVNS.jpg"
                   alt="Kevin Simorangkir"
@@ -67,12 +65,12 @@ export default function PortfolioSection() {
               </div>
 
               {/* BACK */}
-              <div
-                className="absolute inset-0 rotate-y-180 rounded-3xl border border-[var(--accent)]/35
-                flex items-center justify-center px-6 text-center
-                bg-[var(--background)]/90 shadow-lg backface-hidden"
-                style={{ WebkitBackfaceVisibility: "hidden" }}
-              >
+              <div className="
+                absolute inset-0 rotate-y-180 rounded-3xl border 
+                border-[var(--border)] flex items-center justify-center px-6 text-center
+                bg-[var(--background)] shadow-xl
+                [backface-visibility:hidden]
+              ">
                 <p className="text-lg font-medium text-[var(--accent)] leading-relaxed italic">
                   “Design is not just what it looks like —   
                   <span className="font-semibold"> it’s how it works.</span>”
@@ -107,39 +105,32 @@ export default function PortfolioSection() {
               <motion.button
                 key={i}
                 onClick={() => setActive(i)}
-                className="
+                className={`
                   w-full text-left p-6 rounded-2xl border backdrop-blur-xl transition-all duration-500
-                  focus:outline-none
-                "
-                style={{
-                  background: isActive
-                    ? "color-mix(in srgb, var(--accent), transparent 88%)"
-                    : "color-mix(in srgb, var(--background) 85%, transparent)",
-                  borderColor: isActive ? "var(--accent)" : "var(--border)",
-                  color: isActive ? "var(--accent)" : "var(--foreground)",
-                  boxShadow: isActive ? "0 0 14px -2px var(--accent)" : "none",
-                }}
-                whileHover={{ scale: isActive ? 1.01 : 1.02 }}
+                  ${isActive
+                    ? "bg-[var(--accent)]/18 border-[var(--accent)] text-[var(--accent)]"
+                    : "bg-[var(--background)]/50 border-[var(--border)] text-[var(--foreground)] hover:bg-[var(--accent)]/10"
+                  }
+                `}
+                whileHover={{ scale: isActive ? 1.01 : 1.03 }}
               >
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold tracking-wide">
                     {sec.title}
                   </h3>
-
-                  {isActive ? (
-                    <ArrowUpRight className="w-5" />
-                  ) : (
-                    <ArrowRight className="w-4 opacity-70" />
-                  )}
+                  {isActive
+                    ? <ArrowUpRight className="w-5" />
+                    : <ArrowRight className="w-4 opacity-70" />}
                 </div>
 
+                {/* DESCRIPTION */}
                 <AnimatePresence>
                   {isActive && (
                     <motion.p
                       initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -6 }}
-                      className="mt-3 text-sm leading-relaxed opacity-90"
+                      className="mt-3 text-sm leading-relaxed opacity-95"
                     >
                       {sec.desc}
                     </motion.p>
@@ -150,7 +141,6 @@ export default function PortfolioSection() {
           })}
         </motion.div>
       </div>
-
     </section>
   );
 }

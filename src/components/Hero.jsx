@@ -31,23 +31,34 @@ export default function Hero() {
         >
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight">
             <span
-              className="block bg-clip-text text-transparent"
+              className="
+                block bg-clip-text text-transparent 
+                dark:text-transparent
+              "
               style={{
                 backgroundImage:
-                  "linear-gradient(to right, var(--accent), var(--accent-dark))",
+                  "linear-gradient(90deg, var(--accent) 10%, var(--accent-dark) 90%)",
+                WebkitTextFillColor: "transparent",
               }}
             >
               {t.title1}
             </span>
           </h1>
 
-          <p className="max-w-lg text-lg leading-relaxed opacity-90">
+          <p className="max-w-lg text-lg leading-relaxed opacity-100 text-[var(--foreground)]">
             {t.desc}
           </p>
 
-          {/* ONLY ONE ACTION BUTTON */}
+          {/* Action Button */}
           <div className="pt-2">
-            <Link href="/contact" className="btn-gold">
+            <Link
+              href="/contact"
+              className="
+                inline-block px-6 py-3 rounded-lg font-semibold text-black
+                bg-[var(--accent)] hover:opacity-90
+                transition shadow-lg
+              "
+            >
               {t.btn1}
             </Link>
           </div>
@@ -60,14 +71,15 @@ export default function Hero() {
           transition={{ duration: 1, delay: 0.15 }}
           className="relative flex justify-center md:justify-end"
         >
+          {/* Glow Background */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.25 }}
+            animate={{ opacity: 0.4 }}
             transition={{ duration: 1.5 }}
             className="
               absolute -z-10 top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2
               w-[480px] h-[480px] rounded-full blur-[120px]
-              bg-[var(--accent)]/25
+              bg-[var(--accent)]/30 dark:bg-[var(--accent)]/20
             "
           />
 

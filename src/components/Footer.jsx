@@ -1,19 +1,33 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, Linkedin, Instagram, Twitter, Mail, Phone } from "lucide-react";
+import { Github, Linkedin, Instagram, Twitter, Mail, Phone, Activity } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { siteInfo } from "@/config/site-info";
 
 export default function Footer() {
-
-  const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "Projects", href: "/project" },
-    { name: "Experience", href: "/experience" },
-    { name: "Certificates", href: "/certificate" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
+  const navSections = [
+    {
+      title: "Navigation",
+      links: [
+        { name: "Home", href: "/" },
+        { name: "Projects", href: "/project" },
+        { name: "Experience", href: "/experience" },
+        { name: "Certificates", href: "/certificate" },
+        { name: "About", href: "/about" },
+        { name: "Contact", href: "/contact" },
+      ],
+    },
+    {
+      title: "Resources",
+      links: [
+        { name: "Status", href: "/status" },
+        { name: "Changelog", href: "/changelog" },
+        { name: "Privacy Policy", href: "/policy" },
+        { name: "Terms & Conditions", href: "/terms" },
+      ],
+    },
   ];
 
   const socials = [
@@ -23,77 +37,106 @@ export default function Footer() {
     { icon: <Twitter size={18} />, url: "#" },
   ];
 
+  const statusStyles = {
+    operational: "bg-emerald-500",
+    maintenance: "bg-amber-500",
+    outage: "bg-red-500",
+  };
+
   return (
-    <footer className="w-full bg-[var(--background)] text-[var(--foreground)] border-t border-[var(--border)] pt-20">
+    <footer
+      role="contentinfo"
+      className="relative bg-[var(--background)] text-[var(--foreground)] border-t border-[var(--border)]"
+    >
+      {/* TOP SCROLL REVEAL */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true }}
+        className="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-4 gap-14"
+      >
+        {/* BRAND + STATUS */}
+        <div className="space-y-4">
+          <Link href="/" className="flex items-center gap-3 group">
+            <motion.div whileHover={{ rotate: 6, scale: 1.08 }}>
+              <Image src="/TP K.svg" alt="VINS" width={44} height={44} />
+            </motion.div>
+            <span className="text-xl font-bold text-[var(--accent)] tracking-widest">
+              VINS
+            </span>
+          </Link>
 
-      {/* MAIN GRID */}
-      <div className="py-10">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-14">
-
-          {/* BRAND */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-3">
-              <Image src="/TP K.svg" alt="VINS" width={40} height={40} />
-              <span className="text-lg font-bold tracking-widest text-[var(--accent)]">
-                VINS
-              </span>
-            </div>
-            <p className="text-sm opacity-70 max-w-[260px] leading-relaxed">
-              A creative digital designer crafting valuable digital experiences.
-            </p>
+          {/* STATUS INDICATOR */}
+          <div className="flex items-center gap-2 text-xs tracking-wide">
+            <Activity size={15} />
+            <span className={`w-2 h-2 rounded-full ${statusStyles[siteInfo.status]}`} />
+            <span className="uppercase font-semibold opacity-80">
+              {siteInfo.status}
+            </span>
           </div>
 
-          {/* NAV */}
-          <div className="md:col-span-2 flex flex-wrap gap-y-5 gap-x-10 mt-3">
-            {navLinks.map((l, i) => (
-              <Link
+          <p className="text-sm opacity-70 leading-relaxed">
+            Crafting meaningful, memorable digital experiences.
+          </p>
+        </div>
+
+        {/* NAV GROUPS */}
+        <nav className="md:col-span-2 grid grid-cols-2 gap-10" aria-label="Footer Navigation">
+          {navSections.map((section, i) => (
+            <div key={i}>
+              <h4 className="text-sm font-semibold mb-3 opacity-90">{section.title}</h4>
+              <ul className="space-y-2">
+                {section.links.map((l, idx) => (
+                  <li key={idx}>
+                    <Link
+                      href={l.href}
+                      className="text-sm opacity-70 hover:opacity-100 hover:text-[var(--accent)] transition"
+                    >
+                      {l.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
+
+        {/* CONTACT */}
+        <div>
+          <h4 className="text-sm font-semibold mb-3 opacity-90">Contact</h4>
+
+          <p className="text-sm opacity-80 flex items-center gap-2 mb-2">
+            <Mail size={16} /> hello@vins.id
+          </p>
+
+          <p className="text-sm opacity-80 flex items-center gap-2 mb-4">
+            <Phone size={16} /> +62 8XX-XXXX-XXXX
+          </p>
+
+          {/* SOCIALS */}
+          <div className="flex gap-4">
+            {socials.map(({ icon, url }, i) => (
+              <motion.a
                 key={i}
-                href={l.href}
-                className="text-sm opacity-75 hover:opacity-100 hover:text-[var(--accent)] transition"
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ y: -3, opacity: 1 }}
+                className="opacity-70 hover:text-[var(--accent)] transition"
               >
-                {l.name}
-              </Link>
+                {icon}
+              </motion.a>
             ))}
           </div>
-
-          {/* CONTACT */}
-          <div className="space-y-3">
-            <h4 className="font-semibold text-sm mb-2">Contact</h4>
-
-            <p className="flex items-center gap-2 opacity-80 text-sm">
-              <Mail size={16} /> hello@vins.id
-            </p>
-
-            <p className="flex items-center gap-2 opacity-80 text-sm">
-              <Phone size={16} /> +62 8XX-XXXX-XXXX
-            </p>
-
-            <div className="flex gap-3 mt-3">
-              {socials.map(({ icon, url }, i) => (
-                <motion.a
-                  key={i}
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ y: -2 }}
-                  className="opacity-70 hover:opacity-100 transition"
-                >
-                  {icon}
-                </motion.a>
-              ))}
-            </div>
-          </div>
-
         </div>
-      </div>
+      </motion.div>
 
       {/* BOTTOM BAR */}
-      <div className="border-t border-[var(--border)] py-6">
-        <div className="max-w-7xl mx-auto px-6 text-center text-xs opacity-55">
-          © {new Date().getFullYear()} VINS · All rights reserved.
-        </div>
+      <div className="border-t border-[var(--border)] py-5 text-center text-xs flex flex-col items-center gap-2 opacity-60">
+        <span>© {new Date().getFullYear()} VINS — All Rights Reserved.</span>
+        <span className="font-mono">Version {siteInfo.version}</span>
       </div>
-
     </footer>
   );
 }
