@@ -25,7 +25,7 @@ export default function ProjectsPage() {
   // LAST UPDATED AUTO
   const lastUpdate = useMemo(() => {
     const dates = projects.map((p) =>
-      new Date(p.updatedAt || `${p.year}-01-01`).getTime()
+      new Date(p.updatedAt || `${p.year}-11-21`).getTime()
     );
     return new Date(Math.max(...dates)).toLocaleDateString("id-ID", {
       day: "2-digit",

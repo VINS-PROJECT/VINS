@@ -21,8 +21,9 @@ export const projectsData = [
       "/projects/harvesty-3.png",
     ],
     links: {
-      github: "#",
-      live: "#",
+      live: "https://example.com/harvesty", // ganti jika sudah deploy
+      github: "https://github.com/yourname/harvesty",
+      figma: "https://www.figma.com/proto/xxxxx/Harvesty",
     },
   },
 
@@ -50,8 +51,7 @@ export const projectsData = [
       "/SIPAD/SIPAD6.png",
     ],
     links: {
-      github: "#",
-      live: "#",
+      figma: "https://www.figma.com/proto/xxxxx/SIPAD",
     },
   },
 
@@ -75,8 +75,8 @@ export const projectsData = [
       "/projects/refora-3.png",
     ],
     links: {
-      github: "#",
-      live: "#",
+      figma: "https://www.figma.com/proto/xxxxx/REFORA",
+      case: "/File/REFORA-CaseStudy.pdf",
     },
   },
 ].map((p) => ({
