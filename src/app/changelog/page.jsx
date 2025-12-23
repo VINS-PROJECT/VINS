@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   CalendarDays,
   Stars,
@@ -8,23 +8,75 @@ import {
   Bug,
   Sparkle,
   History,
+  Mail,
 } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 
+/* ================= CHANGELOG DATA ================= */
+const CHANGELOGS = [
+  {
+    version: "v2.0.0",
+    date: "2026-01-01",
+    highlight: true,
+    changes: [
+      { text: "Major platform overhaul and V2 launch.", type: "update" },
+      { text: "AI-powered feature set introduced.", type: "update" },
+      { text: "Security and infrastructure hardening.", type: "update" },
+      { text: "Cross-device sync issues resolved.", type: "fix" },
+      { text: "Memory leak fixed in background services.", type: "bug" },
+    ],
+  },
+  {
+    version: "v1.1.0",
+    date: "2025-12-08",
+    changes: [
+      { text: "Notification system released.", type: "update" },
+      { text: "Third-party plugin support added.", type: "update" },
+      { text: "Improved performance on large datasets.", type: "update" },
+    ],
+  },
+  {
+    version: "v1.0.0",
+    date: "2025-12-06",
+    changes: [
+      { text: "Initial UI milestone release.", type: "update" },
+      { text: "Mobile stability improvements.", type: "fix" },
+    ],
+  },
+];
+
+const TYPE_ICON = {
+  update: Sparkle,
+  fix: Hammer,
+  bug: Bug,
+};
+
 export default function ChangelogPage() {
   const ref = useRef(null);
-  const [confetti, setConfetti] = useState([]);
-  const [animateNumbers, setAnimateNumbers] = useState(false);
 
-  /* === Countdown System === */
+  /* ================= FILTER ================= */
+  const [typeFilter, setTypeFilter] = useState("All");
+  const [versionFilter, setVersionFilter] = useState("All");
+
+  /* ================= LAST VISIT ================= */
+  const [lastVisit, setLastVisit] = useState(null);
+
+  useEffect(() => {
+    const last = localStorage.getItem("lastVisit");
+    setLastVisit(last ? new Date(last) : null);
+    localStorage.setItem("lastVisit", new Date().toISOString());
+  }, []);
+
+  const isNew = (date) => lastVisit && new Date(date) > lastVisit;
+
+  /* ================= COUNTDOWN ================= */
   const targetDate = new Date("2026-01-01T00:00:00").getTime();
   const [timeLeft, setTimeLeft] = useState({ d: 0, h: 0, m: 0, s: 0 });
 
   useEffect(() => {
-    const update = () => {
+    const tick = () => {
       const diff = targetDate - Date.now();
       if (diff <= 0) return;
-
       setTimeLeft({
         d: Math.floor(diff / 86400000),
         h: Math.floor((diff / 3600000) % 24),
@@ -32,270 +84,297 @@ export default function ChangelogPage() {
         s: Math.floor((diff / 1000) % 60),
       });
     };
-
-    update();
-    const interval = setInterval(update, 1000);
-    return () => clearInterval(interval);
+    tick();
+    const i = setInterval(tick, 1000);
+    return () => clearInterval(i);
   }, []);
 
-  /* === Confetti Trigger === */
-  const triggerConfetti = () => {
-    const items = Array.from({ length: 40 }).map((_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      rotate: Math.random() * 180 - 90,
-      delay: Math.random() * 0.25,
-      duration: 1.3 + Math.random() * 0.7,
-    }));
+  /* ================= FILTERED DATA ================= */
+  const versions = ["All", ...CHANGELOGS.map((l) => l.version)];
 
-    setConfetti(items);
-    setTimeout(() => setConfetti([]), 2000);
+  const filteredLogs = CHANGELOGS
+    .filter((l) => versionFilter === "All" || l.version === versionFilter)
+    .map((l) => ({
+      ...l,
+      changes:
+        typeFilter === "All"
+          ? l.changes
+          : l.changes.filter((c) => c.type === typeFilter),
+    }))
+    .filter((l) => l.changes.length > 0);
+
+  /* ================= SUBSCRIBE ================= */
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  const subscribe = async (e) => {
+    e.preventDefault();
+    if (!email) return;
+    await fetch("/api/subscribe", {
+      method: "POST",
+      body: JSON.stringify({ email }),
+    });
+    setSubscribed(true);
   };
 
-  /* === Scroll Reveal to Trigger Everything === */
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setAnimateNumbers(true);
-          triggerConfetti();
-        }
-      },
-      { threshold: 0.25 }
-    );
-
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
-  /* === Animate Numbers === */
-  const animTime = (value) => (animateNumbers ? value : 0);
-
-  /* === Changelog Data === */
-  const changelogs = [
-    {
-      version: "v2.0.0",
-      date: "1 January 2026",
-      comingSoon: true,
-      changes: [
-        { text: "Major overhaul → Version 2.0.0 launch.", type: "update" },
-        { text: "Introduced AI-powered chat features.", type: "update" },
-        { text: "Enhanced security protocols.", type: "update" },
-        { text: "Fixed sync issues across devices.", type: "fix" },
-        { text: "Resolved memory leak in background processes.", type: "bug" },
-      ],
-    },
-    {
-      version: "v1.1.0",
-      date: "8 December 2025",
-      changes: [
-        { text: "Added notifications system.", type: "update" },
-        { text: "Integrated third-party plugins support.", type: "update" },
-        { text: "Optimized load times for large datasets.", type: "update" },
-      ],
-    },
-    {
-      version: "v1.0.0",
-      date: "6 December 2025",
-      comingSoon: false,
-      changes: [
-        { text: "Revamped UI → Version 1.0.0 milestone launch.", type: "update" },
-        { text: "Added advanced motion system.", type: "update" },
-        { text: "Dynamic API connection planned.", type: "update" },
-        { text: "Fix navigation inconsistencies.", type: "fix" },
-        { text: "Improve stability mobile renders.", type: "fix" },
-      ],
-    },
-    {
-      version: "v0.0.3",
-      date: "24 November 2025",
-      changes: [
-        { text: "Completed VINS+ menu architecture.", type: "update" },
-        { text: "Project detail pages polished.", type: "update" },
-        { text: "Minor bug fixes & refactor.", type: "fix" },
-      ],
-    },
-    {
-      version: "v0.0.2",
-      date: "21 November 2025",
-      changes: [
-        { text: "Navbar revamp full UX upgrade.", type: "update" },
-        { text: "Improved routing structure.", type: "update" },
-        { text: "Fixed flickering on mobile.", type: "fix" },
-        { text: "Found performance regression case.", type: "bug" },
-      ],
-    },
-    {
-      version: "v0.0.1",
-      date: "16 November 2025",
-      changes: [
-        { text: "Initial build established.", type: "update" },
-        { text: "VINS core design language.", type: "update" },
-      ],
-    },
-  ];
-
-  const badgeColor = (type) =>
-    type === "fix"
-      ? "text-green-400"
-      : type === "bug"
-      ? "text-red-400"
-      : "text-[var(--accent)]";
-
   return (
-    <main ref={ref} className="min-h-screen pt-28 pb-24 relative overflow-hidden">
-
-      {/* Animated Glow */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.24, scale: [1, 1.05, 1] }}
-        transition={{ duration: 7, repeat: Infinity }}
+    <main
+      ref={ref}
+      className="
+        relative min-h-screen pt-28 pb-32
+        bg-[var(--background)]
+        text-[var(--foreground)]
+        overflow-hidden
+      "
+    >
+      {/* ================= SOFT BACKDROP ================= */}
+      <div
+        aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
           background: `
-            radial-gradient(circle at 35% 18%, var(--accent)/0.17 0%, transparent 70%),
-            radial-gradient(circle at 80% 75%, var(--accent-dark)/0.18 0%, transparent 75%)
+            radial-gradient(circle at 30% 20%, var(--accent)/0.08, transparent 60%),
+            radial-gradient(circle at 80% 75%, var(--accent-dark)/0.10, transparent 65%)
           `,
         }}
       />
 
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
+      <div className="relative z-10 max-w-4xl mx-auto px-6">
+        {/* ================= HEADER ================= */}
+        <div className="text-center mb-20">
+          <div
+            className="
+              mx-auto w-14 h-14 rounded-2xl
+              flex items-center justify-center
+              backdrop-blur-xl
+              bg-white/45 dark:bg-white/5
+              border border-white/25 dark:border-white/10
+              text-[var(--accent)]
+              mb-5
+            "
+          >
+            <History />
+          </div>
 
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 35 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center mb-14"
-        >
-          <History className="w-14 h-14 text-[var(--accent)] mx-auto mb-4" />
-          <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text"
+          <h1
+            className="
+              text-4xl md:text-5xl font-bold
+              bg-clip-text text-transparent
+            "
             style={{
               backgroundImage:
                 "linear-gradient(to right, var(--accent), var(--accent-dark))",
-            }}>
+            }}
+          >
             Changelog
           </h1>
-        </motion.div>
+        </div>
 
-        {/* Countdown */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1 }}
-          className="mb-20 text-center"
-        >
-          <p className="opacity-80 mb-3">Until Version 2.0.0 Release</p>
-
+        {/* ================= COUNTDOWN ================= */}
+        <div className="text-center mb-20">
+          <p className="opacity-70 mb-4">Next major release</p>
           <div className="flex justify-center gap-4">
-            {Object.entries(timeLeft).map(([label, val], i) => (
-              <motion.div
-                key={i}
-                animate={{ scale: animateNumbers ? 1 : 0.7 }}
-                transition={{ type: "spring", stiffness: 200 }}
-                className="bg-[var(--background)]/60 backdrop-blur-xl border border-[var(--border)] px-4 py-3 rounded-xl"
+            {Object.entries(timeLeft).map(([k, v]) => (
+              <div
+                key={k}
+                className="
+                  px-4 py-3 rounded-xl
+                  backdrop-blur-xl
+                  bg-white/55 dark:bg-white/5
+                  border border-white/25 dark:border-white/10
+                "
               >
-                <span className="text-3xl font-bold text-[var(--accent)]">
-                  {animTime(val)}
+                <span className="block text-3xl font-bold text-[var(--accent)]">
+                  {v}
                 </span>
-                <p className="text-[10px] uppercase opacity-70 mt-1">{label}</p>
-              </motion.div>
+                <span className="text-[10px] uppercase opacity-70">
+                  {k}
+                </span>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
-        {/* Timeline */}
-        <motion.div
-          initial={{ scaleY: 0 }}
-          animate={{ scaleY: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="absolute left-6 w-[3px] bg-[var(--accent)]/30 rounded-full h-full"
-        />
-
-        <div className="space-y-16 relative">
-          {changelogs.map((log, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 35 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.55,
-                delay: i * 0.12,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className="relative pl-12"
+        {/* ================= FILTERS ================= */}
+        <div className="flex flex-wrap gap-3 justify-center mb-16">
+          {["All", "update", "fix", "bug"].map((t) => (
+            <button
+              key={t}
+              onClick={() => setTypeFilter(t)}
+              className={`
+                px-4 py-2 rounded-xl text-sm font-semibold
+                backdrop-blur-xl border
+                ${
+                  typeFilter === t
+                    ? "bg-[var(--accent)] text-black border-[var(--accent)]"
+                    : "bg-white/45 dark:bg-white/5 border-white/25 dark:border-white/10"
+                }
+              `}
             >
-              {/* Node */}
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.45 }}
-                className={`absolute left-0 top-2 w-9 h-9 rounded-full flex items-center justify-center
-                ${log.comingSoon
-                    ? "bg-[var(--accent)] text-black shadow-[0_0_18px_var(--accent)/50]"
-                    : "bg-[var(--accent)]/15 text-[var(--accent)]"
-                }`}
-              >
-                <Stars className="w-4" />
-              </motion.div>
+              {t.toUpperCase()}
+            </button>
+          ))}
 
-              {/* Card */}
-              <motion.div
-                whileHover={{
-                  scale: 1.02,
-                  y: -3,
-                  transition: { type: "spring", stiffness: 240, damping: 20 },
-                }}
-                className={`p-7 rounded-2xl backdrop-blur-xl border bg-[var(--background)]/60
-                ${log.comingSoon && "border-[var(--accent)] shadow-[0_12px_35px_-8px_var(--accent)/45]"}
+          <select
+            value={versionFilter}
+            onChange={(e) => setVersionFilter(e.target.value)}
+            className="
+              px-4 py-2 rounded-xl
+              backdrop-blur-xl
+              bg-white/45 dark:bg-white/5
+              border border-white/25 dark:border-white/10
+            "
+          >
+            {versions.map((v) => (
+              <option key={v}>{v}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* ================= TIMELINE ================= */}
+        <div className="relative space-y-16">
+          <div className="absolute left-6 top-0 w-[2px] h-full bg-[var(--accent)]/25 rounded-full" />
+
+          {filteredLogs.map((log) => (
+            <div key={log.version} className="relative pl-14">
+              {/* NODE */}
+              <div
+                className={`
+                  absolute left-0 top-2 w-9 h-9 rounded-full
+                  flex items-center justify-center
+                  ${
+                    log.highlight
+                      ? "bg-[var(--accent)] text-black"
+                      : "bg-[var(--accent)]/15 text-[var(--accent)]"
+                  }
                 `}
               >
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-2xl font-extrabold text-[var(--accent)]">{log.version}</span>
-                  <span className="text-sm opacity-75 flex items-center gap-2">
-                    <CalendarDays size={15}/> {log.date}
+                <Stars size={15} />
+              </div>
+
+              {/* CARD */}
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                className={`
+                  p-7 rounded-2xl
+                  backdrop-blur-xl
+                  bg-white/55 dark:bg-white/5
+                  border border-white/25 dark:border-white/10
+                  ${
+                    log.highlight
+                      ? "shadow-[0_18px_48px_rgba(0,0,0,0.18)]"
+                      : ""
+                  }
+                `}
+              >
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-xl font-bold text-[var(--accent)]">
+                    {log.version}
+                    {isNew(log.date) && (
+                      <span
+                        className="
+                          ml-3 px-2 py-1 text-[10px]
+                          rounded-full
+                          bg-[var(--accent)] text-black
+                          font-semibold
+                        "
+                      >
+                        NEW
+                      </span>
+                    )}
+                  </span>
+
+                  <span className="text-sm opacity-70 flex items-center gap-2">
+                    <CalendarDays size={14} />
+                    {log.date}
                   </span>
                 </div>
 
                 <ul className="space-y-3">
-                  {log.changes.map((c, idx) => (
-                    <motion.li
-                      key={idx}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: idx * 0.08 }}
-                      className="flex gap-3 text-[15px]"
-                    >
-                      {c.type === "bug" && <Bug className={`${badgeColor(c.type)} w-5`} />}
-                      {c.type === "fix" && <Hammer className={`${badgeColor(c.type)} w-5`} />}
-                      {c.type === "update" && <Sparkle className={`${badgeColor(c.type)} w-5`} />}
-                      <span>{c.text}</span>
-                    </motion.li>
-                  ))}
+                  {log.changes.map((c, idx) => {
+                    const Icon = TYPE_ICON[c.type];
+                    return (
+                      <li key={idx} className="flex gap-3 items-start">
+                        <Icon
+                          className={`
+                            w-4 mt-0.5
+                            ${
+                              c.type === "bug"
+                                ? "text-red-400"
+                                : c.type === "fix"
+                                ? "text-green-400"
+                                : "text-[var(--accent)]"
+                            }
+                          `}
+                        />
+                        <span className="text-sm">{c.text}</span>
+                      </li>
+                    );
+                  })}
                 </ul>
               </motion.div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        {/* CONFETTI */}
-        <AnimatePresence>
-          {confetti.map((c) => (
-            <motion.span
-              key={c.id}
-              initial={{ opacity: 0, y: -20, x: `${c.x}%`, rotate: 0 }}
-              animate={{ opacity: [1, 1, 0], y: [0, 180], rotate: c.rotate }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: c.duration, delay: c.delay }}
-              className="absolute top-0 w-2 h-2 rounded-sm"
-              style={{
-                background: `hsl(${Math.random() * 360}, 85%, 60%)`,
-              }}
-            />
-          ))}
-        </AnimatePresence>
+        {/* ================= SUBSCRIBE ================= */}
+        <div className="mt-28 text-center max-w-md mx-auto">
+          <div
+            className="
+              mx-auto w-12 h-12 mb-4
+              rounded-xl
+              flex items-center justify-center
+              backdrop-blur-xl
+              bg-white/45 dark:bg-white/5
+              border border-white/25 dark:border-white/10
+              text-[var(--accent)]
+            "
+          >
+            <Mail />
+          </div>
 
+          <h3 className="text-lg font-semibold mb-2">
+            Stay informed
+          </h3>
+
+          <p className="opacity-70 mb-5">
+            Receive notifications when new updates are released.
+          </p>
+
+          {subscribed ? (
+            <p className="text-[var(--accent)] font-semibold">
+              You’re subscribed ✓
+            </p>
+          ) : (
+            <form onSubmit={subscribe} className="flex gap-3">
+              <input
+                type="email"
+                required
+                placeholder="you@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="
+                  flex-1 px-4 py-3 rounded-xl
+                  backdrop-blur-xl
+                  bg-white/55 dark:bg-white/5
+                  border border-white/25 dark:border-white/10
+                "
+              />
+              <button
+                className="
+                  px-5 py-3 rounded-xl
+                  bg-[var(--accent)] text-black
+                  font-semibold
+                "
+              >
+                Subscribe
+              </button>
+            </form>
+          )}
+        </div>
       </div>
     </main>
   );

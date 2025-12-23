@@ -1,181 +1,134 @@
 "use client";
 
-import { motion, AnimatePresence, useInView, useAnimation } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 export default function Impact() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const controls = useAnimation();
+  const isInView = useInView(ref, { once: true, margin: "-120px" });
 
   const stats = [
-    { label: "Projects Completed", value: 10 },
-    { label: "Happy Clients", value: 10 },
-    { label: "Certificates Earned", value: 12 },
-    { label: "Years of Experience", value: 1 },
+    { label: "Projects Delivered", value: 10 },
+    { label: "Active Clients", value: 10 },
+    { label: "Professional Certificates", value: 12 },
+    { label: "Years in Practice", value: 1 },
   ];
 
   const [counts, setCounts] = useState(stats.map(() => 0));
-  const [confetti, setConfetti] = useState([]);
 
-  /* === Counter Animation === */
+  /* ================= COUNTER ================= */
   useEffect(() => {
     if (!isInView) return;
-    controls.start("visible");
 
-    let start = performance.now();
-    const duration = 1500;
+    const duration = 1400;
+    const start = performance.now();
 
-    const easeOutQuad = (t) => 1 - (1 - t) * (1 - t);
+    const easeOut = (t) => 1 - Math.pow(1 - t, 3);
 
     const animate = (now) => {
       const progress = Math.min((now - start) / duration, 1);
-      const eased = easeOutQuad(progress);
+      const eased = easeOut(progress);
 
-      setCounts(stats.map((s) => Math.floor(s.value * eased)));
+      setCounts(stats.map((s) => Math.round(s.value * eased)));
 
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      } else {
-        triggerConfetti();
-      }
+      if (progress < 1) requestAnimationFrame(animate);
     };
 
     requestAnimationFrame(animate);
-  }, [isInView, controls]);
-
-  /* === Confetti Burst === */
-  const triggerConfetti = () => {
-    const items = Array.from({ length: 22 }).map((_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      rotate: Math.random() * 180 - 90,
-      delay: Math.random() * 0.2,
-      duration: 1.3 + Math.random() * 0.6,
-    }));
-
-    setConfetti(items);
-    setTimeout(() => setConfetti([]), 2000);
-  };
-
-  const cardAnim = {
-    hidden: { opacity: 0, y: 25 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        delay: i * 0.15,
-        ease: [0.16, 1, 0.3, 1],
-      },
-    }),
-  };
+  }, [isInView]);
 
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden py-24 md:py-20 flex flex-col items-center justify-center bg-[var(--background)] text-[var(--foreground)]"
+      className="
+        relative py-28
+        bg-[var(--background)]
+        text-[var(--foreground)]
+        overflow-hidden
+      "
     >
-      {/* Background Glow */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.3, scale: [1, 1.05, 1] }}
-        transition={{ duration: 7, repeat: Infinity, repeatType: "mirror" }}
+      {/* ================= SOFT BACKDROP ================= */}
+      <div
+        aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
           background: `
-            radial-gradient(circle at 22% 30%, var(--accent)/0.15 0%, transparent 65%),
-            radial-gradient(circle at 82% 75%, var(--accent-dark)/0.22 0%, transparent 70%)
+            radial-gradient(circle at 20% 25%, var(--accent)/0.08, transparent 60%),
+            radial-gradient(circle at 80% 75%, var(--accent-dark)/0.10, transparent 65%)
           `,
         }}
       />
 
-      {/* Title */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-        className="text-center z-10"
-      >
-        <h2 className="text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent"
-          style={{
-            backgroundImage: `linear-gradient(to right, var(--accent), var(--accent-dark))`,
-          }}
+      <div className="relative max-w-7xl mx-auto px-6">
+        {/* ================= HEADER ================= */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-2xl"
         >
-          Impact & Achievements
-        </h2>
-        <p className="mt-4 max-w-2xl mx-auto text-[var(--foreground)]/85">
-          A measurable track record built through craftsmanship, consistency,
-          and meaningful collaboration.
-        </p>
-      </motion.div>
+          <p className="text-sm font-semibold tracking-wide text-[var(--accent)] uppercase">
+            Impact
+          </p>
 
-      {/* Grid */}
-      <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl w-full px-6 z-10">
-        {stats.map((item, i) => (
-          <motion.div
-            key={i}
-            variants={cardAnim}
-            initial="hidden"
-            animate={controls}
-            custom={i}
-            whileHover={{
-              y: -8,
-              scale: 1.04,
-              transition: { type: "spring", stiffness: 240, damping: 22 },
-            }}
-            className="group p-8 rounded-2xl text-center backdrop-blur-xl bg-[var(--background)]/50 border border-[var(--border)] shadow-lg"
-          >
-            <motion.span
-              initial={{ opacity: 0 }}
-              whileHover={{ opacity: 0.38, scale: 1.08 }}
-              transition={{ duration: 0.8 }}
-              className="absolute -inset-14 -z-10 bg-[var(--accent)]/18 blur-2xl rounded-full"
-            />
+          <h2 className="mt-3 text-4xl md:text-5xl font-bold leading-tight">
+            Trusted Results,
+            <br className="hidden md:block" /> Measured Transparently
+          </h2>
 
-            <motion.h3
-              key={counts[i]}
-              initial={{ scale: 0.85, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", stiffness: 420, damping: 24 }}
-              className="text-5xl font-extrabold text-[var(--accent)]"
+          <p className="mt-4 text-[var(--foreground)]/75">
+            Key performance indicators reflecting long-term collaboration,
+            delivery consistency, and professional accountability.
+          </p>
+        </motion.div>
+
+        {/* ================= GLASS CARDS ================= */}
+        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
+          {stats.map((item, i) => (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{
+                duration: 0.5,
+                delay: 0.15 + i * 0.12,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              whileHover={{
+                y: -6,
+                transition: { type: "spring", stiffness: 220, damping: 22 },
+              }}
+              className="
+                relative p-6 md:p-8
+                rounded-2xl
+                backdrop-blur-xl
+                bg-white/50 dark:bg-white/5
+                border border-white/20 dark:border-white/10
+                shadow-[0_8px_30px_rgba(0,0,0,0.08)]
+              "
             >
-              {counts[i]}
-              {item.label.includes("Years") ? "+" : ""}
-            </motion.h3>
+              {/* subtle glass highlight */}
+              <span
+                aria-hidden
+                className="
+                  absolute inset-x-0 top-0 h-px
+                  bg-gradient-to-r
+                  from-transparent via-white/40 to-transparent
+                "
+              />
 
-            <p className="mt-3 text-sm text-[var(--foreground)]/75">
-              {item.label}
-            </p>
-          </motion.div>
-        ))}
+              <div className="text-3xl md:text-4xl font-bold text-[var(--accent)]">
+                {counts[i]}
+                {item.label.includes("Years") && "+"}
+              </div>
+
+              <div className="mt-2 text-sm text-[var(--foreground)]/70">
+                {item.label}
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
-
-      {/* Confetti */}
-      <AnimatePresence>
-        {confetti.map((c) => (
-          <motion.span
-            key={c.id}
-            initial={{
-              opacity: 0,
-              y: -20,
-              x: `${c.x}%`,
-              rotate: 0,
-            }}
-            animate={{
-              opacity: [1, 1, 0],
-              y: [0, 150],
-              rotate: c.rotate,
-            }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: c.duration, delay: c.delay, ease: "easeOut" }}
-            className="absolute top-0 w-2 h-2 rounded-sm"
-            style={{
-              background: `hsl(${Math.random() * 360}, 85%, 60%)`,
-            }}
-          />
-        ))}
-      </AnimatePresence>
     </section>
   );
 }

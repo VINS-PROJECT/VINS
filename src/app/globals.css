@@ -2,6 +2,29 @@
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
 /* ===========================================================
+   🔠 CUSTOM FONT — CC ELEKTRAKUTION
+   =========================================================== */
+
+@font-face {
+  font-family: "CCElektrakution W03 Rough";
+  src: url("https://db.onlinewebfonts.com/t/8851dc76997148e1d7bb11dfb5c9a167.eot");
+  src:
+    url("https://db.onlinewebfonts.com/t/8851dc76997148e1d7bb11dfb5c9a167.eot?#iefix")
+      format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/8851dc76997148e1d7bb11dfb5c9a167.woff2")
+      format("woff2"),
+    url("https://db.onlinewebfonts.com/t/8851dc76997148e1d7bb11dfb5c9a167.woff")
+      format("woff"),
+    url("https://db.onlinewebfonts.com/t/8851dc76997148e1d7bb11dfb5c9a167.ttf")
+      format("truetype"),
+    url("https://db.onlinewebfonts.com/t/8851dc76997148e1d7bb11dfb5c9a167.svg#CCElektrakution W03 Rough")
+      format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ===========================================================
    🎨 COLOR SYSTEM
    =========================================================== */
 
@@ -48,6 +71,16 @@ body {
   transition:
     background 0.3s ease,
     color 0.3s ease;
+}
+
+/* ===========================================================
+   🧭 MENU / HEADING FONT
+   =========================================================== */
+
+.menu-heading {
+  font-family: "CCElektrakution W03 Rough", system-ui, sans-serif;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 
 /* ===========================================================
@@ -124,7 +157,6 @@ i:hover {
    🌙 NAVBAR FIX — REMOVE OLD UNDERLINE
    =========================================================== */
 
-/* MATIKAN underline lama supaya tidak dobel */
 .nav-link::after,
 .nav-link.active::after,
 .nav-link:hover::after {

@@ -79,6 +79,51 @@ export const projectsData = [
       case: "/File/REFORA-CaseStudy.pdf",
     },
   },
+  {
+    id: 4,
+    title: "Namura Property Website",
+    desc: "Real estate platform for Namura Property: listings, inquiries, and client management.",
+    image: "/NAMURA-Banner.png",
+    category: "Full Stack",
+    tech: ["React", "Node.js", "Express", "MongoDB", "Figma", "Canva"],
+    slug: "namura-property-website",
+    year: 2025,
+    features: [
+      "Property listings",
+      "Client inquiries",
+      "Management dashboard",
+    ],
+    gallery: [
+      "/projects/namura-1.png",
+      "/projects/namura-2.png",
+      "/projects/namura-3.png",
+    ],
+    links: {
+      live: "https://namuraproperty.com",
+    },
+  },
+  {
+    id: 5,
+    title: "VINSGawe",
+    desc: "An event management platform tailored for VINSGawe events, facilitating seamless organization and participation.",
+    image: "/VINSGawe-Banner.png",
+    category: "Full Stack",
+    tech: ["React", "Node.js", "Express", "MongoDB", "Figma", "Canva"],
+    slug: "vinsgawe-event-platform",
+    year: 2025,
+    features: [
+      "Event listings",
+      "User registration",
+    ],
+    gallery: [
+      "/projects/vinsgawe-1.png",
+      "/projects/vinsgawe-2.png",
+      "/projects/vinsgawe-3.png",
+    ],
+    links: {
+      live: "https://gawe.kvn-code.asia",
+    },
+  },
 ].map((p) => ({
   ...p,
   slug: p.slug ?? slugify(p.title),

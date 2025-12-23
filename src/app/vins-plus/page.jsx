@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  BadgeCheck,
-  Wrench,
-  Award,
-  FileUser,
-  Rocket,
-  BriefcaseBusiness,
+  LayoutGrid,
+  FolderKanban,
+  GraduationCap,
+  FileText,
+  Lightbulb,
+  Building2,
   Lock,
 } from "lucide-react";
 import { useState } from "react";
@@ -17,12 +17,42 @@ export default function VinsPlusPage() {
   const [showPopup, setShowPopup] = useState(false);
 
   const items = [
-    { title: "Portfolio", href: "/portfolio", locked: true, icon: BadgeCheck },
-    { title: "Project", href: "/vins-plus/project", locked: false, icon: Wrench },
-    { title: "Certificate", href: "/vins-plus/certificate", locked: false, icon: Award },
-    { title: "Resume", href: "/resume", locked: true, icon: FileUser },
-    { title: "Next Project", href: "/vins-plus/next-project", locked: false, icon: Rocket },
-    { title: "Experience", href: "/experience", locked: false, icon: BriefcaseBusiness },
+    {
+      title: "Portfolio",
+      href: "/portfolio",
+      locked: true,
+      icon: LayoutGrid,
+    },
+    {
+      title: "Project",
+      href: "/vins-plus/project",
+      locked: false,
+      icon: FolderKanban,
+    },
+    {
+      title: "Certificate",
+      href: "/vins-plus/certificate",
+      locked: false,
+      icon: GraduationCap,
+    },
+    {
+      title: "Resume",
+      href: "/resume",
+      locked: true,
+      icon: FileText,
+    },
+    {
+      title: "Next Project",
+      href: "/vins-plus/next-project",
+      locked: false,
+      icon: Lightbulb,
+    },
+    {
+      title: "Experience",
+      href: "/experience",
+      locked: false,
+      icon: Building2,
+    },
   ];
 
   const handleLockedClick = (e) => {
@@ -32,147 +62,182 @@ export default function VinsPlusPage() {
 
   return (
     <>
-      {/* ====================== POPUP LOCKED ====================== */}
+      {/* ================= LOCKED MODAL ================= */}
       <AnimatePresence>
         {showPopup && (
           <motion.div
-            className="fixed inset-0 flex items-center justify-center z-[1000] bg-black/60 dark:bg-black/70 backdrop-blur-sm"
+            className="
+              fixed inset-0 z-[1000]
+              flex items-center justify-center
+              bg-black/55 backdrop-blur-md
+            "
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-[var(--background)] border border-[var(--border)]
-              rounded-2xl max-w-sm w-[88%] p-8 text-center shadow-xl"
-              initial={{ scale: 0.85, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.85, opacity: 0 }}
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 20, opacity: 0 }}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              className="
+                relative max-w-sm w-[90%]
+                rounded-3xl p-8 text-center
+                backdrop-blur-xl
+                bg-white/60 dark:bg-white/6
+                border border-white/25 dark:border-white/10
+                shadow-[0_20px_60px_rgba(0,0,0,0.18)]
+              "
             >
-              <div className="mx-auto w-14 h-14 rounded-full bg-[var(--accent)]/20 text-[var(--accent)] flex items-center justify-center mb-4">
-                <Lock size={28} />
+              <div
+                className="
+                  mx-auto w-14 h-14 mb-5
+                  rounded-2xl
+                  flex items-center justify-center
+                  bg-[var(--accent)]/15
+                  text-[var(--accent)]
+                "
+              >
+                <Lock size={26} />
               </div>
-              <h3 className="text-lg font-bold">Fitur dalam Pengembangan</h3>
-              <p className="text-[var(--foreground)]/70 mt-2 text-sm">
-                Kami sedang menyiapkan fitur ini agar lebih powerfull.
+
+              <h3 className="text-lg font-semibold tracking-tight">
+                Feature Locked
+              </h3>
+
+              <p className="mt-2 text-sm text-[var(--foreground)]/70 leading-relaxed">
+                This feature is currently under active development to ensure
+                stability and professional readiness.
               </p>
 
               <button
                 onClick={() => setShowPopup(false)}
-                className="mt-6 px-6 py-2 bg-[var(--accent)] text-black rounded-xl font-semibold transition hover:opacity-90"
+                className="
+                  mt-7 px-6 py-2.5 rounded-xl
+                  bg-[var(--accent)] text-black
+                  font-semibold
+                  transition hover:opacity-90
+                "
               >
-                Mengerti
+                Understood
               </button>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ====================== MAIN ====================== */}
-      <section className="min-h-screen flex flex-col items-center justify-center px-6 py-28 bg-[var(--background)] text-[var(--foreground)] relative">
-
-        {/* BG Glow */}
-        <motion.div
+      {/* ================= MAIN ================= */}
+      <section
+        className="
+          relative min-h-screen
+          flex flex-col items-center justify-center
+          px-6 py-28
+          bg-[var(--background)]
+          text-[var(--foreground)]
+          overflow-hidden
+        "
+      >
+        {/* SUBTLE BACKDROP */}
+        <div
+          aria-hidden
           className="absolute inset-0 pointer-events-none"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.22 }}
-          transition={{ duration: 1.5 }}
           style={{
-            background:
-              "radial-gradient(circle at 50% 25%, var(--accent)/30 0%, transparent 70%)",
+            background: `
+              radial-gradient(circle at 50% 20%, var(--accent)/0.12, transparent 65%)
+            `,
           }}
         />
 
-        {/* Title */}
+        {/* TITLE */}
         <motion.h1
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent mb-14"
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="
+            text-4xl md:text-5xl font-bold
+            tracking-tight mb-16
+            bg-clip-text text-transparent
+          "
           style={{
-            WebkitTextFillColor: "transparent",
             backgroundImage:
-              "linear-gradient(to right,var(--accent), var(--accent-dark))",
+              "linear-gradient(to right, var(--accent), var(--accent-dark))",
           }}
         >
           VINS+
         </motion.h1>
 
-        {/* ===== GRID ===== */}
+        {/* GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-6xl">
           {items.map((item, i) => {
             const Icon = item.icon;
             const locked = item.locked;
 
-            const iconNode = (
-              <Icon
-                size={30}
-                strokeWidth={locked ? 3.2 : 2}
-                className={`transition-all ${
-                  locked ? "opacity-75" : "opacity-100"
-                }`}
-              />
-            );
-
             return (
               <motion.div
-                key={i}
+                key={item.title}
                 initial={{ opacity: 0, y: 26 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: i * 0.07 }}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
                 whileHover={{ y: -6 }}
                 className="relative"
               >
-                {/* Badge Lock */}
+                {/* LOCK INDICATOR */}
                 {locked && (
-                  <motion.div
-                    animate={{ opacity: [0.8, 1, 0.8] }}
-                    transition={{ repeat: Infinity, duration: 2 }}
-                    className="absolute top-4 right-4 bg-[var(--accent)] text-black p-1.5 rounded-full shadow-md"
+                  <div
+                    className="
+                      absolute top-4 right-4 z-10
+                      p-1.5 rounded-full
+                      bg-[var(--accent)]/20
+                      text-[var(--accent)]
+                    "
                   >
                     <Lock size={14} />
-                  </motion.div>
+                  </div>
                 )}
 
                 <Link
                   href={item.href}
                   onClick={locked ? handleLockedClick : undefined}
                   className="
-                    block p-8 rounded-3xl border border-[var(--border)]
-                    bg-[var(--background)]/60 backdrop-blur-xl
-                    shadow-[0_8px_24px_rgba(0,0,0,0.12)]
-                    transition-all 
-                    hover:shadow-[0_16px_42px_-8px_var(--accent)/45]
-                    hover:border-[var(--accent)]
-                    group
+                    group block h-full
+                    p-8 rounded-3xl
+                    backdrop-blur-xl
+                    bg-white/55 dark:bg-white/5
+                    border border-white/25 dark:border-white/10
+                    shadow-[0_14px_40px_rgba(0,0,0,0.14)]
+                    transition-all duration-400
+                    hover:border-[var(--accent)]/40
                   "
                 >
                   {/* ICON */}
-                  <motion.div
-                    whileHover={{ rotate: locked ? 0 : 6, scale: 1.12 }}
+                  <div
                     className="
-                      w-16 h-16 mb-6 rounded-2xl flex items-center justify-center
-                      bg-[var(--accent)]/18 border border-[var(--accent)]/35
-                      text-[var(--accent)] transition-all
-                      group-hover:bg-[var(--accent)]
-                      group-hover:text-black
+                      w-14 h-14 mb-6 rounded-2xl
+                      flex items-center justify-center
+                      bg-[var(--accent)]/15
+                      text-[var(--accent)]
                     "
                   >
-                    {iconNode}
-                  </motion.div>
+                    <Icon
+                      size={26}
+                      strokeWidth={locked ? 3 : 2}
+                      className={locked ? "opacity-60" : "opacity-100"}
+                    />
+                  </div>
 
                   {/* TITLE */}
-                  <h3 className="text-xl font-bold mb-1 text-[var(--foreground)] group-hover:text-[var(--accent)] transition">
+                  <h3 className="text-lg font-semibold mb-1">
                     {item.title}
                   </h3>
 
                   {/* DESC */}
-                  <p className="text-sm text-[var(--foreground)]/70 group-hover:text-[var(--foreground)]/95 transition">
+                  <p className="text-sm text-[var(--foreground)]/70 leading-relaxed">
                     {locked
-                      ? "Segera hadir — Stay tuned!"
+                      ? "Feature currently unavailable."
                       : item.title === "Next Project"
-                      ? "Upcoming plans & creative ideas."
-                      : `Explore ${item.title}`}
+                      ? "Upcoming initiatives and explorations."
+                      : `Access ${item.title} resources.`}
                   </p>
                 </Link>
               </motion.div>
