@@ -13,46 +13,56 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+/* ======================================
+   WAVE HIGHLIGHT (GLOBAL CONSISTENT)
+====================================== */
+function WaveHighlight({ children }) {
+  return (
+    <span className="relative inline-block leading-tight">
+      <span
+        className="relative z-10 bg-clip-text text-transparent"
+        style={{
+          backgroundImage:
+            "linear-gradient(90deg, var(--accent) 10%, var(--accent-dark) 90%)",
+          WebkitTextFillColor: "transparent",
+        }}
+      >
+        {children}
+      </span>
+
+      <svg
+        className="absolute left-0 bottom-0 w-full h-[8px]"
+        viewBox="0 0 200 20"
+        preserveAspectRatio="none"
+      >
+        <motion.path
+          d="M0 10 Q 25 6 50 10 T 100 10 T 150 10 T 200 10"
+          fill="none"
+          stroke="var(--accent)"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          animate={{ pathOffset: [0, 1] }}
+          transition={{
+            duration: 4,
+            ease: "linear",
+            repeat: Infinity,
+          }}
+        />
+      </svg>
+    </span>
+  );
+}
+
 export default function VinsPlusPage() {
   const [showPopup, setShowPopup] = useState(false);
 
   const items = [
-    {
-      title: "Portfolio",
-      href: "/portfolio",
-      locked: true,
-      icon: LayoutGrid,
-    },
-    {
-      title: "Project",
-      href: "/vins-plus/project",
-      locked: false,
-      icon: FolderKanban,
-    },
-    {
-      title: "Certificate",
-      href: "/vins-plus/certificate",
-      locked: false,
-      icon: GraduationCap,
-    },
-    {
-      title: "Resume",
-      href: "/resume",
-      locked: true,
-      icon: FileText,
-    },
-    {
-      title: "Next Project",
-      href: "/vins-plus/next-project",
-      locked: false,
-      icon: Lightbulb,
-    },
-    {
-      title: "Experience",
-      href: "/experience",
-      locked: false,
-      icon: Building2,
-    },
+    { title: "Portfolio", href: "/portfolio", locked: true, icon: LayoutGrid },
+    { title: "Project", href: "/vins-plus/project", locked: false, icon: FolderKanban },
+    { title: "Certificate", href: "/vins-plus/certificate", locked: false, icon: GraduationCap },
+    { title: "Resume", href: "/resume", locked: true, icon: FileText },
+    { title: "Next Project", href: "/vins-plus/next-project", locked: false, icon: Lightbulb },
+    { title: "Experience", href: "/experience", locked: false, icon: Building2 },
   ];
 
   const handleLockedClick = (e) => {
@@ -66,11 +76,7 @@ export default function VinsPlusPage() {
       <AnimatePresence>
         {showPopup && (
           <motion.div
-            className="
-              fixed inset-0 z-[1000]
-              flex items-center justify-center
-              bg-black/55 backdrop-blur-md
-            "
+            className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/55 backdrop-blur-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -92,10 +98,8 @@ export default function VinsPlusPage() {
               <div
                 className="
                   mx-auto w-14 h-14 mb-5
-                  rounded-2xl
-                  flex items-center justify-center
-                  bg-[var(--accent)]/15
-                  text-[var(--accent)]
+                  rounded-2xl flex items-center justify-center
+                  bg-[var(--accent)]/15 text-[var(--accent)]
                 "
               >
                 <Lock size={26} />
@@ -115,8 +119,7 @@ export default function VinsPlusPage() {
                 className="
                   mt-7 px-6 py-2.5 rounded-xl
                   bg-[var(--accent)] text-black
-                  font-semibold
-                  transition hover:opacity-90
+                  font-semibold transition hover:opacity-90
                 "
               >
                 Understood
@@ -137,7 +140,7 @@ export default function VinsPlusPage() {
           overflow-hidden
         "
       >
-        {/* SUBTLE BACKDROP */}
+        {/* BACKDROP */}
         <div
           aria-hidden
           className="absolute inset-0 pointer-events-none"
@@ -153,17 +156,9 @@ export default function VinsPlusPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="
-            text-4xl md:text-5xl font-bold
-            tracking-tight mb-16
-            bg-clip-text text-transparent
-          "
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, var(--accent), var(--accent-dark))",
-          }}
+          className="text-4xl md:text-5xl font-bold tracking-tight mb-16"
         >
-          VINS+
+          <WaveHighlight>VINS+</WaveHighlight>
         </motion.h1>
 
         {/* GRID */}
@@ -182,7 +177,7 @@ export default function VinsPlusPage() {
                 whileHover={{ y: -6 }}
                 className="relative"
               >
-                {/* LOCK INDICATOR */}
+                {/* LOCK BADGE */}
                 {locked && (
                   <div
                     className="

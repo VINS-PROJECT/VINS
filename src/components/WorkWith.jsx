@@ -2,6 +2,46 @@
 
 import { motion } from "framer-motion";
 
+/* ======================================
+   WAVE HIGHLIGHT (CONSISTENT)
+====================================== */
+function WaveHighlight({ children }) {
+  return (
+    <span className="relative inline-block leading-tight">
+      <span
+        className="relative z-10 bg-clip-text text-transparent"
+        style={{
+          backgroundImage:
+            "linear-gradient(90deg, var(--accent) 10%, var(--accent-dark) 90%)",
+          WebkitTextFillColor: "transparent",
+        }}
+      >
+        {children}
+      </span>
+
+      <svg
+        className="absolute left-0 bottom-0 w-full h-[8px]"
+        viewBox="0 0 200 20"
+        preserveAspectRatio="none"
+      >
+        <motion.path
+          d="M0 10 Q 25 6 50 10 T 100 10 T 150 10 T 200 10"
+          fill="none"
+          stroke="var(--accent)"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          animate={{ pathOffset: [0, 1] }}
+          transition={{
+            duration: 4,
+            ease: "linear",
+            repeat: Infinity,
+          }}
+        />
+      </svg>
+    </span>
+  );
+}
+
 export default function WorkWith() {
   const partners = [
     "/Medsel.svg",
@@ -20,7 +60,7 @@ export default function WorkWith() {
         overflow-hidden
       "
     >
-      {/* ================= SUBTLE GLASS BACKDROP ================= */}
+      {/* ================= BACKDROP ================= */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
@@ -39,16 +79,10 @@ export default function WorkWith() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
-          className="
-            text-4xl md:text-5xl font-bold tracking-tight
-            bg-clip-text text-transparent
-          "
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, var(--accent), var(--accent-dark))",
-          }}
+          className="text-4xl md:text-5xl font-bold tracking-tight"
         >
-          Work & Organizational Partners
+          Work &{" "}
+          <WaveHighlight>Organizational Partners</WaveHighlight>
         </motion.h2>
 
         <motion.p
@@ -63,7 +97,7 @@ export default function WorkWith() {
         </motion.p>
 
         {/* ================= LOGO MARQUEE ================= */}
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden group">
           {/* Edge fade */}
           <div className="absolute left-0 top-0 h-full w-28 bg-gradient-to-r from-[var(--background)] to-transparent z-10" />
           <div className="absolute right-0 top-0 h-full w-28 bg-gradient-to-l from-[var(--background)] to-transparent z-10" />
@@ -76,11 +110,13 @@ export default function WorkWith() {
               ease: "linear",
               repeat: Infinity,
             }}
+            /* PAUSE ON HOVER */
+            whileHover={{ x: undefined }}
           >
             {[...partners, ...partners].map((logo, index) => (
               <motion.div
                 key={index}
-                whileHover={{ y: -4 }}
+                whileHover={{ y: -6, scale: 1.03 }}
                 transition={{ type: "spring", stiffness: 220, damping: 20 }}
                 className="
                   relative flex-shrink-0
@@ -99,7 +135,7 @@ export default function WorkWith() {
                     h-12 md:h-14 object-contain
                     opacity-80
                     transition-opacity duration-300
-                    group-hover:opacity-100
+                    hover:opacity-100
                   "
                 />
 

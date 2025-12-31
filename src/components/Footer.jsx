@@ -13,6 +13,46 @@ import Link from "next/link";
 import Image from "next/image";
 import { siteInfo } from "@/config/site-info";
 
+/* ======================================
+   WAVE HIGHLIGHT (CONSISTENT GLOBAL)
+====================================== */
+function WaveHighlight({ children }) {
+  return (
+    <span className="relative inline-block leading-tight">
+      <span
+        className="relative z-10 bg-clip-text text-transparent"
+        style={{
+          backgroundImage:
+            "linear-gradient(90deg, var(--accent) 10%, var(--accent-dark) 90%)",
+          WebkitTextFillColor: "transparent",
+        }}
+      >
+        {children}
+      </span>
+
+      <svg
+        className="absolute left-0 bottom-0 w-full h-[6px]"
+        viewBox="0 0 200 20"
+        preserveAspectRatio="none"
+      >
+        <motion.path
+          d="M0 10 Q 25 7 50 10 T 100 10 T 150 10 T 200 10"
+          fill="none"
+          stroke="var(--accent)"
+          strokeWidth="2"
+          strokeLinecap="round"
+          animate={{ pathOffset: [0, 1] }}
+          transition={{
+            duration: 5,
+            ease: "linear",
+            repeat: Infinity,
+          }}
+        />
+      </svg>
+    </span>
+  );
+}
+
 export default function Footer() {
   const navSections = [
     {
@@ -69,7 +109,7 @@ export default function Footer() {
         overflow-hidden
       "
     >
-      {/* ================= GLASS BACKDROP ================= */}
+      {/* ================= BACKDROP ================= */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
@@ -99,8 +139,9 @@ export default function Footer() {
             <motion.div whileHover={{ scale: 1.08, rotate: 4 }}>
               <Image src="/TP K.svg" alt="VINS" width={44} height={44} />
             </motion.div>
-            <span className="text-xl font-bold tracking-widest text-[var(--accent)]">
-              VINS
+
+            <span className="text-xl font-bold tracking-widest">
+              <WaveHighlight>VINS</WaveHighlight>
             </span>
           </Link>
 

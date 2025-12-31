@@ -3,6 +3,46 @@
 import { motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
+/* ======================================
+   WAVE HIGHLIGHT (SAME STYLE AS HERO)
+====================================== */
+function WaveHighlight({ children }) {
+  return (
+    <span className="relative inline-block leading-tight">
+      <span
+        className="relative z-10 bg-clip-text text-transparent"
+        style={{
+          backgroundImage:
+            "linear-gradient(90deg, var(--accent) 10%, var(--accent-dark) 90%)",
+          WebkitTextFillColor: "transparent",
+        }}
+      >
+        {children}
+      </span>
+
+      <svg
+        className="absolute left-0 bottom-0 w-full h-[8px]"
+        viewBox="0 0 200 20"
+        preserveAspectRatio="none"
+      >
+        <motion.path
+          d="M0 10 Q 25 6 50 10 T 100 10 T 150 10 T 200 10"
+          fill="none"
+          stroke="var(--accent)"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          animate={{ pathOffset: [0, 1] }}
+          transition={{
+            duration: 4,
+            ease: "linear",
+            repeat: Infinity,
+          }}
+        />
+      </svg>
+    </span>
+  );
+}
+
 export default function Impact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-120px" });
@@ -11,7 +51,7 @@ export default function Impact() {
     { label: "Projects Delivered", value: 10 },
     { label: "Active Clients", value: 10 },
     { label: "Professional Certificates", value: 12 },
-    { label: "Years in Practice", value: 1 },
+    { label: "Years in Practice", value: 1, suffix: "+" },
   ];
 
   const [counts, setCounts] = useState(stats.map(() => 0));
@@ -22,7 +62,6 @@ export default function Impact() {
 
     const duration = 1400;
     const start = performance.now();
-
     const easeOut = (t) => 1 - Math.pow(1 - t, 3);
 
     const animate = (now) => {
@@ -72,8 +111,8 @@ export default function Impact() {
           </p>
 
           <h2 className="mt-3 text-4xl md:text-5xl font-bold leading-tight">
-            Trusted Results,
-            <br className="hidden md:block" /> Measured Transparently
+            Trusted Results,{" "}
+            <WaveHighlight>Measured Transparently</WaveHighlight>
           </h2>
 
           <p className="mt-4 text-[var(--foreground)]/75">
@@ -102,12 +141,12 @@ export default function Impact() {
                 relative p-6 md:p-8
                 rounded-2xl
                 backdrop-blur-xl
-                bg-white/50 dark:bg-white/5
+                bg-white/55 dark:bg-white/5
                 border border-white/20 dark:border-white/10
                 shadow-[0_8px_30px_rgba(0,0,0,0.08)]
               "
             >
-              {/* subtle glass highlight */}
+              {/* Glass highlight */}
               <span
                 aria-hidden
                 className="
@@ -117,9 +156,19 @@ export default function Impact() {
                 "
               />
 
+              {/* Soft glow */}
+              <span
+                aria-hidden
+                className="
+                  absolute -z-10 inset-0 rounded-2xl
+                  bg-[var(--accent)]/10 blur-2xl opacity-0
+                  group-hover:opacity-100 transition
+                "
+              />
+
               <div className="text-3xl md:text-4xl font-bold text-[var(--accent)]">
                 {counts[i]}
-                {item.label.includes("Years") && "+"}
+                {item.suffix}
               </div>
 
               <div className="mt-2 text-sm text-[var(--foreground)]/70">
