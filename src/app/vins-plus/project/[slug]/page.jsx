@@ -11,7 +11,20 @@ import {
   Check,
 } from "lucide-react";
 import { notFound, useParams } from "next/navigation";
+import { useMemo } from "react";
 import { projectsData } from "@/data/projects";
+
+/* ================= MOTION ================= */
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0 },
+};
+
+const stagger = {
+  show: {
+    transition: { staggerChildren: 0.08 },
+  },
+};
 
 /* ================= WAVE HIGHLIGHT ================= */
 function WaveHighlight({ children }) {
@@ -49,7 +62,12 @@ function WaveHighlight({ children }) {
 
 export default function ProjectDetail() {
   const { slug } = useParams();
-  const project = projectsData.find((p) => p.slug === slug);
+
+  const project = useMemo(
+    () => projectsData.find((p) => p.slug === slug),
+    [slug]
+  );
+
   if (!project) return notFound();
 
   return (
@@ -67,31 +85,37 @@ export default function ProjectDetail() {
       />
 
       <div className="relative max-w-6xl mx-auto px-6">
-        {/* HEADER */}
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+        {/* ================= HEADER ================= */}
+        <motion.header
+          variants={stagger}
+          initial="hidden"
+          animate="show"
           className="mb-14"
         >
-          <h1 className="text-4xl md:text-5xl font-extrabold">
+          <motion.h1 variants={fadeUp} className="text-4xl md:text-5xl font-extrabold">
             <WaveHighlight>Project Overview</WaveHighlight>
-          </h1>
+          </motion.h1>
 
-          <p className="opacity-70 mt-3 max-w-3xl">
+          <motion.p variants={fadeUp} className="opacity-70 mt-3 max-w-3xl">
             Detailed breakdown covering design intent, technical execution,
             and delivered outcomes.
-          </p>
+          </motion.p>
 
           {/* BREADCRUMB */}
-          <div className="mt-5 flex items-center gap-2 text-sm font-medium">
+          <motion.nav
+            variants={fadeUp}
+            aria-label="Breadcrumb"
+            className="mt-5 flex items-center gap-2 text-sm font-medium"
+          >
             <Crumb href="/">Home</Crumb>
             <ChevronRight className="w-4 opacity-60" />
             <Crumb href="/vins-plus/project">Projects</Crumb>
             <ChevronRight className="w-4 opacity-60" />
-            <span className="opacity-70 line-clamp-1">{project.title}</span>
-          </div>
-        </motion.div>
+            <span className="opacity-70 truncate max-w-[260px]">
+              {project.title}
+            </span>
+          </motion.nav>
+        </motion.header>
 
         {/* BACK BUTTON */}
         <Link
@@ -109,13 +133,17 @@ export default function ProjectDetail() {
           <ArrowLeft size={16} /> Back to Projects
         </Link>
 
-        {/* HERO CARD */}
-        <div className="grid md:grid-cols-2 gap-14 mb-24">
+        {/* ================= HERO ================= */}
+        <motion.section
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="grid md:grid-cols-2 gap-14 mb-24"
+        >
           {/* IMAGE */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            variants={fadeUp}
             className="
               relative rounded-3xl overflow-hidden
               border border-white/25 dark:border-white/10
@@ -127,6 +155,7 @@ export default function ProjectDetail() {
                 src={project.image}
                 alt={project.title}
                 fill
+                priority
                 className="object-cover"
               />
             </div>
@@ -134,7 +163,7 @@ export default function ProjectDetail() {
           </motion.div>
 
           {/* INFO */}
-          <div className="flex flex-col justify-center gap-5">
+          <motion.div variants={fadeUp} className="flex flex-col justify-center gap-5">
             <h2 className="text-3xl font-bold">{project.title}</h2>
 
             <p className="text-lg font-medium text-[var(--accent)]">
@@ -160,10 +189,10 @@ export default function ProjectDetail() {
 
             {/* ACTIONS */}
             <LinksGroup links={project.links} />
-          </div>
-        </div>
+          </motion.div>
+        </motion.section>
 
-        {/* DETAILS */}
+        {/* ================= CONTENT ================= */}
         <GlassSection title="Project Details">
           <Detail label="Category" value={project.category} />
           <Detail label="Year" value={project.year} />
@@ -171,7 +200,6 @@ export default function ProjectDetail() {
           <Detail label="Status" value={project.status || "Completed"} />
         </GlassSection>
 
-        {/* DESCRIPTION */}
         {project.desc && (
           <GlassSection title="Description">
             <p className="leading-relaxed opacity-90 whitespace-pre-line">
@@ -180,7 +208,6 @@ export default function ProjectDetail() {
           </GlassSection>
         )}
 
-        {/* FEATURES */}
         {project.features && (
           <GlassSection title="Key Features">
             <ul className="space-y-2">
@@ -194,25 +221,19 @@ export default function ProjectDetail() {
           </GlassSection>
         )}
 
-        {/* GALLERY */}
         {project.gallery && (
           <GlassSection title="Gallery">
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
               {project.gallery.map((src, i) => (
                 <motion.div
                   key={i}
-                  whileHover={{ scale: 1.03 }}
+                  whileHover={{ scale: 1.04 }}
                   className="
                     relative h-48 rounded-xl overflow-hidden
                     border border-white/25 dark:border-white/10
                   "
                 >
-                  <Image
-                    src={src}
-                    fill
-                    alt="Gallery"
-                    className="object-cover"
-                  />
+                  <Image src={src} fill alt="Gallery" className="object-cover" />
                 </motion.div>
               ))}
             </div>
@@ -275,21 +296,21 @@ function LinksGroup({ links = {} }) {
             href={href}
             primary={key === "live"}
             icon={icons[key]}
-          >
-            {labels[key] || "Open Link"}
-          </ActionBtn>
+            label={labels[key]}
+          />
         ) : null
       )}
     </div>
   );
 }
 
-function ActionBtn({ href, children, icon, primary }) {
+function ActionBtn({ href, icon, label, primary }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
+      aria-label={label}
       className={`
         inline-flex items-center gap-2
         px-6 py-2.5 rounded-xl font-semibold
@@ -301,7 +322,7 @@ function ActionBtn({ href, children, icon, primary }) {
         }
       `}
     >
-      {icon} {children}
+      {icon} {label}
     </a>
   );
 }

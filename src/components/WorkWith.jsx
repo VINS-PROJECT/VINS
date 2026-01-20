@@ -1,18 +1,18 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 
 /* ======================================
-   WAVE HIGHLIGHT (CONSISTENT)
+   WAVE HIGHLIGHT — SUBTLE
 ====================================== */
 function WaveHighlight({ children }) {
   return (
-    <span className="relative inline-block leading-tight">
+    <span className="relative inline-block">
       <span
         className="relative z-10 bg-clip-text text-transparent"
         style={{
           backgroundImage:
-            "linear-gradient(90deg, var(--accent) 10%, var(--accent-dark) 90%)",
+            "linear-gradient(90deg, var(--accent), var(--accent-dark))",
           WebkitTextFillColor: "transparent",
         }}
       >
@@ -20,19 +20,19 @@ function WaveHighlight({ children }) {
       </span>
 
       <svg
-        className="absolute left-0 bottom-0 w-full h-[8px]"
+        className="absolute left-0 -bottom-1 w-full h-[6px]"
         viewBox="0 0 200 20"
         preserveAspectRatio="none"
       >
         <motion.path
-          d="M0 10 Q 25 6 50 10 T 100 10 T 150 10 T 200 10"
+          d="M0 10 Q 30 6 60 10 T 120 10 T 180 10"
           fill="none"
           stroke="var(--accent)"
-          strokeWidth="2.5"
+          strokeWidth="2"
           strokeLinecap="round"
           animate={{ pathOffset: [0, 1] }}
           transition={{
-            duration: 4,
+            duration: 5,
             ease: "linear",
             repeat: Infinity,
           }}
@@ -43,6 +43,8 @@ function WaveHighlight({ children }) {
 }
 
 export default function WorkWith() {
+  const controls = useAnimation();
+
   const partners = [
     "/Medsel.svg",
     "/DC.svg",
@@ -75,14 +77,13 @@ export default function WorkWith() {
       <div className="relative max-w-6xl mx-auto px-6 text-center">
         {/* ================= TITLE ================= */}
         <motion.h2
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 26 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
           className="text-4xl md:text-5xl font-bold tracking-tight"
         >
-          Work &{" "}
-          <WaveHighlight>Organizational Partners</WaveHighlight>
+          Work & <WaveHighlight>Organizational Partners</WaveHighlight>
         </motion.h2>
 
         <motion.p
@@ -97,35 +98,49 @@ export default function WorkWith() {
         </motion.p>
 
         {/* ================= LOGO MARQUEE ================= */}
-        <div className="relative overflow-hidden group">
+        <div
+          className="relative overflow-hidden"
+          onMouseEnter={() => controls.stop()}
+          onMouseLeave={() =>
+            controls.start({
+              x: ["0%", "-50%"],
+              transition: {
+                duration: 28,
+                ease: "linear",
+                repeat: Infinity,
+              },
+            })
+          }
+        >
           {/* Edge fade */}
-          <div className="absolute left-0 top-0 h-full w-28 bg-gradient-to-r from-[var(--background)] to-transparent z-10" />
-          <div className="absolute right-0 top-0 h-full w-28 bg-gradient-to-l from-[var(--background)] to-transparent z-10" />
+          <div className="absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-[var(--background)] to-transparent z-10" />
+          <div className="absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-[var(--background)] to-transparent z-10" />
 
           <motion.div
             className="flex items-center gap-16 md:gap-24"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{
-              duration: 26,
-              ease: "linear",
-              repeat: Infinity,
+            animate={controls}
+            initial={{
+              x: ["0%", "-50%"],
+              transition: {
+                duration: 28,
+                ease: "linear",
+                repeat: Infinity,
+              },
             }}
-            /* PAUSE ON HOVER */
-            whileHover={{ x: undefined }}
           >
             {[...partners, ...partners].map((logo, index) => (
               <motion.div
                 key={index}
-                whileHover={{ y: -6, scale: 1.03 }}
-                transition={{ type: "spring", stiffness: 220, damping: 20 }}
+                whileHover={{ y: -6, scale: 1.04 }}
+                transition={{ type: "spring", stiffness: 200, damping: 18 }}
                 className="
                   relative flex-shrink-0
                   px-6 py-5
                   rounded-2xl
                   backdrop-blur-xl
-                  bg-white/45 dark:bg-white/5
+                  bg-white/50 dark:bg-white/5
                   border border-white/20 dark:border-white/10
-                  shadow-[0_8px_28px_rgba(0,0,0,0.08)]
+                  shadow-[0_10px_30px_rgba(0,0,0,0.1)]
                 "
               >
                 <img
@@ -133,19 +148,29 @@ export default function WorkWith() {
                   alt="Partner logo"
                   className="
                     h-12 md:h-14 object-contain
-                    opacity-80
+                    opacity-80 hover:opacity-100
                     transition-opacity duration-300
-                    hover:opacity-100
                   "
                 />
 
-                {/* subtle highlight */}
+                {/* Top highlight */}
                 <span
                   aria-hidden
                   className="
                     absolute inset-x-0 top-0 h-px
                     bg-gradient-to-r
                     from-transparent via-white/40 to-transparent
+                  "
+                />
+
+                {/* Hover glow */}
+                <span
+                  aria-hidden
+                  className="
+                    absolute inset-0 rounded-2xl -z-10
+                    bg-[var(--accent)]/12 blur-2xl
+                    opacity-0 group-hover:opacity-100
+                    transition-opacity duration-300
                   "
                 />
               </motion.div>

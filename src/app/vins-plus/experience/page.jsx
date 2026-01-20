@@ -10,6 +10,13 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+/* ================= ICON STYLE ================= */
+const iconProps = {
+  size: 14,
+  strokeWidth: 1.25,
+  absoluteStrokeWidth: true,
+};
+
 /* ================= WAVE HIGHLIGHT ================= */
 function WaveHighlight({ children }) {
   return (
@@ -33,14 +40,10 @@ function WaveHighlight({ children }) {
           d="M0 10 Q 25 6 50 10 T 100 10 T 150 10 T 200 10"
           fill="none"
           stroke="var(--accent)"
-          strokeWidth="2.5"
+          strokeWidth="2"
           strokeLinecap="round"
           animate={{ pathOffset: [0, 1] }}
-          transition={{
-            duration: 4,
-            ease: "linear",
-            repeat: Infinity,
-          }}
+          transition={{ duration: 4, ease: "linear", repeat: Infinity }}
         />
       </svg>
     </span>
@@ -56,23 +59,26 @@ export default function ExperiencePage() {
       period: "January 2025 — August 2025",
       location: "Jawa Barat, Indonesia",
       tech: ["Figma", "Photoshop", "Canva", "Social Media"],
-      desc: "Designed the company's social media feed and stories using three themes aligned with the brand color palette, created logos for six departments each with a distinct color, collaborated with the partnership team to develop a customized partner guide, and designed OBS displays, certificates, and posters according to the project management team's requirements.",
+      desc:
+        "Designed social media feeds and stories aligned with brand themes, created logos for six departments, collaborated on partner guides, and produced OBS displays, certificates, and posters.",
     },
     {
       role: "IT Project Manager",
       company: "PT Yayasan Media Selaras Cendekiawan",
       period: "August 2024 — October 2024",
       location: "Jawa Barat, Indonesia",
-      tech: ["Scrum", "Leadership", "Task Control", "Notion"],
-      desc: "Oversaw a team of three divisions UI/UX, Front End, and Back End ensuring structured progress toward completing the website project by mid-October, managed and allocated the project budget effectively, conducted biweekly evaluations targeting 5%–7% progress per assignment, and submitted weekly reports to superiors detailing workflow, budget usage, progress, and performance percentages.",
+      tech: ["Scrum", "Leadership", "Notion"],
+      desc:
+        "Led UI/UX, Front End, and Back End teams, managed budgets, tracked weekly progress, and delivered structured reports to stakeholders.",
     },
     {
       role: "BGESS MBB",
       company: "Telkom Witel Regional Lampung",
       period: "July 2024 — August 2024",
       location: "Lampung, Indonesia",
-      tech: ["Figma", "UI Design", "Data Analysis", "SQL", "PHP", "Waterfall"],
-      desc: "Performed customer data analysis for Indibiz installations in Lampung Province from January 2023 to June 2024 using SQL and PHP, developed the ‘Kedaton Connect’ website dashboard for Indibiz data analysis following the waterfall method, gained in-depth knowledge of Telkom Indonesia’s corporate structure, and studied the servers, networks, and infrastructure at Telkom Indonesia Regional Lampung.",
+      tech: ["Figma", "SQL", "PHP", "Waterfall"],
+      desc:
+        "Analyzed Indibiz customer data and developed a dashboard for business insights following the Waterfall method.",
     },
     {
       role: "Web Developer",
@@ -80,7 +86,8 @@ export default function ExperiencePage() {
       period: "February 2024 — July 2024",
       location: "Bandung, Indonesia",
       tech: ["PHP", "Bootstrap", "Waterfall"],
-      desc: "Developed an agricultural-themed website ‘Harvesty’ using PHP and Bootstrap, implemented a structured Waterfall workflow from UI to Back End, achieved 100% completion by mid-June, and collaborated closely with the team demonstrating leadership and communication skills.",
+      desc:
+        "Built an agricultural website using PHP & Bootstrap with a full Waterfall workflow and 100% completion.",
     },
   ];
 
@@ -91,7 +98,7 @@ export default function ExperiencePage() {
       period: "August 2024 — November 2024",
       location: "Hybrid",
       achievements: [
-        "Served as liaison between mentees and Digistar Telkom team, evaluated progress, and guided participants to achieve learning objectives.",
+        "Acted as liaison between mentees and Digistar Telkom team and evaluated participant progress.",
       ],
     },
     {
@@ -100,7 +107,7 @@ export default function ExperiencePage() {
       period: "April 2024 — December 2024",
       location: "Hybrid",
       achievements: [
-        "Designed and implemented programs aligned with organizational goals, including Indonesian Youth Potential Ambassadors 2024.",
+        "Designed and executed programs including Indonesian Youth Potential Ambassadors 2024.",
       ],
     },
     {
@@ -109,7 +116,7 @@ export default function ExperiencePage() {
       period: "October 2023 — December 2023",
       location: "Lampung",
       achievements: [
-        "Prepared event flow, coordinated speakers and audience, and ensured smooth execution of LLF 2024.",
+        "Coordinated speakers, audience, and event flow for LLF 2024.",
       ],
     },
   ];
@@ -136,51 +143,50 @@ export default function ExperiencePage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-14"
         >
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
             <WaveHighlight>Experience</WaveHighlight>
           </h1>
 
           <p className="opacity-65 mt-4 max-w-xl mx-auto text-sm leading-relaxed">
-            A combined journey of professional work and organizational leadership
-            shaping how I collaborate, lead, and deliver results.
+            Professional work and organizational leadership shaping how I
+            collaborate, lead, and deliver results.
           </p>
 
           {/* STATS */}
-          <div className="flex justify-center gap-4 mt-6 text-xs opacity-80">
-            <span className="px-3 py-1 rounded-full border border-[var(--border)] bg-[var(--card)]">
+          <div className="flex justify-center gap-4 mt-6 text-xs">
+            <span className="px-3 py-1 rounded-full bg-[var(--accent)] text-black font-semibold">
               {professional.length} Professional Roles
             </span>
-            <span className="px-3 py-1 rounded-full border border-[var(--border)] bg-[var(--card)]">
+            <span className="px-3 py-1 rounded-full border border-[var(--border)]">
               {organizational.length} Organizational Roles
             </span>
           </div>
         </motion.div>
 
         {/* FILTER */}
-        <div className="flex justify-center gap-2 mb-16">
+        <div className="flex justify-center gap-2 mb-20">
           <FilterChip label="All" active={filter === "all"} onClick={() => setFilter("all")} />
           <FilterChip
             label="Professional"
-            icon={<Briefcase className="w-3.5 h-3.5" />}
+            icon={<Briefcase {...iconProps} />}
             active={filter === "pro"}
             onClick={() => setFilter("pro")}
           />
           <FilterChip
             label="Organizational"
-            icon={<Users className="w-3.5 h-3.5" />}
+            icon={<Users {...iconProps} />}
             active={filter === "org"}
             onClick={() => setFilter("org")}
           />
         </div>
 
-        {/* PROFESSIONAL */}
         {(filter === "all" || filter === "pro") && (
           <Section
-            icon={<Briefcase className="w-5 h-5 text-[var(--accent)]" />}
+            icon={<Briefcase {...iconProps} className="text-[var(--accent)]" />}
             title="Professional Journey"
-            subtitle="Roles, responsibilities, and impact in corporate environments."
+            subtitle="Roles and impact in corporate environments."
             items={professional.map((e) => ({
               title: e.role,
               subtitle: e.company,
@@ -192,12 +198,11 @@ export default function ExperiencePage() {
           />
         )}
 
-        {/* ORGANIZATIONAL */}
         {(filter === "all" || filter === "org") && (
           <Section
-            icon={<Users className="w-5 h-5 text-[var(--accent)]" />}
+            icon={<Users {...iconProps} className="text-[var(--accent)]" />}
             title="Organizational Experience"
-            subtitle="Leadership, collaboration, and community engagement."
+            subtitle="Leadership and community involvement."
             items={organizational.map((e) => ({
               title: e.role,
               subtitle: e.organization,
@@ -216,7 +221,7 @@ export default function ExperiencePage() {
           transition={{ duration: 0.6 }}
           className="text-center mt-28"
         >
-          <Trophy className="w-10 h-10 text-[var(--accent)] mx-auto mb-4" />
+          <Trophy size={40} strokeWidth={1.25} className="text-[var(--accent)] mx-auto mb-4" />
           <h3 className="text-xl font-semibold">
             Built Through Real Projects & People
           </h3>
@@ -250,15 +255,13 @@ function FilterChip({ label, icon, active, onClick }) {
 
 function Section({ icon, title, subtitle, items }) {
   return (
-    <section className="mb-24">
-      <div className="flex flex-col gap-2 mb-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border)] bg-[var(--card)] w-fit text-xs font-medium">
+    <section className="mb-28">
+      <div className="mb-10">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--accent)]/15 text-[var(--accent)] text-xs font-semibold">
           {icon}
-          <span className="uppercase tracking-wide text-[10px] opacity-80">
-            {title}
-          </span>
+          {title}
         </div>
-        <h2 className="text-lg md:text-xl font-semibold">{title}</h2>
+        <h2 className="text-lg md:text-xl font-semibold mt-2">{title}</h2>
         <p className="text-xs opacity-70 max-w-xl">{subtitle}</p>
       </div>
 
@@ -287,10 +290,15 @@ function TimelineCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.45, delay: index * 0.06 }}
-      className="relative rounded-2xl border border-[var(--border)] bg-[var(--card)]/95 p-6 shadow-sm hover:shadow-[0_16px_44px_rgba(0,0,0,0.28)] transition"
+      className="
+        relative rounded-2xl
+        bg-[var(--card)]
+        border border-[var(--border)]
+        p-6 shadow-sm
+        hover:shadow-[0_16px_44px_rgba(0,0,0,0.25)]
+        transition
+      "
     >
-      <div className="hidden md:block absolute -left-4 top-6 w-3 h-3 rounded-full bg-[var(--accent)] shadow-[0_0_12px_var(--accent)]" />
-
       <header className="mb-3">
         <h3 className="text-base md:text-lg font-semibold">{title}</h3>
         <p className="text-xs md:text-sm opacity-70 font-medium">
@@ -299,11 +307,11 @@ function TimelineCard({
 
         <div className="flex flex-wrap items-center gap-3 text-[11px] mt-2 opacity-75">
           <span className="inline-flex items-center gap-1">
-            <Calendar className="w-3.5 h-3.5 text-[var(--accent)]" />
+            <Calendar {...iconProps} className="text-[var(--accent)]" />
             {period}
           </span>
           <span className="inline-flex items-center gap-1">
-            <MapPin className="w-3.5 h-3.5 text-[var(--accent)]" />
+            <MapPin {...iconProps} className="text-[var(--accent)]" />
             {location}
           </span>
         </div>
@@ -326,7 +334,7 @@ function TimelineCard({
           {tech.map((t, i) => (
             <span
               key={i}
-              className="px-2 py-1 rounded-md text-[10px] border border-[var(--border)] bg-[var(--background)]/40"
+              className="px-2 py-1 rounded-md text-[10px] font-semibold bg-[var(--accent)]/15 text-[var(--accent)]"
             >
               {t}
             </span>

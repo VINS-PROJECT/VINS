@@ -5,16 +5,16 @@ import { useState } from "react";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 
 /* ======================================
-   WAVE HIGHLIGHT (CONSISTENT STYLE)
+   WAVE HIGHLIGHT — SUBTLE & CLEAN
 ====================================== */
 function WaveHighlight({ children }) {
   return (
-    <span className="relative inline-block leading-tight">
+    <span className="relative inline-block">
       <span
         className="relative z-10 bg-clip-text text-transparent"
         style={{
           backgroundImage:
-            "linear-gradient(90deg, var(--accent) 10%, var(--accent-dark) 90%)",
+            "linear-gradient(90deg, var(--accent), var(--accent-dark))",
           WebkitTextFillColor: "transparent",
         }}
       >
@@ -22,19 +22,19 @@ function WaveHighlight({ children }) {
       </span>
 
       <svg
-        className="absolute left-0 bottom-0 w-full h-[8px]"
+        className="absolute left-0 -bottom-1 w-full h-[6px]"
         viewBox="0 0 200 20"
         preserveAspectRatio="none"
       >
         <motion.path
-          d="M0 10 Q 25 6 50 10 T 100 10 T 150 10 T 200 10"
+          d="M0 10 Q 30 6 60 10 T 120 10 T 180 10"
           fill="none"
           stroke="var(--accent)"
-          strokeWidth="2.5"
+          strokeWidth="2"
           strokeLinecap="round"
           animate={{ pathOffset: [0, 1] }}
           transition={{
-            duration: 4,
+            duration: 5,
             ease: "linear",
             repeat: Infinity,
           }}
@@ -73,7 +73,7 @@ export default function PortfolioSection() {
 
   return (
     <section className="relative py-28 md:py-32 bg-[var(--background)] text-[var(--foreground)] overflow-hidden">
-      {/* BACKDROP */}
+      {/* ================= BACKDROP ================= */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
@@ -89,19 +89,26 @@ export default function PortfolioSection() {
 
         {/* ================= LEFT — FLIP CARD ================= */}
         <motion.div
-          initial={{ opacity: 0, x: -32 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
           className="flex flex-col items-center md:items-start"
         >
           <div
-            className="relative w-72 h-80 md:w-80 md:h-[22rem] cursor-pointer [perspective:1600px]"
-            onClick={() => setFlip(!flip)}
+            className="
+              relative w-72 h-80 md:w-80 md:h-[22rem]
+              cursor-pointer [perspective:1600px]
+            "
+            onClick={() => setFlip((p) => !p)}
           >
             <motion.div
               animate={{ rotateY: flip ? 180 : 0 }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              transition={{
+                type: "spring",
+                stiffness: 120,
+                damping: 18,
+              }}
               className="w-full h-full [transform-style:preserve-3d]"
             >
               {/* FRONT */}
@@ -111,7 +118,7 @@ export default function PortfolioSection() {
                   backdrop-blur-xl
                   bg-white/45 dark:bg-white/5
                   border border-white/20 dark:border-white/10
-                  shadow-[0_12px_45px_rgba(0,0,0,0.14)]
+                  shadow-[0_16px_45px_rgba(0,0,0,0.15)]
                   [backface-visibility:hidden]
                 "
               >
@@ -157,9 +164,9 @@ export default function PortfolioSection() {
 
         {/* ================= RIGHT — INTERACTIVE LIST ================= */}
         <motion.div
-          initial={{ opacity: 0, x: 32 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
           className="mt-16 md:mt-0 flex flex-col gap-4"
         >
@@ -171,18 +178,18 @@ export default function PortfolioSection() {
                 key={sec.title}
                 onClick={() => setActive(i)}
                 className={`
-                  relative w-full text-left p-6 rounded-2xl
+                  group relative w-full text-left p-6 rounded-2xl
                   backdrop-blur-xl transition-all
                   border
                   ${
                     isActive
-                      ? "bg-white/55 dark:bg-white/6 border-[var(--accent)]/40"
+                      ? "bg-white/60 dark:bg-white/6 border-[var(--accent)]/40"
                       : "bg-white/40 dark:bg-white/4 border-white/20 dark:border-white/10 hover:bg-white/55"
                   }
                 `}
                 whileHover={{
-                  y: -4,
-                  transition: { type: "spring", stiffness: 220, damping: 20 },
+                  y: -6,
+                  transition: { type: "spring", stiffness: 200, damping: 18 },
                 }}
               >
                 {/* ACTIVE RAIL */}
@@ -192,6 +199,17 @@ export default function PortfolioSection() {
                     className="absolute left-0 top-4 bottom-4 w-[3px] rounded-full bg-[var(--accent)]"
                   />
                 )}
+
+                {/* Hover glow */}
+                <span
+                  aria-hidden
+                  className="
+                    absolute inset-0 rounded-2xl -z-10
+                    bg-[var(--accent)]/12 blur-2xl
+                    opacity-0 group-hover:opacity-100
+                    transition-opacity duration-300
+                  "
+                />
 
                 <div className="flex items-center justify-between">
                   <h3

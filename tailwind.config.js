@@ -9,7 +9,11 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        elektrakution: ["var(--font-elektrakution)"],
+      },
+    },
   },
   plugins: [],
 };

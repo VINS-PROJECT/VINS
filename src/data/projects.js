@@ -3,9 +3,15 @@ import { slugify } from "@/lib/slugify";
 export const projectsData = [
   {
     id: 1,
-    title: "Harvesty - Sustainable Farming For A Healthier Future",
-    desc: "An information system related to agriculture. This system, ‘Harvesty’, helps manage agricultural product sales efficiently. With a simple and responsive frontend design, users can easily monitor and track agricultural products.",
-    image: "/HARVESTY-Banner.png",
+    title: "Harvesty - Sustainable Farming for a Healthier Future",
+    desc: `Harvesty is an agriculture-related information system designed to support and simplify agricultural activities and transactions. The name Harvesty is derived from the concept of harvesting, representing the core essence of agriculture and the process of transforming crops into valuable products. This system aims to bridge the gap between farmers and customers by providing a digital platform that facilitates agricultural transactions efficiently and transparently.
+
+The system is designed with a strong focus on simplicity and responsiveness, ensuring ease of use for all stakeholders, particularly farmers who may have varying levels of technological familiarity. With a clean interface and intuitive user experience, Harvesty enables users to access information, manage agricultural products, and conduct transactions without unnecessary complexity.
+
+Harvesty serves as a medium that connects farmers directly with customers, allowing both parties to interact within a single integrated system. Farmers can manage product listings, monitor agricultural outputs, and track transactions, while customers can browse available products, obtain relevant agricultural information, and complete purchases seamlessly.
+
+Overall, Harvesty is developed to empower stakeholders in the agricultural sector by leveraging digital technology to enhance productivity, accessibility, and collaboration within the agricultural ecosystem.`,
+    image: "/HAR.png",
     category: "Frontend",
     tech: ["Bootstrap", "JavaScript", "HTML", "CSS", "Figma", "Canva"],
     year: 2024,
@@ -17,9 +23,14 @@ export const projectsData = [
     updatedAt: "2024-06-20",
 
     features: [
-      "Agriculture product monitoring",
-      "Simple frontend system",
-      "Responsive UI",
+      "Direct connection between farmers and customers",
+      "Agricultural product listing and management",
+      "Real-time product availability monitoring",
+      "Simple and intuitive transaction flow",
+      "Responsive design for mobile and desktop devices",
+      "User-friendly interface for non-technical users",
+      "Clear and structured product information display",
+      "Efficient digital-based agriculture transactions",
     ],
     gallery: [
       "/projects/harvesty-1.png",
@@ -38,14 +49,14 @@ export const projectsData = [
     title: "SIPAD (Data Analysis Monitoring Information System)",
     desc: `SIPAD is a disaster data analysis prototype designed to support the understanding, processing, and presentation of disaster-related information in a structured and insightful manner. This project leverages Microsoft Excel as the primary tool for data cleaning, data processing, and visualization.
 
-The initial phase of SIPAD focuses on cleaning raw disaster data collected from various records. This process includes standardizing data formats, removing duplicate entries, handling missing values, and organizing variables to ensure the dataset is reliable and ready for analysis. Proper data preparation allows the analysis to be conducted more accurately and consistently.
+The initial phase of SIPAD focuses on cleaning raw disaster data collected from various records. This includes standardizing data formats, removing duplicate entries, handling missing values, and organizing variables to ensure the dataset is reliable and ready for analysis.
 
-Once the data is structured, SIPAD transforms the processed information into meaningful visual representations, such as summary tables, charts, and graphical dashboards. These visualizations are designed to highlight disaster patterns, frequency, time-based trends, and potential impacts. By emphasizing clarity and readability, SIPAD makes complex data easier to interpret for a wide range of stakeholders, including analysts, decision-makers, and the general public.
+Once the data is structured, SIPAD transforms the processed information into meaningful visual representations such as summary tables, charts, and dashboards. These visualizations highlight disaster patterns, frequency, time-based trends, and potential impacts, making complex data easier to interpret.
 
-The primary objective of SIPAD is to generate data-driven insights that support disaster management and decision-making processes. Through effective data representation, the prototype helps evaluate past disaster events, identify trends, and support risk mitigation planning and preparedness strategies.
+The primary objective of SIPAD is to generate data-driven insights that support disaster management and decision-making processes. Through effective data representation, the prototype helps evaluate past disaster events, identify trends, and support risk mitigation planning.
 
-Overall, SIPAD serves not only as an analytical tool but also as a proof of concept, demonstrating how structured data processing and accessible visualization techniques can produce valuable insights for more informed and responsive disaster management efforts.`,
-    image: "/SIPAD-Banner.png",
+Overall, SIPAD serves as both an analytical tool and a proof of concept, demonstrating how structured data processing and accessible visualization can contribute to more informed and responsive disaster management efforts.`,
+    image: "/SIP.png",
     category: "Design",
     tech: ["Figma", "Excel"],
     year: 2025,
@@ -58,7 +69,7 @@ Overall, SIPAD serves not only as an analytical tool but also as a proof of conc
 
     features: [
       "Disaster data cleaning",
-      "Data analysis & visualization",
+      "Data analysis and visualization",
       "Insightful dashboards",
       "Excel-based prototype",
     ],
@@ -78,8 +89,8 @@ Overall, SIPAD serves not only as an analytical tool but also as a proof of conc
   {
     id: 3,
     title: "REFORA (Reservation Food of ITERA)",
-    desc: "‘REFORA’ is a canteen food reservation prototype designed for ITERA students to streamline food ordering.",
-    image: "/REFORA-Banner.png",
+    desc: `REFORA is a canteen food reservation prototype designed specifically for ITERA students to streamline the food ordering process and improve overall efficiency.`,
+    image: "/REF.png",
     category: "Design",
     tech: ["Figma", "Adobe Photoshop", "Canva"],
     year: 2024,
@@ -91,9 +102,9 @@ Overall, SIPAD serves not only as an analytical tool but also as a proof of conc
     updatedAt: "2024-09-15",
 
     features: [
-      "Canteen ordering system",
-      "UI/UX optimized workflow",
-      "Student-centric flow",
+      "Canteen food ordering system",
+      "Optimized UI/UX workflow",
+      "Student-centric user flow",
     ],
     gallery: [
       "/projects/refora-1.png",
@@ -107,48 +118,46 @@ Overall, SIPAD serves not only as an analytical tool but also as a proof of conc
   },
 
   {
-  id: 4,
-  title: "Namura Property Website",
-  desc: `Namura Property is a modern real estate platform designed to deliver reliable, transparent, and well-structured property information for individuals and businesses. The website presents property data in a clear, visually engaging, and easy-to-navigate format, enabling users to make informed decisions with confidence.
+    id: 4,
+    title: "Namura Property Website",
+    desc: `Namura Property is a modern real estate platform designed to deliver reliable, transparent, and well-structured property information for individuals and businesses.
 
-Each property listing is displayed with comprehensive details, including specifications, pricing, location insights, and supporting visuals. This structured presentation simplifies the property discovery process while maintaining clarity and accuracy across all listings.
+Each property listing is presented with comprehensive details including specifications, pricing, location insights, and supporting visuals. This structured presentation simplifies the property discovery process while maintaining clarity and accuracy.
 
-The platform emphasizes data consistency and user experience by combining organized content architecture with thoughtful visual layouts. Through this approach, Namura Property bridges complex real estate information with a user-friendly digital experience.
+By combining organized content architecture with thoughtful visual design, the platform emphasizes data consistency and user experience.
 
-Overall, the Namura Property website reflects a professional and forward-thinking approach to real estate presentation, positioning the brand as a trustworthy partner for buyers, investors, and business stakeholders navigating the property market.`,
-  image: "/NAMURA-Banner.png",
-  category: "Full Stack",
-  tech: ["React", "Node.js", "Express", "MongoDB", "Figma", "Canva"],
-  year: 2025,
+Overall, the Namura Property website reflects a professional and forward-thinking approach to real estate presentation, positioning the brand as a trustworthy partner for buyers, investors, and business stakeholders.`,
+    image: "/NAM.png",
+    category: "Full Stack",
+    tech: ["React", "Node.js", "Express", "MongoDB", "Figma", "Canva"],
+    year: 2025,
 
-  status: "Finished",
-  role: "Full Stack Developer",
-  team: "Solo Project",
-  featured: true,
-  updatedAt: "2025-02-05",
+    status: "Finished",
+    role: "Full Stack Developer",
+    team: "Solo Project",
+    featured: true,
+    updatedAt: "2025-02-05",
 
-  features: [
-    "Property listings with structured specifications",
-    "Client inquiry and contact management",
-    "Admin dashboard for content control",
-    "Responsive and scalable layout",
-  ],
-
-  gallery: [
-    "/projects/namura-1.png",
-    "/projects/namura-2.png",
-    "/projects/namura-3.png",
-  ],
-
-  links: {
-    live: "https://namuraproperty.com",
+    features: [
+      "Structured property listings",
+      "Client inquiry management",
+      "Admin dashboard for content control",
+      "Responsive and scalable layout",
+    ],
+    gallery: [
+      "/projects/namura-1.png",
+      "/projects/namura-2.png",
+      "/projects/namura-3.png",
+    ],
+    links: {
+      live: "https://namuraproperty.com",
+    },
   },
-},
 
   {
     id: 5,
     title: "VINSGawe",
-    desc: "An event management platform tailored for VINSGawe events, facilitating seamless organization and participation.",
+    desc: `VINSGawe is an event management platform tailored for VINSGawe events, designed to facilitate seamless event organization and participant engagement.`,
     image: "/VINSGawe-Banner.png",
     category: "Full Stack",
     tech: ["React", "Node.js", "Express", "MongoDB", "Figma", "Canva"],
@@ -162,7 +171,7 @@ Overall, the Namura Property website reflects a professional and forward-thinkin
 
     features: [
       "Event listings",
-      "User registration",
+      "User registration system",
     ],
     gallery: [
       "/projects/vinsgawe-1.png",

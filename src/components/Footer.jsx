@@ -14,16 +14,16 @@ import Image from "next/image";
 import { siteInfo } from "@/config/site-info";
 
 /* ======================================
-   WAVE HIGHLIGHT (CONSISTENT GLOBAL)
+   WAVE HIGHLIGHT — SUBTLE FOOTER
 ====================================== */
 function WaveHighlight({ children }) {
   return (
-    <span className="relative inline-block leading-tight">
+    <span className="relative inline-block">
       <span
         className="relative z-10 bg-clip-text text-transparent"
         style={{
           backgroundImage:
-            "linear-gradient(90deg, var(--accent) 10%, var(--accent-dark) 90%)",
+            "linear-gradient(90deg, var(--accent), var(--accent-dark))",
           WebkitTextFillColor: "transparent",
         }}
       >
@@ -31,19 +31,19 @@ function WaveHighlight({ children }) {
       </span>
 
       <svg
-        className="absolute left-0 bottom-0 w-full h-[6px]"
+        className="absolute left-0 -bottom-1 w-full h-[5px]"
         viewBox="0 0 200 20"
         preserveAspectRatio="none"
       >
         <motion.path
-          d="M0 10 Q 25 7 50 10 T 100 10 T 150 10 T 200 10"
+          d="M0 10 Q 30 7 60 10 T 120 10 T 180 10"
           fill="none"
           stroke="var(--accent)"
-          strokeWidth="2"
+          strokeWidth="1.8"
           strokeLinecap="round"
           animate={{ pathOffset: [0, 1] }}
           transition={{
-            duration: 5,
+            duration: 6,
             ease: "linear",
             repeat: Infinity,
           }}
@@ -121,11 +121,11 @@ export default function Footer() {
         }}
       />
 
-      {/* ================= MAIN CONTENT ================= */}
+      {/* ================= MAIN ================= */}
       <motion.div
-        initial={{ opacity: 0, y: 36 }}
+        initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         viewport={{ once: true }}
         className="
           relative z-10
@@ -133,10 +133,13 @@ export default function Footer() {
           grid md:grid-cols-4 gap-14
         "
       >
-        {/* ================= BRAND ================= */}
+        {/* BRAND */}
         <div className="space-y-4">
           <Link href="/" className="flex items-center gap-3">
-            <motion.div whileHover={{ scale: 1.08, rotate: 4 }}>
+            <motion.div
+              whileHover={{ scale: 1.06, rotate: 3 }}
+              transition={{ type: "spring", stiffness: 200, damping: 16 }}
+            >
               <Image src="/TP K.svg" alt="VINS" width={44} height={44} />
             </motion.div>
 
@@ -146,25 +149,25 @@ export default function Footer() {
           </Link>
 
           {/* STATUS */}
-          <div className="flex items-center gap-2 text-xs tracking-wide">
+          <div className="flex items-center gap-2 text-xs tracking-wide opacity-80">
             <Activity size={14} />
             <span
               className={`w-2 h-2 rounded-full ${
                 statusStyles[siteInfo.status]
               }`}
             />
-            <span className="uppercase font-semibold opacity-80">
+            <span className="uppercase font-semibold">
               {siteInfo.status}
             </span>
           </div>
 
-          <p className="text-sm opacity-75 leading-relaxed max-w-xs">
+          <p className="text-sm opacity-70 leading-relaxed max-w-xs">
             Turning ideas into meaningful digital experiences through thoughtful
             design and structured execution.
           </p>
         </div>
 
-        {/* ================= NAVIGATION ================= */}
+        {/* NAV */}
         <nav
           className="md:col-span-2 grid grid-cols-2 gap-10"
           aria-label="Footer Navigation"
@@ -180,10 +183,10 @@ export default function Footer() {
                     <Link
                       href={l.href}
                       className="
-                        text-sm opacity-70
+                        text-sm opacity-65
                         hover:opacity-100
                         hover:text-[var(--accent)]
-                        transition
+                        transition-colors
                       "
                     >
                       {l.name}
@@ -195,7 +198,7 @@ export default function Footer() {
           ))}
         </nav>
 
-        {/* ================= CONTACT ================= */}
+        {/* CONTACT */}
         <div>
           <h4 className="text-sm font-semibold mb-3 opacity-90">
             Contact
@@ -217,14 +220,14 @@ export default function Footer() {
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ y: -3 }}
-                transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                whileHover={{ y: -4 }}
+                transition={{ type: "spring", stiffness: 220, damping: 16 }}
                 className="
                   p-2 rounded-xl
                   backdrop-blur-lg
-                  bg-white/40 dark:bg-white/5
+                  bg-white/45 dark:bg-white/5
                   border border-white/20 dark:border-white/10
-                  opacity-75
+                  opacity-70
                   hover:opacity-100
                   hover:text-[var(--accent)]
                 "
@@ -236,13 +239,13 @@ export default function Footer() {
         </div>
       </motion.div>
 
-      {/* ================= BOTTOM BAR ================= */}
+      {/* ================= BOTTOM ================= */}
       <div
         className="
           relative z-10
           border-t border-white/20 dark:border-white/10
           backdrop-blur-xl
-          bg-white/30 dark:bg-white/5
+          bg-white/25 dark:bg-white/5
           py-5
           text-center text-xs
           flex flex-col items-center gap-1
