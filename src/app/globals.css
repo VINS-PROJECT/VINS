@@ -9,8 +9,8 @@ html {
   --background: #ffffff;
   --foreground: #111111;
 
-  --accent: #D8C79A;
-  --accent-dark: #C1AE7A;
+  --accent: #d8c79a;
+  --accent-dark: #c1ae7a;
 
   --card: #f7f7f7;
   --border: #e1e1e1;
@@ -23,8 +23,8 @@ html.dark {
   --background: #0a0a0a;
   --foreground: #f2f2f2;
 
-  --accent: #D8C79A;
-  --accent-dark: #BDAA7A;
+  --accent: #d8c79a;
+  --accent-dark: #bdaa7a;
 
   --card: #111111;
   --border: #2c2c2c;
@@ -34,16 +34,16 @@ html.dark {
 }
 
 /* ===========================================================
-   🖤 BASE
+   🖤 BASE (Poppins)
    =========================================================== */
 
 body {
   background: var(--background);
   color: var(--foreground);
 
-  /* ⛔ JANGAN PAKAI ELEKTRAKUTION DI BODY */
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, Helvetica, Arial, sans-serif;
+  /* ✅ Poppins from next/font */
+  font-family: var(--font-poppins), system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
@@ -54,18 +54,17 @@ body {
 }
 
 /* ===========================================================
-   🧭 BRAND / HEADING FONT
-   (PAKAI next/font VARIABLE)
+   🧭 HEADING & TEXT UTILITIES
    =========================================================== */
 
-.font-elektrakution {
-  font-family: var(--font-elektrakution), system-ui, sans-serif;
+.heading {
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
-/* Optional utility */
-.menu-heading {
-  font-family: var(--font-elektrakution), system-ui, sans-serif;
-  letter-spacing: 0.18em;
+.subheading {
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
@@ -131,12 +130,16 @@ i:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+  background: linear-gradient(180deg,
+      var(--accent),
+      var(--accent-dark));
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, var(--accent-dark), var(--accent));
+  background: linear-gradient(180deg,
+      var(--accent-dark),
+      var(--accent));
 }
 
 /* ===========================================================

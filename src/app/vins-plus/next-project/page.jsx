@@ -6,8 +6,6 @@ import {
   LoaderCircle,
   CheckCircle2,
   Lightbulb,
-  LayoutGrid,
-  List,
 } from "lucide-react";
 
 /* ================= ICON STYLE ================= */
@@ -31,39 +29,6 @@ const fade = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { duration: 0.35 } },
 };
-
-/* ================= WAVE HIGHLIGHT ================= */
-function WaveHighlight({ children }) {
-  return (
-    <span className="relative inline-block">
-      <span
-        className="relative z-10 bg-clip-text text-transparent"
-        style={{
-          backgroundImage:
-            "linear-gradient(90deg, var(--accent), var(--accent-dark))",
-        }}
-      >
-        {children}
-      </span>
-
-      <svg
-        className="absolute left-0 -bottom-1 w-full h-[6px] opacity-60"
-        viewBox="0 0 200 20"
-        preserveAspectRatio="none"
-      >
-        <motion.path
-          d="M0 10 Q 25 8 50 10 T 100 10 T 150 10 T 200 10"
-          fill="none"
-          stroke="var(--accent)"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          animate={{ pathOffset: [0, 1] }}
-          transition={{ duration: 6, ease: "linear", repeat: Infinity }}
-        />
-      </svg>
-    </span>
-  );
-}
 
 /* ================= DATA ================= */
 const nextProjects = [
@@ -208,8 +173,7 @@ function Card({ proj, reduceMotion }) {
 /* ================= PAGE ================= */
 export default function NextProjectPage() {
   const reduceMotion = useReducedMotion();
-  const [view, setView] = useState("grid");
-  const [filter, setFilter] = useState("All");
+  const [filter] = useState("All");
 
   const filtered = useMemo(() => {
     if (filter === "All") return nextProjects;
@@ -217,24 +181,67 @@ export default function NextProjectPage() {
   }, [filter]);
 
   return (
-    <main className="relative min-h-screen pt-28 pb-24 bg-[var(--background)] text-[var(--foreground)] overflow-hidden">
-      {/* HEADER */}
-      <div className="max-w-6xl mx-auto px-6 mb-14 text-center">
-        <Lightbulb
-          size={56}
-          strokeWidth={1.25}
-          className="mx-auto text-[var(--accent)] mb-4"
+    <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)] overflow-hidden">
+      
+      {/* ================= HEADER (VINS+ STYLE) ================= */}
+      <section className="relative overflow-hidden">
+        {/* Diagonal gold */}
+        <div
+          aria-hidden
+          className="
+            absolute inset-0
+            bg-gradient-to-br
+            from-[var(--accent)]/25
+            via-[var(--accent)]/10
+            to-transparent
+            -skew-y-6
+            origin-top-left
+          "
         />
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-          <WaveHighlight>Next Projects</WaveHighlight>
-        </h1>
-        <p className="opacity-70 mt-3">
-          Product roadmap & idea exploration
-        </p>
-      </div>
 
-      {/* CONTENT */}
-      <div className="max-w-6xl mx-auto px-6">
+        {/* Fade to background */}
+        <div
+          aria-hidden
+          className="
+            absolute bottom-0 left-0 w-full h-28
+            bg-gradient-to-t from-[var(--background)] to-transparent
+          "
+        />
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="relative pt-32 pb-24 text-center"
+        >
+          {/* Icon */}
+          <div
+            className="
+              mx-auto mb-5
+              w-16 h-16 rounded-2xl
+              flex items-center justify-center
+              bg-[var(--accent)]/15
+              text-[var(--accent)]
+              shadow-[0_10px_30px_rgba(216,199,154,0.35)]
+            "
+          >
+            <Lightbulb size={30} strokeWidth={1.4} />
+          </div>
+
+          {/* Title */}
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+            NEXT <span className="text-[var(--accent)]">PROJECT</span>
+          </h1>
+
+          {/* Path */}
+          <span className="mt-2 block text-sm font-mono text-[var(--foreground)]/50">
+            /vins+/nextproject
+          </span>
+        </motion.div>
+      </section>
+
+      {/* ================= CONTENT ================= */}
+      <div className="max-w-6xl mx-auto px-6 pb-24">
         <AnimatePresence mode="wait">
           <motion.div
             key="grid"

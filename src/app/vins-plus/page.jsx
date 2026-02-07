@@ -14,9 +14,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-/* ======================================
-   ICON STYLE
-====================================== */
+/* ================= ICON STYLE ================= */
 const iconProps = {
   size: 26,
   strokeWidth: 1.25,
@@ -28,61 +26,22 @@ export default function VinsPlusPage() {
   const modalRef = useRef(null);
   const reduceMotion = useReducedMotion();
 
-  /* ===============================
-     ITEMS
-  =============================== */
+  /* ================= ITEMS ================= */
   const items = [
-    {
-      title: "Portfolio",
-      href: "/vins-plus/portfolio",
-      locked: false,
-      icon: PanelsTopLeft,
-    },
-    {
-      title: "Project",
-      href: "/vins-plus/project",
-      locked: false,
-      icon: Briefcase,
-    },
-    {
-      title: "Certificate",
-      href: "/vins-plus/certificate",
-      locked: false,
-      icon: BadgeCheck,
-    },
-    {
-      title: "Resume",
-      href: "/vins-plus/resume",
-      locked: false,
-      icon: FileUser,
-    },
-    {
-      title: "Next Project",
-      href: "/vins-plus/next-project",
-      locked: false,
-      icon: Rocket,
-    },
-    {
-      title: "Experience",
-      href: "/experience",
-      locked: false,
-      icon: Landmark,
-    },
+    { title: "Portfolio", href: "/vins-plus/portfolio", icon: PanelsTopLeft },
+    { title: "Project", href: "/vins-plus/project", icon: Briefcase },
+    { title: "Certificate", href: "/vins-plus/certificate", icon: BadgeCheck },
+    { title: "Resume", href: "/vins-plus/resume", icon: FileUser },
+    { title: "Next Project", href: "/vins-plus/next-project", icon: Rocket },
+    { title: "Experience", href: "/vins-plus/experience", icon: Landmark },
   ];
 
-  /* ===============================
-     ESC TO CLOSE
-  =============================== */
+  /* ================= ESC TO CLOSE ================= */
   useEffect(() => {
     if (!showPopup) return;
-
-    const onKey = (e) => {
-      if (e.key === "Escape") setShowPopup(false);
-    };
-
+    const onKey = (e) => e.key === "Escape" && setShowPopup(false);
     document.addEventListener("keydown", onKey);
     modalRef.current?.focus();
-
     return () => document.removeEventListener("keydown", onKey);
   }, [showPopup]);
 
@@ -92,9 +51,7 @@ export default function VinsPlusPage() {
       <AnimatePresence>
         {showPopup && (
           <motion.div
-            role="dialog"
-            aria-modal="true"
-            className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/55 backdrop-blur-md"
+            className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 backdrop-blur-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -107,42 +64,30 @@ export default function VinsPlusPage() {
               initial={{ y: reduceMotion ? 0 : 24, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 16, opacity: 0 }}
-              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="
-                relative max-w-sm w-[90%]
-                rounded-3xl p-8 text-center
-                backdrop-blur-xl
+                w-[90%] max-w-sm rounded-3xl p-8 text-center
                 bg-white/60 dark:bg-white/6
+                backdrop-blur-xl
                 border border-white/25 dark:border-white/10
-                shadow-[0_20px_60px_rgba(0,0,0,0.18)]
+                shadow-2xl
                 outline-none
               "
             >
               <button
                 onClick={() => setShowPopup(false)}
-                className="absolute top-4 right-4 opacity-60 hover:opacity-100 transition"
-                aria-label="Close modal"
+                className="absolute top-4 right-4 opacity-60 hover:opacity-100"
               >
                 <X size={18} />
               </button>
 
-              <div
-                className="
-                  mx-auto w-14 h-14 mb-5
-                  rounded-2xl flex items-center justify-center
-                  bg-[var(--accent)]/15 text-[var(--accent)]
-                "
-              >
-                <Lock size={26} strokeWidth={1.5} />
+              <div className="mx-auto w-14 h-14 mb-5 rounded-2xl flex items-center justify-center bg-[var(--accent)]/15 text-[var(--accent)]">
+                <Lock size={26} />
               </div>
 
-              <h3 className="text-lg font-semibold tracking-tight">
-                Feature Locked
-              </h3>
-
-              <p className="mt-2 text-sm text-[var(--foreground)]/70 leading-relaxed">
-                This feature is currently under development to ensure stability
-                and professional readiness.
+              <h3 className="text-lg font-semibold">Feature Locked</h3>
+              <p className="mt-2 text-sm text-[var(--foreground)]/70">
+                This feature is currently under development.
               </p>
 
               <button
@@ -150,8 +95,7 @@ export default function VinsPlusPage() {
                 className="
                   mt-7 px-6 py-2.5 rounded-xl
                   bg-[var(--accent)] text-black
-                  font-semibold transition hover:opacity-90
-                  focus:outline-none focus:ring-2 focus:ring-[var(--accent)]
+                  font-semibold hover:opacity-90
                 "
               >
                 Understood
@@ -162,110 +106,93 @@ export default function VinsPlusPage() {
       </AnimatePresence>
 
       {/* ================= MAIN ================= */}
-      <section
-        className="
-          relative min-h-screen
-          flex flex-col items-center justify-center
-          px-6 py-28
-          bg-[var(--background)]
-          text-[var(--foreground)]
-        "
-      >
-        {/* TITLE */}
-        <motion.h1
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-4xl md:text-5xl font-bold tracking-tight mb-16"
-        >
-          VINS<span className="text-[var(--accent)]">+</span>
-        </motion.h1>
+      <section className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+        
+        {/* ================= HEADER (LOCAL BACKGROUND) ================= */}
+        <div className="relative overflow-hidden mb-24">
+          {/* Gold diagonal */}
+          <div
+            aria-hidden
+            className="
+              absolute inset-0
+              bg-gradient-to-br
+              from-[var(--accent)]/25
+              via-[var(--accent)]/10
+              to-transparent
+              -skew-y-6
+              origin-top-left
+            "
+          />
 
-        {/* GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-6xl">
-          {items.map((item, i) => {
-            const Icon = item.icon;
+          {/* Fade to content */}
+          <div
+            aria-hidden
+            className="
+              absolute bottom-0 left-0 w-full h-24
+              bg-gradient-to-t from-[var(--background)] to-transparent
+            "
+          />
 
-            const Card = (
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: i * 0.05 }}
-                whileHover={reduceMotion ? {} : { y: -6 }}
-                className="relative h-full"
-              >
-                {item.locked && (
-                  <div
-                    className="
-                      absolute top-4 right-4 z-10
-                      p-1.5 rounded-full
-                      bg-[var(--accent)]/20
-                      text-[var(--accent)]
-                    "
-                  >
-                    <Lock size={14} strokeWidth={1.5} />
-                  </div>
-                )}
+          {/* Title */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="relative py-32 text-center"
+          >
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+              VINS<span className="text-[var(--accent)]">+</span>
+            </h1>
+            <span className="mt-2 block text-sm font-mono text-[var(--foreground)]/50">
+              /VINS+
+            </span>
+          </motion.div>
+        </div>
 
-                <div
+        {/* ================= CONTENT ================= */}
+        <div className="px-6 pb-32 flex justify-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-6xl">
+            {items.map((item, i) => {
+              const Icon = item.icon;
+
+              const Card = (
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.45, delay: i * 0.05 }}
+                  whileHover={reduceMotion ? {} : { y: -6 }}
                   className="
-                    group h-full
                     p-8 rounded-3xl
-                    backdrop-blur-xl
                     bg-white/55 dark:bg-white/5
+                    backdrop-blur-xl
                     border border-white/25 dark:border-white/10
-                    shadow-[0_14px_40px_rgba(0,0,0,0.14)]
-                    transition
+                    shadow-lg
                     hover:border-[var(--accent)]/40
+                    transition
                   "
                 >
-                  <div
-                    className="
-                      w-14 h-14 mb-6 rounded-2xl
-                      flex items-center justify-center
-                      bg-[var(--accent)]/15
-                      text-[var(--accent)]
-                      transition-transform
-                      group-hover:scale-[1.06]
-                    "
-                  >
-                    <Icon
-                      {...iconProps}
-                      className={item.locked ? "opacity-50" : "opacity-100"}
-                    />
+                  <div className="w-14 h-14 mb-6 rounded-2xl flex items-center justify-center bg-[var(--accent)]/15 text-[var(--accent)]">
+                    <Icon {...iconProps} />
                   </div>
 
                   <h3 className="text-lg font-semibold mb-1">
                     {item.title}
                   </h3>
 
-                  <p className="text-sm text-[var(--foreground)]/70 leading-relaxed">
-                    {item.locked
-                      ? "Feature currently unavailable."
-                      : item.title === "Next Project"
-                      ? "Upcoming initiatives and explorations."
-                      : `Access ${item.title} resources.`}
+                  <p className="text-sm text-[var(--foreground)]/70">
+                    Access {item.title} resources.
                   </p>
-                </div>
-              </motion.div>
-            );
+                </motion.div>
+              );
 
-            return item.locked ? (
-              <button
-                key={item.title}
-                onClick={() => setShowPopup(true)}
-                className="text-left"
-                aria-disabled
-              >
-                {Card}
-              </button>
-            ) : (
-              <Link key={item.title} href={item.href}>
-                {Card}
-              </Link>
-            );
-          })}
+              return (
+                <Link key={item.title} href={item.href}>
+                  {Card}
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </section>
     </>

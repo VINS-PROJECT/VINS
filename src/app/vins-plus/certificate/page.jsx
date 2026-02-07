@@ -15,8 +15,6 @@ import {
 import { certificates } from "@/data/certificates";
 
 export default function CertificatePage() {
-  const GOLD = "var(--accent)";
-
   /* ================= LAST UPDATED ================= */
   const lastUpdate = useMemo(() => {
     const dates = certificates.map((c) => new Date(c.issuedDate));
@@ -35,14 +33,7 @@ export default function CertificatePage() {
   const [sortOrder, setSortOrder] = useState("desc");
   const [page, setPage] = useState(1);
   const [pageSize] = useState(6);
-  const [mobileView, setMobileView] = useState(false);
-
-  useEffect(() => {
-    const onResize = () => setMobileView(window.innerWidth < 768);
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
+  const [cardView, setCardView] = useState(false);
 
   const categories = [
     "All",
@@ -93,7 +84,9 @@ export default function CertificatePage() {
         }
         const A = String(a[sortColumn]).toLowerCase();
         const B = String(b[sortColumn]).toLowerCase();
-        return sortOrder === "asc" ? A.localeCompare(B) : B.localeCompare(A);
+        return sortOrder === "asc"
+          ? A.localeCompare(B)
+          : B.localeCompare(A);
       });
     } else {
       arr.sort((a, b) => b.year - a.year);
@@ -107,23 +100,55 @@ export default function CertificatePage() {
   const paged = processed.slice((page - 1) * pageSize, page * pageSize);
 
   return (
-    <main className="min-h-screen pt-28 pb-24 bg-[var(--background)] text-[var(--foreground)]">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* HEADER */}
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-          <h1
-            className="text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent"
-            style={{
-              backgroundImage: `linear-gradient(to right, ${GOLD}, var(--accent-dark))`,
-            }}
-          >
+    <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+
+      {/* ================= HEADER (VINS+ STYLE) ================= */}
+      <section className="relative overflow-hidden">
+        <div
+          aria-hidden
+          className="
+            absolute inset-0
+            bg-gradient-to-br
+            from-[var(--accent)]/25
+            via-[var(--accent)]/10
+            to-transparent
+            -skew-y-6
+            origin-top-left
+          "
+        />
+        <div
+          aria-hidden
+          className="
+            absolute bottom-0 left-0 w-full h-28
+            bg-gradient-to-t from-[var(--background)] to-transparent
+          "
+        />
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="relative max-w-7xl mx-auto px-6 pt-32 pb-20"
+        >
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
             Certificates
           </h1>
-          <p className="text-xs opacity-60 mt-2">Last updated: {lastUpdate}</p>
+
+          <span className="mt-2 block text-sm font-mono opacity-50">
+            /vins+/certificate
+          </span>
+
+          <p className="text-xs opacity-60 mt-3">
+            Last updated: {lastUpdate}
+          </p>
         </motion.div>
+      </section>
+
+      {/* ================= CONTENT ================= */}
+      <section className="relative max-w-7xl mx-auto px-6 pb-24">
 
         {/* CONTROLS */}
-        <div className="mt-6 flex flex-col lg:flex-row justify-between gap-4">
+        <div className="flex flex-col lg:flex-row justify-between gap-4 mb-10">
           <div className="flex flex-col sm:flex-row gap-3">
             <input
               value={globalSearch}
@@ -131,8 +156,14 @@ export default function CertificatePage() {
                 setGlobalSearch(e.target.value);
                 setPage(1);
               }}
-              placeholder="Search certificates..."
-              className="px-4 py-3 rounded-xl text-sm w-full sm:w-72 bg-[var(--background)]/60 border border-[var(--border)] focus:border-[var(--accent)] outline-none"
+              placeholder="Search certificates…"
+              className="
+                px-4 py-3 rounded-xl text-sm w-full sm:w-72
+                bg-[var(--card)]
+                border border-[var(--border)]
+                focus:border-[var(--accent)]
+                outline-none
+              "
             />
 
             <select
@@ -141,36 +172,53 @@ export default function CertificatePage() {
                 setCategory(e.target.value);
                 setPage(1);
               }}
-              className="px-4 py-3 rounded-xl text-sm bg-[var(--background)]/60 border border-[var(--border)]"
+              className="
+                px-4 py-3 rounded-xl text-sm
+                bg-[var(--card)]
+                border border-[var(--border)]
+              "
             >
               {categories.map((c) => (
                 <option key={c}>{c}</option>
               ))}
             </select>
 
-            <motion.button
-              whileTap={{ scale: 0.92 }}
-              onClick={() => setMobileView((v) => !v)}
-              className="px-4 py-3 rounded-xl bg-[var(--background)]/60 border border-[var(--border)] flex items-center gap-2"
-              aria-label="Toggle view"
+            <button
+              onClick={() => setCardView((v) => !v)}
+              className="
+                px-4 py-3 rounded-xl
+                bg-[var(--card)]
+                border border-[var(--border)]
+                flex items-center gap-2
+              "
             >
-              {mobileView ? <LayoutGrid size={18} /> : <Rows size={18} />}
+              {cardView ? <LayoutGrid size={18} /> : <Rows size={18} />}
               View
-            </motion.button>
+            </button>
           </div>
 
-          <FilterBtn label="Reset" onClick={resetAll} />
+          <button
+            onClick={resetAll}
+            className="
+              px-4 py-3 rounded-xl
+              bg-[var(--accent)]/15
+              text-[var(--accent)]
+              border border-[var(--accent)]/30
+              hover:bg-[var(--accent)]
+              hover:text-black
+              transition
+              flex items-center gap-2
+            "
+          >
+            <Filter size={16} /> Reset
+          </button>
         </div>
 
         {/* TABLE / CARD */}
-        {!mobileView ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="mt-8 overflow-x-auto rounded-2xl border border-[var(--border)] backdrop-blur-xl bg-[var(--background)]/50 shadow-lg"
-          >
+        {!cardView ? (
+          <div className="overflow-x-auto rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-lg">
             <table className="min-w-full text-sm">
-              <thead>
+              <thead className="border-b border-[var(--border)]">
                 <tr>
                   <Th label="Title" col="title" {...{ sortColumn, sortOrder, handleSort }} />
                   <Th label="Issuer" col="issuer" {...{ sortColumn, sortOrder, handleSort }} />
@@ -183,7 +231,10 @@ export default function CertificatePage() {
 
               <tbody>
                 {paged.map((c) => (
-                  <tr key={c.id} className="border-b border-[var(--border)] hover:bg-[var(--accent)]/8 transition">
+                  <tr
+                    key={c.id}
+                    className="border-b border-[var(--border)] hover:bg-[var(--accent)]/5 transition"
+                  >
                     <Td>{c.title}</Td>
                     <Td>{c.issuer}</Td>
                     <Td>{c.year}</Td>
@@ -194,50 +245,91 @@ export default function CertificatePage() {
                     </Td>
                   </tr>
                 ))}
+
                 {paged.length === 0 && (
                   <tr>
-                    <Td center colSpan={6} className="py-6 opacity-60">
+                    <Td colSpan={6} center className="py-6 opacity-60">
                       No certificates found.
                     </Td>
                   </tr>
                 )}
               </tbody>
             </table>
-          </motion.div>
+          </div>
         ) : (
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {paged.map((c) => (
-              <motion.div
+              <div
                 key={c.id}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                className="p-5 rounded-2xl border border-[var(--border)] backdrop-blur-xl bg-[var(--background)]/50 shadow-lg"
+                className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-lg"
               >
                 <h3 className="font-semibold">{c.title}</h3>
-                <p className="opacity-70 text-sm">{c.issuer} • {c.year}</p>
-                <p className="opacity-60 text-xs mt-1">{c.duration} • {c.category}</p>
+                <p className="opacity-70 text-sm">
+                  {c.issuer} • {c.year}
+                </p>
+                <p className="opacity-60 text-xs mt-1">
+                  {c.duration} • {c.category}
+                </p>
                 <div className="mt-4">
                   <ActionRow c={c} />
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         )}
 
         {/* PAGINATION */}
-        <Pagination {...{ page, totalPages, setPage, total, pageSize }} />
-      </div>
+        <div className="flex flex-col sm:flex-row items-center justify-between mt-10 gap-4 opacity-75">
+          <span className="text-sm">
+            Showing {(page - 1) * pageSize + 1} –{" "}
+            {Math.min(page * pageSize, total)} of {total}
+          </span>
+
+          <div className="flex gap-2">
+            <PaginationBtn disabled={page === 1} onClick={() => setPage(1)}>
+              First
+            </PaginationBtn>
+            <PaginationBtn disabled={page === 1} onClick={() => setPage(page - 1)}>
+              <ChevronLeft size={16} />
+            </PaginationBtn>
+
+            <span className="px-4 py-2 rounded-xl border border-[var(--accent)]/40 text-[var(--accent)]">
+              {page}/{totalPages}
+            </span>
+
+            <PaginationBtn
+              disabled={page === totalPages}
+              onClick={() => setPage(page + 1)}
+            >
+              <ChevronRight size={16} />
+            </PaginationBtn>
+            <PaginationBtn
+              disabled={page === totalPages}
+              onClick={() => setPage(totalPages)}
+            >
+              Last
+            </PaginationBtn>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
 
-/* ================= SUB COMPONENTS ================= */
+/* ================= SMALL COMPONENTS ================= */
 
 function Th({ label, col, sortColumn, sortOrder, handleSort }) {
   const active = sortColumn === col;
   return (
-    <th onClick={() => handleSort(col)} className="p-4 cursor-pointer select-none">
-      <span className={`${active ? "text-[var(--accent)]" : "opacity-60"} hover:opacity-100`}>
+    <th
+      onClick={() => handleSort(col)}
+      className="p-4 cursor-pointer select-none"
+    >
+      <span
+        className={`${
+          active ? "text-[var(--accent)]" : "opacity-60"
+        } hover:opacity-100`}
+      >
         {label} {active && (sortOrder === "asc" ? "▲" : "▼")}
       </span>
     </th>
@@ -255,11 +347,11 @@ function Td({ children, center, colSpan }) {
 function ActionRow({ c }) {
   return (
     <div className="flex justify-center gap-2">
-      <ActionBtn onClick={() => window.open(c.pdf, "_blank")} primary aria-label="Download certificate">
+      <ActionBtn onClick={() => window.open(c.pdf, "_blank")} primary>
         <Download size={16} />
       </ActionBtn>
 
-      <Link href={`/vins-plus/certificate/${c.id}`} aria-label="View certificate">
+      <Link href={`/vins-plus/certificate/${c.id}`}>
         <ActionBtn>
           <Eye size={16} />
         </ActionBtn>
@@ -272,53 +364,17 @@ function ActionBtn({ children, primary, ...props }) {
   return (
     <button
       {...props}
-      className={`w-9 h-9 flex items-center justify-center rounded-xl transition shadow
-        ${primary
-          ? "bg-[var(--accent)] text-black hover:brightness-90"
-          : "bg-[var(--accent)]/10 text-[var(--accent)] hover:bg-[var(--accent)]/20"}`}
+      className={`
+        w-9 h-9 flex items-center justify-center rounded-xl transition
+        ${
+          primary
+            ? "bg-[var(--accent)] text-black hover:brightness-90"
+            : "bg-[var(--accent)]/10 text-[var(--accent)] hover:bg-[var(--accent)]/20"
+        }
+      `}
     >
       {children}
     </button>
-  );
-}
-
-function FilterBtn({ label, onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      className="px-4 py-3 rounded-xl bg-[var(--accent)]/15 text-[var(--accent)]
-      border border-[var(--accent)]/30 hover:bg-[var(--accent)] hover:text-black transition"
-    >
-      <Filter size={16} /> {label}
-    </button>
-  );
-}
-
-function Pagination({ page, totalPages, setPage, total, pageSize }) {
-  return (
-    <div className="flex flex-col sm:flex-row items-center justify-between mt-8 gap-4 opacity-75">
-      <span className="text-sm">
-        Showing {(page - 1) * pageSize + 1} – {Math.min(page * pageSize, total)} of {total}
-      </span>
-
-      <div className="flex gap-2">
-        <PaginationBtn disabled={page === 1} onClick={() => setPage(1)}>First</PaginationBtn>
-        <PaginationBtn disabled={page === 1} onClick={() => setPage(page - 1)}>
-          <ChevronLeft size={16} />
-        </PaginationBtn>
-
-        <span className="px-4 py-2 rounded-xl border border-[var(--accent)]/40 text-[var(--accent)]">
-          {page}/{totalPages}
-        </span>
-
-        <PaginationBtn disabled={page === totalPages} onClick={() => setPage(page + 1)}>
-          <ChevronRight size={16} />
-        </PaginationBtn>
-        <PaginationBtn disabled={page === totalPages} onClick={() => setPage(totalPages)}>
-          Last
-        </PaginationBtn>
-      </div>
-    </div>
   );
 }
 
@@ -328,9 +384,15 @@ function PaginationBtn({ children, disabled, onClick }) {
       whileTap={{ scale: disabled ? 1 : 0.95 }}
       disabled={disabled}
       onClick={onClick}
-      className={`px-3 py-2 rounded-xl border border-[var(--border)]
-        ${disabled ? "opacity-35 cursor-not-allowed" :
-        "hover:border-[var(--accent)] hover:text-[var(--accent)] transition"}`}
+      className={`
+        px-3 py-2 rounded-xl
+        border border-[var(--border)]
+        ${
+          disabled
+            ? "opacity-35 cursor-not-allowed"
+            : "hover:border-[var(--accent)] hover:text-[var(--accent)] transition"
+        }
+      `}
     >
       {children}
     </motion.button>

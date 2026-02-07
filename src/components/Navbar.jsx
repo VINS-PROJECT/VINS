@@ -2,14 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useMemo, useState, useCallback } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useSpring,
-  useReducedMotion,
-} from "framer-motion";
+import { useEffect, useState, useCallback, useRef, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Fuse from "fuse.js";
 import {
   Search,
@@ -17,7 +11,7 @@ import {
   Sun,
   X,
   Menu,
-  Command,
+  ArrowRight,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -25,19 +19,13 @@ import { pages, articles } from "@/data/search-index";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const reduceMotion = useReducedMotion();
-
-  /* ================= SCROLL PROGRESS ================= */
-  const { scrollYProgress } = useScroll();
-  const progress = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 20,
-  });
 
   /* ================= THEME ================= */
   const [isDark, setIsDark] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const saved = localStorage.getItem("theme");
     const prefersDark =
       saved === "dark" ||
@@ -55,43 +43,24 @@ export default function Navbar() {
     document.documentElement.classList.toggle("dark", next);
   }, [isDark]);
 
-  /* ================= FLOATING / SHRINK ================= */
-  const [floating, setFloating] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setFloating(window.scrollY > 72);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   /* ================= SEARCH ================= */
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const searchInputRef = useRef(null);
 
-  const fuse = useMemo(() => {
-    return new Fuse([...pages, ...articles], {
-      keys: ["title"],
-      threshold: 0.35,
-    });
-  }, []);
+  const fuse = useMemo(
+    () =>
+      new Fuse([...pages, ...articles], {
+        keys: ["title", "description", "tags"],
+        threshold: 0.35,
+      }),
+    []
+  );
 
   const results = useMemo(() => {
     if (!query) return [];
-    return fuse.search(query).map((r) => r.item);
+    return fuse.search(query).map((r) => r.item).slice(0, 6);
   }, [query, fuse]);
-
-  useEffect(() => {
-    const onKey = (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        setSearchOpen(true);
-      }
-      if (e.key === "Escape") setSearchOpen(false);
-    };
-
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
 
   /* ================= NAV ================= */
   const navLinks = [
@@ -109,78 +78,56 @@ export default function Navbar() {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
   return (
     <>
-      {/* ===== Scroll Progress ===== */}
-      <motion.div
-        style={{ scaleX: progress }}
-        className="fixed top-0 left-0 right-0 h-[2px] bg-[var(--accent)] origin-left z-[60]"
-      />
-
-      {/* ===== Navbar ===== */}
-      <motion.header
-        animate={{
-          paddingTop: floating ? 6 : 10,
-          paddingBottom: floating ? 6 : 10,
-        }}
-        transition={{ duration: 0.2 }}
-        className={`
+      {/* ================= NAVBAR ================= */}
+      <header
+        className="
           fixed top-4 left-1/2 -translate-x-1/2 z-50
           w-[92%] max-w-6xl
-          backdrop-blur-xl
           bg-[var(--background)]/90
+          backdrop-blur-lg
           border border-[var(--border)]
-          rounded-full px-4
-          ${floating ? "shadow-2xl" : "shadow-lg"}
-        `}
+          rounded-full
+        "
       >
-        <div className="h-12 flex items-center justify-between">
+        <div className="h-14 px-4 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-[var(--card)] flex items-center justify-center shadow-sm">
-              <Image
-                src="/TP K.svg"
-                alt="VINS"
-                width={20}
-                height={20}
-                priority
-              />
-            </div>
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/TP K.svg"
+              alt="VINS"
+              width={22}
+              height={22}
+              priority
+            />
             <span className="font-semibold tracking-tight">
               VINS
             </span>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1 bg-[var(--card)] rounded-full p-1 relative">
+          <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((l) => {
               const active = isActive(l.href);
               return (
                 <Link
                   key={l.href}
                   href={l.href}
-                  className="relative px-4 py-2 text-sm rounded-full"
-                >
-                  {active && (
-                    <motion.span
-                      layoutId="nav-pill"
-                      className="absolute inset-0 rounded-full bg-[var(--background)] shadow"
-                      transition={{
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 30,
-                      }}
-                    />
-                  )}
-                  <span
-                    className={`relative z-10 ${
+                  className={`
+                    px-4 py-2 rounded-full text-sm transition
+                    ${
                       active
                         ? "text-[var(--accent)] font-medium"
                         : "opacity-70 hover:opacity-100"
-                    }`}
-                  >
-                    {l.label}
-                  </span>
+                    }
+                  `}
+                >
+                  {l.label}
                 </Link>
               );
             })}
@@ -189,24 +136,22 @@ export default function Navbar() {
           {/* Actions */}
           <div className="flex items-center gap-1">
             <button
-              aria-label="Search"
               onClick={() => setSearchOpen(true)}
-              className="p-2 rounded-full hover:bg-[var(--card)]"
+              className="p-2 rounded-lg hover:bg-[var(--card)] transition"
             >
               <Search size={18} />
             </button>
 
             <button
-              aria-label="Toggle theme"
               onClick={toggleTheme}
-              className="p-2 rounded-full hover:bg-[var(--card)]"
+              className="p-2 rounded-lg hover:bg-[var(--card)] transition"
             >
-              {isDark ? <Sun size={18} /> : <Moon size={18} />}
+              {mounted && (isDark ? <Sun size={18} /> : <Moon size={18} />)}
             </button>
 
             <button
               onClick={() => setMenuOpen((p) => !p)}
-              className="md:hidden p-2 rounded-full hover:bg-[var(--card)]"
+              className="md:hidden p-2 rounded-lg hover:bg-[var(--card)] transition"
             >
               {menuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
@@ -217,89 +162,88 @@ export default function Navbar() {
         <AnimatePresence>
           {menuOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              className="md:hidden mt-3 mb-3 p-2 bg-[var(--card)] rounded-2xl"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden p-2"
             >
-              {navLinks.map((l) => {
-                const active = isActive(l.href);
-                return (
-                  <Link
-                    key={l.href}
-                    href={l.href}
-                    onClick={() => setMenuOpen(false)}
-                    className={`block px-4 py-3 rounded-xl text-sm ${
-                      active
-                        ? "bg-[var(--background)] text-[var(--accent)] font-medium"
-                        : "opacity-80 hover:opacity-100"
-                    }`}
-                  >
-                    {l.label}
-                  </Link>
-                );
-              })}
+              <div className="bg-[var(--card)] rounded-2xl p-2 space-y-1">
+                {navLinks.map((l) => {
+                  const active = isActive(l.href);
+                  return (
+                    <Link
+                      key={l.href}
+                      href={l.href}
+                      className={`
+                        flex items-center justify-between
+                        px-4 py-3 rounded-xl text-sm
+                        ${
+                          active
+                            ? "text-[var(--accent)] font-medium"
+                            : "opacity-80"
+                        }
+                      `}
+                    >
+                      {l.label}
+                      {active && <ArrowRight size={14} />}
+                    </Link>
+                  );
+                })}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.header>
+      </header>
 
-      {/* ===== Search Modal ===== */}
+      {/* ================= SEARCH MODAL ================= */}
       <AnimatePresence>
         {searchOpen && (
           <motion.div
-            role="dialog"
-            aria-modal="true"
-            className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center"
+            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-start justify-center pt-[20vh] px-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            onClick={() => setSearchOpen(false)}
           >
             <motion.div
-              initial={{ scale: 0.96, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.96, opacity: 0 }}
-              className="w-[90%] max-w-lg p-4 rounded-xl bg-[var(--background)] border border-[var(--border)] shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-xl rounded-2xl bg-[var(--background)] border border-[var(--border)]"
             >
-              <div className="flex items-center gap-3">
-                <Search size={18} />
+              <div className="flex items-center gap-3 p-4 border-b border-[var(--border)]">
+                <Search size={18} className="opacity-50" />
                 <input
+                  ref={searchInputRef}
                   autoFocus
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search pages & articles…"
-                  className="w-full bg-transparent outline-none"
+                  placeholder="Search…"
+                  className="flex-1 bg-transparent outline-none"
                 />
-                <X
-                  className="cursor-pointer opacity-60 hover:opacity-100"
-                  onClick={() => setSearchOpen(false)}
-                />
+                <button onClick={() => setSearchOpen(false)}>
+                  <X size={16} />
+                </button>
               </div>
 
-              {query && results.length === 0 && (
-                <p className="text-sm opacity-50 mt-4">
-                  No results found.
-                </p>
-              )}
-
               {results.length > 0 && (
-                <ul className="mt-3 space-y-1 max-h-56 overflow-auto">
+                <ul className="p-2">
                   {results.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
                       onClick={() => setSearchOpen(false)}
-                      className="block px-3 py-2 rounded hover:bg-[var(--card)]"
+                      className="
+                        flex items-center justify-between
+                        px-3 py-3 rounded-lg
+                        hover:bg-[var(--card)]
+                        transition
+                      "
                     >
-                      {item.title}
+                      <span>{item.title}</span>
+                      <ArrowRight size={14} className="opacity-40" />
                     </Link>
                   ))}
                 </ul>
               )}
-
-              <p className="text-xs opacity-50 mt-4 flex items-center gap-1">
-                <Command size={12} /> Press Esc to close
-              </p>
             </motion.div>
           </motion.div>
         )}

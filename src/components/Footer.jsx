@@ -13,55 +13,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { siteInfo } from "@/config/site-info";
 
-/* ======================================
-   WAVE HIGHLIGHT — SUBTLE FOOTER
-====================================== */
-function WaveHighlight({ children }) {
-  return (
-    <span className="relative inline-block">
-      <span
-        className="relative z-10 bg-clip-text text-transparent"
-        style={{
-          backgroundImage:
-            "linear-gradient(90deg, var(--accent), var(--accent-dark))",
-          WebkitTextFillColor: "transparent",
-        }}
-      >
-        {children}
-      </span>
-
-      <svg
-        className="absolute left-0 -bottom-1 w-full h-[5px]"
-        viewBox="0 0 200 20"
-        preserveAspectRatio="none"
-      >
-        <motion.path
-          d="M0 10 Q 30 7 60 10 T 120 10 T 180 10"
-          fill="none"
-          stroke="var(--accent)"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          animate={{ pathOffset: [0, 1] }}
-          transition={{
-            duration: 6,
-            ease: "linear",
-            repeat: Infinity,
-          }}
-        />
-      </svg>
-    </span>
-  );
-}
-
 export default function Footer() {
   const navSections = [
     {
       title: "Navigation",
       links: [
         { name: "Home", href: "/" },
-        { name: "Projects", href: "/project" },
-        { name: "Experience", href: "/experience" },
-        { name: "Certificates", href: "/certificate" },
+        { name: "Projects", href: "/vins-plus/project" },
+        { name: "Experience", href: "/vins-plus/experience" },
+        { name: "Certificates", href: "/vins-plus/certificate" },
         { name: "About", href: "/about" },
         { name: "Contact", href: "/contact" },
       ],
@@ -103,78 +63,54 @@ export default function Footer() {
       role="contentinfo"
       className="
         hidden md:block
-        relative
         bg-[var(--background)]
         text-[var(--foreground)]
-        overflow-hidden
+        border-t border-[var(--border)]
       "
     >
-      {/* ================= BACKDROP ================= */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `
-            radial-gradient(circle at 18% 30%, var(--accent)/0.08, transparent 60%),
-            radial-gradient(circle at 82% 70%, var(--accent-dark)/0.10, transparent 65%)
-          `,
-        }}
-      />
+      <div className="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-4 gap-12">
 
-      {/* ================= MAIN ================= */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        viewport={{ once: true }}
-        className="
-          relative z-10
-          max-w-7xl mx-auto px-6 py-20
-          grid md:grid-cols-4 gap-14
-        "
-      >
-        {/* BRAND */}
-        <div className="space-y-4">
+        {/* ================= BRAND ================= */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="space-y-4"
+        >
           <Link href="/" className="flex items-center gap-3">
-            <motion.div
-              whileHover={{ scale: 1.06, rotate: 3 }}
-              transition={{ type: "spring", stiffness: 200, damping: 16 }}
-            >
-              <Image src="/TP K.svg" alt="VINS" width={44} height={44} />
-            </motion.div>
-
-            <span className="text-xl font-bold tracking-widest">
-              <WaveHighlight>VINS</WaveHighlight>
+            <Image src="/TP K.svg" alt="VINS" width={40} height={40} />
+            <span className="text-lg font-semibold tracking-wide text-[var(--accent)]">
+              VINS
             </span>
           </Link>
 
-          {/* STATUS */}
-          <div className="flex items-center gap-2 text-xs tracking-wide opacity-80">
+          <div className="flex items-center gap-2 text-xs opacity-70">
             <Activity size={14} />
             <span
               className={`w-2 h-2 rounded-full ${
                 statusStyles[siteInfo.status]
               }`}
             />
-            <span className="uppercase font-semibold">
+            <span className="uppercase font-medium">
               {siteInfo.status}
             </span>
           </div>
 
-          <p className="text-sm opacity-70 leading-relaxed max-w-xs">
-            Turning ideas into meaningful digital experiences through thoughtful
-            design and structured execution.
+          <p className="text-sm text-[var(--foreground)]/65 max-w-xs">
+            Turning ideas into meaningful digital experiences through
+            thoughtful design and structured execution.
           </p>
-        </div>
+        </motion.div>
 
-        {/* NAV */}
+        {/* ================= NAV ================= */}
         <nav
           className="md:col-span-2 grid grid-cols-2 gap-10"
           aria-label="Footer Navigation"
         >
           {navSections.map((section) => (
             <div key={section.title}>
-              <h4 className="text-sm font-semibold mb-3 opacity-90">
+              <h4 className="text-sm font-medium mb-3">
                 {section.title}
               </h4>
               <ul className="space-y-2">
@@ -183,8 +119,7 @@ export default function Footer() {
                     <Link
                       href={l.href}
                       className="
-                        text-sm opacity-65
-                        hover:opacity-100
+                        text-sm text-[var(--foreground)]/65
                         hover:text-[var(--accent)]
                         transition-colors
                       "
@@ -198,64 +133,54 @@ export default function Footer() {
           ))}
         </nav>
 
-        {/* CONTACT */}
-        <div>
-          <h4 className="text-sm font-semibold mb-3 opacity-90">
+        {/* ================= CONTACT ================= */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          viewport={{ once: true }}
+        >
+          <h4 className="text-sm font-medium mb-3">
             Contact
           </h4>
 
-          <p className="text-sm opacity-80 flex items-center gap-2 mb-2">
-            <Mail size={15} /> vin.simorangkir81@gmail.com
+          <p className="text-sm text-[var(--foreground)]/70 flex items-center gap-2 mb-2">
+            <Mail size={14} /> vin.simorangkir81@gmail.com
           </p>
 
-          <p className="text-sm opacity-80 flex items-center gap-2 mb-5">
-            <Phone size={15} /> +62 822-8251-2619
+          <p className="text-sm text-[var(--foreground)]/70 flex items-center gap-2 mb-4">
+            <Phone size={14} /> +62 822-8251-2619
           </p>
 
-          {/* SOCIALS */}
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             {socials.map(({ icon, url }) => (
               <motion.a
                 key={url}
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ y: -4 }}
-                transition={{ type: "spring", stiffness: 220, damping: 16 }}
+                whileHover={{ y: -3 }}
                 className="
-                  p-2 rounded-xl
-                  backdrop-blur-lg
-                  bg-white/45 dark:bg-white/5
-                  border border-white/20 dark:border-white/10
-                  opacity-70
-                  hover:opacity-100
+                  p-2 rounded-lg
+                  border border-[var(--border)]
+                  text-[var(--foreground)]/60
                   hover:text-[var(--accent)]
+                  transition-colors
                 "
               >
                 {icon}
               </motion.a>
             ))}
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
 
       {/* ================= BOTTOM ================= */}
-      <div
-        className="
-          relative z-10
-          border-t border-white/20 dark:border-white/10
-          backdrop-blur-xl
-          bg-white/25 dark:bg-white/5
-          py-5
-          text-center text-xs
-          flex flex-col items-center gap-1
-          opacity-70
-        "
-      >
+      <div className="border-t border-[var(--border)] py-4 text-center text-xs text-[var(--foreground)]/60">
         <span>
           © {new Date().getFullYear()} VINS — All Rights Reserved.
         </span>
-        <span className="font-mono">
+        <span className="block mt-1 font-mono">
           Version {siteInfo.version}
         </span>
       </div>

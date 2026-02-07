@@ -16,49 +16,13 @@ import { projectsData } from "@/data/projects";
 
 /* ================= MOTION ================= */
 const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 14 },
   show: { opacity: 1, y: 0 },
 };
 
 const stagger = {
-  show: {
-    transition: { staggerChildren: 0.08 },
-  },
+  show: { transition: { staggerChildren: 0.08 } },
 };
-
-/* ================= WAVE HIGHLIGHT ================= */
-function WaveHighlight({ children }) {
-  return (
-    <span className="relative inline-block leading-tight">
-      <span
-        className="relative z-10 bg-clip-text text-transparent"
-        style={{
-          backgroundImage:
-            "linear-gradient(90deg, var(--accent) 10%, var(--accent-dark) 90%)",
-          WebkitTextFillColor: "transparent",
-        }}
-      >
-        {children}
-      </span>
-
-      <svg
-        className="absolute left-0 bottom-0 w-full h-[8px]"
-        viewBox="0 0 200 20"
-        preserveAspectRatio="none"
-      >
-        <motion.path
-          d="M0 10 Q 25 6 50 10 T 100 10 T 150 10 T 200 10"
-          fill="none"
-          stroke="var(--accent)"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          animate={{ pathOffset: [0, 1] }}
-          transition={{ duration: 4, ease: "linear", repeat: Infinity }}
-        />
-      </svg>
-    </span>
-  );
-}
 
 export default function ProjectDetail() {
   const { slug } = useParams();
@@ -71,61 +35,71 @@ export default function ProjectDetail() {
   if (!project) return notFound();
 
   return (
-    <main className="relative min-h-screen pt-28 pb-32 bg-[var(--background)] text-[var(--foreground)]">
-      {/* BACKDROP */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `
-            radial-gradient(circle at 20% 30%, var(--accent)/0.18, transparent 55%),
-            radial-gradient(circle at 85% 70%, var(--accent-dark)/0.16, transparent 60%)
-          `,
-        }}
-      />
+    <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)]">
 
-      <div className="relative max-w-6xl mx-auto px-6">
-        {/* ================= HEADER ================= */}
-        <motion.header
-          variants={stagger}
-          initial="hidden"
-          animate="show"
-          className="mb-14"
+      {/* ================= HEADER (VINS+ STYLE) ================= */}
+      <section className="relative overflow-hidden">
+        {/* GOLD DIAGONAL */}
+        <div
+          aria-hidden
+          className="
+            absolute inset-0
+            bg-gradient-to-br
+            from-[var(--accent)]/25
+            via-[var(--accent)]/10
+            to-transparent
+            -skew-y-6
+            origin-top-left
+          "
+        />
+
+        {/* FADE */}
+        <div
+          aria-hidden
+          className="
+            absolute bottom-0 left-0 w-full h-28
+            bg-gradient-to-t from-[var(--background)] to-transparent
+          "
+        />
+
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="relative max-w-6xl mx-auto px-6 pt-32 pb-20"
         >
-          <motion.h1 variants={fadeUp} className="text-4xl md:text-5xl font-extrabold">
-            <WaveHighlight>Project Overview</WaveHighlight>
-          </motion.h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+            Project Overview
+          </h1>
 
-          <motion.p variants={fadeUp} className="opacity-70 mt-3 max-w-3xl">
-            Detailed breakdown covering design intent, technical execution,
-            and delivered outcomes.
-          </motion.p>
+          <p className="opacity-70 mt-3 max-w-3xl">
+            Design intent, technical execution, and delivered outcomes.
+          </p>
 
           {/* BREADCRUMB */}
-          <motion.nav
-            variants={fadeUp}
-            aria-label="Breadcrumb"
-            className="mt-5 flex items-center gap-2 text-sm font-medium"
-          >
+          <nav className="mt-5 flex items-center gap-2 text-sm font-medium">
             <Crumb href="/">Home</Crumb>
-            <ChevronRight className="w-4 opacity-60" />
+            <ChevronRight className="w-4 opacity-50" />
             <Crumb href="/vins-plus/project">Projects</Crumb>
-            <ChevronRight className="w-4 opacity-60" />
-            <span className="opacity-70 truncate max-w-[260px]">
+            <ChevronRight className="w-4 opacity-50" />
+            <span className="opacity-60 truncate max-w-[260px]">
               {project.title}
             </span>
-          </motion.nav>
-        </motion.header>
+          </nav>
+        </motion.div>
+      </section>
+
+      {/* ================= CONTENT ================= */}
+      <section className="relative max-w-6xl mx-auto px-6 pb-32">
 
         {/* BACK BUTTON */}
         <Link
           href="/vins-plus/project"
           className="
-            inline-flex items-center gap-2 mb-10
+            inline-flex items-center gap-2 mb-12
             px-4 py-2 rounded-xl
-            backdrop-blur-xl
-            bg-white/55 dark:bg-white/5
-            border border-white/25 dark:border-white/10
+            bg-[var(--card)]
+            border border-[var(--border)]
             hover:border-[var(--accent)]/50
             transition
           "
@@ -146,7 +120,7 @@ export default function ProjectDetail() {
             variants={fadeUp}
             className="
               relative rounded-3xl overflow-hidden
-              border border-white/25 dark:border-white/10
+              border border-[var(--border)]
               shadow-[0_20px_60px_rgba(0,0,0,0.25)]
             "
           >
@@ -159,11 +133,14 @@ export default function ProjectDetail() {
                 className="object-cover"
               />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
           </motion.div>
 
           {/* INFO */}
-          <motion.div variants={fadeUp} className="flex flex-col justify-center gap-5">
+          <motion.div
+            variants={fadeUp}
+            className="flex flex-col justify-center gap-5"
+          >
             <h2 className="text-3xl font-bold">{project.title}</h2>
 
             <p className="text-lg font-medium text-[var(--accent)]">
@@ -177,7 +154,7 @@ export default function ProjectDetail() {
                   key={t}
                   className="
                     px-3 py-1 text-xs rounded-lg
-                    bg-[var(--accent)]/12
+                    bg-[var(--accent)]/15
                     border border-[var(--accent)]/30
                     text-[var(--accent)]
                   "
@@ -192,7 +169,7 @@ export default function ProjectDetail() {
           </motion.div>
         </motion.section>
 
-        {/* ================= CONTENT ================= */}
+        {/* ================= DETAILS ================= */}
         <GlassSection title="Project Details">
           <Detail label="Category" value={project.category} />
           <Detail label="Year" value={project.year} />
@@ -230,7 +207,7 @@ export default function ProjectDetail() {
                   whileHover={{ scale: 1.04 }}
                   className="
                     relative h-48 rounded-xl overflow-hidden
-                    border border-white/25 dark:border-white/10
+                    border border-[var(--border)]
                   "
                 >
                   <Image src={src} fill alt="Gallery" className="object-cover" />
@@ -239,7 +216,7 @@ export default function ProjectDetail() {
             </div>
           </GlassSection>
         )}
-      </div>
+      </section>
     </main>
   );
 }
@@ -270,12 +247,7 @@ function LinksGroup({ links = {} }) {
     live: <ExternalLink size={16} />,
     github: <Github size={16} />,
     figma: (
-      <Image
-        src="/icons/figma.svg"
-        width={14}
-        height={14}
-        alt="Figma"
-      />
+      <Image src="/icons/figma.svg" width={14} height={14} alt="Figma" />
     ),
     case: <Check size={16} />,
   };
@@ -289,16 +261,17 @@ function LinksGroup({ links = {} }) {
 
   return (
     <div className="flex flex-wrap gap-3 mt-4">
-      {Object.entries(links).map(([key, href]) =>
-        href ? (
-          <ActionBtn
-            key={key}
-            href={href}
-            primary={key === "live"}
-            icon={icons[key]}
-            label={labels[key]}
-          />
-        ) : null
+      {Object.entries(links).map(
+        ([key, href]) =>
+          href && (
+            <ActionBtn
+              key={key}
+              href={href}
+              primary={key === "live"}
+              icon={icons[key]}
+              label={labels[key]}
+            />
+          )
       )}
     </div>
   );
@@ -310,7 +283,6 @@ function ActionBtn({ href, icon, label, primary }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={label}
       className={`
         inline-flex items-center gap-2
         px-6 py-2.5 rounded-xl font-semibold
@@ -332,9 +304,8 @@ function GlassSection({ title, children }) {
     <section
       className="
         mb-16 p-7 rounded-2xl
-        backdrop-blur-xl
-        bg-white/55 dark:bg-white/5
-        border border-white/25 dark:border-white/10
+        bg-[var(--card)]
+        border border-[var(--border)]
         shadow-[0_14px_40px_rgba(0,0,0,0.18)]
       "
     >

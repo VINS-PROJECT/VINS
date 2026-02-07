@@ -5,50 +5,93 @@ import { motion } from "framer-motion";
 
 export default function PortfolioPage() {
   return (
-    <main
-      className="
-        relative min-h-screen
-        flex items-center
-        bg-[var(--background)]
-        text-[var(--foreground)]
-        transition-colors
-        overflow-hidden
-      "
-    >
-      <div className="max-w-6xl mx-auto px-6 py-28 w-full">
+    <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)] overflow-hidden">
+
+      {/* ================= HEADER (VINS+ STYLE) ================= */}
+      <section className="relative overflow-hidden">
+        {/* Diagonal gold */}
+        <div
+          aria-hidden
+          className="
+            absolute inset-0
+            bg-gradient-to-br
+            from-[var(--accent)]/25
+            via-[var(--accent)]/10
+            to-transparent
+            -skew-y-6
+            origin-top-left
+          "
+        />
+
+        {/* Fade bottom */}
+        <div
+          aria-hidden
+          className="
+            absolute bottom-0 left-0 w-full h-28
+            bg-gradient-to-t from-[var(--background)] to-transparent
+          "
+        />
+
+        {/* Title */}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="relative pt-32 pb-24 text-center"
+        >
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+            Portfolio
+          </h1>
+
+          <span className="mt-2 block text-sm font-mono text-[var(--foreground)]/50">
+            /vins+/portfolio
+          </span>
+
+          <p className="mt-4 max-w-xl mx-auto text-sm opacity-65 leading-relaxed">
+            A curated collection of selected works, case studies,
+            and real-world projects across design and development.
+          </p>
+        </motion.div>
+      </section>
+
+      {/* ================= CONTENT ================= */}
+      <section className="relative max-w-6xl mx-auto px-6 pb-28">
         <div className="grid md:grid-cols-2 gap-16 items-center">
 
           {/* ================= LEFT : TEXT ================= */}
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="space-y-6"
           >
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-              Portfolio
-            </h1>
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+              Explore My Work
+            </h2>
 
-            <p className="text-lg opacity-80 leading-relaxed max-w-md">
-              Scan the QR code to explore my selected works, case studies,
-              and real-world projects across design and development.
+            <p className="text-base opacity-80 leading-relaxed max-w-md">
+              Scan the QR code to explore selected UI/UX case studies,
+              frontend projects, and product-focused implementations
+              built with real constraints and goals.
             </p>
 
             <p className="text-sm opacity-60">
-              Showcasing UI/UX, frontend development, and product thinking.
+              Focused on clarity, usability, and long-term scalability.
             </p>
           </motion.div>
 
           {/* ================= RIGHT : QR ================= */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="flex justify-center md:justify-end"
           >
             <div className="relative">
 
-              {/* PULSE RING */}
+              {/* Pulse ring */}
               <motion.div
                 aria-hidden
                 className="
@@ -66,7 +109,7 @@ export default function PortfolioPage() {
                 }}
               />
 
-              {/* SECOND PULSE */}
+              {/* Second pulse */}
               <motion.div
                 aria-hidden
                 className="
@@ -85,7 +128,7 @@ export default function PortfolioPage() {
                 }}
               />
 
-              {/* QR CONTAINER */}
+              {/* QR box */}
               <div
                 className="
                   relative z-10 p-6 rounded-3xl
@@ -95,7 +138,7 @@ export default function PortfolioPage() {
                 "
               >
                 <Image
-                  src="/qr-portfolio.png" // ⬅️ ganti dengan QR portfolio kamu
+                  src="/QR/PortfolioVINS.png"
                   alt="Portfolio QR Code"
                   width={240}
                   height={240}
@@ -111,7 +154,7 @@ export default function PortfolioPage() {
           </motion.div>
 
         </div>
-      </div>
+      </section>
     </main>
   );
 }

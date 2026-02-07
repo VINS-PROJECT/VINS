@@ -5,27 +5,23 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
 
-//✔ Import theme from local storage or state
 export default function ClientLayoutWrapper({ children }) {
   const pathname = usePathname();
 
   const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState("dark");
 
-  // ⏳ load theme dari localStorage
   useEffect(() => {
-    const saved = localStorage.getItem("theme") || "light";
+    const saved = localStorage.getItem("theme") || "dark";
     setTheme(saved);
     setMounted(true);
   }, []);
 
-  // 🔥 APPLY MODE KE <html>
   useEffect(() => {
     if (!mounted) return;
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme, mounted]);
 
-  // halaman tanpa navbar/footer
   const hideLayoutPrefixes = [
     "/login",
     "/register",
@@ -43,9 +39,10 @@ export default function ClientLayoutWrapper({ children }) {
 
   return (
     <>
-      {!shouldHide && <Navbar theme={theme} setTheme={setTheme} />}
+      {!shouldHide && <Navbar />}
 
-      <main className={!shouldHide ? "pt-20" : ""}>{children}</main>
+      {/* ❌ JANGAN PAKE pt-20 */}
+      <main>{children}</main>
 
       {!shouldHide && <Footer />}
     </>

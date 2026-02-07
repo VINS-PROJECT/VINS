@@ -1,4 +1,4 @@
 export const siteInfo = {
-  version: "v2.1.0",
+  version: "v3.0.0",
   status: "operational", // operational | maintenance | outage
 };

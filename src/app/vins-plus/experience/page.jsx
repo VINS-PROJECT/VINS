@@ -25,27 +25,11 @@ function WaveHighlight({ children }) {
         className="relative z-10 bg-clip-text text-transparent"
         style={{
           backgroundImage:
-            "linear-gradient(90deg, var(--accent) 10%, var(--accent-dark) 90%)",
-          WebkitTextFillColor: "transparent",
+            "linear-gradient(90deg, var(--accent), var(--accent-dark))",
         }}
       >
         {children}
       </span>
-      <svg
-        className="absolute left-0 bottom-0 w-full h-[8px]"
-        viewBox="0 0 200 20"
-        preserveAspectRatio="none"
-      >
-        <motion.path
-          d="M0 10 Q 25 6 50 10 T 100 10 T 150 10 T 200 10"
-          fill="none"
-          stroke="var(--accent)"
-          strokeWidth="2"
-          strokeLinecap="round"
-          animate={{ pathOffset: [0, 1] }}
-          transition={{ duration: 4, ease: "linear", repeat: Infinity }}
-        />
-      </svg>
     </span>
   );
 }
@@ -80,15 +64,6 @@ export default function ExperiencePage() {
       desc:
         "Analyzed Indibiz customer data and developed a dashboard for business insights following the Waterfall method.",
     },
-    {
-      role: "Web Developer",
-      company: "Baparekraf Digital Talent x Dicoding",
-      period: "February 2024 — July 2024",
-      location: "Bandung, Indonesia",
-      tech: ["PHP", "Bootstrap", "Waterfall"],
-      desc:
-        "Built an agricultural website using PHP & Bootstrap with a full Waterfall workflow and 100% completion.",
-    },
   ];
 
   const organizational = [
@@ -110,61 +85,61 @@ export default function ExperiencePage() {
         "Designed and executed programs including Indonesian Youth Potential Ambassadors 2024.",
       ],
     },
-    {
-      role: "Event Division",
-      organization: "Lampung Leadership Forum",
-      period: "October 2023 — December 2023",
-      location: "Lampung",
-      achievements: [
-        "Coordinated speakers, audience, and event flow for LLF 2024.",
-      ],
-    },
   ];
 
   const [filter, setFilter] = useState("all");
 
   return (
-    <main className="relative min-h-screen pt-28 pb-24 bg-[var(--background)] text-[var(--foreground)] overflow-hidden">
-      {/* BACKDROP */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `
-            radial-gradient(circle at 20% 15%, var(--accent)/0.18, transparent 60%),
-            radial-gradient(circle at 80% 85%, var(--accent-dark)/0.18, transparent 60%)
-          `,
-        }}
-      />
+    <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)] overflow-hidden">
 
-      <div className="relative max-w-6xl mx-auto px-6">
-        {/* HEADER */}
+      {/* ================= HEADER (VINS+ STYLE) ================= */}
+      <section className="relative overflow-hidden">
+        {/* Diagonal gold background */}
+        <div
+          aria-hidden
+          className="
+            absolute inset-0
+            bg-gradient-to-br
+            from-[var(--accent)]/25
+            via-[var(--accent)]/10
+            to-transparent
+            -skew-y-6
+            origin-top-left
+          "
+        />
+
+        {/* Fade to content */}
+        <div
+          aria-hidden
+          className="
+            absolute bottom-0 left-0 w-full h-28
+            bg-gradient-to-t from-[var(--background)] to-transparent
+          "
+        />
+
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-14"
+          className="relative pt-32 pb-24 text-center"
         >
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
             <WaveHighlight>Experience</WaveHighlight>
           </h1>
+
+          <span className="mt-2 block text-sm font-mono text-[var(--foreground)]/50">
+            /experience
+          </span>
 
           <p className="opacity-65 mt-4 max-w-xl mx-auto text-sm leading-relaxed">
             Professional work and organizational leadership shaping how I
             collaborate, lead, and deliver results.
           </p>
-
-          {/* STATS */}
-          <div className="flex justify-center gap-4 mt-6 text-xs">
-            <span className="px-3 py-1 rounded-full bg-[var(--accent)] text-black font-semibold">
-              {professional.length} Professional Roles
-            </span>
-            <span className="px-3 py-1 rounded-full border border-[var(--border)]">
-              {organizational.length} Organizational Roles
-            </span>
-          </div>
         </motion.div>
+      </section>
 
+      {/* ================= CONTENT ================= */}
+      <div className="relative max-w-6xl mx-auto px-6 pt-6 pb-24">
         {/* FILTER */}
         <div className="flex justify-center gap-2 mb-20">
           <FilterChip label="All" active={filter === "all"} onClick={() => setFilter("all")} />
@@ -212,24 +187,6 @@ export default function ExperiencePage() {
             }))}
           />
         )}
-
-        {/* SUMMARY */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mt-28"
-        >
-          <Trophy size={40} strokeWidth={1.25} className="text-[var(--accent)] mx-auto mb-4" />
-          <h3 className="text-xl font-semibold">
-            Built Through Real Projects & People
-          </h3>
-          <p className="opacity-60 max-w-lg mx-auto text-sm mt-2">
-            Each role strengthens how I manage projects, collaborate with teams,
-            and deliver outcomes with clarity and intention.
-          </p>
-        </motion.div>
       </div>
     </main>
   );

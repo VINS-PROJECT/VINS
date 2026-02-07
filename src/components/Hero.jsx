@@ -3,119 +3,115 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight, Play } from "lucide-react";
 
 export default function Hero() {
   return (
     <section
       className="
-        relative overflow-hidden
-        py-28 md:py-32
+        min-h-screen flex items-center
         bg-[var(--background)] text-[var(--foreground)]
-        transition-colors duration-500
       "
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 grid md:grid-cols-2 gap-16 items-center relative z-10">
-
-        {/* ================= LEFT TEXT ================= */}
+      <div
+        className="
+          w-full max-w-7xl mx-auto
+          px-6 lg:px-12
+          grid md:grid-cols-2 gap-14
+          items-center
+        "
+      >
+        {/* ================= LEFT ================= */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: "easeOut" }}
-          className="space-y-7"
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="space-y-6"
         >
-          <h1
+          {/* Eyebrow */}
+          <span
             className="
-              font-elektrakution
-              text-4xl sm:text-5xl md:text-6xl
-              leading-tight tracking-tight
+              inline-block text-sm font-medium
+              text-[var(--accent)]
+              tracking-wide
             "
           >
-            Empowering{" "}
-            <span
-              className="
-                bg-clip-text text-transparent
-                bg-gradient-to-r
-                from-[var(--accent)]
-                to-[var(--accent-dark)]
-              "
-            >
-              Indonesia’s Creators
+            Creative Technologist
+          </span>
+
+          {/* Headline */}
+          <h1 className="font-semibold leading-tight tracking-tight">
+            <span className="block text-4xl sm:text-5xl md:text-6xl">
+              Building Digital
+            </span>
+
+            <span className="block text-4xl sm:text-5xl md:text-6xl text-[var(--accent)]">
+              Experiences
+            </span>
+
+            <span className="block text-4xl sm:text-5xl md:text-6xl">
+              That Matter
             </span>
           </h1>
 
-          <p className="max-w-lg text-lg leading-relaxed opacity-85">
-            I help brands, startups, and creators build meaningful digital
-            identities through intentional design, modern development, and
-            elevated user experience.
+          {/* Description */}
+          <p className="max-w-xl text-base lg:text-lg text-[var(--foreground)]/70">
+            I design and build thoughtful digital products for brands,
+            startups, and creators.
           </p>
 
           {/* CTA */}
-          <div className="pt-3">
+          <div className="flex flex-wrap items-center gap-4 pt-4">
             <Link
               href="/contact"
               className="
-                inline-flex items-center justify-center
-                px-7 py-3.5 rounded-xl
-                font-semibold
-
-                text-black bg-[var(--accent)]
-                shadow-[0_12px_30px_-10px_var(--accent)]
-
-                transition-all duration-200
-                hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-12px_var(--accent)]
-
-                active:translate-y-0
-                active:scale-[0.97]
-
-                focus:outline-none
-                focus-visible:ring-2
-                focus-visible:ring-[var(--accent)]
-                focus-visible:ring-offset-2
-                focus-visible:ring-offset-[var(--background)]
-
-                select-none
+                inline-flex items-center gap-2
+                px-7 py-4 rounded-xl
+                font-medium
+                bg-[var(--accent)]
+                text-black
+                transition
+                hover:brightness-110
               "
             >
-              Contact Me
+              Start a Project
+              <ArrowRight size={18} />
+            </Link>
+
+            <Link
+              href="/vins-plus/portfolio"
+              className="
+                inline-flex items-center gap-2
+                px-6 py-4 rounded-xl
+                font-medium
+                border border-[var(--border)]
+                text-[var(--foreground)]/70
+                hover:text-[var(--foreground)]
+                transition
+              "
+            >
+              <Play size={16} />
+              View Work
             </Link>
           </div>
         </motion.div>
 
-        {/* ================= RIGHT IMAGE ================= */}
+        {/* ================= RIGHT ================= */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: 16 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.15, ease: "easeOut" }}
-          className="relative flex justify-center md:justify-end"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+          className="flex justify-center md:justify-end"
         >
-          {/* Glow */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.28 }}
-            transition={{ duration: 1.6, delay: 0.4 }}
-            className="
-              absolute -z-10 top-1/2 right-1/2
-              translate-x-1/2 -translate-y-1/2
-              w-[520px] h-[520px]
-              rounded-full blur-[140px]
-              bg-[var(--accent)]/30
-            "
-          />
-
           <Image
-            src="/Collage.png"
+            src="/Combine.png"
             alt="Creative Collage"
-            width={720}
-            height={720}
+            width={640}
+            height={640}
             priority
-            className="
-              object-contain
-              w-full max-w-xl
-              drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]
-            "
+            className="w-full max-w-lg object-contain"
           />
         </motion.div>
-
       </div>
     </section>
   );
