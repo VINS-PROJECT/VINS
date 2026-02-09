@@ -14,6 +14,14 @@ const iconProps = {
 /* ================= DATA ================= */
 const CHANGELOGS = [
   {
+    version: "v3.0.1",
+    date: "2026-02-09",
+    changes: [
+      { text: " Fixed minor bugs in VINS+ platform.", type: "fix" },
+      { text: " Fixed responsive issues on mobile devices.", type: "fix" },
+    ],
+  },
+  {
     version: "v3.0.0",
     date: "2026-02-07",
     changes: [

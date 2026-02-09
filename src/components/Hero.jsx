@@ -9,15 +9,19 @@ export default function Hero() {
   return (
     <section
       className="
-        min-h-screen flex items-center
-        bg-[var(--background)] text-[var(--foreground)]
+        min-h-screen
+        flex items-start md:items-center
+        pt-28 md:pt-0
+        bg-[var(--background)]
+        text-[var(--foreground)]
       "
     >
       <div
         className="
           w-full max-w-7xl mx-auto
           px-6 lg:px-12
-          grid md:grid-cols-2 gap-14
+          grid md:grid-cols-2
+          gap-10 md:gap-14
           items-center
         "
       >
@@ -26,57 +30,67 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="space-y-6"
+          className="space-y-6 order-1"
         >
           {/* Eyebrow */}
           <span
             className="
-              inline-block text-sm font-medium
-              text-[var(--accent)]
+              inline-block
+              text-sm font-medium
               tracking-wide
+              text-[var(--accent)]
             "
           >
             Creative Technologist
           </span>
 
           {/* Headline */}
-          <h1 className="font-semibold leading-tight tracking-tight">
-            <span className="block text-4xl sm:text-5xl md:text-6xl">
+          <h1 className="font-semibold tracking-tight">
+            <span className="block text-3xl sm:text-5xl md:text-6xl leading-tight">
               Building Digital
             </span>
 
-            <span className="block text-4xl sm:text-5xl md:text-6xl text-[var(--accent)]">
+            <span className="block text-3xl sm:text-5xl md:text-6xl leading-tight text-[var(--accent)]">
               Experiences
             </span>
 
-            <span className="block text-4xl sm:text-5xl md:text-6xl">
+            <span className="block text-3xl sm:text-5xl md:text-6xl leading-tight">
               That Matter
             </span>
           </h1>
 
           {/* Description */}
           <p className="max-w-xl text-base lg:text-lg text-[var(--foreground)]/70">
-            I design and build thoughtful digital products for brands,
-            startups, and creators.
+            I design and build thoughtful digital products for brands, startups,
+            and creators.
           </p>
 
           {/* CTA */}
           <div className="flex flex-wrap items-center gap-4 pt-4">
             <Link
-              href="/contact"
-              className="
-                inline-flex items-center gap-2
-                px-7 py-4 rounded-xl
-                font-medium
-                bg-[var(--accent)]
-                text-black
-                transition
-                hover:brightness-110
-              "
-            >
-              Start a Project
-              <ArrowRight size={18} />
-            </Link>
+  href="/contact"
+  className="
+    inline-flex items-center gap-2
+    px-7 py-4 rounded-xl
+    font-medium
+
+    bg-[var(--accent)]
+    text-black
+
+    transition-all duration-200 ease-out
+
+    hover:bg-black
+    hover:text-[var(--accent)]
+
+    focus-visible:bg-black
+    focus-visible:text-[var(--accent)]
+    focus-visible:outline-none
+  "
+>
+  Start a Project
+  <ArrowRight size={18} />
+</Link>
+
 
             <Link
               href="/vins-plus/portfolio"
@@ -101,7 +115,11 @@ export default function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-          className="flex justify-center md:justify-end"
+          className="
+            flex justify-center md:justify-end
+            mt-8 md:mt-0
+            order-2 md:order-none
+          "
         >
           <Image
             src="/Combine.png"
@@ -109,7 +127,11 @@ export default function Hero() {
             width={640}
             height={640}
             priority
-            className="w-full max-w-lg object-contain"
+            className="
+              w-full
+              max-w-xs sm:max-w-md md:max-w-lg
+              object-contain
+            "
           />
         </motion.div>
       </div>
