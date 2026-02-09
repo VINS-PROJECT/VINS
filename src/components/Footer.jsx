@@ -62,7 +62,7 @@ export default function Footer() {
     <footer
       role="contentinfo"
       className="
-        hidden md:block
+        block
         bg-[var(--background)]
         text-[var(--foreground)]
         border-t border-[var(--border)]
