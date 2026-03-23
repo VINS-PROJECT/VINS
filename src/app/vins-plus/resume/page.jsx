@@ -7,129 +7,95 @@ export default function ResumePage() {
   return (
     <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)] overflow-hidden">
 
-      {/* ================= HEADER (VINS+ STYLE) ================= */}
-      <section className="relative overflow-hidden">
-        {/* Diagonal gold */}
-        <div
-          aria-hidden
-          className="
-            absolute inset-0
-            bg-gradient-to-br
-            from-[var(--accent)]/25
-            via-[var(--accent)]/10
-            to-transparent
-            -skew-y-6
-            origin-top-left
-          "
-        />
+      {/* ===== BACKGROUND ===== */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-[var(--accent)]/10" />
+        <div className="absolute w-[500px] h-[500px] bg-[var(--accent)]/20 blur-[140px] rounded-full top-[-120px] right-[-120px]" />
+      </div>
 
-        {/* Fade bottom */}
-        <div
-          aria-hidden
-          className="
-            absolute bottom-0 left-0 w-full h-28
-            bg-gradient-to-t from-[var(--background)] to-transparent
-          "
-        />
-
-        {/* Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
+      {/* ================= HEADER ================= */}
+      <section className="pt-32 pb-20 text-center px-6">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="relative pt-32 pb-24 text-center"
+          className="text-4xl md:text-6xl font-semibold tracking-tight"
         >
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-            Resume
-          </h1>
+          Resume
+        </motion.h1>
 
-          <span className="mt-2 block text-sm font-mono text-[var(--foreground)]/50">
-            /vins+/resume
-          </span>
-
-          <p className="mt-4 max-w-xl mx-auto text-sm opacity-65 leading-relaxed">
-            A concise overview of my professional experience, skills,
-            and selected projects — optimized for recruiters and ATS systems.
-          </p>
-        </motion.div>
+        <p className="mt-4 max-w-xl mx-auto text-sm opacity-60">
+          A concise overview of my professional experience,
+          technical skills, and selected projects.
+        </p>
       </section>
 
       {/* ================= CONTENT ================= */}
-      <section className="relative max-w-6xl mx-auto px-6 pb-28">
+      <section className="max-w-6xl mx-auto px-6 pb-32">
         <div className="grid md:grid-cols-2 gap-16 items-center">
 
-          {/* ================= LEFT : TEXT ================= */}
+          {/* ================= LEFT ================= */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="space-y-6"
+            className="space-y-8"
           >
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
-              Access My Resume
+            <h2 className="text-2xl md:text-3xl font-semibold">
+              Professional Overview
             </h2>
 
-            <p className="text-base opacity-80 leading-relaxed max-w-md">
-              Scan the QR code to view or download my latest resume.
-              It covers professional experience, technical skills,
-              and curated project highlights.
+            <p className="text-[var(--foreground)]/70 leading-relaxed max-w-md">
+              Structured for clarity and impact — highlighting real-world
+              experience, technical capabilities, and product thinking.
             </p>
 
-            <p className="text-sm opacity-60">
-              Designed for clarity, credibility, and long-term use.
-            </p>
+            {/* HIGHLIGHTS */}
+            <div className="space-y-4">
+              <div className="p-4 rounded-xl border border-[var(--border)]">
+                <p className="text-sm">
+                  ✔ Frontend Development (React, Next.js)
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl border border-[var(--border)]">
+                <p className="text-sm">
+                  ✔ UI/UX & Product Design Thinking
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl border border-[var(--border)]">
+                <p className="text-sm">
+                  ✔ Scalable & Maintainable Systems
+                </p>
+              </div>
+            </div>
+
+            {/* CTA */}
+            <a
+              href="/resume.pdf"
+              className="
+                inline-block mt-4 px-6 py-3 rounded-xl
+                bg-[var(--accent)] text-black font-medium
+                transition hover:bg-black hover:text-[var(--accent)]
+              "
+            >
+              Download Resume
+            </a>
           </motion.div>
 
-          {/* ================= RIGHT : QR ================= */}
+          {/* ================= RIGHT ================= */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
             className="flex justify-center md:justify-end"
           >
             <div className="relative">
 
-              {/* Pulse ring */}
-              <motion.div
-                aria-hidden
-                className="
-                  absolute inset-0 rounded-3xl
-                  border border-[var(--accent)]/40
-                "
-                animate={{
-                  scale: [1, 1.15],
-                  opacity: [0.6, 0],
-                }}
-                transition={{
-                  duration: 2.2,
-                  ease: "easeOut",
-                  repeat: Infinity,
-                }}
-              />
+              {/* glow */}
+              <div className="absolute inset-0 bg-[var(--accent)]/20 blur-[80px] rounded-3xl" />
 
-              {/* Second pulse */}
+              {/* QR CARD */}
               <motion.div
-                aria-hidden
-                className="
-                  absolute inset-0 rounded-3xl
-                  border border-[var(--accent)]/25
-                "
-                animate={{
-                  scale: [1, 1.3],
-                  opacity: [0.4, 0],
-                }}
-                transition={{
-                  duration: 2.6,
-                  ease: "easeOut",
-                  repeat: Infinity,
-                  delay: 1,
-                }}
-              />
-
-              {/* QR box */}
-              <div
+                whileHover={{ scale: 1.05 }}
                 className="
                   relative z-10 p-6 rounded-3xl
                   bg-white dark:bg-white/5
@@ -142,14 +108,14 @@ export default function ResumePage() {
                   alt="Resume QR Code"
                   width={240}
                   height={240}
-                  priority
                   className="object-contain"
                 />
 
                 <span className="block text-center mt-3 text-xs opacity-60">
-                  Scan to open resume
+                  Scan to open
                 </span>
-              </div>
+              </motion.div>
+
             </div>
           </motion.div>
 

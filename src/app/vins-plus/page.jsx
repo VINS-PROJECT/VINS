@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   PanelsTopLeft,
   Briefcase,
@@ -9,12 +9,9 @@ import {
   FileUser,
   Rocket,
   Landmark,
-  Lock,
-  X,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
-/* ================= ICON STYLE ================= */
 const iconProps = {
   size: 26,
   strokeWidth: 1.25,
@@ -22,179 +19,129 @@ const iconProps = {
 };
 
 export default function VinsPlusPage() {
-  const [showPopup, setShowPopup] = useState(false);
-  const modalRef = useRef(null);
+  const [active, setActive] = useState(null);
   const reduceMotion = useReducedMotion();
 
-  /* ================= ITEMS ================= */
   const items = [
-    { title: "Portfolio", href: "/vins-plus/portfolio", icon: PanelsTopLeft },
-    { title: "Project", href: "/vins-plus/project", icon: Briefcase },
-    { title: "Certificate", href: "/vins-plus/certificate", icon: BadgeCheck },
-    { title: "Resume", href: "/vins-plus/resume", icon: FileUser },
-    { title: "Next Project", href: "/vins-plus/next-project", icon: Rocket },
-    { title: "Experience", href: "/vins-plus/experience", icon: Landmark },
+    {
+      title: "Portfolio",
+      desc: "Explore curated works and design systems.",
+      href: "/vins-plus/portfolio",
+      icon: PanelsTopLeft,
+    },
+    {
+      title: "Project",
+      desc: "Detailed case studies and executions.",
+      href: "/vins-plus/project",
+      icon: Briefcase,
+    },
+    {
+      title: "Certificate",
+      desc: "Verified achievements and credentials.",
+      href: "/vins-plus/certificate",
+      icon: BadgeCheck,
+    },
+    {
+      title: "Resume",
+      desc: "Professional journey and capabilities.",
+      href: "/vins-plus/resume",
+      icon: FileUser,
+    },
+    {
+      title: "Next Project",
+      desc: "Upcoming explorations and experiments.",
+      href: "/vins-plus/next-project",
+      icon: Rocket,
+    },
+    {
+      title: "Experience",
+      desc: "Timeline of roles and collaborations.",
+      href: "/vins-plus/experience",
+      icon: Landmark,
+    },
   ];
 
-  /* ================= ESC TO CLOSE ================= */
-  useEffect(() => {
-    if (!showPopup) return;
-    const onKey = (e) => e.key === "Escape" && setShowPopup(false);
-    document.addEventListener("keydown", onKey);
-    modalRef.current?.focus();
-    return () => document.removeEventListener("keydown", onKey);
-  }, [showPopup]);
-
   return (
-    <>
-      {/* ================= LOCKED MODAL ================= */}
-      <AnimatePresence>
-        {showPopup && (
-          <motion.div
-            className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 backdrop-blur-md"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setShowPopup(false)}
-          >
-            <motion.div
-              ref={modalRef}
-              tabIndex={-1}
-              onClick={(e) => e.stopPropagation()}
-              initial={{ y: reduceMotion ? 0 : 24, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 16, opacity: 0 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="
-                w-[90%] max-w-sm rounded-3xl p-8 text-center
-                bg-white/60 dark:bg-white/6
-                backdrop-blur-xl
-                border border-white/25 dark:border-white/10
-                shadow-2xl
-                outline-none
-              "
-            >
-              <button
-                onClick={() => setShowPopup(false)}
-                className="absolute top-4 right-4 opacity-60 hover:opacity-100"
-              >
-                <X size={18} />
-              </button>
+    <section className="min-h-screen bg-[var(--background)] text-[var(--foreground)] py-24">
+      <div className="max-w-6xl mx-auto px-6">
 
-              <div className="mx-auto w-14 h-14 mb-5 rounded-2xl flex items-center justify-center bg-[var(--accent)]/15 text-[var(--accent)]">
-                <Lock size={26} />
-              </div>
-
-              <h3 className="text-lg font-semibold">Feature Locked</h3>
-              <p className="mt-2 text-sm text-[var(--foreground)]/70">
-                This feature is currently under development.
-              </p>
-
-              <button
-                onClick={() => setShowPopup(false)}
-                className="
-                  mt-7 px-6 py-2.5 rounded-xl
-                  bg-[var(--accent)] text-black
-                  font-semibold hover:opacity-90
-                "
-              >
-                Understood
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ================= MAIN ================= */}
-      <section className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-        
-        {/* ================= HEADER (LOCAL BACKGROUND) ================= */}
-        <div className="relative overflow-hidden mb-24">
-          {/* Gold diagonal */}
-          <div
-            aria-hidden
-            className="
-              absolute inset-0
-              bg-gradient-to-br
-              from-[var(--accent)]/25
-              via-[var(--accent)]/10
-              to-transparent
-              -skew-y-6
-              origin-top-left
-            "
-          />
-
-          {/* Fade to content */}
-          <div
-            aria-hidden
-            className="
-              absolute bottom-0 left-0 w-full h-24
-              bg-gradient-to-t from-[var(--background)] to-transparent
-            "
-          />
-
-          {/* Title */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="relative py-32 text-center"
-          >
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-              VINS<span className="text-[var(--accent)]">+</span>
-            </h1>
-            <span className="mt-2 block text-sm font-mono text-[var(--foreground)]/50">
-              /VINS+
-            </span>
-          </motion.div>
+        {/* HEADER */}
+        <div className="text-center mb-16">
+          <h1 className="text-4xl md:text-6xl font-semibold tracking-tight">
+            VINS<span className="text-[var(--accent)]">+</span>
+          </h1>
+          <p className="text-sm opacity-60 mt-2 font-mono">
+            Product Hub / Resources
+          </p>
         </div>
 
-        {/* ================= CONTENT ================= */}
-        <div className="px-6 pb-32 flex justify-center">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 w-full max-w-6xl">
-            {items.map((item, i) => {
-              const Icon = item.icon;
+        {/* GRID */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {items.map((item, i) => {
+            const Icon = item.icon;
+            const isActive = active === i;
 
-              const Card = (
+            return (
+              <Link key={item.title} href={item.href}>
                 <motion.div
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: i * 0.05 }}
-                  whileHover={reduceMotion ? {} : { y: -6 }}
-                  className="
-                    p-8 rounded-3xl
-                    bg-white/55 dark:bg-white/5
-                    backdrop-blur-xl
-                    border border-white/25 dark:border-white/10
-                    shadow-lg
-                    hover:border-[var(--accent)]/40
-                    transition
-                  "
+                  onMouseEnter={() => setActive(i)}
+                  onMouseLeave={() => setActive(null)}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  whileHover={
+                    reduceMotion
+                      ? {}
+                      : { scale: 1.03 }
+                  }
+                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                  className={`
+                    relative overflow-hidden
+                    rounded-3xl
+                    border border-[var(--border)]
+                    bg-[var(--background)]/70 backdrop-blur-xl
+                    transition-all duration-300
+
+                    ${isActive
+                      ? "lg:col-span-2 lg:row-span-2 p-8 shadow-xl border-[var(--accent)]"
+                      : "p-6 hover:border-[var(--accent)]/40"}
+                  `}
                 >
-                  <div className="w-14 h-14 mb-6 rounded-2xl flex items-center justify-center bg-[var(--accent)]/15 text-[var(--accent)]">
-                    <Icon {...iconProps} />
+                  {/* glow */}
+                  <div className="absolute inset-0 bg-[var(--accent)]/5 opacity-0 hover:opacity-100 transition" />
+
+                  <div className="relative flex flex-col h-full">
+                    {/* ICON */}
+                    <div className="w-12 h-12 mb-4 rounded-xl flex items-center justify-center bg-[var(--accent)]/15 text-[var(--accent)]">
+                      <Icon {...iconProps} />
+                    </div>
+
+                    {/* TITLE */}
+                    <h3 className="text-lg font-semibold">
+                      {item.title}
+                    </h3>
+
+                    {/* DESC */}
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: isActive ? 1 : 0 }}
+                      className="mt-3 text-sm text-[var(--foreground)]/70 max-w-sm"
+                    >
+                      {item.desc}
+                    </motion.p>
+
+                    <div className="flex-1" />
+
+                    {/* HINT */}
+                    <span className="text-xs opacity-40 mt-4">
+                      View details →
+                    </span>
                   </div>
-
-                  <h3 className="text-lg font-semibold mb-1">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-sm text-[var(--foreground)]/70">
-                    Access {item.title} resources.
-                  </p>
                 </motion.div>
-              );
-
-              return (
-                <Link key={item.title} href={item.href}>
-                  {Card}
-                </Link>
-              );
-            })}
-          </div>
+              </Link>
+            );
+          })}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

@@ -1,21 +1,16 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
-  Download,
   ChevronLeft,
   ChevronRight,
-  Eye,
-  LayoutGrid,
-  Rows,
   Filter,
 } from "lucide-react";
 import { certificates } from "@/data/certificates";
 
 export default function CertificatePage() {
-  /* ================= LAST UPDATED ================= */
   const lastUpdate = useMemo(() => {
     const dates = certificates.map((c) => new Date(c.issuedDate));
     const latest = new Date(Math.max(...dates));
@@ -26,14 +21,10 @@ export default function CertificatePage() {
     });
   }, []);
 
-  /* ================= STATE ================= */
   const [category, setCategory] = useState("All");
   const [globalSearch, setGlobalSearch] = useState("");
-  const [sortColumn, setSortColumn] = useState(null);
-  const [sortOrder, setSortOrder] = useState("desc");
   const [page, setPage] = useState(1);
-  const [pageSize] = useState(6);
-  const [cardView, setCardView] = useState(false);
+  const pageSize = 6;
 
   const categories = [
     "All",
@@ -44,112 +35,63 @@ export default function CertificatePage() {
     "Artificial Intelligence",
   ];
 
-  const parseNumber = (v) => Number(v.replace(/\D/g, "")) || 0;
-
-  const handleSort = (col) => {
-    setSortOrder(sortColumn === col && sortOrder === "asc" ? "desc" : "asc");
-    setSortColumn(col);
-  };
-
-  const resetAll = () => {
-    setCategory("All");
-    setGlobalSearch("");
-    setSortColumn(null);
-    setSortOrder("desc");
-    setPage(1);
-  };
-
-  /* ================= FILTER + SORT ================= */
   const processed = useMemo(() => {
     let arr = [...certificates];
 
-    if (category !== "All") arr = arr.filter((c) => c.category === category);
+    if (category !== "All") {
+      arr = arr.filter((c) => c.category === category);
+    }
 
-    const q = globalSearch.trim().toLowerCase();
+    const q = globalSearch.toLowerCase();
     if (q) {
       arr = arr.filter((c) =>
-        [c.title, c.issuer, c.category, c.certificateId, c.year]
+        [c.title, c.issuer, c.category]
           .join(" ")
           .toLowerCase()
           .includes(q)
       );
     }
 
-    if (sortColumn) {
-      arr.sort((a, b) => {
-        if (sortColumn === "duration") {
-          const A = parseNumber(a.duration);
-          const B = parseNumber(b.duration);
-          return sortOrder === "asc" ? A - B : B - A;
-        }
-        const A = String(a[sortColumn]).toLowerCase();
-        const B = String(b[sortColumn]).toLowerCase();
-        return sortOrder === "asc"
-          ? A.localeCompare(B)
-          : B.localeCompare(A);
-      });
-    } else {
-      arr.sort((a, b) => b.year - a.year);
-    }
-
-    return arr;
-  }, [category, globalSearch, sortColumn, sortOrder]);
+    return arr.sort((a, b) => b.year - a.year);
+  }, [category, globalSearch]);
 
   const total = processed.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const paged = processed.slice((page - 1) * pageSize, page * pageSize);
 
+  const resetAll = () => {
+    setCategory("All");
+    setGlobalSearch("");
+    setPage(1);
+  };
+
   return (
-    <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
 
-      {/* ================= HEADER (VINS+ STYLE) ================= */}
-      <section className="relative overflow-hidden">
-        <div
-          aria-hidden
-          className="
-            absolute inset-0
-            bg-gradient-to-br
-            from-[var(--accent)]/25
-            via-[var(--accent)]/10
-            to-transparent
-            -skew-y-6
-            origin-top-left
-          "
-        />
-        <div
-          aria-hidden
-          className="
-            absolute bottom-0 left-0 w-full h-28
-            bg-gradient-to-t from-[var(--background)] to-transparent
-          "
-        />
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="relative max-w-7xl mx-auto px-6 pt-32 pb-20"
-        >
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+      {/* ================= HEADER ================= */}
+      <section className="relative">
+        <div className="max-w-7xl mx-auto px-6 pt-32 pb-16">
+          <h1 className="text-4xl md:text-5xl font-semibold">
             Certificates
           </h1>
 
-          <span className="mt-2 block text-sm font-mono opacity-50">
+          <p className="text-sm opacity-60 mt-2 font-mono">
             /vins+/certificate
-          </span>
+          </p>
 
-          <p className="text-xs opacity-60 mt-3">
+          <p className="text-xs opacity-50 mt-2">
             Last updated: {lastUpdate}
           </p>
-        </motion.div>
+        </div>
       </section>
 
       {/* ================= CONTENT ================= */}
-      <section className="relative max-w-7xl mx-auto px-6 pb-24">
+      <section className="max-w-7xl mx-auto px-6 pb-24">
 
         {/* CONTROLS */}
         <div className="flex flex-col lg:flex-row justify-between gap-4 mb-10">
           <div className="flex flex-col sm:flex-row gap-3">
+
             <input
               value={globalSearch}
               onChange={(e) => {
@@ -182,30 +124,15 @@ export default function CertificatePage() {
                 <option key={c}>{c}</option>
               ))}
             </select>
-
-            <button
-              onClick={() => setCardView((v) => !v)}
-              className="
-                px-4 py-3 rounded-xl
-                bg-[var(--card)]
-                border border-[var(--border)]
-                flex items-center gap-2
-              "
-            >
-              {cardView ? <LayoutGrid size={18} /> : <Rows size={18} />}
-              View
-            </button>
           </div>
 
           <button
             onClick={resetAll}
             className="
               px-4 py-3 rounded-xl
-              bg-[var(--accent)]/15
-              text-[var(--accent)]
-              border border-[var(--accent)]/30
-              hover:bg-[var(--accent)]
-              hover:text-black
+              bg-[var(--card)]
+              border border-[var(--border)]
+              hover:border-[var(--accent)]
               transition
               flex items-center gap-2
             "
@@ -214,187 +141,118 @@ export default function CertificatePage() {
           </button>
         </div>
 
-        {/* TABLE / CARD */}
-        {!cardView ? (
-          <div className="overflow-x-auto rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-lg">
-            <table className="min-w-full text-sm">
-              <thead className="border-b border-[var(--border)]">
-                <tr>
-                  <Th label="Title" col="title" {...{ sortColumn, sortOrder, handleSort }} />
-                  <Th label="Issuer" col="issuer" {...{ sortColumn, sortOrder, handleSort }} />
-                  <Th label="Year" col="year" {...{ sortColumn, sortOrder, handleSort }} />
-                  <Th label="Duration" col="duration" {...{ sortColumn, sortOrder, handleSort }} />
-                  <Th label="Category" col="category" {...{ sortColumn, sortOrder, handleSort }} />
-                  <th className="p-4 text-center">Action</th>
-                </tr>
-              </thead>
+        {/* ================= CARD GRID ================= */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {paged.map((c, i) => (
+            <motion.div
+              key={c.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ y: -6 }}
+              transition={{ duration: 0.3, delay: i * 0.05 }}
+              className="
+                group relative
+                rounded-2xl overflow-hidden
+                border border-[var(--border)]
+                bg-[var(--background)]/60 backdrop-blur-xl
+                p-5
+                transition-all duration-300
 
-              <tbody>
-                {paged.map((c) => (
-                  <tr
-                    key={c.id}
-                    className="border-b border-[var(--border)] hover:bg-[var(--accent)]/5 transition"
-                  >
-                    <Td>{c.title}</Td>
-                    <Td>{c.issuer}</Td>
-                    <Td>{c.year}</Td>
-                    <Td>{c.duration}</Td>
-                    <Td>{c.category}</Td>
-                    <Td center>
-                      <ActionRow c={c} />
-                    </Td>
-                  </tr>
-                ))}
+                hover:border-[var(--accent)]
+                hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)]
+              "
+            >
+              <div className="relative flex flex-col h-full">
 
-                {paged.length === 0 && (
-                  <tr>
-                    <Td colSpan={6} center className="py-6 opacity-60">
-                      No certificates found.
-                    </Td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {paged.map((c) => (
-              <div
-                key={c.id}
-                className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] shadow-lg"
-              >
-                <h3 className="font-semibold">{c.title}</h3>
-                <p className="opacity-70 text-sm">
+                <h3 className="font-semibold text-base leading-tight">
+                  {c.title}
+                </h3>
+
+                <p className="text-xs opacity-60 mt-1">
                   {c.issuer} • {c.year}
                 </p>
-                <p className="opacity-60 text-xs mt-1">
-                  {c.duration} • {c.category}
-                </p>
-                <div className="mt-4">
-                  <ActionRow c={c} />
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
 
-        {/* PAGINATION */}
-        <div className="flex flex-col sm:flex-row items-center justify-between mt-10 gap-4 opacity-75">
-          <span className="text-sm">
-            Showing {(page - 1) * pageSize + 1} –{" "}
+                <span className="
+                  inline-block mt-3 px-2 py-1 text-[10px]
+                  rounded-md bg-[var(--accent)]/10 text-[var(--accent)]
+                  w-fit
+                ">
+                  {c.category}
+                </span>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                  className="mt-3 text-xs opacity-70"
+                >
+                  Duration: {c.duration}
+                </motion.div>
+
+                <div className="flex-1" />
+
+                <div className="flex justify-between items-center mt-4">
+
+                  <button
+                    onClick={() => window.open(c.pdf, "_blank")}
+                    className="
+                      text-xs px-3 py-1 rounded-lg
+                      bg-[var(--accent)]
+                      text-black
+                      hover:brightness-90
+                      transition
+                    "
+                  >
+                    View
+                  </button>
+
+                  <Link href={`/vins-plus/certificate/${c.id}`}>
+                    <span className="text-xs opacity-50 group-hover:opacity-100 transition">
+                      Details →
+                    </span>
+                  </Link>
+
+                </div>
+
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* ================= PAGINATION ================= */}
+        <div className="flex justify-between items-center mt-10 text-sm opacity-70">
+
+          <span>
+            {(page - 1) * pageSize + 1} –{" "}
             {Math.min(page * pageSize, total)} of {total}
           </span>
 
           <div className="flex gap-2">
-            <PaginationBtn disabled={page === 1} onClick={() => setPage(1)}>
-              First
-            </PaginationBtn>
-            <PaginationBtn disabled={page === 1} onClick={() => setPage(page - 1)}>
-              <ChevronLeft size={16} />
-            </PaginationBtn>
 
-            <span className="px-4 py-2 rounded-xl border border-[var(--accent)]/40 text-[var(--accent)]">
+            <button
+              disabled={page === 1}
+              onClick={() => setPage(page - 1)}
+              className="px-3 py-2 border rounded-xl disabled:opacity-30"
+            >
+              <ChevronLeft size={16} />
+            </button>
+
+            <span className="px-3 py-2 border rounded-xl">
               {page}/{totalPages}
             </span>
 
-            <PaginationBtn
+            <button
               disabled={page === totalPages}
               onClick={() => setPage(page + 1)}
+              className="px-3 py-2 border rounded-xl disabled:opacity-30"
             >
               <ChevronRight size={16} />
-            </PaginationBtn>
-            <PaginationBtn
-              disabled={page === totalPages}
-              onClick={() => setPage(totalPages)}
-            >
-              Last
-            </PaginationBtn>
+            </button>
+
           </div>
         </div>
+
       </section>
     </main>
-  );
-}
-
-/* ================= SMALL COMPONENTS ================= */
-
-function Th({ label, col, sortColumn, sortOrder, handleSort }) {
-  const active = sortColumn === col;
-  return (
-    <th
-      onClick={() => handleSort(col)}
-      className="p-4 cursor-pointer select-none"
-    >
-      <span
-        className={`${
-          active ? "text-[var(--accent)]" : "opacity-60"
-        } hover:opacity-100`}
-      >
-        {label} {active && (sortOrder === "asc" ? "▲" : "▼")}
-      </span>
-    </th>
-  );
-}
-
-function Td({ children, center, colSpan }) {
-  return (
-    <td colSpan={colSpan} className={`p-4 ${center ? "text-center" : ""}`}>
-      {children}
-    </td>
-  );
-}
-
-function ActionRow({ c }) {
-  return (
-    <div className="flex justify-center gap-2">
-      <ActionBtn onClick={() => window.open(c.pdf, "_blank")} primary>
-        <Download size={16} />
-      </ActionBtn>
-
-      <Link href={`/vins-plus/certificate/${c.id}`}>
-        <ActionBtn>
-          <Eye size={16} />
-        </ActionBtn>
-      </Link>
-    </div>
-  );
-}
-
-function ActionBtn({ children, primary, ...props }) {
-  return (
-    <button
-      {...props}
-      className={`
-        w-9 h-9 flex items-center justify-center rounded-xl transition
-        ${
-          primary
-            ? "bg-[var(--accent)] text-black hover:brightness-90"
-            : "bg-[var(--accent)]/10 text-[var(--accent)] hover:bg-[var(--accent)]/20"
-        }
-      `}
-    >
-      {children}
-    </button>
-  );
-}
-
-function PaginationBtn({ children, disabled, onClick }) {
-  return (
-    <motion.button
-      whileTap={{ scale: disabled ? 1 : 0.95 }}
-      disabled={disabled}
-      onClick={onClick}
-      className={`
-        px-3 py-2 rounded-xl
-        border border-[var(--border)]
-        ${
-          disabled
-            ? "opacity-35 cursor-not-allowed"
-            : "hover:border-[var(--accent)] hover:text-[var(--accent)] transition"
-        }
-      `}
-    >
-      {children}
-    </motion.button>
   );
 }

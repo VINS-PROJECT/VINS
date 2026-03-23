@@ -1,261 +1,162 @@
 "use client";
 
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 import {
   LoaderCircle,
   CheckCircle2,
   Lightbulb,
 } from "lucide-react";
 
-/* ================= ICON STYLE ================= */
 const iconProps = {
   size: 16,
   strokeWidth: 1.25,
   absoluteStrokeWidth: true,
 };
 
-/* ================= MOTION ================= */
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
-
-const fade = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.35 } },
-};
-
-/* ================= DATA ================= */
 const nextProjects = [
-  {
-    title: "SiapMagang",
-    desc:
-      "Unified monitoring system for internship progress, reporting, and mentor–student collaboration.",
-    status: "Coming Soon",
-    progress: 0,
-  },
   {
     title: "VINSGawe",
     desc:
       "Management platform for VINS community events, collaborations, and networking.",
     status: "In Progress",
     progress: 90,
+    featured: true,
+  },
+  {
+    title: "SiapMagang",
+    desc:
+      "Unified monitoring system for internship progress and collaboration.",
+    status: "Coming Soon",
+    progress: 0,
   },
   {
     title: "B2F World Roblox",
     desc:
-      "Virtual world on Roblox for events, interaction, and immersive experiences.",
+      "Virtual world for events and immersive interaction.",
     status: "Coming Soon",
     progress: 0,
   },
   {
     title: "Exam Prep Website",
-    desc: "Exam preparation tools: tests, learning path, analytics.",
+    desc: "Exam preparation tools with analytics.",
     status: "Coming Soon",
     progress: 0,
   },
   {
-    title: "VINS Portfolio 2026",
-    desc: "Complete redesign with analytics & personalization.",
-    status: "Finished",
-    progress: 100,
-  },
-  {
-    title: "Ambis Bareng Recruitment Website",
-    desc:
-      "Community platform for Ambis Bareng members: events, forums, resources, recruitment.",
-    status: "Coming Soon",
-    progress: 0,
-  },
-  {
-    title: "Namura Property Website",
-    desc:
-      "Real estate platform: listings, inquiries, and client management.",
+    title: "Portfolio 2026",
+    desc: "Next generation portfolio system.",
     status: "Finished",
     progress: 100,
   },
 ];
 
-/* ================= STATUS CONFIG ================= */
 const statusConfig = {
   "In Progress": {
     icon: <LoaderCircle {...iconProps} className="animate-spin" />,
-    badge: "bg-[var(--accent)] text-black border-[var(--accent)]",
-    bar: "bg-[var(--accent)]",
   },
   "Coming Soon": {
     icon: <Lightbulb {...iconProps} />,
-    badge:
-      "bg-[var(--accent)]/15 text-[var(--accent)] border-[var(--accent)]/40",
-    bar: "bg-[var(--accent)]",
   },
   Finished: {
     icon: <CheckCircle2 {...iconProps} />,
-    badge:
-      "bg-[var(--accent-dark)] text-white border-[var(--accent-dark)]",
-    bar: "bg-[var(--accent-dark)]",
   },
 };
 
-/* ================= PROGRESS BAR ================= */
-function ProgressBar({ value, color, reduceMotion }) {
-  return (
-    <div className="mt-4">
-      <div className="h-1.5 rounded-full overflow-hidden bg-[var(--border)]">
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: `${value}%` }}
-          viewport={{ once: true }}
-          transition={
-            reduceMotion
-              ? { duration: 0 }
-              : { duration: 0.7, ease: "easeOut" }
-          }
-          className={`h-full ${color}`}
-        />
-      </div>
-      <span className="block text-[11px] mt-1 opacity-50">
-        {value}% completed
-      </span>
-    </div>
-  );
-}
-
-/* ================= CARD ================= */
-function Card({ proj, reduceMotion }) {
-  const cfg = statusConfig[proj.status];
-
-  return (
-    <motion.article
-      variants={fadeUp}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true }}
-      whileHover={reduceMotion ? undefined : { y: -4 }}
-      className="
-        relative p-7 rounded-3xl
-        backdrop-blur-xl
-        bg-white/60 dark:bg-white/5
-        border border-white/20 dark:border-white/10
-        shadow-[0_10px_36px_rgba(0,0,0,0.12)]
-        transition
-      "
-    >
-      <span
-        className={`inline-flex items-center gap-2 text-xs font-semibold mb-3 border px-3 py-1 rounded-full ${cfg.badge}`}
-      >
-        {cfg.icon}
-        {proj.status}
-      </span>
-
-      <h3 className="text-xl font-bold tracking-tight mb-2">
-        {proj.title}
-      </h3>
-
-      <p className="text-sm opacity-70 leading-relaxed">
-        {proj.desc}
-      </p>
-
-      <ProgressBar
-        value={proj.progress}
-        color={cfg.bar}
-        reduceMotion={reduceMotion}
-      />
-    </motion.article>
-  );
-}
-
-/* ================= PAGE ================= */
 export default function NextProjectPage() {
   const reduceMotion = useReducedMotion();
-  const [filter] = useState("All");
 
-  const filtered = useMemo(() => {
-    if (filter === "All") return nextProjects;
-    return nextProjects.filter((p) => p.status === filter);
-  }, [filter]);
+  const featured = nextProjects.find((p) => p.featured);
+  const rest = nextProjects.filter((p) => !p.featured);
 
   return (
-    <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)] overflow-hidden">
-      
-      {/* ================= HEADER (VINS+ STYLE) ================= */}
-      <section className="relative overflow-hidden">
-        {/* Diagonal gold */}
-        <div
-          aria-hidden
-          className="
-            absolute inset-0
-            bg-gradient-to-br
-            from-[var(--accent)]/25
-            via-[var(--accent)]/10
-            to-transparent
-            -skew-y-6
-            origin-top-left
-          "
-        />
+    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] py-24 px-6">
 
-        {/* Fade to background */}
-        <div
-          aria-hidden
-          className="
-            absolute bottom-0 left-0 w-full h-28
-            bg-gradient-to-t from-[var(--background)] to-transparent
-          "
-        />
+      <div className="max-w-6xl mx-auto space-y-20">
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="relative pt-32 pb-24 text-center"
-        >
-          {/* Icon */}
-          <div
+        {/* HEADER */}
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl md:text-6xl font-semibold tracking-tight">
+            Next Projects
+          </h1>
+          <p className="text-sm opacity-60">
+            Roadmap of upcoming and evolving products.
+          </p>
+        </div>
+
+        {/* FEATURED */}
+        {featured && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             className="
-              mx-auto mb-5
-              w-16 h-16 rounded-2xl
-              flex items-center justify-center
-              bg-[var(--accent)]/15
-              text-[var(--accent)]
-              shadow-[0_10px_30px_rgba(216,199,154,0.35)]
+              p-10 rounded-3xl
+              border border-[var(--accent)]
+              bg-[var(--accent)]/10
+              backdrop-blur-xl
+              shadow-xl
             "
           >
-            <Lightbulb size={30} strokeWidth={1.4} />
-          </div>
+            <span className="text-xs uppercase opacity-60">
+              Featured Project
+            </span>
 
-          {/* Title */}
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-            NEXT <span className="text-[var(--accent)]">PROJECT</span>
-          </h1>
+            <h2 className="text-3xl font-semibold mt-2">
+              {featured.title}
+            </h2>
 
-          {/* Path */}
-          <span className="mt-2 block text-sm font-mono text-[var(--foreground)]/50">
-            /vins+/nextproject
-          </span>
-        </motion.div>
-      </section>
+            <p className="mt-4 max-w-xl text-[var(--foreground)]/70">
+              {featured.desc}
+            </p>
 
-      {/* ================= CONTENT ================= */}
-      <div className="max-w-6xl mx-auto px-6 pb-24">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key="grid"
-            variants={fade}
-            initial="hidden"
-            animate="show"
-            exit="hidden"
-            className="grid md:grid-cols-2 gap-10"
-          >
-            {filtered.map((p, i) => (
-              <Card key={i} proj={p} reduceMotion={reduceMotion} />
-            ))}
+            {/* progress */}
+            <div className="mt-6">
+              <div className="h-2 rounded-full bg-[var(--border)] overflow-hidden">
+                <div
+                  className="h-full bg-[var(--accent)]"
+                  style={{ width: `${featured.progress}%` }}
+                />
+              </div>
+              <span className="text-xs opacity-50 mt-2 block">
+                {featured.progress}% completed
+              </span>
+            </div>
           </motion.div>
-        </AnimatePresence>
+        )}
+
+        {/* LIST */}
+        <div className="space-y-6">
+          {rest.map((p, i) => {
+            const cfg = statusConfig[p.status];
+
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                className="
+                  flex items-start justify-between
+                  gap-6
+                  border-b border-[var(--border)]
+                  pb-6
+                "
+              >
+                <div>
+                  <h3 className="font-medium">{p.title}</h3>
+                  <p className="text-sm opacity-60 max-w-md">
+                    {p.desc}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 text-xs opacity-70">
+                  {cfg.icon}
+                  {p.status}
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
       </div>
     </main>
   );

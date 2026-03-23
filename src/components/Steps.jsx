@@ -34,74 +34,88 @@ export default function PortfolioSection() {
   return (
     <section
       ref={ref}
-      className="py-28 bg-[var(--background)] text-[var(--foreground)]"
+      className="relative py-32 bg-[var(--background)] text-[var(--foreground)]"
     >
-      <div className="max-w-4xl mx-auto px-6 text-center space-y-10">
+      <div className="max-w-6xl mx-auto px-6 lg:px-12">
 
         {/* ================= HEADER ================= */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="space-y-6"
+          transition={{ duration: 0.6 }}
+          className="max-w-2xl mb-20"
         >
-          <span className="text-sm font-medium tracking-wide text-[var(--accent)]">
-            Portfolio
+          <span className="text-sm tracking-widest text-[var(--accent)]">
+            PORTFOLIO
           </span>
 
-          <h2 className="text-4xl md:text-5xl font-semibold leading-tight">
+          <h2 className="mt-4 text-4xl md:text-5xl font-semibold leading-tight tracking-tight">
             Thoughtful work,
             <br />
             <span className="text-[var(--accent)]">built to last.</span>
           </h2>
 
-          {/* Gold divider */}
-          <div className="mx-auto h-[3px] w-20 bg-[var(--accent)] rounded-full" />
-
-          <p className="text-lg text-[var(--foreground)]/70 max-w-2xl mx-auto">
+          <p className="mt-6 text-lg text-[var(--foreground)]/70">
             Every project is crafted with intention — focusing on clarity,
             usability, and measurable impact beyond visuals.
           </p>
         </motion.div>
 
-        {/* ================= ITEMS ================= */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-        >
-          {items.map((item) => {
+        {/* ================= LIST ================= */}
+        <div className="divide-y divide-[var(--border)]">
+          {items.map((item, i) => {
             const Icon = item.icon;
+
             return (
-              <div
+              <motion.div
                 key={item.title}
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="
-                  p-6 rounded-2xl
-                  border border-[var(--border)]
-                  bg-[var(--card)]
-                  text-center
+                  group
+                  py-8
+                  flex flex-col md:flex-row md:items-center
+                  md:justify-between
+                  gap-6
                 "
               >
-                <div
-                  className="
-                    w-12 h-12 mx-auto mb-4
-                    rounded-xl
-                    bg-[var(--accent)]/15
-                    flex items-center justify-center
-                  "
-                >
-                  <Icon size={20} className="text-[var(--accent)]" />
+                {/* LEFT */}
+                <div className="flex items-center gap-4">
+                  <div
+                    className="
+                      w-12 h-12
+                      rounded-xl
+                      border border-[var(--border)]
+                      flex items-center justify-center
+                      transition-all duration-300
+                      group-hover:border-[var(--accent)]
+                      group-hover:bg-[var(--accent)]/10
+                    "
+                  >
+                    <Icon
+                      size={20}
+                      className="text-[var(--accent)]"
+                    />
+                  </div>
+
+                  <h3 className="text-lg font-medium">
+                    {item.title}
+                  </h3>
                 </div>
 
-                <h3 className="font-medium mb-1">{item.title}</h3>
-                <p className="text-sm text-[var(--foreground)]/65">
+                {/* RIGHT */}
+                <p className="
+                  max-w-md
+                  text-[var(--foreground)]/70
+                  text-sm md:text-base
+                ">
                   {item.desc}
                 </p>
-              </div>
+              </motion.div>
             );
           })}
-        </motion.div>
+        </div>
 
       </div>
     </section>

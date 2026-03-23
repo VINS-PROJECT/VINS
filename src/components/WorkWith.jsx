@@ -26,112 +26,115 @@ export default function WorkWith() {
   return (
     <section
       ref={ref}
-      className="py-28 bg-[var(--background)] text-[var(--foreground)]"
+      className="
+        relative py-32 overflow-hidden
+        bg-[var(--background)]
+        text-[var(--foreground)]
+      "
     >
-      <div className="max-w-5xl mx-auto px-6 text-center space-y-16">
+      {/* ===== BACKGROUND (CREAM LAYER, BEDA STYLE) ===== */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-[var(--accent)]/10" />
 
-        {/* ================= HEADER ================= */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="space-y-6"
-        >
-          <span className="text-sm font-medium tracking-wide text-[var(--accent)]">
-            Trusted Partnerships
-          </span>
+        {/* diagonal gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/20 via-transparent to-transparent" />
+      </div>
 
-          <h2 className="text-4xl md:text-5xl font-semibold leading-tight">
-            Trusted by teams
-            <br />
-            <span className="text-[var(--accent)]">
-              across organizations
+      <div className="max-w-6xl mx-auto px-6 lg:px-12 space-y-20">
+
+        {/* ================= TOP SPLIT ================= */}
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          
+          {/* LEFT */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="space-y-6"
+          >
+            <span className="text-sm tracking-widest text-[var(--accent)]">
+              TRUSTED PARTNERSHIPS
             </span>
-          </h2>
 
-          <div className="mx-auto h-[3px] w-20 bg-[var(--accent)] rounded-full" />
+            <h2 className="text-4xl md:text-5xl font-semibold leading-tight tracking-tight">
+              Trusted by teams
+              <br />
+              across organizations
+            </h2>
 
-          <p className="max-w-2xl mx-auto text-lg text-[var(--foreground)]/70">
-            Long-term collaborations built on clarity, reliability,
-            and shared outcomes — not just delivery.
-          </p>
-        </motion.div>
+            <p className="text-lg text-[var(--foreground)]/70 max-w-md">
+              Long-term collaborations built on clarity, reliability,
+              and shared outcomes — not just delivery.
+            </p>
+          </motion.div>
 
-        {/* ================= STATS ================= */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-6"
-        >
-          {stats.map((stat) => {
-            const Icon = stat.icon;
-            return (
-              <div
-                key={stat.label}
-                className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)]"
-              >
-                <div className="flex justify-center mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-[var(--accent)]/15 flex items-center justify-center">
-                    <Icon size={20} className="text-[var(--accent)]" />
+          {/* RIGHT (STATS INLINE) */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="
+              grid grid-cols-2 gap-6
+              border border-[var(--border)]
+              rounded-2xl p-6
+              bg-[var(--background)]/60 backdrop-blur
+            "
+          >
+            {stats.map((stat, i) => {
+              const Icon = stat.icon;
+              return (
+                <div key={stat.label} className="space-y-2">
+                  <Icon size={18} className="text-[var(--accent)]" />
+                  <div className="text-2xl font-semibold">
+                    {stat.value}
+                  </div>
+                  <div className="text-xs text-[var(--foreground)]/60">
+                    {stat.label}
                   </div>
                 </div>
+              );
+            })}
+          </motion.div>
+        </div>
 
-                <div className="text-3xl font-semibold text-[var(--accent)]">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-[var(--foreground)]/60 mt-1">
-                  {stat.label}
-                </div>
-              </div>
-            );
-          })}
-        </motion.div>
-
-        {/* ================= PARTNERS (LEFT–RIGHT MOTION) ================= */}
+        {/* ================= LOGO MARQUEE ================= */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="space-y-6"
         >
-          <p className="text-sm uppercase tracking-wide text-[var(--foreground)]/50">
+          <p className="text-sm uppercase tracking-wide text-[var(--foreground)]/50 text-center">
             Worked with
           </p>
 
-          <div className="flex flex-wrap justify-center gap-10 overflow-hidden">
-            {partners.map((p, i) => (
-              <motion.div
-                key={p.name}
-                initial={{ opacity: 0, y: 10 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{
-                  duration: 0.4,
-                  delay: 0.3 + i * 0.08,
-                }}
-                whileHover={{ scale: 1.05 }}
-                className="
-                  flex items-center justify-center
-                  h-16 w-32
-                  opacity-70 hover:opacity-100
-                  transition-opacity
-                "
-              >
-                <motion.img
-                  src={p.src}
-                  alt={p.name}
-                  className="h-12 object-contain"
-                  animate={{
-                    x: [-8, 8, -8],
-                  }}
-                  transition={{
-                    duration: 6 + i,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                />
-              </motion.div>
-            ))}
+          <div className="relative overflow-hidden">
+            <motion.div
+              className="flex gap-16 w-max"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{
+                duration: 20,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            >
+              {[...partners, ...partners].map((p, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-center h-16 w-32 opacity-60"
+                >
+                  <img
+                    src={p.src}
+                    alt={p.name}
+                    className="h-10 object-contain"
+                  />
+                </div>
+              ))}
+            </motion.div>
+
+            {/* fade edges */}
+            <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[var(--background)] to-transparent" />
+            <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[var(--background)] to-transparent" />
           </div>
         </motion.div>
 

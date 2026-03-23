@@ -1,303 +1,160 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
 import {
   Briefcase,
   Users,
   Calendar,
   MapPin,
-  Trophy,
 } from "lucide-react";
-import { useState } from "react";
-
-/* ================= ICON STYLE ================= */
-const iconProps = {
-  size: 14,
-  strokeWidth: 1.25,
-  absoluteStrokeWidth: true,
-};
-
-/* ================= WAVE HIGHLIGHT ================= */
-function WaveHighlight({ children }) {
-  return (
-    <span className="relative inline-block leading-tight">
-      <span
-        className="relative z-10 bg-clip-text text-transparent"
-        style={{
-          backgroundImage:
-            "linear-gradient(90deg, var(--accent), var(--accent-dark))",
-        }}
-      >
-        {children}
-      </span>
-    </span>
-  );
-}
 
 export default function ExperiencePage() {
-  /* ================= DATA ================= */
+  const [filter, setFilter] = useState("all");
+
   const professional = [
     {
-      role: "Creative Media",
+      title: "Creative Media",
       company: "PT Yayasan Media Selaras Cendekiawan",
-      period: "January 2025 — August 2025",
-      location: "Jawa Barat, Indonesia",
-      tech: ["Figma", "Photoshop", "Canva", "Social Media"],
-      desc:
-        "Designed social media feeds and stories aligned with brand themes, created logos for six departments, collaborated on partner guides, and produced OBS displays, certificates, and posters.",
+      period: "Jan 2025 — Aug 2025",
+      location: "Jawa Barat",
+      desc: "Designed social media and brand assets across departments.",
     },
     {
-      role: "IT Project Manager",
+      title: "IT Project Manager",
       company: "PT Yayasan Media Selaras Cendekiawan",
-      period: "August 2024 — October 2024",
-      location: "Jawa Barat, Indonesia",
-      tech: ["Scrum", "Leadership", "Notion"],
-      desc:
-        "Led UI/UX, Front End, and Back End teams, managed budgets, tracked weekly progress, and delivered structured reports to stakeholders.",
-    },
-    {
-      role: "BGESS MBB",
-      company: "Telkom Witel Regional Lampung",
-      period: "July 2024 — August 2024",
-      location: "Lampung, Indonesia",
-      tech: ["Figma", "SQL", "PHP", "Waterfall"],
-      desc:
-        "Analyzed Indibiz customer data and developed a dashboard for business insights following the Waterfall method.",
+      period: "Aug 2024 — Oct 2024",
+      location: "Jawa Barat",
+      desc: "Led cross-functional teams and project execution.",
     },
   ];
 
   const organizational = [
     {
-      role: "Class Manager",
-      organization: "Digistar Class Telkom Indonesia",
-      period: "August 2024 — November 2024",
+      title: "Class Manager",
+      company: "Digistar Telkom",
+      period: "Aug 2024 — Nov 2024",
       location: "Hybrid",
-      achievements: [
-        "Acted as liaison between mentees and Digistar Telkom team and evaluated participant progress.",
-      ],
-    },
-    {
-      role: "Human Resources Development",
-      organization: "Duta Potensi Pemuda Indonesia",
-      period: "April 2024 — December 2024",
-      location: "Hybrid",
-      achievements: [
-        "Designed and executed programs including Indonesian Youth Potential Ambassadors 2024.",
-      ],
+      desc: "Managed communication and evaluated participants.",
     },
   ];
 
-  const [filter, setFilter] = useState("all");
+  const data =
+    filter === "pro"
+      ? professional
+      : filter === "org"
+      ? organizational
+      : [...professional, ...organizational];
 
   return (
-    <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)] overflow-hidden">
+    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] py-24 px-6">
 
-      {/* ================= HEADER (VINS+ STYLE) ================= */}
-      <section className="relative overflow-hidden">
-        {/* Diagonal gold background */}
-        <div
-          aria-hidden
-          className="
-            absolute inset-0
-            bg-gradient-to-br
-            from-[var(--accent)]/25
-            via-[var(--accent)]/10
-            to-transparent
-            -skew-y-6
-            origin-top-left
-          "
-        />
+      <div className="max-w-5xl mx-auto">
 
-        {/* Fade to content */}
-        <div
-          aria-hidden
-          className="
-            absolute bottom-0 left-0 w-full h-28
-            bg-gradient-to-t from-[var(--background)] to-transparent
-          "
-        />
-
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="relative pt-32 pb-24 text-center"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-            <WaveHighlight>Experience</WaveHighlight>
+        {/* HEADER */}
+        <div className="text-center mb-16">
+          <h1 className="text-4xl md:text-6xl font-semibold">
+            Experience
           </h1>
-
-          <span className="mt-2 block text-sm font-mono text-[var(--foreground)]/50">
-            /experience
-          </span>
-
-          <p className="opacity-65 mt-4 max-w-xl mx-auto text-sm leading-relaxed">
-            Professional work and organizational leadership shaping how I
-            collaborate, lead, and deliver results.
+          <p className="text-sm opacity-60 mt-2">
+            Career journey & leadership growth
           </p>
-        </motion.div>
-      </section>
-
-      {/* ================= CONTENT ================= */}
-      <div className="relative max-w-6xl mx-auto px-6 pt-6 pb-24">
-        {/* FILTER */}
-        <div className="flex justify-center gap-2 mb-20">
-          <FilterChip label="All" active={filter === "all"} onClick={() => setFilter("all")} />
-          <FilterChip
-            label="Professional"
-            icon={<Briefcase {...iconProps} />}
-            active={filter === "pro"}
-            onClick={() => setFilter("pro")}
-          />
-          <FilterChip
-            label="Organizational"
-            icon={<Users {...iconProps} />}
-            active={filter === "org"}
-            onClick={() => setFilter("org")}
-          />
         </div>
 
-        {(filter === "all" || filter === "pro") && (
-          <Section
-            icon={<Briefcase {...iconProps} className="text-[var(--accent)]" />}
-            title="Professional Journey"
-            subtitle="Roles and impact in corporate environments."
-            items={professional.map((e) => ({
-              title: e.role,
-              subtitle: e.company,
-              period: e.period,
-              location: e.location,
-              body: e.desc,
-              tech: e.tech,
-            }))}
-          />
-        )}
+        {/* FILTER */}
+        <div className="flex justify-center gap-3 mb-20">
+          <Chip active={filter === "all"} onClick={() => setFilter("all")}>
+            All
+          </Chip>
+          <Chip active={filter === "pro"} onClick={() => setFilter("pro")}>
+            <Briefcase size={14} /> Professional
+          </Chip>
+          <Chip active={filter === "org"} onClick={() => setFilter("org")}>
+            <Users size={14} /> Organizational
+          </Chip>
+        </div>
 
-        {(filter === "all" || filter === "org") && (
-          <Section
-            icon={<Users {...iconProps} className="text-[var(--accent)]" />}
-            title="Organizational Experience"
-            subtitle="Leadership and community involvement."
-            items={organizational.map((e) => ({
-              title: e.role,
-              subtitle: e.organization,
-              period: e.period,
-              location: e.location,
-              list: e.achievements,
-            }))}
-          />
-        )}
+        {/* TIMELINE */}
+        <div className="relative">
+
+          {/* line */}
+          <div className="absolute left-1/2 top-0 w-px h-full bg-[var(--border)] -translate-x-1/2" />
+
+          <div className="space-y-20">
+            {data.map((item, i) => {
+              const isLeft = i % 2 === 0;
+
+              return (
+                <div
+                  key={i}
+                  className={`relative flex ${isLeft ? "justify-start" : "justify-end"}`}
+                >
+                  {/* dot */}
+                  <div className="absolute left-1/2 -translate-x-1/2 z-10">
+                    <div className="w-4 h-4 bg-[var(--accent)] rounded-full border-4 border-[var(--background)]" />
+                  </div>
+
+                  {/* card */}
+                  <motion.div
+                    initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    className="
+                      w-[90%] md:w-[45%]
+                      p-6 rounded-2xl
+                      border border-[var(--border)]
+                      bg-[var(--background)]/70 backdrop-blur
+                      shadow-md
+                    "
+                  >
+                    <h3 className="font-semibold text-lg">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm opacity-70">
+                      {item.company}
+                    </p>
+
+                    <div className="flex gap-3 text-xs mt-2 opacity-60">
+                      <span className="flex items-center gap-1">
+                        <Calendar size={12} />
+                        {item.period}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <MapPin size={12} />
+                        {item.location}
+                      </span>
+                    </div>
+
+                    <p className="text-sm mt-3 opacity-70">
+                      {item.desc}
+                    </p>
+                  </motion.div>
+                </div>
+              );
+            })}
+          </div>
+
+        </div>
+
       </div>
     </main>
   );
 }
 
-/* ================= REUSABLE ================= */
-
-function FilterChip({ label, icon, active, onClick }) {
+function Chip({ children, active, onClick }) {
   return (
     <button
       onClick={onClick}
-      className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold border transition ${
-        active
-          ? "bg-[var(--accent)] text-black border-[var(--accent)]"
-          : "bg-[var(--card)] border-[var(--border)] hover:border-[var(--accent)]/60"
-      }`}
+      className={`
+        px-4 py-2 rounded-full text-xs flex items-center gap-2
+        border transition
+        ${
+          active
+            ? "bg-[var(--accent)] text-black border-[var(--accent)]"
+            : "border-[var(--border)] hover:border-[var(--accent)]"
+        }
+      `}
     >
-      {icon}
-      {label}
+      {children}
     </button>
-  );
-}
-
-function Section({ icon, title, subtitle, items }) {
-  return (
-    <section className="mb-28">
-      <div className="mb-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--accent)]/15 text-[var(--accent)] text-xs font-semibold">
-          {icon}
-          {title}
-        </div>
-        <h2 className="text-lg md:text-xl font-semibold mt-2">{title}</h2>
-        <p className="text-xs opacity-70 max-w-xl">{subtitle}</p>
-      </div>
-
-      <div className="space-y-8">
-        {items.map((item, i) => (
-          <TimelineCard key={i} index={i} {...item} />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function TimelineCard({
-  index,
-  title,
-  subtitle,
-  period,
-  location,
-  body,
-  tech,
-  list,
-}) {
-  return (
-    <motion.article
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.45, delay: index * 0.06 }}
-      className="
-        relative rounded-2xl
-        bg-[var(--card)]
-        border border-[var(--border)]
-        p-6 shadow-sm
-        hover:shadow-[0_16px_44px_rgba(0,0,0,0.25)]
-        transition
-      "
-    >
-      <header className="mb-3">
-        <h3 className="text-base md:text-lg font-semibold">{title}</h3>
-        <p className="text-xs md:text-sm opacity-70 font-medium">
-          {subtitle}
-        </p>
-
-        <div className="flex flex-wrap items-center gap-3 text-[11px] mt-2 opacity-75">
-          <span className="inline-flex items-center gap-1">
-            <Calendar {...iconProps} className="text-[var(--accent)]" />
-            {period}
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <MapPin {...iconProps} className="text-[var(--accent)]" />
-            {location}
-          </span>
-        </div>
-      </header>
-
-      <div className="text-xs md:text-sm opacity-80 leading-relaxed mb-4">
-        {list ? (
-          <ul className="list-disc ml-4 space-y-1">
-            {list.map((l, i) => (
-              <li key={i}>{l}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>{body}</p>
-        )}
-      </div>
-
-      {tech && (
-        <div className="flex flex-wrap gap-2">
-          {tech.map((t, i) => (
-            <span
-              key={i}
-              className="px-2 py-1 rounded-md text-[10px] font-semibold bg-[var(--accent)]/15 text-[var(--accent)]"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-      )}
-    </motion.article>
   );
 }

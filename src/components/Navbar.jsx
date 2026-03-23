@@ -91,21 +91,29 @@ export default function Navbar() {
           left-1/2 -translate-x-1/2
           z-50
           w-[92%] max-w-6xl
-          bg-[var(--background)]/90
-          backdrop-blur-lg
+
+          bg-[var(--background)]/70
+          backdrop-blur-xl
+
           border border-[var(--border)]
+          shadow-[0_8px_30px_rgba(0,0,0,0.08)]
+
           rounded-full
         "
       >
-        <div className="h-14 px-4 flex items-center justify-between">
+        <div className="h-14 px-5 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
+          <Link
+            href="/"
+            className="flex items-center gap-2 group"
+          >
             <Image
               src="/TP K.svg"
               alt="VINS"
               width={22}
               height={22}
               priority
+              className="transition-transform group-hover:scale-105"
             />
             <span className="font-semibold tracking-tight">
               VINS
@@ -121,11 +129,13 @@ export default function Navbar() {
                   key={l.href}
                   href={l.href}
                   className={`
-                    px-4 py-2 rounded-full text-sm transition
+                    px-4 py-2 rounded-full text-sm
+                    transition-all duration-300
+
                     ${
                       active
-                        ? "text-[var(--accent)] font-medium"
-                        : "opacity-70 hover:opacity-100"
+                        ? "bg-[var(--accent)]/20 text-[var(--accent)] font-medium"
+                        : "opacity-70 hover:opacity-100 hover:bg-[var(--card)]"
                     }
                   `}
                 >
@@ -146,9 +156,17 @@ export default function Navbar() {
 
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-[var(--card)] transition"
+              className="
+                p-2 rounded-lg
+                hover:bg-[var(--card)]
+                transition
+              "
             >
-              {mounted && (isDark ? <Sun size={18} /> : <Moon size={18} />)}
+              {mounted && (
+                <span className="transition-transform duration-300">
+                  {isDark ? <Sun size={18} /> : <Moon size={18} />}
+                </span>
+              )}
             </button>
 
             <button
@@ -161,25 +179,25 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* ================= NAVBAR SPACER ================= */}
+      {/* SPACER */}
       <div className="h-[calc(56px+1rem)] md:h-[calc(56px+1.5rem)]" />
 
-      {/* ================= MOBILE MENU (CLEAN, NO MORPH) ================= */}
+      {/* ================= MOBILE MENU ================= */}
       {menuOpen && (
         <div
           className="
             fixed inset-x-0
             top-[calc(env(safe-area-inset-top)+4.5rem)]
             z-40
-            md:hidden
-            px-4
+            md:hidden px-4
           "
         >
           <div
             className="
-              bg-[var(--background)]
+              bg-[var(--background)]/95
+              backdrop-blur-xl
               border border-[var(--border)]
-              rounded-xl
+              rounded-2xl
               shadow-xl
               overflow-hidden
             "
@@ -193,12 +211,12 @@ export default function Navbar() {
                   className={`
                     flex items-center justify-between
                     px-5 py-4 text-sm
-                    border-b border-[var(--border)]
-                    last:border-none
+                    transition
+
                     ${
                       active
-                        ? "text-[var(--accent)] font-medium"
-                        : "opacity-80 hover:opacity-100"
+                        ? "text-[var(--accent)] bg-[var(--accent)]/10 font-medium"
+                        : "opacity-80 hover:opacity-100 hover:bg-[var(--card)]"
                     }
                   `}
                 >
@@ -214,12 +232,23 @@ export default function Navbar() {
       {/* ================= SEARCH MODAL ================= */}
       {searchOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-start justify-center pt-[20vh] px-4"
+          className="
+            fixed inset-0 z-50
+            bg-black/40 backdrop-blur-md
+            flex items-start justify-center
+            pt-[20vh] px-4
+          "
           onClick={() => setSearchOpen(false)}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-xl rounded-2xl bg-[var(--background)] border border-[var(--border)]"
+            className="
+              w-full max-w-xl
+              rounded-2xl
+              bg-[var(--background)]
+              border border-[var(--border)]
+              shadow-xl
+            "
           >
             <div className="flex items-center gap-3 p-4 border-b border-[var(--border)]">
               <Search size={18} className="opacity-50" />
@@ -228,7 +257,7 @@ export default function Navbar() {
                 autoFocus
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search…"
+                placeholder="Search anything..."
                 className="flex-1 bg-transparent outline-none"
               />
               <button onClick={() => setSearchOpen(false)}>
