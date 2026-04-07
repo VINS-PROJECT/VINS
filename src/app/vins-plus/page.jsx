@@ -1,147 +1,176 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
-import {
-  PanelsTopLeft,
-  Briefcase,
-  BadgeCheck,
-  FileUser,
-  Rocket,
-  Landmark,
-} from "lucide-react";
-import { useState } from "react";
-
-const iconProps = {
-  size: 26,
-  strokeWidth: 1.25,
-  absoluteStrokeWidth: true,
-};
+import { motion } from "framer-motion";
+import { Icon } from "@iconify/react";
 
 export default function VinsPlusPage() {
-  const [active, setActive] = useState(null);
-  const reduceMotion = useReducedMotion();
 
   const items = [
     {
       title: "Portfolio",
       desc: "Explore curated works and design systems.",
       href: "/vins-plus/portfolio",
-      icon: PanelsTopLeft,
+      icon: "solar:layers-line-duotone",
     },
     {
       title: "Project",
       desc: "Detailed case studies and executions.",
       href: "/vins-plus/project",
-      icon: Briefcase,
+      icon: "solar:case-round-line-duotone",
     },
     {
       title: "Certificate",
       desc: "Verified achievements and credentials.",
       href: "/vins-plus/certificate",
-      icon: BadgeCheck,
+      icon: "solar:medal-ribbon-line-duotone",
     },
     {
       title: "Resume",
       desc: "Professional journey and capabilities.",
       href: "/vins-plus/resume",
-      icon: FileUser,
+      icon: "solar:document-line-duotone",
     },
     {
       title: "Next Project",
       desc: "Upcoming explorations and experiments.",
       href: "/vins-plus/next-project",
-      icon: Rocket,
+      icon: "solar:rocket-line-duotone",
     },
     {
       title: "Experience",
       desc: "Timeline of roles and collaborations.",
       href: "/vins-plus/experience",
-      icon: Landmark,
+      icon: "solar:buildings-line-duotone",
     },
   ];
 
   return (
-    <section className="min-h-screen bg-[var(--background)] text-[var(--foreground)] py-24">
+    <section className="min-h-screen pt-36 pb-24 bg-[var(--background)] text-[var(--foreground)]">
+
       <div className="max-w-6xl mx-auto px-6">
 
         {/* HEADER */}
+
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-semibold tracking-tight">
+
+          <h1 className="text-5xl md:text-6xl font-semibold tracking-tight">
             VINS<span className="text-[var(--accent)]">+</span>
           </h1>
-          <p className="text-sm opacity-60 mt-2 font-mono">
-            Product Hub / Resources
+
+          <p className="mt-4 text-sm opacity-60">
+            Workspace for projects, resources and professional journey
           </p>
+
         </div>
+
+
+        {/* FEATURE PANEL */}
+
+        <div
+          className="
+          relative mb-16
+          rounded-3xl
+          border border-[var(--border)]
+          p-10
+          bg-[var(--card)]
+          overflow-hidden
+          "
+        >
+
+          {/* decorative glow asset */}
+
+          <div className="absolute -top-24 -right-24 w-72 h-72 bg-[var(--accent)]/10 blur-3xl rounded-full" />
+
+          <div className="max-w-xl relative z-10">
+
+            <h2 className="text-2xl font-semibold">
+              Explore the VINS ecosystem
+            </h2>
+
+            <p className="mt-3 text-sm opacity-70">
+              A curated hub containing projects, achievements,
+              design explorations, and professional experience.
+            </p>
+
+          </div>
+
+        </div>
+
 
         {/* GRID */}
+
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {items.map((item, i) => {
-            const Icon = item.icon;
-            const isActive = active === i;
 
-            return (
-              <Link key={item.title} href={item.href}>
-                <motion.div
-                  onMouseEnter={() => setActive(i)}
-                  onMouseLeave={() => setActive(null)}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  whileHover={
-                    reduceMotion
-                      ? {}
-                      : { scale: 1.03 }
-                  }
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
-                  className={`
-                    relative overflow-hidden
-                    rounded-3xl
-                    border border-[var(--border)]
-                    bg-[var(--background)]/70 backdrop-blur-xl
-                    transition-all duration-300
+          {items.map((item, i) => (
 
-                    ${isActive
-                      ? "lg:col-span-2 lg:row-span-2 p-8 shadow-xl border-[var(--accent)]"
-                      : "p-6 hover:border-[var(--accent)]/40"}
-                  `}
+            <Link key={item.title} href={item.href}>
+
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                whileHover={{ y: -6 }}
+                className="
+                group
+                rounded-2xl
+                border border-[var(--border)]
+                p-6
+                transition
+                hover:border-[var(--accent)]
+                hover:shadow-xl
+                bg-[var(--background)]/70 backdrop-blur-xl
+                "
+              >
+
+                {/* ICON */}
+
+                <div
+                  className="
+                  w-12 h-12
+                  rounded-xl
+                  bg-[var(--accent)]/15
+                  text-[var(--accent)]
+                  flex items-center justify-center
+                  mb-4
+                  "
                 >
-                  {/* glow */}
-                  <div className="absolute inset-0 bg-[var(--accent)]/5 opacity-0 hover:opacity-100 transition" />
 
-                  <div className="relative flex flex-col h-full">
-                    {/* ICON */}
-                    <div className="w-12 h-12 mb-4 rounded-xl flex items-center justify-center bg-[var(--accent)]/15 text-[var(--accent)]">
-                      <Icon {...iconProps} />
-                    </div>
+                  <Icon icon={item.icon} width="26"/>
 
-                    {/* TITLE */}
-                    <h3 className="text-lg font-semibold">
-                      {item.title}
-                    </h3>
+                </div>
 
-                    {/* DESC */}
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: isActive ? 1 : 0 }}
-                      className="mt-3 text-sm text-[var(--foreground)]/70 max-w-sm"
-                    >
-                      {item.desc}
-                    </motion.p>
 
-                    <div className="flex-1" />
+                {/* TITLE */}
 
-                    {/* HINT */}
-                    <span className="text-xs opacity-40 mt-4">
-                      View details →
-                    </span>
-                  </div>
-                </motion.div>
-              </Link>
-            );
-          })}
+                <h3 className="font-semibold text-lg">
+                  {item.title}
+                </h3>
+
+
+                {/* DESC */}
+
+                <p className="text-sm opacity-70 mt-2">
+                  {item.desc}
+                </p>
+
+
+                {/* FOOTER */}
+
+                <div className="mt-6 text-xs opacity-40 group-hover:opacity-80 transition">
+                  Open →
+                </div>
+
+              </motion.div>
+
+            </Link>
+
+          ))}
+
         </div>
+
       </div>
+
     </section>
   );
 }

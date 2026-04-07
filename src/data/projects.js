@@ -11,7 +11,7 @@ The system is designed with a strong focus on simplicity and responsiveness, ens
 Harvesty serves as a medium that connects farmers directly with customers, allowing both parties to interact within a single integrated system. Farmers can manage product listings, monitor agricultural outputs, and track transactions, while customers can browse available products, obtain relevant agricultural information, and complete purchases seamlessly.
 
 Overall, Harvesty is developed to empower stakeholders in the agricultural sector by leveraging digital technology to enhance productivity, accessibility, and collaboration within the agricultural ecosystem.`,
-    image: "/HAR.png",
+    image: "/Projects/Projects2.png",
     category: "Frontend",
     tech: ["Bootstrap", "JavaScript", "HTML", "CSS", "Figma", "Canva"],
     year: 2024,
@@ -56,7 +56,7 @@ Once the data is structured, SIPAD transforms the processed information into mea
 The primary objective of SIPAD is to generate data-driven insights that support disaster management and decision-making processes. Through effective data representation, the prototype helps evaluate past disaster events, identify trends, and support risk mitigation planning.
 
 Overall, SIPAD serves as both an analytical tool and a proof of concept, demonstrating how structured data processing and accessible visualization can contribute to more informed and responsive disaster management efforts.`,
-    image: "/SIP.png",
+    image: "/Projects/Projects1.png",
     category: "Design",
     tech: ["Figma", "Excel"],
     year: 2025,
@@ -90,7 +90,7 @@ Overall, SIPAD serves as both an analytical tool and a proof of concept, demonst
     id: 3,
     title: "REFORA (Reservation Food of ITERA)",
     desc: `REFORA is a canteen food reservation prototype designed specifically for ITERA students to streamline the food ordering process and improve overall efficiency.`,
-    image: "/REF.png",
+    image: "/Projects/Projects3.png",
     category: "Design",
     tech: ["Figma", "Adobe Photoshop", "Canva"],
     year: 2024,
@@ -127,7 +127,7 @@ Each property listing is presented with comprehensive details including specific
 By combining organized content architecture with thoughtful visual design, the platform emphasizes data consistency and user experience.
 
 Overall, the Namura Property website reflects a professional and forward-thinking approach to real estate presentation, positioning the brand as a trustworthy partner for buyers, investors, and business stakeholders.`,
-    image: "/NAM.png",
+    image: "/Projects/Projects4.png",
     category: "Full Stack",
     tech: ["React", "Node.js", "Express", "MongoDB", "Figma", "Canva"],
     year: 2025,

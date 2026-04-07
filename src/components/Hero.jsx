@@ -1,124 +1,226 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+
+/* ================= SLIDES ================= */
+
+const slides = [
+  {
+    image: "/hero1.jpg",
+    tag: "UI / UX • Web Development",
+    title1: "I Create",
+    title2: "Digital Work",
+    title3: "That Hits.",
+    desc: "Crafting high-impact digital experiences for brands and startups.",
+
+    ctaPrimary: {
+      label: "View Portfolio",
+      link: "/vins-plus/portfolio",
+    },
+
+    ctaSecondary: {
+      label: "Contact Me",
+      link: "/contact",
+    },
+  },
+
+  {
+    image: "/hero2.jpg",
+    tag: "Creative Coding",
+    title1: "Design",
+    title2: "Meets",
+    title3: "Performance.",
+    desc: "Building modern websites focused on speed and clarity.",
+
+    ctaPrimary: {
+      label: "See Projects",
+      link: "/vins-plus/project",
+    },
+
+    ctaSecondary: {
+      label: "My Experience",
+      link: "/vins-plus/experience",
+    },
+  },
+
+  {
+    image: "/hero3.jpg",
+    tag: "Product Thinking",
+    title1: "Ideas",
+    title2: "Into",
+    title3: "Experiences.",
+    desc: "Transforming concepts into meaningful digital products.",
+
+    ctaPrimary: {
+      label: "Certificates",
+      link: "/vins-plus/certificate",
+    },
+
+    ctaSecondary: {
+      label: "About Me",
+      link: "/about",
+    },
+  },
+];
+
+/* ================= HERO ================= */
 
 export default function Hero() {
+  const [index, setIndex] = useState(0);
+
+  /* AUTO SLIDE */
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % slides.length);
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const slide = slides[index];
+
   return (
-    <section
-      className="
-        relative
-        min-h-screen
-        flex items-center
-        bg-[var(--background)]
-        text-[var(--foreground)]
-        overflow-hidden
-      "
-    >
-      {/* BACKGROUND */}
-      <div className="absolute inset-0 -z-10">
-        {/* Soft glow */}
-        <div className="absolute w-[500px] h-[500px] bg-[var(--accent)]/20 blur-[140px] rounded-full top-[-120px] left-[-120px]" />
-        <div className="absolute w-[400px] h-[400px] bg-[var(--accent)]/10 blur-[120px] rounded-full bottom-[-100px] right-[-100px]" />
+    <section className="relative min-h-screen overflow-hidden">
 
-        {/* Subtle grid */}
-        <div className="absolute inset-0 opacity-[0.03] [background-image:linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] [background-size:48px_48px]" />
-      </div>
+      {/* BACKGROUND CAROUSEL */}
 
-      <div className="w-full max-w-5xl mx-auto px-6 lg:px-12 text-center">
+      <AnimatePresence mode="wait">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="space-y-6"
+          key={index}
+          initial={{ opacity: 0, scale: 1.15 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.2 }}
+          className="absolute inset-0"
         >
-          {/* Eyebrow */}
-          <span className="inline-block text-sm tracking-widest text-[var(--accent)]">
-            ✦ Creative Technologist
-          </span>
+          <Image
+            src={slide.image}
+            alt="hero"
+            fill
+            priority
+            className="object-cover"
+          />
 
-          {/* Headline */}
-          <h1 className="font-semibold tracking-tight leading-[1.1]">
-            <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-              Building Digital
-            </span>
+          <div className="absolute inset-0 bg-black/40" />
 
-            <span
-              className="
-                block
-                text-4xl sm:text-5xl md:text-6xl lg:text-7xl
-                text-transparent bg-clip-text
-                bg-gradient-to-r from-[var(--accent)] to-[#f5e6ca]
-              "
-            >
-              Experiences
-            </span>
-
-            <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-              That Matter
-            </span>
-          </h1>
-
-          {/* Description */}
-          <p className="max-w-xl mx-auto text-base sm:text-lg text-[var(--foreground)]/70">
-            I design and build thoughtful digital products for brands,
-            startups, and creators. Focused on performance, aesthetics, and
-            impact.
-          </p>
-
-          {/* CTA */}
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4">
-            <Link
-              href="/contact"
-              className="
-                group
-                inline-flex items-center gap-2
-                px-7 py-4 rounded-xl
-                font-medium
-
-                bg-[var(--accent)]
-                text-black
-
-                transition-all duration-300
-
-                hover:bg-black
-                hover:text-[var(--accent)]
-                hover:shadow-[0_0_25px_rgba(230,211,163,0.4)]
-              "
-            >
-              Start a Project
-              <ArrowRight
-                size={18}
-                className="transition-transform group-hover:translate-x-1"
-              />
-            </Link>
-
-            <Link
-              href="/vins-plus/portfolio"
-              className="
-                group
-                inline-flex items-center gap-2
-                px-6 py-4 rounded-xl
-                font-medium
-                border border-[var(--border)]
-                text-[var(--foreground)]/70
-
-                transition-all duration-300
-
-                hover:text-[var(--foreground)]
-                hover:border-[var(--accent)]
-              "
-            >
-              <Play
-                size={16}
-                className="transition-transform group-hover:scale-110"
-              />
-              View Work
-            </Link>
-          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
         </motion.div>
+      </AnimatePresence>
+
+      {/* CONTENT */}
+
+      <div className="relative z-10 flex flex-col min-h-screen">
+
+        <div className="flex items-end flex-1 pb-20 pt-48">
+          <div className="max-w-6xl mx-auto px-6 lg:px-12 w-full">
+
+            <motion.div
+              key={index + "content"}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-8"
+            >
+
+              {/* TAG */}
+
+              <div className="inline-flex px-3 py-1 rounded-full bg-white/10 backdrop-blur text-xs text-white/70">
+                {slide.tag}
+              </div>
+
+              {/* TITLE */}
+
+              <h1 className="font-semibold leading-[1] tracking-tight text-white">
+
+                <div className="text-[42px] sm:text-[56px] md:text-[72px] lg:text-[96px]">
+                  {slide.title1}
+                </div>
+
+                <div className="text-[42px] sm:text-[56px] md:text-[72px] lg:text-[96px] text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] to-[#f5e6ca]">
+                  {slide.title2}
+                </div>
+
+                <div className="text-[42px] sm:text-[56px] md:text-[72px] lg:text-[96px]">
+                  {slide.title3}
+                </div>
+
+              </h1>
+
+              {/* DESCRIPTION */}
+
+              <p className="max-w-lg text-sm sm:text-base text-white/70 leading-relaxed">
+                {slide.desc}
+              </p>
+
+              {/* CTA BUTTONS */}
+
+              <div className="flex items-center gap-4 pt-4 flex-wrap">
+
+                <Link
+                  href={slide.ctaPrimary.link}
+                  className="
+                  group inline-flex items-center gap-2
+                  px-7 py-3 rounded-full
+                  bg-white text-black font-medium
+                  shadow-lg shadow-black/30
+                  hover:bg-[var(--accent)]
+                  hover:scale-[1.03]
+                  transition
+                  "
+                >
+                  {slide.ctaPrimary.label}
+
+                  <ArrowRight
+                    size={18}
+                    className="transition group-hover:translate-x-1"
+                  />
+                </Link>
+
+                <Link
+                  href={slide.ctaSecondary.link}
+                  className="
+                  px-6 py-3 rounded-full
+                  border border-white/20
+                  text-white/80
+                  hover:bg-white/10
+                  transition
+                  "
+                >
+                  {slide.ctaSecondary.label}
+                </Link>
+
+              </div>
+
+            </motion.div>
+
+          </div>
+        </div>
+
+        {/* DOT INDICATOR */}
+
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-3">
+
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIndex(i)}
+              className={`h-2 rounded-full transition-all ${
+                index === i
+                  ? "w-8 bg-white"
+                  : "w-2 bg-white/40"
+              }`}
+            />
+          ))}
+
+        </div>
+
       </div>
+
     </section>
   );
 }

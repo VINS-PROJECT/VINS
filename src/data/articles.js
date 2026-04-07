@@ -4,7 +4,7 @@ export const articles = [
     title: "Learning and Growing: My Journey as an Intern at Telkom Witel Regional Lampung",
     desc: "A detailed account of my internship experience at Telkom Witel Lampung, focusing on data analysis and web development projects.",
     date: "July 2024",
-    image: "/TEL.png",
+    image: "/Banner/Banner4.png",
     category: "Journey",
     slug: "internship-at-telkom-indonesia",
     content: `
@@ -22,7 +22,7 @@ export const articles = [
     title: "From Idea to Achievement: Securing Gold at iTELLS 2025",
     desc: "An overview of the award-winning project 'Snake Rush' presented at the 6th International Technology Enhanced Language Learning Symposium (iTELLS 2025).",
     date: "July 2025",
-    image: "/ITE.png",
+    image: "/Banner/Banner6.png",
     category: "Journey",
     slug: "from-idea-to-achievement-itells-2025",
     content: `
@@ -34,7 +34,7 @@ export const articles = [
     title: "College Life VS School Life: Embracing Independence and Growth",
     desc: "A reflective comparison between college life and school life, highlighting the newfound independence and personal growth experienced in higher education.",
     date: "November 2025",
-    image: "/SCH.png",
+    image: "/Banner/Banner5.png",
     category: "Life",
     slug: "college-life-vs-school-life",
     content: `
@@ -50,7 +50,7 @@ Ultimately, the biggest difference between school and college lies in personal d
     title: "The End of My College Journey: Thank You, Everyone",
     desc: "A heartfelt reflection on the completion of my college journey, expressing gratitude to everyone who supported me along the way.",
     date: "July 2025",
-    image: "/COL.png",
+    image: "/Banner/Banner7.png",
     category: "Life",
     slug: "the-end-of-my-college-journey-thank-you-everyone",
     content: `

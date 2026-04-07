@@ -1,18 +1,21 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import {
+  motion,
+  useInView,
+} from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import { Users, Award, TrendingUp, Zap } from "lucide-react";
 
 export default function WorkWith() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-120px" });
+  const inView = useInView(ref, { once: true, margin: "-100px" });
 
   const stats = [
-    { icon: Users, label: "Clients", value: "30+" },
-    { icon: Award, label: "Projects", value: "50+" },
-    { icon: TrendingUp, label: "Success Rate", value: "98%" },
-    { icon: Zap, label: "Experience", value: "5+ Years" },
+    { icon: Users, label: "Clients", value: 30, suffix: "+" },
+    { icon: Award, label: "Projects", value: 50, suffix: "+" },
+    { icon: TrendingUp, label: "Success Rate", value: 98, suffix: "%" },
+    { icon: Zap, label: "Experience", value: 5, suffix: "+ Years" },
   ];
 
   const partners = [
@@ -27,27 +30,25 @@ export default function WorkWith() {
     <section
       ref={ref}
       className="
-        relative py-32 overflow-hidden
+        relative py-28 overflow-hidden
         bg-[var(--background)]
         text-[var(--foreground)]
       "
     >
-      {/* ===== BACKGROUND (CREAM LAYER, BEDA STYLE) ===== */}
+      {/* ===== BACKGROUND (CLEAN) ===== */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[var(--accent)]/10" />
-
-        {/* diagonal gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent)]/20 via-transparent to-transparent" />
+        <div className="absolute w-[400px] h-[400px] bg-[var(--accent)]/20 blur-[120px] rounded-full top-[-120px] left-[-120px]" />
       </div>
 
       <div className="max-w-6xl mx-auto px-6 lg:px-12 space-y-20">
 
-        {/* ================= TOP SPLIT ================= */}
+        {/* ================= TOP ================= */}
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          
+
           {/* LEFT */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
             className="space-y-6"
@@ -68,32 +69,21 @@ export default function WorkWith() {
             </p>
           </motion.div>
 
-          {/* RIGHT (STATS INLINE) */}
+          {/* RIGHT (STATS) */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="
               grid grid-cols-2 gap-6
               border border-[var(--border)]
               rounded-2xl p-6
-              bg-[var(--background)]/60 backdrop-blur
+              bg-white/70 backdrop-blur-xl
             "
           >
-            {stats.map((stat, i) => {
-              const Icon = stat.icon;
-              return (
-                <div key={stat.label} className="space-y-2">
-                  <Icon size={18} className="text-[var(--accent)]" />
-                  <div className="text-2xl font-semibold">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs text-[var(--foreground)]/60">
-                    {stat.label}
-                  </div>
-                </div>
-              );
-            })}
+            {stats.map((stat, i) => (
+              <StatItem key={i} stat={stat} inView={inView} />
+            ))}
           </motion.div>
         </div>
 
@@ -113,7 +103,7 @@ export default function WorkWith() {
               className="flex gap-16 w-max"
               animate={{ x: ["0%", "-50%"] }}
               transition={{
-                duration: 20,
+                duration: 25,
                 repeat: Infinity,
                 ease: "linear",
               }}
@@ -121,7 +111,7 @@ export default function WorkWith() {
               {[...partners, ...partners].map((p, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-center h-16 w-32 opacity-60"
+                  className="flex items-center justify-center h-16 w-32 opacity-60 hover:opacity-100 transition"
                 >
                   <img
                     src={p.src}
@@ -140,5 +130,54 @@ export default function WorkWith() {
 
       </div>
     </section>
+  );
+}
+
+/* ================= STAT ITEM ================= */
+function StatItem({ stat, inView }) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+
+    let start = 0;
+    const end = stat.value;
+    const duration = 1000;
+    const increment = end / (duration / 16);
+
+    const counter = setInterval(() => {
+      start += increment;
+      if (start >= end) {
+        setCount(end);
+        clearInterval(counter);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, 16);
+
+    return () => clearInterval(counter);
+  }, [inView, stat.value]);
+
+  const Icon = stat.icon;
+
+  return (
+    <div
+      className="
+        group space-y-2
+        transition-all duration-300
+        hover:translate-y-[-2px]
+      "
+    >
+      <Icon size={18} className="text-[var(--accent)]" />
+
+      <div className="text-2xl font-semibold">
+        {count}
+        {stat.suffix}
+      </div>
+
+      <div className="text-xs text-[var(--foreground)]/60">
+        {stat.label}
+      </div>
+    </div>
   );
 }

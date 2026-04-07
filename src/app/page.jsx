@@ -9,9 +9,9 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Impact />
-      <Steps />
       <WorkWith />
+      <Steps />
+      <Impact />
     </>
   );
 }

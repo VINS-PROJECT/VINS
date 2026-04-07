@@ -5,27 +5,20 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowLeft,
-  ChevronRight,
-  Github,
   ExternalLink,
+  Github,
   Check,
 } from "lucide-react";
-import { notFound, useParams } from "next/navigation";
-import { useMemo } from "react";
+
+import { useParams, notFound } from "next/navigation";
+import { useMemo, useState } from "react";
+
 import { projectsData } from "@/data/projects";
 
-/* ================= MOTION ================= */
-const fadeUp = {
-  hidden: { opacity: 0, y: 14 },
-  show: { opacity: 1, y: 0 },
-};
-
-const stagger = {
-  show: { transition: { staggerChildren: 0.08 } },
-};
-
 export default function ProjectDetail() {
+
   const { slug } = useParams();
+  const [preview, setPreview] = useState(null);
 
   const project = useMemo(
     () => projectsData.find((p) => p.slug === slug),
@@ -35,284 +28,283 @@ export default function ProjectDetail() {
   if (!project) return notFound();
 
   return (
-    <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
 
-      {/* ================= HEADER (VINS+ STYLE) ================= */}
-      <section className="relative overflow-hidden">
-        {/* GOLD DIAGONAL */}
-        <div
-          aria-hidden
-          className="
-            absolute inset-0
-            bg-gradient-to-br
-            from-[var(--accent)]/25
-            via-[var(--accent)]/10
-            to-transparent
-            -skew-y-6
-            origin-top-left
-          "
-        />
+      {/* HERO */}
 
-        {/* FADE */}
-        <div
-          aria-hidden
-          className="
-            absolute bottom-0 left-0 w-full h-28
-            bg-gradient-to-t from-[var(--background)] to-transparent
-          "
-        />
+      <section className="pt-32 pb-20 px-6">
 
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="relative max-w-6xl mx-auto px-6 pt-32 pb-20"
-        >
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-            Project Overview
-          </h1>
+        <div className="max-w-6xl mx-auto">
 
-          <p className="opacity-70 mt-3 max-w-3xl">
-            Design intent, technical execution, and delivered outcomes.
-          </p>
-
-          {/* BREADCRUMB */}
-          <nav className="mt-5 flex items-center gap-2 text-sm font-medium">
-            <Crumb href="/">Home</Crumb>
-            <ChevronRight className="w-4 opacity-50" />
-            <Crumb href="/vins-plus/project">Projects</Crumb>
-            <ChevronRight className="w-4 opacity-50" />
-            <span className="opacity-60 truncate max-w-[260px]">
-              {project.title}
-            </span>
-          </nav>
-        </motion.div>
-      </section>
-
-      {/* ================= CONTENT ================= */}
-      <section className="relative max-w-6xl mx-auto px-6 pb-32">
-
-        {/* BACK BUTTON */}
-        <Link
-          href="/vins-plus/project"
-          className="
-            inline-flex items-center gap-2 mb-12
-            px-4 py-2 rounded-xl
-            bg-[var(--card)]
-            border border-[var(--border)]
-            hover:border-[var(--accent)]/50
-            transition
-          "
-        >
-          <ArrowLeft size={16} /> Back to Projects
-        </Link>
-
-        {/* ================= HERO ================= */}
-        <motion.section
-          variants={stagger}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="grid md:grid-cols-2 gap-14 mb-24"
-        >
-          {/* IMAGE */}
-          <motion.div
-            variants={fadeUp}
-            className="
-              relative rounded-3xl overflow-hidden
-              border border-[var(--border)]
-              shadow-[0_20px_60px_rgba(0,0,0,0.25)]
-            "
+          <Link
+            href="/vins-plus/project"
+            className="inline-flex items-center gap-2 mb-8 opacity-70 hover:opacity-100"
           >
-            <div className="relative aspect-[16/10]">
+            <ArrowLeft size={16}/>
+            Back to Projects
+          </Link>
+
+          <div className="grid md:grid-cols-2 gap-14 items-center">
+
+            {/* TEXT */}
+
+            <div>
+
+              <h1 className="text-4xl md:text-5xl font-bold">
+                {project.title}
+              </h1>
+
+              <p className="opacity-60 mt-3">
+                {project.category} • {project.year}
+              </p>
+
+              <p className="mt-6 opacity-80 leading-relaxed">
+                {project.desc}
+              </p>
+
+              {/* TECH STACK */}
+
+              <div className="flex flex-wrap gap-2 mt-6">
+
+                {project.tech.map((t)=>(
+                  <span
+                    key={t}
+                    className="
+                    px-3 py-1 text-xs rounded-lg
+                    bg-[var(--accent)]/10
+                    border border-[var(--accent)]/20
+                    text-[var(--accent)]
+                    "
+                  >
+                    {t}
+                  </span>
+                ))}
+
+              </div>
+
+              {/* LINKS */}
+
+              <div className="flex gap-3 mt-8">
+
+                {project.links?.live && (
+                  <a
+                    href={project.links.live}
+                    target="_blank"
+                    className="btn-gold flex items-center gap-2"
+                  >
+                    <ExternalLink size={16}/>
+                    Live Demo
+                  </a>
+                )}
+
+                {project.links?.github && (
+                  <a
+                    href={project.links.github}
+                    target="_blank"
+                    className="
+                    px-6 py-2 rounded-xl
+                    border border-[var(--border)]
+                    flex items-center gap-2
+                    "
+                  >
+                    <Github size={16}/>
+                    Source
+                  </a>
+                )}
+
+              </div>
+
+            </div>
+
+
+            {/* HERO IMAGE */}
+
+            <div
+              onClick={()=>setPreview(project.image)}
+              className="relative h-[380px] rounded-3xl overflow-hidden cursor-pointer"
+            >
+
               <Image
                 src={project.image}
                 alt={project.title}
                 fill
-                priority
-                className="object-cover"
+                className="object-cover hover:scale-105 transition"
               />
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-          </motion.div>
 
-          {/* INFO */}
-          <motion.div
-            variants={fadeUp}
-            className="flex flex-col justify-center gap-5"
-          >
-            <h2 className="text-3xl font-bold">{project.title}</h2>
-
-            <p className="text-lg font-medium text-[var(--accent)]">
-              {project.category} • {project.year}
-            </p>
-
-            {/* TECH */}
-            <div className="flex flex-wrap gap-2">
-              {project.tech.map((t) => (
-                <span
-                  key={t}
-                  className="
-                    px-3 py-1 text-xs rounded-lg
-                    bg-[var(--accent)]/15
-                    border border-[var(--accent)]/30
-                    text-[var(--accent)]
-                  "
-                >
-                  {t}
-                </span>
-              ))}
             </div>
 
-            {/* ACTIONS */}
-            <LinksGroup links={project.links} />
-          </motion.div>
-        </motion.section>
+          </div>
 
-        {/* ================= DETAILS ================= */}
-        <GlassSection title="Project Details">
-          <Detail label="Category" value={project.category} />
-          <Detail label="Year" value={project.year} />
-          <Detail label="Tech Stack" value={project.tech.join(", ")} />
-          <Detail label="Status" value={project.status || "Completed"} />
-        </GlassSection>
+        </div>
 
-        {project.desc && (
-          <GlassSection title="Description">
-            <p className="leading-relaxed opacity-90 whitespace-pre-line">
-              {project.desc}
-            </p>
-          </GlassSection>
-        )}
-
-        {project.features && (
-          <GlassSection title="Key Features">
-            <ul className="space-y-2">
-              {project.features.map((f, i) => (
-                <li key={i} className="flex gap-2 text-sm opacity-90">
-                  <Check className="w-4 h-4 mt-1 text-[var(--accent)]" />
-                  {f}
-                </li>
-              ))}
-            </ul>
-          </GlassSection>
-        )}
-
-        {project.gallery && (
-          <GlassSection title="Gallery">
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {project.gallery.map((src, i) => (
-                <motion.div
-                  key={i}
-                  whileHover={{ scale: 1.04 }}
-                  className="
-                    relative h-48 rounded-xl overflow-hidden
-                    border border-[var(--border)]
-                  "
-                >
-                  <Image src={src} fill alt="Gallery" className="object-cover" />
-                </motion.div>
-              ))}
-            </div>
-          </GlassSection>
-        )}
       </section>
+
+
+      {/* INFO GRID */}
+
+      <section className="max-w-6xl mx-auto px-6 mb-24">
+
+        <div className="grid md:grid-cols-3 gap-6">
+
+          <InfoCard
+            title="Category"
+            value={project.category}
+          />
+
+          <InfoCard
+            title="Year"
+            value={project.year}
+          />
+
+          <InfoCard
+            title="Status"
+            value={project.status || "Completed"}
+          />
+
+        </div>
+
+      </section>
+
+
+      {/* FEATURES */}
+
+      {project.features && (
+
+        <section className="max-w-6xl mx-auto px-6 mb-24">
+
+          <h2 className="text-2xl font-semibold mb-8">
+            Key Features
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-6">
+
+            {project.features.map((f,i)=>(
+
+              <div
+                key={i}
+                className="
+                flex gap-3 p-6
+                rounded-2xl
+                border border-[var(--border)]
+                bg-[var(--card)]
+                "
+              >
+
+                <Check className="text-[var(--accent)]"/>
+
+                <p className="text-sm opacity-80">
+                  {f}
+                </p>
+
+              </div>
+
+            ))}
+
+          </div>
+
+        </section>
+
+      )}
+
+
+      {/* GALLERY */}
+
+      {project.gallery && (
+
+        <section className="max-w-6xl mx-auto px-6 pb-32">
+
+          <h2 className="text-2xl font-semibold mb-8">
+            Gallery
+          </h2>
+
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+
+            {project.gallery.map((img,i)=>(
+
+              <div
+                key={i}
+                onClick={()=>setPreview(img)}
+                className="
+                relative h-52
+                rounded-xl
+                overflow-hidden
+                cursor-pointer
+                "
+              >
+
+                <Image
+                  src={img}
+                  alt="Gallery"
+                  fill
+                  className="object-cover hover:scale-105 transition"
+                />
+
+              </div>
+
+            ))}
+
+          </div>
+
+        </section>
+
+      )}
+
+
+      {/* IMAGE PREVIEW */}
+
+      {preview && (
+
+        <div
+          className="
+          fixed inset-0 z-50
+          bg-black/80
+          flex items-center justify-center
+          "
+          onClick={()=>setPreview(null)}
+        >
+
+          <div className="relative w-[80vw] h-[80vh]">
+
+            <Image
+              src={preview}
+              alt="Preview"
+              fill
+              className="object-contain"
+            />
+
+          </div>
+
+        </div>
+
+      )}
+
     </main>
   );
 }
 
-/* ================= SMALL COMPONENTS ================= */
 
-function Crumb({ href, children }) {
-  return (
-    <Link href={href} className="text-[var(--accent)] hover:underline">
-      {children}
-    </Link>
-  );
-}
+/* INFO CARD */
 
-function Detail({ label, value }) {
-  return (
-    <p className="text-sm opacity-85">
-      <span className="font-semibold text-[var(--accent)]">
-        {label}:{" "}
-      </span>
-      {value}
-    </p>
-  );
-}
+function InfoCard({ title, value }){
 
-function LinksGroup({ links = {} }) {
-  const icons = {
-    live: <ExternalLink size={16} />,
-    github: <Github size={16} />,
-    figma: (
-      <Image src="/icons/figma.svg" width={14} height={14} alt="Figma" />
-    ),
-    case: <Check size={16} />,
-  };
+  return(
 
-  const labels = {
-    live: "Visit Website",
-    github: "GitHub Repository",
-    figma: "Figma Design",
-    case: "Case Study",
-  };
+    <div className="
+    p-6 rounded-2xl
+    border border-[var(--border)]
+    bg-[var(--card)]
+    ">
 
-  return (
-    <div className="flex flex-wrap gap-3 mt-4">
-      {Object.entries(links).map(
-        ([key, href]) =>
-          href && (
-            <ActionBtn
-              key={key}
-              href={href}
-              primary={key === "live"}
-              icon={icons[key]}
-              label={labels[key]}
-            />
-          )
-      )}
-    </div>
-  );
-}
-
-function ActionBtn({ href, icon, label, primary }) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`
-        inline-flex items-center gap-2
-        px-6 py-2.5 rounded-xl font-semibold
-        transition
-        ${
-          primary
-            ? "bg-[var(--accent)] text-black hover:brightness-95"
-            : "border border-[var(--accent)]/50 text-[var(--accent)] hover:bg-[var(--accent)]/10"
-        }
-      `}
-    >
-      {icon} {label}
-    </a>
-  );
-}
-
-function GlassSection({ title, children }) {
-  return (
-    <section
-      className="
-        mb-16 p-7 rounded-2xl
-        bg-[var(--card)]
-        border border-[var(--border)]
-        shadow-[0_14px_40px_rgba(0,0,0,0.18)]
-      "
-    >
-      <h2 className="text-xl font-bold mb-4 text-[var(--accent)]">
+      <p className="text-xs opacity-50">
         {title}
-      </h2>
-      {children}
-    </section>
-  );
+      </p>
+
+      <p className="mt-2 font-semibold">
+        {value}
+      </p>
+
+    </div>
+
+  )
+
 }

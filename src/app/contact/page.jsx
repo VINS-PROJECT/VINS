@@ -1,225 +1,251 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Github, Linkedin, Instagram, Send } from "lucide-react";
+import {
+  Mail,
+  Github,
+  Linkedin,
+  Instagram,
+  Send
+} from "lucide-react";
+
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function ContactPage() {
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    message: "",
-    honey: "",
+    message: ""
   });
 
   const [status, setStatus] = useState("");
 
-  useEffect(() => {
-    if (window.grecaptcha) return;
-    const script = document.createElement("script");
-    script.src = `https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`;
-    script.async = true;
-    script.defer = true;
-    document.body.appendChild(script);
-  }, []);
-
-  const executeRecaptcha = async () => {
-    if (!window.grecaptcha) return null;
-    return await window.grecaptcha.execute(
-      process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
-      { action: "contact_form" }
-    );
-  };
-
   const handleChange = (e) => {
-    setFormData((s) => ({ ...s, [e.target.name]: e.target.value }));
+    setFormData((s) => ({
+      ...s,
+      [e.target.name]: e.target.value
+    }));
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (formData.honey) return;
 
+    e.preventDefault();
     setStatus("loading");
 
-    try {
-      const token = await executeRecaptcha();
-      if (!token) throw new Error();
-
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, token }),
-      });
-
-      if (!res.ok) throw new Error();
-
+    setTimeout(() => {
       setStatus("success");
-      setFormData({ name: "", email: "", message: "", honey: "" });
-    } catch {
-      setStatus("error");
-    }
+      setFormData({ name: "", email: "", message: "" });
+    }, 1000);
 
-    setTimeout(() => setStatus(""), 4000);
   };
 
   const socials = [
-    { icon: <Github size={18} />, url: "https://github.com" },
-    { icon: <Linkedin size={18} />, url: "https://linkedin.com" },
-    { icon: <Instagram size={18} />, url: "https://instagram.com" },
+    { icon: <Github size={20} />, url: "https://github.com" },
+    { icon: <Linkedin size={20} />, url: "https://linkedin.com" },
+    { icon: <Instagram size={20} />, url: "https://instagram.com" }
   ];
 
   return (
-    <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)] overflow-hidden">
+    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
 
-      {/* ===== SOFT BACKGROUND (CONSISTENT) ===== */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute w-[500px] h-[500px] bg-[var(--accent)]/10 blur-[140px] rounded-full top-[-120px] right-[-120px]" />
-      </div>
+      <div className="max-w-6xl mx-auto px-6 pt-32 pb-32 space-y-24">
 
-      <div className="relative z-10 pt-32 pb-32">
-        <div className="max-w-5xl mx-auto px-6 space-y-16">
+        {/* HERO */}
 
-          {/* ================= HEADER ================= */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center max-w-xl mx-auto"
-          >
-            <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">
-              Let’s <span className="text-[var(--accent)]">Connect</span>
-            </h1>
+        <section className="text-center max-w-xl mx-auto">
 
-            <p className="mt-4 text-[var(--foreground)]/70">
-              Have a project, collaboration, or idea? I’d love to hear from you.
+          <h1 className="text-4xl md:text-6xl font-semibold tracking-tight">
+            Let’s
+            <span className="text-[var(--accent)]"> Connect</span>
+          </h1>
+
+          <p className="mt-4 text-[var(--foreground)]/70">
+            Have an idea, collaboration, or project?
+            I’m open to meaningful conversations.
+          </p>
+
+        </section>
+
+
+        {/* CONTACT CARDS */}
+
+        <section className="grid md:grid-cols-3 gap-6">
+
+          {/* EMAIL */}
+
+          <div className="
+          p-6 rounded-2xl
+          border border-[var(--border)]
+          bg-[var(--card)]
+          text-center
+          ">
+
+            <Mail className="mx-auto text-[var(--accent)] mb-3" />
+
+            <h3 className="font-semibold">
+              Email
+            </h3>
+
+            <p className="text-sm opacity-70 mt-2">
+              vin.simorangkir81@gmail.com
             </p>
-          </motion.div>
 
-          {/* ================= BODY ================= */}
-          <div className="grid md:grid-cols-2 gap-12 items-start">
-
-            {/* LEFT (INFO) */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="space-y-6"
-            >
-              <div>
-                <h2 className="text-lg font-medium mb-2">
-                  Contact
-                </h2>
-
-                <div className="flex items-center gap-3 text-sm opacity-70">
-                  <Mail className="text-[var(--accent)]" />
-                  <span className="break-all">
-                    vin.simorangkir81@gmail.com
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex gap-3">
-                {socials.map((s, i) => (
-                  <Link
-                    key={i}
-                    href={s.url}
-                    target="_blank"
-                    className="
-                      p-2 rounded-lg
-                      border border-[var(--border)]
-                      hover:border-[var(--accent)]
-                      hover:text-[var(--accent)]
-                      transition
-                    "
-                  >
-                    {s.icon}
-                  </Link>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* FORM */}
-            <motion.form
-              onSubmit={handleSubmit}
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="
-                p-7 rounded-2xl
-                border border-[var(--border)]
-                bg-[var(--background)]/60 backdrop-blur-xl
-              "
-            >
-              <h2 className="text-lg font-medium mb-5">
-                Send Message
-              </h2>
-
-              <input
-                type="text"
-                name="honey"
-                value={formData.honey}
-                onChange={handleChange}
-                className="hidden"
-              />
-
-              <div className="flex flex-col gap-4">
-                <Input name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} />
-                <Input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} />
-
-                <textarea
-                  name="message"
-                  rows={4}
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Your message..."
-                  className="p-3 rounded-xl border border-[var(--border)] bg-transparent focus:border-[var(--accent)] outline-none"
-                />
-
-                <button
-                  disabled={status === "loading"}
-                  className="
-                    px-6 py-3 rounded-xl
-                    bg-[var(--accent)] text-black
-                    font-medium
-                    flex items-center justify-center gap-2
-                    disabled:opacity-60
-                  "
-                >
-                  <Send size={16} />
-                  {status === "loading" ? "Sending..." : "Send"}
-                </button>
-              </div>
-
-              {status === "success" && (
-                <p className="mt-4 text-sm text-emerald-400">
-                  Message sent ✓
-                </p>
-              )}
-
-              {status === "error" && (
-                <p className="mt-4 text-sm text-red-400">
-                  Failed to send message
-                </p>
-              )}
-            </motion.form>
           </div>
 
-        </div>
-      </div>
-    </main>
-  );
-}
 
-function Input({ type = "text", ...props }) {
-  return (
-    <input
-      type={type}
-      className="
-        p-3 rounded-xl
-        border border-[var(--border)]
-        bg-transparent
-        focus:border-[var(--accent)]
-        outline-none
-      "
-      {...props}
-    />
+          {/* SOCIAL */}
+
+          <div className="
+          p-6 rounded-2xl
+          border border-[var(--border)]
+          bg-[var(--card)]
+          text-center
+          ">
+
+            <h3 className="font-semibold mb-4">
+              Social
+            </h3>
+
+            <div className="flex justify-center gap-3">
+
+              {socials.map((s,i)=>(
+                <Link
+                  key={i}
+                  href={s.url}
+                  target="_blank"
+                  className="
+                  p-3 rounded-lg
+                  border border-[var(--border)]
+                  hover:border-[var(--accent)]
+                  hover:text-[var(--accent)]
+                  transition
+                  "
+                >
+                  {s.icon}
+                </Link>
+              ))}
+
+            </div>
+
+          </div>
+
+
+          {/* LOCATION */}
+
+          <div className="
+          p-6 rounded-2xl
+          border border-[var(--border)]
+          bg-[var(--card)]
+          text-center
+          ">
+
+            <h3 className="font-semibold">
+              Location
+            </h3>
+
+            <p className="text-sm opacity-70 mt-2">
+              Lampung, Indonesia
+            </p>
+
+          </div>
+
+        </section>
+
+
+        {/* FORM */}
+
+        <motion.section
+          initial={{ opacity:0, y:20 }}
+          animate={{ opacity:1, y:0 }}
+          className="
+          max-w-xl mx-auto
+          p-8 rounded-2xl
+          border border-[var(--border)]
+          bg-[var(--background)]
+          shadow-[0_10px_40px_rgba(0,0,0,0.08)]
+          "
+        >
+
+          <h2 className="text-xl font-semibold mb-6">
+            Send a message
+          </h2>
+
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-4"
+          >
+
+            <input
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Your Name"
+              className="
+              p-3 rounded-xl
+              border border-[var(--border)]
+              focus:border-[var(--accent)]
+              outline-none
+              "
+            />
+
+            <input
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Your Email"
+              className="
+              p-3 rounded-xl
+              border border-[var(--border)]
+              focus:border-[var(--accent)]
+              outline-none
+              "
+            />
+
+            <textarea
+              name="message"
+              rows={4}
+              value={formData.message}
+              onChange={handleChange}
+              placeholder="Your message..."
+              className="
+              p-3 rounded-xl
+              border border-[var(--border)]
+              focus:border-[var(--accent)]
+              outline-none
+              "
+            />
+
+            <button
+              className="
+              mt-2
+              px-6 py-3
+              rounded-xl
+              bg-[var(--accent)]
+              text-black
+              font-medium
+              flex items-center justify-center gap-2
+              hover:scale-[1.02]
+              transition
+              "
+            >
+              <Send size={16}/>
+              {status === "loading" ? "Sending..." : "Send"}
+            </button>
+
+          </form>
+
+          {status === "success" && (
+            <p className="text-sm text-green-500 mt-4">
+              Message sent ✓
+            </p>
+          )}
+
+        </motion.section>
+
+      </div>
+
+    </main>
   );
 }

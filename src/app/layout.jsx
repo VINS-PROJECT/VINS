@@ -1,6 +1,7 @@
 import "./globals.css";
 import ClientLayoutWrapper from "@/components/ClientLayoutWrapper";
-import Providers from "@/components/ThemeProvider";
+import SmoothScrollProvider from "@/components/SmoothScrollProvider";
+import PageTransition from "@/components/PageTransition";
 import { Poppins } from "next/font/google";
 
 const poppins = Poppins({
@@ -11,7 +12,10 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "VINS - #BornToRise",
+  title: {
+    default: "VINS #BornToRise",
+    template: "VINS #BornToRise | %s",
+  },
   icons: {
     icon: "/TPN.ico",
     shortcut: "/TPN.ico",
@@ -23,21 +27,40 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="id"
-      suppressHydrationWarning
       className={poppins.variable}
+      suppressHydrationWarning
     >
       <body
         className="
-          font-sans
-          transition-colors duration-500
-          antialiased
-        "
+        font-sans antialiased
+        bg-[var(--background)]
+        text-[var(--foreground)]
+        overflow-x-hidden
+      "
       >
-        <Providers>
+        <SmoothScrollProvider>
+
           <ClientLayoutWrapper>
-            {children}
+
+            <main
+              className="
+              relative
+              flex
+              flex-col
+              min-h-screen
+            "
+            >
+
+              {/* PAGE TRANSITION */}
+              <PageTransition>
+                {children}
+              </PageTransition>
+
+            </main>
+
           </ClientLayoutWrapper>
-        </Providers>
+
+        </SmoothScrollProvider>
       </body>
     </html>
   );

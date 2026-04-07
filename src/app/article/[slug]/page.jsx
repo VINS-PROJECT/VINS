@@ -5,11 +5,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Calendar,
-  ArrowLeft,
-  Tag,
-} from "lucide-react";
+import { Calendar, ArrowLeft, Tag } from "lucide-react";
 
 import { articles as allArticles } from "@/data/articles";
 
@@ -19,7 +15,7 @@ export default function ArticleDetail({ params }) {
 
   const [progress, setProgress] = useState(0);
 
-  /* ================= SCROLL PROGRESS ================= */
+  /* SCROLL PROGRESS */
   useEffect(() => {
     const handleScroll = () => {
       const total =
@@ -32,11 +28,6 @@ export default function ArticleDetail({ params }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /* ================= READING TIME ================= */
-  const readingTime = Math.ceil(
-    article.content.split(" ").length / 200
-  );
-
   if (!article) {
     return (
       <main className="min-h-screen flex items-center justify-center">
@@ -45,6 +36,11 @@ export default function ArticleDetail({ params }) {
     );
   }
 
+  /* READING TIME */
+  const readingTime = Math.ceil(
+    article.content.split(" ").length / 200
+  );
+
   const relatedArticles = allArticles
     .filter((a) => a.slug !== slug)
     .slice(0, 3);
@@ -52,118 +48,104 @@ export default function ArticleDetail({ params }) {
   return (
     <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
 
-      {/* ================= PROGRESS BAR ================= */}
+      {/* PROGRESS */}
       <div className="fixed top-0 left-0 w-full h-[2px] bg-[var(--border)] z-50">
         <div
-          className="h-full bg-[var(--accent)] transition-all"
+          className="h-full bg-[var(--accent)]"
           style={{ width: `${progress}%` }}
         />
       </div>
 
-      <div className="pt-28 pb-28">
+      {/* HERO */}
+      <section className="pt-28 pb-16 px-6 text-center max-w-3xl mx-auto">
+        <Link
+          href="/article"
+          className="text-sm opacity-60 hover:opacity-100 flex items-center justify-center gap-2 mb-8"
+        >
+          <ArrowLeft size={16} /> Back to Articles
+        </Link>
 
-        {/* ================= CONTAINER ================= */}
-        <div className="max-w-3xl mx-auto px-6">
+        <motion.h1
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-3xl md:text-5xl font-semibold leading-tight tracking-tight"
+        >
+          {article.title}
+        </motion.h1>
 
-          {/* BACK */}
-          <Link
-            href="/article"
-            className="text-sm opacity-60 hover:opacity-100 flex items-center gap-2 mb-10"
-          >
-            <ArrowLeft size={16} /> Back to Articles
-          </Link>
+        <div className="flex flex-wrap justify-center gap-4 text-xs opacity-60 mt-4">
+          <span className="flex items-center gap-1">
+            <Tag size={12} /> {article.category}
+          </span>
+          <span className="flex items-center gap-1">
+            <Calendar size={12} /> {article.date}
+          </span>
+          <span>{readingTime} min read</span>
+        </div>
+      </section>
 
-          {/* TITLE */}
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl md:text-4xl font-semibold leading-tight"
-          >
-            {article.title}
-          </motion.h1>
-
-          {/* META */}
-          <div className="flex flex-wrap items-center gap-4 text-xs opacity-60 mt-4 mb-10">
-
-            <span className="flex items-center gap-1">
-              <Tag size={12} /> {article.category}
-            </span>
-
-            <span className="flex items-center gap-1">
-              <Calendar size={12} /> {article.date}
-            </span>
-
-            <span>{readingTime} min read</span>
-
-          </div>
-
-          {/* IMAGE */}
-          <div className="relative w-full h-[260px] md:h-[360px] rounded-2xl overflow-hidden mb-12">
-            <Image
-              src={article.image}
-              alt={article.title}
-              fill
-              className="object-cover"
-            />
-          </div>
-
-          {/* CONTENT */}
-          <motion.article
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="
-              prose max-w-none
-              text-[var(--foreground)]
-              prose-p:text-[var(--foreground)]/80
-              prose-headings:font-semibold
-              prose-h2:mt-10
-              prose-h3:mt-8
-              dark:prose-invert
-              text-lg leading-relaxed
-            "
-            dangerouslySetInnerHTML={{
-              __html: article.content.replace(/\n/g, "<br />"),
-            }}
+      {/* COVER IMAGE */}
+      <div className="max-w-5xl mx-auto px-6 mb-16">
+        <div className="relative h-[280px] md:h-[420px] rounded-3xl overflow-hidden">
+          <Image
+            src={article.image}
+            alt={article.title}
+            fill
+            className="object-cover"
           />
-
-          {/* ================= DIVIDER ================= */}
-          <div className="mt-20 border-t border-[var(--border)]" />
-
-          {/* ================= RELATED ================= */}
-          {relatedArticles.length > 0 && (
-            <section className="mt-16">
-              <h3 className="text-lg font-medium mb-6">
-                Related Articles
-              </h3>
-
-              <div className="grid sm:grid-cols-2 gap-4">
-                {relatedArticles.map((ra) => (
-                  <Link
-                    key={ra.slug}
-                    href={`/article/${ra.slug}`}
-                    className="
-                      p-4 rounded-xl
-                      border border-[var(--border)]
-                      hover:border-[var(--accent)]
-                      transition
-                    "
-                  >
-                    <p className="text-sm font-medium line-clamp-2">
-                      {ra.title}
-                    </p>
-
-                    <span className="text-xs opacity-50 mt-1 block">
-                      {ra.date}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </section>
-          )}
-
         </div>
       </div>
+
+      {/* CONTENT */}
+      <section className="max-w-3xl mx-auto px-6">
+        <motion.article
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="
+            prose prose-lg max-w-none
+            prose-p:text-[var(--foreground)]/80
+            prose-headings:font-semibold
+            prose-h2:mt-12
+            prose-h3:mt-10
+            leading-relaxed
+          "
+          dangerouslySetInnerHTML={{
+            __html: article.content.replace(/\n/g, "<br />"),
+          }}
+        />
+      </section>
+
+      {/* RELATED */}
+      {relatedArticles.length > 0 && (
+        <section className="max-w-5xl mx-auto px-6 mt-24 pb-24">
+          <h3 className="text-xl font-semibold mb-8 text-center">
+            Related Articles
+          </h3>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {relatedArticles.map((ra) => (
+              <Link
+                key={ra.slug}
+                href={`/article/${ra.slug}`}
+                className="
+                  group p-5 rounded-2xl
+                  border border-[var(--border)]
+                  hover:border-[var(--accent)]
+                  transition
+                "
+              >
+                <p className="font-medium line-clamp-2 group-hover:text-[var(--accent)]">
+                  {ra.title}
+                </p>
+
+                <span className="text-xs opacity-50 mt-2 block">
+                  {ra.date}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
     </main>
   );
 }

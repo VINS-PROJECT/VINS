@@ -1,18 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useReducedMotion } from "framer-motion";
-import {
-  LoaderCircle,
-  CheckCircle2,
-  Lightbulb,
-} from "lucide-react";
-
-const iconProps = {
-  size: 16,
-  strokeWidth: 1.25,
-  absoluteStrokeWidth: true,
-};
+import { motion, useReducedMotion } from "framer-motion";
+import { Icon } from "@iconify/react";
 
 const nextProjects = [
   {
@@ -53,111 +42,169 @@ const nextProjects = [
 
 const statusConfig = {
   "In Progress": {
-    icon: <LoaderCircle {...iconProps} className="animate-spin" />,
+    icon: "solar:refresh-outline",
+    class: "bg-yellow-500/10 text-yellow-500 border-yellow-500/30",
   },
   "Coming Soon": {
-    icon: <Lightbulb {...iconProps} />,
+    icon: "solar:lightbulb-line-duotone",
+    class: "bg-blue-500/10 text-blue-500 border-blue-500/30",
   },
   Finished: {
-    icon: <CheckCircle2 {...iconProps} />,
+    icon: "solar:check-circle-line-duotone",
+    class: "bg-green-500/10 text-green-500 border-green-500/30",
   },
 };
 
 export default function NextProjectPage() {
+
   const reduceMotion = useReducedMotion();
 
   const featured = nextProjects.find((p) => p.featured);
   const rest = nextProjects.filter((p) => !p.featured);
 
   return (
-    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] py-24 px-6">
+    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] pt-36 pb-24 px-6">
 
       <div className="max-w-6xl mx-auto space-y-20">
 
         {/* HEADER */}
+
         <div className="text-center space-y-4">
+
           <h1 className="text-4xl md:text-6xl font-semibold tracking-tight">
             Next Projects
           </h1>
+
           <p className="text-sm opacity-60">
             Roadmap of upcoming and evolving products.
           </p>
+
         </div>
 
+
         {/* FEATURED */}
+
         {featured && (
+
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             className="
-              p-10 rounded-3xl
-              border border-[var(--accent)]
-              bg-[var(--accent)]/10
-              backdrop-blur-xl
-              shadow-xl
+            relative overflow-hidden
+            p-10 rounded-3xl
+            border border-[var(--accent)]
+            bg-[var(--accent)]/10
+            backdrop-blur-xl
             "
           >
-            <span className="text-xs uppercase opacity-60">
-              Featured Project
-            </span>
 
-            <h2 className="text-3xl font-semibold mt-2">
-              {featured.title}
-            </h2>
+            {/* glow */}
 
-            <p className="mt-4 max-w-xl text-[var(--foreground)]/70">
-              {featured.desc}
-            </p>
+            <div className="absolute -top-20 -right-20 w-64 h-64 bg-[var(--accent)]/20 blur-3xl rounded-full"/>
 
-            {/* progress */}
-            <div className="mt-6">
-              <div className="h-2 rounded-full bg-[var(--border)] overflow-hidden">
-                <div
-                  className="h-full bg-[var(--accent)]"
-                  style={{ width: `${featured.progress}%` }}
-                />
-              </div>
-              <span className="text-xs opacity-50 mt-2 block">
-                {featured.progress}% completed
+            <div className="relative">
+
+              <span className="text-xs uppercase opacity-60">
+                Featured Project
               </span>
+
+              <h2 className="text-3xl font-semibold mt-2">
+                {featured.title}
+              </h2>
+
+              <p className="mt-4 max-w-xl opacity-70">
+                {featured.desc}
+              </p>
+
+
+              {/* progress */}
+
+              <div className="mt-6">
+
+                <div className="h-2 rounded-full bg-[var(--border)] overflow-hidden">
+
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${featured.progress}%` }}
+                    transition={{ duration: 1 }}
+                    className="h-full bg-[var(--accent)]"
+                  />
+
+                </div>
+
+                <span className="text-xs opacity-60 mt-2 block">
+                  {featured.progress}% completed
+                </span>
+
+              </div>
+
             </div>
+
           </motion.div>
+
         )}
 
-        {/* LIST */}
-        <div className="space-y-6">
+
+        {/* PROJECT GRID */}
+
+        <div className="grid sm:grid-cols-2 gap-6">
+
           {rest.map((p, i) => {
+
             const cfg = statusConfig[p.status];
 
             return (
+
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover={!reduceMotion ? { y: -6 } : {}}
                 className="
-                  flex items-start justify-between
-                  gap-6
-                  border-b border-[var(--border)]
-                  pb-6
+                group
+                p-6 rounded-2xl
+                border border-[var(--border)]
+                bg-[var(--background)]/70 backdrop-blur-xl
+                hover:border-[var(--accent)]
+                transition
                 "
               >
-                <div>
-                  <h3 className="font-medium">{p.title}</h3>
-                  <p className="text-sm opacity-60 max-w-md">
-                    {p.desc}
-                  </p>
+
+                <h3 className="font-semibold group-hover:text-[var(--accent)] transition">
+                  {p.title}
+                </h3>
+
+                <p className="text-sm opacity-60 mt-2">
+                  {p.desc}
+                </p>
+
+
+                {/* STATUS */}
+
+                <div
+                  className={`
+                  mt-4 inline-flex items-center gap-2
+                  px-3 py-1 rounded-full text-xs border
+                  ${cfg.class}
+                  `}
+                >
+
+                  <Icon icon={cfg.icon} width="16"/>
+
+                  {p.status}
+
                 </div>
 
-                <div className="flex items-center gap-2 text-xs opacity-70">
-                  {cfg.icon}
-                  {p.status}
-                </div>
               </motion.div>
+
             );
+
           })}
+
         </div>
 
       </div>
+
     </main>
   );
 }

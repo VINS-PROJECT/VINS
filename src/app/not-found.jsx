@@ -6,29 +6,28 @@ import { AlertCircle, ArrowLeft, Home } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <main
-      className="
-        relative min-h-screen flex items-center justify-center px-6
-        bg-[var(--background)] text-[var(--foreground)]
-        overflow-hidden transition-colors
-      "
-    >
-      {/* ================= BACKGROUND GLOW ================= */}
+    <main className="
+      relative min-h-screen flex items-center justify-center px-6
+      bg-[var(--background)] text-[var(--foreground)]
+      overflow-hidden
+    ">
+
+      {/* BACKGROUND */}
       <motion.div
         aria-hidden
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.22 }}
-        transition={{ duration: 1.4 }}
+        animate={{ opacity: 0.25 }}
+        transition={{ duration: 1.2 }}
         className="absolute inset-0 pointer-events-none"
         style={{
           background: `
-            radial-gradient(60% 45% at 35% 30%, var(--accent)/22 0%, transparent 70%),
-            radial-gradient(55% 40% at 75% 65%, var(--accent-dark)/16 0%, transparent 70%)
+            radial-gradient(60% 45% at 35% 30%, rgba(255,180,120,0.18) 0%, transparent 70%),
+            radial-gradient(55% 40% at 75% 65%, rgba(255,180,120,0.12) 0%, transparent 70%)
           `,
         }}
       />
 
-      {/* ================= CONTENT ================= */}
+      {/* CONTENT */}
       <div className="relative z-10 text-center max-w-md">
 
         {/* ICON */}
@@ -56,7 +55,7 @@ export default function NotFound() {
           "
           style={{
             backgroundImage:
-              "linear-gradient(to right, var(--accent), var(--accent-dark))",
+              "linear-gradient(to right, var(--accent), #f5e6ca)",
           }}
         >
           404
@@ -79,7 +78,6 @@ export default function NotFound() {
           transition={{ duration: 0.45, delay: 0.35 }}
           className="mt-10 flex flex-col sm:flex-row gap-3 justify-center"
         >
-          {/* BACK */}
           <button
             onClick={() => window.history.back()}
             className="
@@ -96,7 +94,6 @@ export default function NotFound() {
             Go Back
           </button>
 
-          {/* HOME */}
           <Link
             href="/"
             className="
@@ -105,9 +102,9 @@ export default function NotFound() {
               rounded-xl
               bg-[var(--accent)]
               text-black
-              transition
-              hover:opacity-90
+              hover:scale-[1.03]
               hover:shadow-[0_0_18px_var(--accent)]
+              transition
             "
           >
             <Home size={16} />

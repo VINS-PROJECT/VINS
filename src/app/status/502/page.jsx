@@ -6,29 +6,28 @@ import { AlertTriangle, RefreshCcw, Home } from "lucide-react";
 
 export default function BadGateway502() {
   return (
-    <main
-      className="
-        relative min-h-screen flex items-center justify-center px-6
-        bg-[var(--background)] text-[var(--foreground)]
-        overflow-hidden transition-colors
-      "
-    >
-      {/* ================= BACKGROUND GLOW ================= */}
+    <main className="
+      relative min-h-screen flex items-center justify-center px-6
+      bg-[var(--background)] text-[var(--foreground)]
+      overflow-hidden
+    ">
+
+      {/* BACKGROUND */}
       <motion.div
         aria-hidden
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.22 }}
-        transition={{ duration: 1.4 }}
+        animate={{ opacity: 0.25 }}
+        transition={{ duration: 1.2 }}
         className="absolute inset-0 pointer-events-none"
         style={{
           background: `
-            radial-gradient(60% 45% at 55% 40%, var(--accent)/20 0%, transparent 70%),
-            radial-gradient(55% 40% at 20% 80%, var(--accent-dark)/14 0%, transparent 70%)
+            radial-gradient(60% 45% at 55% 40%, rgba(255,180,120,0.18) 0%, transparent 70%),
+            radial-gradient(55% 40% at 20% 80%, rgba(255,180,120,0.12) 0%, transparent 70%)
           `,
         }}
       />
 
-      {/* ================= CONTENT ================= */}
+      {/* CONTENT */}
       <div className="relative z-10 text-center max-w-md">
 
         {/* ICON */}
@@ -56,7 +55,7 @@ export default function BadGateway502() {
           "
           style={{
             backgroundImage:
-              "linear-gradient(to right, var(--accent), var(--accent-dark))",
+              "linear-gradient(to right, var(--accent), #f5e6ca)",
           }}
         >
           502
@@ -115,9 +114,9 @@ export default function BadGateway502() {
               rounded-xl
               bg-[var(--accent)]
               text-black
-              transition
-              hover:opacity-90
+              hover:scale-[1.03]
               hover:shadow-[0_0_18px_var(--accent)]
+              transition
             "
           >
             <Home size={16} />

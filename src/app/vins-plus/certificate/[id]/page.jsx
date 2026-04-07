@@ -8,7 +8,6 @@ import { ArrowLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
 
-// PDF Viewer
 import { Document, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `/pdf.worker.js`;
 
@@ -32,6 +31,7 @@ export default function CertificateDetail() {
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
+  /* ================= DATA ================= */
   const certificates = [
     {
       id: 1,
@@ -152,168 +152,169 @@ export default function CertificateDetail() {
       pdf: "/File/SkillShareFile1.pdf",
       desc: "Advanced course on Figma, focusing on auto layouts, grids, and components for efficient UI design.",
     },
-  ];
+  ]; // tetap sama (tidak diubah)
 
   const cert = certificates.find((c) => c.id === Number(id));
 
   if (!cert)
     return (
-      <main className="min-h-screen flex items-center justify-center bg-[var(--background)] text-[var(--foreground)]">
+      <main className="min-h-screen flex items-center justify-center">
         Certificate not found.
       </main>
     );
 
   return (
-    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] pt-28 pb-24 transition-colors">
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
+    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
 
-        {/* HEADER */}
+      {/* ================= HEADER (CENTERED) ================= */}
+      <section className="relative text-center px-6 pt-32 pb-20">
+
+        {/* glow */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-[var(--accent)]/10" />
+          <div className="absolute w-[400px] h-[400px] bg-[var(--accent)]/20 blur-[120px] rounded-full top-[-100px] left-1/2 -translate-x-1/2" />
+        </div>
+
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-14"
+          className="max-w-2xl mx-auto space-y-3"
         >
-          <h1
-            className="
-              text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent
-            "
-            style={{
-              backgroundImage:
-                "linear-gradient(to right, var(--accent), var(--accent-dark))",
-            }}
-          >
+          <h1 className="text-4xl md:text-6xl font-semibold tracking-tight">
             Certificate Details
           </h1>
 
-          <p className="text-[var(--foreground)]/70 mt-3 text-lg max-w-3xl leading-relaxed">
-            Complete certification details, metadata, issuer information, and full preview.
+          <p className="text-sm opacity-60 font-mono">
+            /vins+/certificate
           </p>
 
-          {/* Breadcrumb */}
-          <div className="mt-4 flex flex-wrap items-center gap-2 text-sm font-medium">
-            <Link href="/" className="text-[var(--accent)] hover:underline">
-              Home
-            </Link>
-
-            <ChevronRight className="w-4 h-4 text-[var(--accent)]/60" />
-
-            <Link href="/vins-plus/certificate" className="text-[var(--accent)] hover:underline">
+          {/* breadcrumb */}
+          <div className="flex justify-center gap-2 text-sm mt-3">
+            <Link href="/" className="text-[var(--accent)]">Home</Link>
+            <ChevronRight size={14} />
+            <Link href="/vins-plus/certificate" className="text-[var(--accent)]">
               Certificates
             </Link>
-
-            <ChevronRight className="w-4 h-4 text-[var(--accent)]/60" />
-
-            <span className="text-[var(--foreground)]/70 truncate max-w-[180px] sm:max-w-none">
-              {cert.title}
-            </span>
           </div>
         </motion.div>
+      </section>
 
-        {/* BACK BUTTON */}
+      {/* ================= CONTENT ================= */}
+      <section className="max-w-6xl mx-auto px-6 pb-32">
+
+        {/* BACK */}
         <Link
           href="/vins-plus/certificate"
-          className="inline-flex items-center gap-2 text-[var(--accent)] hover:text-[var(--foreground)] mb-10 transition"
+          className="inline-flex items-center gap-2 mb-12 text-[var(--accent)]"
         >
-          <ArrowLeft className="w-4 h-4" /> Back
+          <ArrowLeft size={16} /> Back
         </Link>
 
-        {/* LOGO + TITLE */}
+        {/* ================= HERO ================= */}
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="
-            flex flex-col md:flex-row items-center md:items-start 
-            gap-6 mb-14 text-center md:text-left
-          "
+          className="mb-20"
         >
-          <div className="w-20 h-20 rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--card)] flex items-center justify-center">
-            <Image src={cert.issuerLogo} alt="logo" width={80} height={80} />
-          </div>
+          <div className="relative rounded-3xl overflow-hidden">
 
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-[var(--foreground)] leading-snug">
-              {cert.title}
-            </h1>
-            <p className="text-[var(--accent)] tracking-wide font-medium mt-1">
-              {cert.issuer} • {cert.year}
-            </p>
+            <div className="relative h-[320px] md:h-[420px]">
+              <Image
+                src={cert.image}
+                alt={cert.title}
+                fill
+                className="object-cover"
+              />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+            </div>
+
+            <div className="absolute bottom-0 left-0 p-8">
+              <h2 className="text-2xl md:text-4xl text-white font-bold">
+                {cert.title}
+              </h2>
+
+              <p className="text-white/70 mt-2">
+                {cert.issuer} • {cert.year}
+              </p>
+            </div>
           </div>
         </motion.div>
 
-        {/* DETAILS */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="
-            mb-12 p-6 md:p-8 rounded-xl
-            bg-[var(--card)] border border-[var(--border)]
-            shadow-lg
-          "
-        >
-          <h2 className="text-xl font-semibold text-[var(--accent)] mb-4">
-            Certificate Details
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-x-10 gap-y-3 text-[var(--foreground)]/80 text-[15px]">
-            <Detail label="Issued Date" value={cert.issuedDate} />
-            <Detail label="Publisher" value={cert.issuer} />
-            <Detail label="Category" value={cert.category} />
-            <Detail label="Duration" value={cert.duration} />
-            <Detail label="Certificate ID" value={cert.certificateId} />
-          </div>
-        </motion.div>
+        {/* ================= DETAILS ================= */}
+        <Glass title="Certificate Info">
+          <Detail label="Issued Date" value={cert.issuedDate} />
+          <Detail label="Publisher" value={cert.issuer} />
+          <Detail label="Category" value={cert.category} />
+          <Detail label="Duration" value={cert.duration} />
+          <Detail label="Certificate ID" value={cert.certificateId} />
+        </Glass>
 
         {/* DESCRIPTION */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-12 max-w-4xl">
-          <h2 className="text-xl font-semibold text-[var(--accent)] mb-4">Description</h2>
-
-          <p className="text-[var(--foreground)]/80 leading-relaxed text-lg">
+        <Glass title="Description">
+          <p className="leading-relaxed text-lg opacity-80">
             {cert.desc}
           </p>
-        </motion.div>
+        </Glass>
 
-        {/* PDF VIEWER – Fully Responsive */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          ref={pdfWrapperRef}
-          className="
-            w-full rounded-xl p-4 sm:p-8
-            bg-[var(--card)]
-            border border-[var(--border)]
-            shadow-xl
-          "
-        >
-          <Document file={cert.pdf} onLoadSuccess={({ numPages }) => setNumPages(numPages)}>
-            {numPages &&
-              Array.from({ length: numPages }, (_, i) => (
-                <Page
-                  key={`page_${i + 1}`}
-                  pageNumber={i + 1}
-                  renderAnnotationLayer={false}
-                  renderTextLayer={false}
-                  width={containerWidth}
-                  className="
-                    mx-auto mb-10 border border-[var(--border)]
-                    shadow-md bg-white rounded-lg
-                  "
-                />
-              ))}
-          </Document>
-        </motion.div>
+        {/* PDF */}
+        <Glass title="Preview Certificate">
+          <div ref={pdfWrapperRef}>
+            <Document
+              file={cert.pdf}
+              onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+            >
+              {numPages &&
+                Array.from({ length: numPages }).map((_, i) => (
+                  <Page
+                    key={i}
+                    pageNumber={i + 1}
+                    width={containerWidth}
+                    renderTextLayer={false}
+                    renderAnnotationLayer={false}
+                    className="mx-auto mb-10 rounded-lg shadow-lg"
+                  />
+                ))}
+            </Document>
+          </div>
+        </Glass>
 
-      </div>
+      </section>
     </main>
   );
 }
 
-/* DETAIL FIELD COMPONENT */
+/* ================= COMPONENT ================= */
+
 function Detail({ label, value }) {
   return (
-    <p className="leading-relaxed">
-      <span className="text-[var(--accent)] font-medium">{label}:</span>{" "}
-      <span className="text-[var(--foreground)]/80">{value}</span>
+    <p className="text-sm">
+      <span className="text-[var(--accent)] font-semibold">
+        {label}:{" "}
+      </span>
+      {value}
     </p>
+  );
+}
+
+function Glass({ title, children }) {
+  return (
+    <section
+      className="
+        group relative mb-16 p-8 rounded-3xl
+        bg-[var(--card)]/70 backdrop-blur-xl
+        border border-[var(--border)]
+        hover:border-[var(--accent)]/40
+        transition
+      "
+    >
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-[var(--accent)]/5 rounded-3xl transition" />
+
+      <h2 className="relative text-xl font-bold mb-5 text-[var(--accent)]">
+        {title}
+      </h2>
+
+      <div className="relative">{children}</div>
+    </section>
   );
 }

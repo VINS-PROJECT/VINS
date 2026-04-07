@@ -6,29 +6,28 @@ import { ShieldAlert, RefreshCcw, Home } from "lucide-react";
 
 export default function HTTPVersion505() {
   return (
-    <main
-      className="
-        relative min-h-screen flex items-center justify-center px-6
-        bg-[var(--background)] text-[var(--foreground)]
-        overflow-hidden transition-colors
-      "
-    >
-      {/* ================= BACKGROUND GLOW ================= */}
+    <main className="
+      relative min-h-screen flex items-center justify-center px-6
+      bg-[var(--background)] text-[var(--foreground)]
+      overflow-hidden
+    ">
+
+      {/* BACKGROUND */}
       <motion.div
         aria-hidden
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.22 }}
-        transition={{ duration: 1.4 }}
+        animate={{ opacity: 0.25 }}
+        transition={{ duration: 1.2 }}
         className="absolute inset-0 pointer-events-none"
         style={{
           background: `
-            radial-gradient(60% 45% at 50% 35%, var(--accent)/20 0%, transparent 70%),
-            radial-gradient(55% 40% at 20% 80%, var(--accent-dark)/14 0%, transparent 65%)
+            radial-gradient(60% 45% at 50% 35%, rgba(255,180,120,0.18) 0%, transparent 70%),
+            radial-gradient(55% 40% at 20% 80%, rgba(255,180,120,0.12) 0%, transparent 65%)
           `,
         }}
       />
 
-      {/* ================= CONTENT ================= */}
+      {/* CONTENT */}
       <div className="relative z-10 text-center max-w-md">
 
         {/* ICON */}
@@ -42,7 +41,12 @@ export default function HTTPVersion505() {
             bg-[var(--accent)]/15 text-[var(--accent)]
           "
         >
-          <ShieldAlert className="w-8 h-8" />
+          <motion.div
+            animate={{ rotate: [0, -4, 4, 0] }}
+            transition={{ duration: 3, repeat: Infinity }}
+          >
+            <ShieldAlert className="w-8 h-8" />
+          </motion.div>
         </motion.div>
 
         {/* TITLE */}
@@ -56,7 +60,7 @@ export default function HTTPVersion505() {
           "
           style={{
             backgroundImage:
-              "linear-gradient(to right, var(--accent), var(--accent-dark))",
+              "linear-gradient(to right, var(--accent), #f5e6ca)",
           }}
         >
           505
@@ -115,9 +119,9 @@ export default function HTTPVersion505() {
               rounded-xl
               bg-[var(--accent)]
               text-black
-              transition
-              hover:opacity-90
+              hover:scale-[1.03]
               hover:shadow-[0_0_18px_var(--accent)]
+              transition
             "
           >
             <Home size={16} />

@@ -10,7 +10,7 @@ import {
   X,
 } from "lucide-react";
 
-/* ================= DATA ================= */
+/* DATA */
 const services = [
   {
     name: "Website",
@@ -44,7 +44,6 @@ const services = [
   },
 ];
 
-/* ================= STATUS ================= */
 const STATUS = {
   Operational: {
     icon: CheckCircle,
@@ -86,10 +85,15 @@ export default function StatusPage() {
   return (
     <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] pt-28 pb-28">
 
+      {/* BACKGROUND GLOW */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute w-[400px] h-[400px] bg-[var(--accent)]/10 blur-[120px] top-[-100px] left-1/2 -translate-x-1/2 rounded-full" />
+      </div>
+
       <div className="max-w-6xl mx-auto px-6 space-y-16">
 
-        {/* ================= HEADER ================= */}
-        <div className="text-center space-y-4">
+        {/* HEADER */}
+        <div className="text-center space-y-3">
           <Activity className="mx-auto text-[var(--accent)]" />
           <h1 className="text-4xl md:text-5xl font-semibold">
             System Status
@@ -99,27 +103,36 @@ export default function StatusPage() {
           </p>
         </div>
 
-        {/* ================= GLOBAL ================= */}
-        <div className="flex justify-center">
-          <div className="flex items-center gap-3 px-6 py-3 rounded-xl border border-[var(--border)]">
-            <GlobalIcon
-              className={STATUS[globalStatus].color}
-              size={18}
-            />
-            <span className="text-sm font-medium">
-              {globalStatus === "Operational" && "All Systems Operational"}
-              {globalStatus === "Degraded" && "Partial Degradation"}
-              {globalStatus === "Outage" && "Service Outage"}
-            </span>
-          </div>
-        </div>
+        {/* GLOBAL STATUS */}
+        <motion.div
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="
+            mx-auto flex items-center gap-3
+            px-6 py-4 rounded-2xl
+            border border-[var(--border)]
+            bg-[var(--background)]/60 backdrop-blur-xl
+            shadow-lg
+          "
+        >
+          <GlobalIcon className={STATUS[globalStatus].color} size={20} />
+          <span className="text-sm font-medium">
+            {globalStatus === "Operational" && "All Systems Operational"}
+            {globalStatus === "Degraded" && "Partial Degradation"}
+            {globalStatus === "Outage" && "Service Outage"}
+          </span>
+        </motion.div>
 
-        {/* ================= KPI ================= */}
+        {/* KPI */}
         <div className="grid grid-cols-3 gap-4 max-w-md mx-auto">
           {Object.entries(counters).map(([k, v]) => (
             <div
               key={k}
-              className="p-4 text-center rounded-xl border border-[var(--border)]"
+              className="
+                p-4 text-center rounded-xl
+                border border-[var(--border)]
+                bg-[var(--background)]/50 backdrop-blur
+              "
             >
               <span className="text-xl font-semibold">{v}</span>
               <p className="text-xs opacity-60">{k}</p>
@@ -127,15 +140,14 @@ export default function StatusPage() {
           ))}
         </div>
 
-        {/* ================= FILTER ================= */}
+        {/* FILTER */}
         <div className="flex justify-center gap-2 flex-wrap">
           {["All", "Operational", "Degraded", "Outage"].map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
               className={`
-                px-4 py-2 rounded-lg text-sm
-                border transition
+                px-4 py-2 rounded-lg text-sm border transition
                 ${
                   filter === f
                     ? "bg-[var(--accent)] text-black border-[var(--accent)]"
@@ -148,7 +160,7 @@ export default function StatusPage() {
           ))}
         </div>
 
-        {/* ================= SERVICES ================= */}
+        {/* SERVICES */}
         <div className="grid md:grid-cols-2 gap-5">
           {filtered.map((s, i) => {
             const cfg = STATUS[s.status];
@@ -157,41 +169,44 @@ export default function StatusPage() {
             return (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -4 }}
+                whileHover={{ y: -4, scale: 1.02 }}
                 onClick={() => setSelected(s)}
                 className="
-                  cursor-pointer p-5 rounded-xl
+                  group cursor-pointer p-5 rounded-xl
                   border border-[var(--border)]
+                  bg-[var(--background)]/60 backdrop-blur-xl
+                  transition-all duration-300
                   hover:border-[var(--accent)]
-                  transition
                 "
               >
-                <h3 className="font-medium">{s.name}</h3>
-                <p className="text-sm opacity-60 mt-1">
-                  {s.description}
-                </p>
+                {/* glow */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-[var(--accent)]/5 rounded-xl transition" />
 
-                <div className="flex items-center gap-2 mt-3 text-sm">
-                  <Icon className={cfg.color} size={16} />
-                  <span className={cfg.color}>{s.status}</span>
+                <div className="relative">
+                  <h3 className="font-medium">{s.name}</h3>
+                  <p className="text-sm opacity-60 mt-1">
+                    {s.description}
+                  </p>
+
+                  <div className="flex items-center gap-2 mt-3 text-sm">
+                    <Icon className={cfg.color} size={16} />
+                    <span className={cfg.color}>{s.status}</span>
+                  </div>
                 </div>
               </motion.div>
             );
           })}
         </div>
-
       </div>
 
-      {/* ================= MODAL ================= */}
+      {/* MODAL */}
       <AnimatePresence>
         {selected && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/40 flex items-center justify-center p-6"
+            className="fixed inset-0 bg-black/50 flex items-center justify-center p-6"
             onClick={() => setSelected(null)}
           >
             <motion.div
@@ -200,9 +215,10 @@ export default function StatusPage() {
               exit={{ scale: 0.95 }}
               onClick={(e) => e.stopPropagation()}
               className="
-                w-full max-w-md p-6 rounded-xl
-                bg-[var(--background)]
+                w-full max-w-md p-6 rounded-2xl
+                bg-[var(--background)]/90 backdrop-blur-xl
                 border border-[var(--border)]
+                shadow-xl
               "
             >
               <div className="flex justify-between items-center mb-3">
