@@ -11,10 +11,10 @@ export default function WorkWith() {
   const inView = useInView(ref, { once: true, margin: "-120px" });
 
   const stats = [
-    { icon: Users, label: "Clients", value: 30, suffix: "+" },
-    { icon: Award, label: "Projects", value: 50, suffix: "+" },
+    { icon: Users, label: "Clients", value: 10, suffix: "+" },
+    { icon: Award, label: "Projects", value: 5, suffix: "+" },
     { icon: TrendingUp, label: "Success Rate", value: 98, suffix: "%" },
-    { icon: Zap, label: "Experience", value: 5, suffix: "+ Years" },
+    { icon: Zap, label: "Experience", value: 1, suffix: "+ Years" },
   ];
 
   const partners = [
@@ -72,8 +72,8 @@ export default function WorkWith() {
             </h2>
 
             <p className="text-lg text-muted max-w-md">
-              Long-term collaborations built on clarity, reliability,
-              and shared outcomes — not just delivery.
+              Long term collaborations built on clarity, reliability,
+              and shared outcomes not just delivery.
             </p>
 
           </motion.div>

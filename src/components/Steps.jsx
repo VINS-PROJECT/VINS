@@ -41,7 +41,7 @@ export default function PortfolioSection() {
   const items = [
     {
       title: "Web Development",
-      desc: "Building modern, scalable web applications with clean architecture and performance-focused technologies.",
+      desc: "Building modern, scalable web applications with clean architecture and performance focused technologies.",
       icon: Code,
     },
     {
@@ -51,7 +51,7 @@ export default function PortfolioSection() {
     },
     {
       title: "Product Thinking",
-      desc: "Approaching projects with a product mindset — solving real problems, not just designing visuals.",
+      desc: "Approaching projects with a product mindset solving real problems, not just designing visuals.",
       icon: Lightbulb,
     },
     {
