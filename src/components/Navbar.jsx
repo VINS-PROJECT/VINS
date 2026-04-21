@@ -18,38 +18,38 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
-  /* ================= FEATURED PROJECT ================= */
+  /* FEATURED PROJECT */
 
   const featuredProject = [...projectsData]
     .filter((p) => p.featured)
     .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))[0];
 
-  /* ================= TIME ================= */
+  /* TIME */
 
   useEffect(() => {
 
     const updateTime = () => {
 
-  const now = new Date();
+      const now = new Date();
 
-  const time = now.toLocaleTimeString("en-GB", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-    timeZone: "Asia/Jakarta"
-  });
+      const time = now.toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: "Asia/Jakarta"
+      });
 
-  const date = now.toLocaleDateString("en-US", {
-    weekday: "short",
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    timeZone: "Asia/Jakarta"
-  });
+      const date = now.toLocaleDateString("en-US", {
+        weekday: "short",
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        timeZone: "Asia/Jakarta"
+      });
 
-  setTime(`${time} • ${date}`);
+      setTime(`${time} • ${date}`);
 
-};
+    };
 
     updateTime();
     const interval = setInterval(updateTime, 60000);
@@ -58,7 +58,7 @@ export default function Navbar() {
 
   }, []);
 
-  /* ================= SCROLL ================= */
+  /* SCROLL */
 
   useEffect(() => {
 
@@ -79,15 +79,12 @@ export default function Navbar() {
   const isActive = (href) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
-  /* ================= NAV DATA ================= */
+  /* NAV DATA */
 
   const navLinks = [
     { href: "/", label: "Home" },
 
-    {
-      label: "Works",
-      mega: true
-    },
+    { label: "Works", mega: true },
 
     {
       label: "Career",
@@ -107,7 +104,7 @@ export default function Navbar() {
   return (
     <>
 
-      {/* ================= ANNOUNCEMENT ================= */}
+      {/* ANNOUNCEMENT */}
 
       {!scrolled && (
         <div className="fixed top-0 left-0 w-full bg-[var(--accent)] text-black text-sm z-50">
@@ -125,7 +122,7 @@ export default function Navbar() {
         </div>
       )}
 
-      {/* ================= NAVBAR ================= */}
+      {/* NAVBAR */}
 
       <header
         className={`fixed left-0 w-full z-40 transition-all duration-500 ${
@@ -143,7 +140,7 @@ export default function Navbar() {
             <Image src="/TP K.svg" alt="logo" width={26} height={26} />
           </Link>
 
-          {/* ================= DESKTOP NAV ================= */}
+          {/* DESKTOP NAV */}
 
           <nav className="hidden md:flex items-center gap-6 text-[15px] font-medium">
 
@@ -178,7 +175,7 @@ export default function Navbar() {
                 );
               }
 
-              /* ================= MEGA MENU WORKS ================= */
+              /* MEGA MENU WORKS */
 
               if (l.mega) {
 
@@ -192,16 +189,21 @@ export default function Navbar() {
 
                     <div
                       className="
-                      mega-menu mega-animation
                       absolute left-1/2 -translate-x-1/2
-                      top-14
-                      w-[760px]
+                      top-14 w-[760px]
+
+                      opacity-0 invisible translate-y-2
+                      transition-all duration-200
+
+                      group-hover:opacity-100
+                      group-hover:visible
+                      group-hover:translate-y-0
                       "
                     >
 
-                      <div className="grid grid-cols-[2fr_1fr] gap-8">
+                      <div className="bg-white rounded-2xl shadow-xl p-8 grid grid-cols-[2fr_1fr] gap-8">
 
-                        {/* LEFT MENU */}
+                        {/* LEFT */}
 
                         <div>
 
@@ -231,9 +233,9 @@ export default function Navbar() {
 
                         </div>
 
-                        {/* FEATURED PROJECT */}
+                        {/* FEATURED */}
 
-                        <div className="mega-feature">
+                        <div>
 
                           {featuredProject && (
 
@@ -269,7 +271,7 @@ export default function Navbar() {
                 );
               }
 
-              /* ================= DROPDOWN ================= */
+              /* DROPDOWN CAREER */
 
               return (
                 <div key={i} className="relative group py-3">
@@ -281,10 +283,16 @@ export default function Navbar() {
 
                   <div
                     className="
-                    mega-animation
                     absolute left-0 top-10
                     bg-white/90 backdrop-blur-xl
                     rounded-xl shadow-xl p-2 w-[190px]
+
+                    opacity-0 invisible translate-y-2
+                    transition-all duration-200
+
+                    group-hover:opacity-100
+                    group-hover:visible
+                    group-hover:translate-y-0
                     "
                   >
 
@@ -309,7 +317,7 @@ export default function Navbar() {
 
           </nav>
 
-          {/* ================= RIGHT SIDE ================= */}
+          {/* RIGHT */}
 
           <div className="flex items-center gap-3">
 
