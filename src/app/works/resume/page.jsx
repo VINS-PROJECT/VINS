@@ -129,8 +129,9 @@ export default function ResumePage() {
         <motion.a
           whileHover={{ scale: 1.06 }}
           whileTap={{ scale: 0.96 }}
-          href="/resume.pdf"
-          download
+          href="https://drive.google.com/uc?export=download&id=1twRdA1e9g_7DthwC3mh_rf2PjKWxxPDY"
+target="_blank"
+rel="noopener"
           className="
           mt-14
           inline-flex items-center gap-2
@@ -144,7 +145,7 @@ export default function ResumePage() {
 
           <Icon icon="solar:download-line-duotone" width="20"/>
 
-          Download Resume
+          Explore Resume
 
         </motion.a>
 

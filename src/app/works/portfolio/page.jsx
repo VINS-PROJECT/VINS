@@ -122,28 +122,30 @@ export default function PortfolioPage() {
 
         {/* CTA */}
 
-        <Link href="/vins-plus/project">
+        <Link href="https://drive.google.com/file/d/1sfyJTJatmMH8Rfb2fa5wTuUh2Zz2SxPK/view?usp=sharing">
 
-          <motion.div
-            whileHover={{ scale: 1.06 }}
-            whileTap={{ scale: 0.96 }}
-            className="
-            mt-14
-            inline-flex items-center gap-2
-            px-8 py-4 rounded-xl
-            bg-[var(--accent)]
-            text-black
-            text-sm font-medium
-            shadow-lg
-            cursor-pointer
-            "
-          >
+          <motion.a
+  whileHover={{ scale: 1.06 }}
+  whileTap={{ scale: 0.96 }}
+  href="https://drive.google.com/file/d/1sfyJTJatmMH8Rfb2fa5wTuUh2Zz2SxPK/view?usp=sharing"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="
+  mt-14
+  inline-flex items-center gap-2
+  px-8 py-4 rounded-xl
+  bg-[var(--accent)]
+  text-black
+  text-sm font-medium
+  shadow-lg
+  "
+>
 
-            <Icon icon="solar:arrow-right-line-duotone" width="20"/>
+  <Icon icon="solar:arrow-right-line-duotone" width="20"/>
 
-            Explore Projects
+  Explore Projects
 
-          </motion.div>
+</motion.a>
 
         </Link>
 
