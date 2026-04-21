@@ -79,13 +79,11 @@ export default function Navbar() {
   const isActive = (href) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
-  /* NAV DATA */
+  /* NAV LINKS */
 
   const navLinks = [
     { href: "/", label: "Home" },
-
     { label: "Works", mega: true },
-
     {
       label: "Career",
       dropdown: [
@@ -93,7 +91,6 @@ export default function Navbar() {
         { href: "/career/certificate", label: "Certificate" },
       ],
     },
-
     { href: "/about", label: "About" },
     { href: "/article", label: "Article" },
   ];
@@ -175,7 +172,7 @@ export default function Navbar() {
                 );
               }
 
-              /* MEGA MENU WORKS */
+              /* WORKS MEGA MENU */
 
               if (l.mega) {
 
@@ -187,8 +184,7 @@ export default function Navbar() {
                       <ChevronDown size={14} />
                     </button>
 
-                    <div
-                      className="
+                    <div className="
                       absolute left-1/2 -translate-x-1/2
                       top-14 w-[760px]
 
@@ -198,12 +194,9 @@ export default function Navbar() {
                       group-hover:opacity-100
                       group-hover:visible
                       group-hover:translate-y-0
-                      "
-                    >
+                    ">
 
                       <div className="bg-white rounded-2xl shadow-xl p-8 grid grid-cols-[2fr_1fr] gap-8">
-
-                        {/* LEFT */}
 
                         <div>
 
@@ -222,7 +215,7 @@ export default function Navbar() {
                             </Link>
 
                             <Link href="/works/resume" className="mega-item">
-                              Resumes
+                              Resume
                             </Link>
 
                             <Link href="/works/portfolio" className="mega-item">
@@ -232,8 +225,6 @@ export default function Navbar() {
                           </div>
 
                         </div>
-
-                        {/* FEATURED */}
 
                         <div>
 
@@ -271,7 +262,7 @@ export default function Navbar() {
                 );
               }
 
-              /* DROPDOWN CAREER */
+              /* CAREER DROPDOWN */
 
               return (
                 <div key={i} className="relative group py-3">
@@ -281,8 +272,7 @@ export default function Navbar() {
                     <ChevronDown size={14} />
                   </button>
 
-                  <div
-                    className="
+                  <div className="
                     absolute left-0 top-10
                     bg-white/90 backdrop-blur-xl
                     rounded-xl shadow-xl p-2 w-[190px]
@@ -293,8 +283,7 @@ export default function Navbar() {
                     group-hover:opacity-100
                     group-hover:visible
                     group-hover:translate-y-0
-                    "
-                  >
+                  ">
 
                     {l.dropdown.map((d) => (
 
@@ -317,39 +306,13 @@ export default function Navbar() {
 
           </nav>
 
-          {/* RIGHT */}
+          {/* RIGHT SIDE */}
 
           <div className="flex items-center gap-3">
 
             <div className="hidden md:flex items-center gap-2 text-sm text-gray-500">
               <Clock size={14} />
               {time}
-            </div>
-
-            <div className="relative hidden md:block">
-
-              <button
-                onClick={() => setSearchOpen(!searchOpen)}
-                className="p-2 hover:bg-gray-100 rounded-md transition"
-              >
-                <Search size={18} />
-              </button>
-
-              <AnimatePresence>
-
-                {searchOpen && (
-                  <motion.input
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    type="text"
-                    placeholder="Search article..."
-                    className="absolute right-0 top-10 w-[220px] border rounded-full px-4 py-2 text-sm bg-white shadow focus:outline-none"
-                  />
-                )}
-
-              </AnimatePresence>
-
             </div>
 
             <button
@@ -364,6 +327,69 @@ export default function Navbar() {
         </div>
 
       </header>
+
+
+      {/* MOBILE MENU */}
+
+      <AnimatePresence>
+
+        {menuOpen && (
+
+          <motion.div
+            initial={{opacity:0,y:-20}}
+            animate={{opacity:1,y:0}}
+            exit={{opacity:0,y:-20}}
+            className="
+            md:hidden
+            fixed top-[72px] left-0 w-full
+            bg-white
+            border-t border-[var(--border)]
+            shadow-lg
+            z-30
+            "
+          >
+
+            <div className="flex flex-col p-6 gap-4">
+
+              <Link href="/" onClick={()=>setMenuOpen(false)}>
+                Home
+              </Link>
+
+              <Link href="/works/project" onClick={()=>setMenuOpen(false)}>
+                Projects
+              </Link>
+
+              <Link href="/works/resume" onClick={()=>setMenuOpen(false)}>
+                Resume
+              </Link>
+
+              <Link href="/works/portfolio" onClick={()=>setMenuOpen(false)}>
+                Portfolio
+              </Link>
+
+              <Link href="/career/experience" onClick={()=>setMenuOpen(false)}>
+                Experience
+              </Link>
+
+              <Link href="/career/certificate" onClick={()=>setMenuOpen(false)}>
+                Certificate
+              </Link>
+
+              <Link href="/about" onClick={()=>setMenuOpen(false)}>
+                About
+              </Link>
+
+              <Link href="/article" onClick={()=>setMenuOpen(false)}>
+                Article
+              </Link>
+
+            </div>
+
+          </motion.div>
+
+        )}
+
+      </AnimatePresence>
 
     </>
   );
