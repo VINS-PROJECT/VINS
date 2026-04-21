@@ -102,7 +102,7 @@ export default function Navbar() {
   ];
 
   const announcement =
-    "This website is currently under development and has entered Version 4.0.0. The next update, Version 4.1.0, will be available soon. •";
+    "Happy Kartini Day 🌺 April 21 | Celebrating the spirit of R.A. Kartini and the empowerment of women across Indonesia. •";
 
   return (
     <>
@@ -113,7 +113,7 @@ export default function Navbar() {
         <div className="fixed top-0 left-0 w-full bg-[var(--accent)] text-black text-sm z-50">
           <div className="flex items-center px-6 py-2">
             <span className="uppercase text-xs tracking-widest font-medium mr-4">
-              Announcement
+              Information
             </span>
 
             <div className="overflow-hidden whitespace-nowrap flex-1">

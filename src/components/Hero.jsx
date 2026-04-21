@@ -15,7 +15,7 @@ const slides = [
     title1: "I Create",
     title2: "Digital Work",
     title3: "That Hits.",
-    desc: "Crafting high-impact digital experiences for brands and startups.",
+    desc: "Crafting high impact digital experiences for brands and startups.",
 
     ctaPrimary: {
       label: "View Portfolio",
