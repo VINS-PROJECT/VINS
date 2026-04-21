@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+
 import {
   ArrowLeft,
   ExternalLink,
@@ -27,6 +28,10 @@ export default function ProjectDetail() {
 
   if (!project) return notFound();
 
+  const related = projectsData
+    .filter((p) => p.slug !== project.slug)
+    .slice(0, 3);
+
   return (
     <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
 
@@ -37,7 +42,7 @@ export default function ProjectDetail() {
         <div className="max-w-6xl mx-auto">
 
           <Link
-            href="/vins-plus/project"
+            href="/works/project"
             className="inline-flex items-center gap-2 mb-8 opacity-70 hover:opacity-100"
           >
             <ArrowLeft size={16}/>
@@ -64,23 +69,27 @@ export default function ProjectDetail() {
 
               {/* TECH STACK */}
 
-              <div className="flex flex-wrap gap-2 mt-6">
+              {(project.tech ?? []).length > 0 && (
 
-                {project.tech.map((t)=>(
-                  <span
-                    key={t}
-                    className="
-                    px-3 py-1 text-xs rounded-lg
-                    bg-[var(--accent)]/10
-                    border border-[var(--accent)]/20
-                    text-[var(--accent)]
-                    "
-                  >
-                    {t}
-                  </span>
-                ))}
+                <div className="flex flex-wrap gap-2 mt-6">
 
-              </div>
+                  {(project.tech ?? []).map((t)=>(
+                    <span
+                      key={t}
+                      className="
+                      px-3 py-1 text-xs rounded-lg
+                      bg-[var(--accent)]/10
+                      border border-[var(--accent)]/20
+                      text-[var(--accent)]
+                      "
+                    >
+                      {t}
+                    </span>
+                  ))}
+
+                </div>
+
+              )}
 
               {/* LINKS */}
 
@@ -125,7 +134,7 @@ export default function ProjectDetail() {
             >
 
               <Image
-                src={project.image}
+                src={project.image || "/placeholder.jpg"}
                 alt={project.title}
                 fill
                 className="object-cover hover:scale-105 transition"
@@ -168,7 +177,7 @@ export default function ProjectDetail() {
 
       {/* FEATURES */}
 
-      {project.features && (
+      {project.features?.length > 0 && (
 
         <section className="max-w-6xl mx-auto px-6 mb-24">
 
@@ -209,9 +218,9 @@ export default function ProjectDetail() {
 
       {/* GALLERY */}
 
-      {project.gallery && (
+      {project.gallery?.length > 0 && (
 
-        <section className="max-w-6xl mx-auto px-6 pb-32">
+        <section className="max-w-6xl mx-auto px-6 mb-32">
 
           <h2 className="text-2xl font-semibold mb-8">
             Gallery
@@ -241,6 +250,48 @@ export default function ProjectDetail() {
 
               </div>
 
+            ))}
+
+          </div>
+
+        </section>
+
+      )}
+
+
+      {/* RELATED PROJECTS */}
+
+      {related.length > 0 && (
+
+        <section className="max-w-6xl mx-auto px-6 pb-32">
+
+          <h2 className="text-2xl font-semibold mb-8">
+            Related Projects
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-6">
+
+            {related.map((p)=>(
+              <Link
+                key={p.slug}
+                href={`/works/project/${p.slug}`}
+                className="
+                group border border-[var(--border)]
+                rounded-xl p-6
+                hover:border-[var(--accent)]
+                transition
+                "
+              >
+
+                <p className="font-medium group-hover:text-[var(--accent)]">
+                  {p.title}
+                </p>
+
+                <p className="text-xs opacity-60 mt-1">
+                  {p.category} • {p.year}
+                </p>
+
+              </Link>
             ))}
 
           </div>

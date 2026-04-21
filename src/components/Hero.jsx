@@ -19,7 +19,7 @@ const slides = [
 
     ctaPrimary: {
       label: "View Portfolio",
-      link: "/vins-plus/portfolio",
+      link: "/works/projects",
     },
 
     ctaSecondary: {
@@ -38,12 +38,12 @@ const slides = [
 
     ctaPrimary: {
       label: "See Projects",
-      link: "/vins-plus/project",
+      link: "/works/projects",
     },
 
     ctaSecondary: {
       label: "My Experience",
-      link: "/vins-plus/experience",
+      link: "/career/experience",
     },
   },
 
@@ -57,7 +57,7 @@ const slides = [
 
     ctaPrimary: {
       label: "Certificates",
-      link: "/vins-plus/certificate",
+      link: "/career/certificate",
     },
 
     ctaSecondary: {
@@ -70,16 +70,21 @@ const slides = [
 /* ================= HERO ================= */
 
 export default function Hero() {
+
   const [index, setIndex] = useState(0);
+
+  const slideDuration = 6000;
 
   /* AUTO SLIDE */
 
   useEffect(() => {
+
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % slides.length);
-    }, 6000);
+    }, slideDuration);
 
     return () => clearInterval(interval);
+
   }, []);
 
   const slide = slides[index];
@@ -87,65 +92,74 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen overflow-hidden">
 
-      {/* BACKGROUND CAROUSEL */}
+      {/* BACKGROUND SLIDES */}
 
       <AnimatePresence mode="wait">
+
         <motion.div
           key={index}
-          initial={{ opacity: 0, scale: 1.15 }}
+          initial={{ opacity: 0, scale: 1.05 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.2 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
           className="absolute inset-0"
         >
+
           <Image
             src={slide.image}
-            alt="hero"
+            alt="hero background"
             fill
-            priority
+            priority={index === 0}
             className="object-cover"
           />
 
-          <div className="absolute inset-0 bg-black/40" />
+          {/* DARK OVERLAY */}
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-black/50" />
+
+          {/* CINEMATIC GRADIENT */}
+
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+
         </motion.div>
+
       </AnimatePresence>
 
       {/* CONTENT */}
 
       <div className="relative z-10 flex flex-col min-h-screen">
 
-        <div className="flex items-end flex-1 pb-20 pt-48">
-          <div className="max-w-6xl mx-auto px-6 lg:px-12 w-full">
+        <div className="flex items-end flex-1 pb-24 pt-48">
+
+          <div className="container-main w-full">
 
             <motion.div
               key={index + "content"}
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="space-y-8"
+              transition={{ duration: 0.7 }}
+              className="space-y-8 max-w-3xl"
             >
 
               {/* TAG */}
 
-              <div className="inline-flex px-3 py-1 rounded-full bg-white/10 backdrop-blur text-xs text-white/70">
+              <div className="inline-flex px-4 py-1 rounded-full bg-white/10 backdrop-blur text-xs text-white/70">
                 {slide.tag}
               </div>
 
               {/* TITLE */}
 
-              <h1 className="font-semibold leading-[1] tracking-tight text-white">
+              <h1 className="font-semibold leading-[0.95] tracking-tight text-white">
 
-                <div className="text-[42px] sm:text-[56px] md:text-[72px] lg:text-[96px]">
+                <div className="text-[42px] sm:text-[60px] md:text-[80px] lg:text-[100px]">
                   {slide.title1}
                 </div>
 
-                <div className="text-[42px] sm:text-[56px] md:text-[72px] lg:text-[96px] text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] to-[#f5e6ca]">
+                <div className="text-[42px] sm:text-[60px] md:text-[80px] lg:text-[100px] text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] to-[#f5e6ca]">
                   {slide.title2}
                 </div>
 
-                <div className="text-[42px] sm:text-[56px] md:text-[72px] lg:text-[96px]">
+                <div className="text-[42px] sm:text-[60px] md:text-[80px] lg:text-[100px]">
                   {slide.title3}
                 </div>
 
@@ -157,28 +171,22 @@ export default function Hero() {
                 {slide.desc}
               </p>
 
-              {/* CTA BUTTONS */}
+              {/* CTA */}
 
               <div className="flex items-center gap-4 pt-4 flex-wrap">
 
                 <Link
                   href={slide.ctaPrimary.link}
-                  className="
-                  group inline-flex items-center gap-2
-                  px-7 py-3 rounded-full
-                  bg-white text-black font-medium
-                  shadow-lg shadow-black/30
-                  hover:bg-[var(--accent)]
-                  hover:scale-[1.03]
-                  transition
-                  "
+                  className="btn-gold group inline-flex items-center gap-2"
                 >
+
                   {slide.ctaPrimary.label}
 
                   <ArrowRight
                     size={18}
                     className="transition group-hover:translate-x-1"
                   />
+
                 </Link>
 
                 <Link
@@ -188,6 +196,7 @@ export default function Hero() {
                   border border-white/20
                   text-white/80
                   hover:bg-white/10
+                  hover:scale-[1.04]
                   transition
                   "
                 >
@@ -199,25 +208,39 @@ export default function Hero() {
             </motion.div>
 
           </div>
+
         </div>
 
-        {/* DOT INDICATOR */}
+        {/* DOT NAVIGATION */}
 
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-3">
 
           {slides.map((_, i) => (
+
             <button
               key={i}
+              aria-label={`Slide ${i}`}
               onClick={() => setIndex(i)}
-              className={`h-2 rounded-full transition-all ${
+              className={`h-2 rounded-full transition-all duration-300 ${
                 index === i
                   ? "w-8 bg-white"
-                  : "w-2 bg-white/40"
+                  : "w-2 bg-white/40 hover:bg-white/70"
               }`}
             />
+
           ))}
 
         </div>
+
+        {/* PROGRESS BAR */}
+
+        <motion.div
+          key={index}
+          initial={{ width: 0 }}
+          animate={{ width: "100%" }}
+          transition={{ duration: slideDuration / 1000, ease: "linear" }}
+          className="absolute bottom-0 left-0 h-[2px] bg-[var(--accent)]"
+        />
 
       </div>
 

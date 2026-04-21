@@ -6,12 +6,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 import {
-  RefreshCcw,
   Eye,
   ChevronLeft,
   ChevronRight,
-  LayoutGrid,
-  Rows,
+  Search
 } from "lucide-react";
 
 import { projectsData } from "@/data/projects";
@@ -30,33 +28,32 @@ export default function ProjectsPage() {
 
   const projects = projectsData;
 
-  /* ================= META ================= */
+  /* ================= FEATURED ================= */
 
-  const lastUpdate = useMemo(() => {
+  const featured = useMemo(() => {
 
-    if (!projects.length) return "-";
+    return [...projects]
+      .filter((p) => p.featured)
+      .sort(
+        (a, b) =>
+          new Date(b.updatedAt) - new Date(a.updatedAt)
+      )[0];
 
-    const dates = projects.map((p) =>
-      new Date(p.updatedAt || `${p.year}-01-01`).getTime()
-    );
+  }, [projects]);
 
-    return new Date(Math.max(...dates)).toLocaleDateString("id-ID", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    });
+  /* ================= CATEGORIES ================= */
 
+  const categories = useMemo(() => {
+    return ["All", ...Array.from(new Set(projects.map(p => p.category)))];
   }, [projects]);
 
   /* ================= STATE ================= */
 
+  const [category, setCategory] = useState("All");
   const [searchInput, setSearchInput] = useState("");
   const [globalSearch, setGlobalSearch] = useState("");
-
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(6);
-
-  const [cardView, setCardView] = useState(true);
+  const [pageSize] = useState(6);
 
   const [loading, setLoading] = useState(false);
   const [processed, setProcessed] = useState([]);
@@ -84,12 +81,26 @@ export default function ProjectsPage() {
 
     const q = globalSearch.toLowerCase();
 
+    /* SEARCH */
+
     if (q) {
       arr = arr.filter((p) =>
-        [p.title, p.category, p.year, p.tech.join(" ")].some((f) =>
-          String(f).toLowerCase().includes(q)
-        )
+        [
+          p.title,
+          p.category,
+          p.year,
+          (p.tech ?? []).join(" ")
+        ]
+          .join(" ")
+          .toLowerCase()
+          .includes(q)
       );
+    }
+
+    /* CATEGORY */
+
+    if (category !== "All") {
+      arr = arr.filter((p) => p.category === category);
     }
 
     arr.sort((a, b) => b.year - a.year);
@@ -99,20 +110,17 @@ export default function ProjectsPage() {
       setLoading(false);
     }, 200);
 
-  }, [projects, globalSearch]);
+  }, [projects, globalSearch, category]);
 
   /* ================= PAGINATION ================= */
 
   const total = processed.length;
-
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   const paged = processed.slice(
     (page - 1) * pageSize,
     page * pageSize
   );
-
-  const featured = processed[0];
 
   return (
     <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
@@ -129,39 +137,31 @@ export default function ProjectsPage() {
           Projects
         </motion.h1>
 
-        <span className="block mt-2 text-sm opacity-50 font-mono">
-          /vins+/project
-        </span>
-
-        <p className="mt-3 text-sm opacity-65">
-          Last updated: {lastUpdate}
-        </p>
-
       </section>
 
 
-      {/* FEATURED */}
+      {/* FEATURED PROJECT */}
 
       {featured && (
 
-        <section className="max-w-6xl mx-auto px-6 mb-16">
+        <motion.section
+          initial={{opacity:0,y:30}}
+          animate={{opacity:1,y:0}}
+          className="max-w-6xl mx-auto px-6 mb-16"
+        >
 
           <div className="grid md:grid-cols-2 gap-10 items-center">
-
-            {/* IMAGE */}
 
             <div className="relative h-64 rounded-2xl overflow-hidden">
 
               <Image
-                src={featured.image || "/projects/placeholder.jpg"}
+                src={featured.image || "/placeholder.jpg"}
                 alt={featured.title}
                 fill
                 className="object-cover"
               />
 
             </div>
-
-            {/* CONTENT */}
 
             <div>
 
@@ -179,7 +179,7 @@ export default function ProjectsPage() {
 
               <div className="flex flex-wrap gap-2 mt-4">
 
-                {featured.tech.slice(0,4).map((t,i)=>(
+                {(featured.tech ?? []).slice(0,4).map((t,i)=>(
                   <span
                     key={i}
                     className="text-xs px-2 py-1 rounded-md bg-[var(--accent)]/20 text-[var(--accent)]"
@@ -190,8 +190,12 @@ export default function ProjectsPage() {
 
               </div>
 
+              <span className="inline-block mt-3 text-xs text-[var(--accent)]">
+                {featured.status}
+              </span>
+
               <Link
-                href={`/vins-plus/project/${featured.slug}`}
+                href={`/works/project/${featured.slug}`}
                 className="inline-flex mt-6 items-center gap-2 px-5 py-3 rounded-xl bg-[var(--accent)] text-black font-semibold"
               >
                 <Eye size={16}/>
@@ -202,73 +206,107 @@ export default function ProjectsPage() {
 
           </div>
 
-        </section>
+        </motion.section>
 
       )}
 
 
-      {/* CONTENT */}
+      {/* FILTERS */}
 
       <section className="max-w-7xl mx-auto px-6 pb-24">
 
-        {/* CONTROLS */}
+        <div className="flex flex-col md:flex-row justify-between gap-6 mb-10">
 
-        <div className="flex flex-col lg:flex-row justify-between gap-4 mb-10">
+          {/* CATEGORY */}
 
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-2">
+
+            {categories.map((cat)=>{
+
+              const active = category === cat;
+
+              return (
+                <button
+                  key={cat}
+                  onClick={()=>{
+                    setCategory(cat);
+                    setPage(1);
+                  }}
+                  className={`
+                    px-4 py-2 rounded-full text-xs transition
+                    ${
+                      active
+                        ? "bg-[var(--accent)] text-black"
+                        : "border border-[var(--border)] hover:border-[var(--accent)]"
+                    }
+                  `}
+                >
+                  {cat}
+                </button>
+              );
+
+            })}
+
+          </div>
+
+          {/* SEARCH */}
+
+          <div className="relative w-full md:w-[260px]">
+
+            <Search className="absolute left-3 top-3 w-4 h-4 opacity-50"/>
 
             <input
               value={searchInput}
               onChange={(e)=>setSearchInput(e.target.value)}
               placeholder="Search projects..."
-              className="px-4 py-3 rounded-xl text-sm bg-[var(--card)] border border-[var(--border)] focus:border-[var(--accent)] outline-none"
+              className="
+              w-full pl-10 pr-4 py-3 rounded-xl text-sm
+              bg-[var(--card)]
+              border border-[var(--border)]
+              focus:border-[var(--accent)]
+              outline-none
+              "
             />
-
-            <button
-              onClick={()=>{
-                setSearchInput("");
-                setGlobalSearch("");
-              }}
-              className="px-4 py-3 rounded-xl bg-[var(--accent)] text-black font-semibold"
-            >
-              <RefreshCcw size={16}/>
-            </button>
-
-          </div>
-
-
-          <div className="flex items-center gap-3">
-
-            <select
-              value={pageSize}
-              onChange={(e)=>{
-                setPageSize(Number(e.target.value));
-                setPage(1);
-              }}
-              className="px-3 py-2 rounded-xl text-sm bg-[var(--card)] border border-[var(--border)]"
-            >
-              {[6,9,12].map((n)=>(
-                <option key={n}>{n}</option>
-              ))}
-            </select>
-
-            <button
-              onClick={()=>setCardView((v)=>!v)}
-              className="p-3 rounded-xl bg-[var(--card)] border border-[var(--border)]"
-            >
-              {cardView ? <Rows size={16}/> : <LayoutGrid size={16}/>}
-            </button>
 
           </div>
 
         </div>
 
 
+        {/* EMPTY STATE */}
+
+        {!loading && paged.length === 0 && (
+
+          <div className="text-center py-20 opacity-60">
+            No projects found.
+          </div>
+
+        )}
+
+
+        {/* LOADING */}
+
+        {loading && (
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            {Array.from({length:6}).map((_,i)=>(
+              <div
+                key={i}
+                className="h-56 rounded-2xl bg-[var(--card)] animate-pulse"
+              />
+            ))}
+
+          </div>
+
+        )}
+
+
         {/* GRID */}
 
         <AnimatePresence mode="wait">
 
-          {!loading && cardView && (
+          {!loading && (
 
             <motion.div
               key="cards"
@@ -282,21 +320,16 @@ export default function ProjectsPage() {
                   className="group rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--card)] hover:border-[var(--accent)] transition"
                 >
 
-                  {/* IMAGE */}
-
                   <div className="relative h-44">
 
                     <Image
-                      src={p.image || "/projects/placeholder.jpg"}
+                      src={p.image || "/placeholder.jpg"}
                       alt={p.title}
                       fill
                       className="object-cover group-hover:scale-105 transition"
                     />
 
                   </div>
-
-
-                  {/* CONTENT */}
 
                   <div className="p-6">
 
@@ -310,7 +343,7 @@ export default function ProjectsPage() {
 
                     <div className="flex flex-wrap gap-2 mt-3">
 
-                      {p.tech.slice(0,3).map((t,i)=>(
+                      {(p.tech ?? []).slice(0,3).map((t,i)=>(
                         <span
                           key={i}
                           className="text-xs px-2 py-1 rounded-md bg-[var(--accent)]/10 text-[var(--accent)]"
@@ -322,7 +355,7 @@ export default function ProjectsPage() {
                     </div>
 
                     <Link
-                      href={`/vins-plus/project/${p.slug}`}
+                      href={`/works/project/${p.slug}`}
                       className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--accent)] text-black text-sm font-semibold"
                     >
                       <Eye size={14}/>

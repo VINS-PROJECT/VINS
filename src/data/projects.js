@@ -166,7 +166,7 @@ Overall, the Namura Property website reflects a professional and forward-thinkin
     status: "In Progress",
     role: "Full Stack Developer",
     team: "Team Project",
-    featured: true,
+    featured: false,
     updatedAt: "2025-03-01",
 
     features: [

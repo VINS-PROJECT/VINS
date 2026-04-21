@@ -34,7 +34,7 @@ export default function Footer() {
       "
     >
 
-      {/* BACKGROUND EFFECT */}
+      {/* BACKGROUND */}
 
       <div className="absolute inset-0 -z-10">
 
@@ -46,9 +46,9 @@ export default function Footer() {
 
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 space-y-12">
+      <div className="container-main py-16 space-y-14">
 
-        {/* MAIN */}
+        {/* MAIN GRID */}
 
         <div className="grid md:grid-cols-3 gap-12 items-start">
 
@@ -64,7 +64,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-3 group">
 
               <motion.div whileHover={{ scale: 1.05 }}>
-                <Image src="/TP K.svg" alt="VINS" width={40} height={40} />
+                <Image src="/TP K.svg" alt="VINS" width={36} height={36} />
               </motion.div>
 
               <span className="text-lg font-semibold text-[var(--accent)]">
@@ -73,39 +73,38 @@ export default function Footer() {
 
             </Link>
 
-            <p className="text-sm text-white/80 max-w-xs">
+            <p className="text-sm text-white/70 max-w-xs">
               Turning ideas into meaningful digital experiences through
               thoughtful design and structured execution.
             </p>
 
-            {/* SOCIAL ICONS */}
+            {/* SOCIAL */}
 
             <div className="flex gap-3 pt-2">
 
               {socials.map(({ icon, url }) => (
+
                 <motion.a
                   key={url}
                   href={url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ y: -4, scale: 1.05 }}
+                  whileHover={{ y: -4 }}
                   className="
-                    group
-                    relative
-                    p-2
-                    rounded-lg
-                    border border-white/10
-                    text-white/80
-                    transition
-                    hover:text-[var(--accent)]
+                  p-2
+                  rounded-lg
+                  border border-white/10
+                  text-white/70
+                  hover:text-[var(--accent)]
+                  hover:border-[var(--accent)]/40
+                  transition
                   "
                 >
 
                   <Icon icon={icon} width="20" height="20" />
 
-                  <span className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 bg-[var(--accent)]/10 transition" />
-
                 </motion.a>
+
               ))}
 
             </div>
@@ -114,19 +113,19 @@ export default function Footer() {
 
           {/* NAVIGATION */}
 
-          <div className="space-y-3">
+          <div className="space-y-4">
 
             <h4 className="text-sm font-medium text-white">
               Navigation
             </h4>
 
-            <div className="flex flex-col gap-2 text-sm text-white/80">
+            <div className="flex flex-col gap-2 text-sm text-white/70">
 
               {[
                 ["Home", "/"],
-                ["Projects", "/vins-plus/project"],
-                ["Experience", "/vins-plus/experience"],
-                ["Certificates", "/vins-plus/certificate"],
+                ["Articles", "/articles"],
+                ["Works", "/works/projects"],
+                ["Career", "/career"],
                 ["About", "/about"],
                 ["Contact", "/contact"],
               ].map(([label, href]) => (
@@ -134,7 +133,7 @@ export default function Footer() {
                 <Link
                   key={href}
                   href={href}
-                  className="group relative w-fit hover:text-white"
+                  className="group relative w-fit hover:text-white transition"
                 >
                   {label}
 
@@ -155,22 +154,26 @@ export default function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             viewport={{ once: true }}
-            className="space-y-3"
+            className="space-y-4"
           >
 
             <h4 className="text-sm font-medium text-white">
               Contact
             </h4>
 
-            <p className="flex items-center gap-2 text-sm text-white/80 hover:text-[var(--accent)] transition">
-              <Icon icon="mdi:email-outline" width="16" />
-              vin.simorangkir81@gmail.com
-            </p>
+            <div className="space-y-2 text-sm text-white/70">
 
-            <p className="flex items-center gap-2 text-sm text-white/80 hover:text-[var(--accent)] transition">
-              <Icon icon="mdi:phone-outline" width="16" />
-              +62 822-8251-2619
-            </p>
+              <p className="flex items-center gap-2 hover:text-[var(--accent)] transition">
+                <Icon icon="mdi:email-outline" width="16" />
+                vin.simorangkir81@gmail.com
+              </p>
+
+              <p className="flex items-center gap-2 hover:text-[var(--accent)] transition">
+                <Icon icon="mdi:phone-outline" width="16" />
+                +62 822-8251-2619
+              </p>
+
+            </div>
 
           </motion.div>
 
@@ -191,6 +194,7 @@ export default function Footer() {
         </div>
 
       </div>
+
     </footer>
   );
 }

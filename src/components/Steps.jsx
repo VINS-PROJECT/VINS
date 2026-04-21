@@ -5,29 +5,37 @@ import {
   useInView,
   useMotionValue,
   useTransform,
+  useSpring,
 } from "framer-motion";
 import { useRef } from "react";
 import { Code, Palette, Lightbulb, Users } from "lucide-react";
 
 export default function PortfolioSection() {
+
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true, margin: "-120px" });
 
   /* ================= SPOTLIGHT ================= */
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
+  const smoothX = useSpring(mouseX, { stiffness: 120, damping: 20 });
+  const smoothY = useSpring(mouseY, { stiffness: 120, damping: 20 });
+
   function handleMouseMove(e) {
+
     const rect = ref.current.getBoundingClientRect();
+
     mouseX.set(e.clientX - rect.left);
     mouseY.set(e.clientY - rect.top);
+
   }
 
   const spotlight = useTransform(
-    [mouseX, mouseY],
+    [smoothX, smoothY],
     ([x, y]) =>
-      `radial-gradient(320px at ${x}px ${y}px, rgba(216,199,154,0.15), transparent 70%)`
+      `radial-gradient(420px at ${x}px ${y}px, rgba(216,199,154,0.18), transparent 70%)`
   );
 
   const items = [
@@ -59,7 +67,7 @@ export default function PortfolioSection() {
       onMouseMove={handleMouseMove}
       className="
       relative
-      py-24
+      section-space
       overflow-hidden
       bg-gradient-to-b
       from-[#f7f3e8]
@@ -67,35 +75,42 @@ export default function PortfolioSection() {
       text-[#2b2b2b]
       "
     >
-      {/* SPOTLIGHT */}
+
+      {/* SPOTLIGHT BACKGROUND */}
 
       <motion.div
         className="pointer-events-none absolute inset-0 z-0"
         style={{ background: spotlight }}
       />
 
-      <div className="relative max-w-6xl mx-auto px-6 lg:px-12">
+      <div className="container-main relative">
 
-        {/* HEADER */}
+        {/* ================= HEADER ================= */}
 
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="max-w-2xl mb-16"
+          transition={{ duration: 0.7 }}
+          className="max-w-2xl mx-auto text-center mb-24"
         >
 
-          <span className="text-xs tracking-[0.3em] uppercase text-[var(--accent)]">
+          <span className="text-xs tracking-[0.35em] uppercase text-[var(--accent)]">
             CAPABILITIES
           </span>
 
-          <h2 className="mt-4 text-4xl md:text-5xl font-semibold leading-tight tracking-tight text-[#1a1a1a]">
+          <h2 className="mt-4 heading-lg leading-tight">
+
             What I build
+
             <br />
-            <span className="text-[var(--accent)]">and how I work.</span>
+
+            <span className="text-[var(--accent)]">
+              and how I work.
+            </span>
+
           </h2>
 
-          <p className="mt-5 text-lg text-[#5a5a5a]">
+          <p className="mt-6 text-lg text-[#5a5a5a] max-w-xl mx-auto">
             Combining design, engineering, and product thinking to
             create digital experiences that feel intuitive and perform
             reliably at scale.
@@ -103,7 +118,7 @@ export default function PortfolioSection() {
 
         </motion.div>
 
-        {/* LIST */}
+        {/* ================= LIST ================= */}
 
         <div className="divide-y divide-[#d9d3c5]">
 
@@ -111,7 +126,7 @@ export default function PortfolioSection() {
             <PortfolioItem
               key={item.title}
               item={item}
-              delay={i * 0.1}
+              delay={i * 0.08}
               inView={inView}
             />
           ))}
@@ -119,6 +134,7 @@ export default function PortfolioSection() {
         </div>
 
       </div>
+
     </section>
   );
 }
@@ -126,51 +142,57 @@ export default function PortfolioSection() {
 /* ================= ITEM ================= */
 
 function PortfolioItem({ item, delay, inView }) {
+
   const ref = useRef(null);
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  const rotateX = useTransform(y, [-50, 50], [5, -5]);
-  const rotateY = useTransform(x, [-50, 50], [-5, 5]);
+  const rotateX = useTransform(y, [-60, 60], [6, -6]);
+  const rotateY = useTransform(x, [-60, 60], [-6, 6]);
 
   function handleMove(e) {
+
     const rect = ref.current.getBoundingClientRect();
 
     const px = e.clientX - rect.left - rect.width / 2;
     const py = e.clientY - rect.top - rect.height / 2;
 
-    x.set(px / 6);
-    y.set(py / 6);
+    x.set(px / 7);
+    y.set(py / 7);
+
   }
 
   function reset() {
+
     x.set(0);
     y.set(0);
+
   }
 
   const Icon = item.icon;
 
   return (
+
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{
-        duration: 0.5,
+        duration: 0.55,
         delay,
         ease: [0.22, 1, 0.36, 1],
       }}
       style={{
         rotateX,
         rotateY,
-        transformPerspective: 800,
+        transformPerspective: 900,
       }}
       onMouseMove={handleMove}
       onMouseLeave={reset}
       className="
       group
-      py-7
+      py-10
       flex flex-col
       md:flex-row
       md:items-center
@@ -178,7 +200,7 @@ function PortfolioItem({ item, delay, inView }) {
       gap-6
       transition-all
       duration-300
-      hover:translate-y-[-2px]
+      hover:-translate-y-1
       "
     >
 
@@ -195,6 +217,7 @@ function PortfolioItem({ item, delay, inView }) {
           transition-all duration-300
           group-hover:border-[var(--accent)]
           group-hover:bg-[var(--accent)]/10
+          group-hover:scale-110
           "
         >
           <Icon size={20} className="text-[var(--accent)]" />
@@ -203,8 +226,6 @@ function PortfolioItem({ item, delay, inView }) {
         <h3 className="relative text-lg font-medium text-[#1a1a1a]">
 
           {item.title}
-
-          {/* underline animation */}
 
           <span
             className="
@@ -228,5 +249,6 @@ function PortfolioItem({ item, delay, inView }) {
       </p>
 
     </motion.div>
+
   );
 }

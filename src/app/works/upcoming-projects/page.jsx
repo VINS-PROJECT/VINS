@@ -10,6 +10,8 @@ const nextProjects = [
       "Management platform for VINS community events, collaborations, and networking.",
     status: "In Progress",
     progress: 90,
+    version: "v0.9 beta",
+    milestones: ["Plan", "Dev", "Beta", "Launch"],
     featured: true,
   },
   {
@@ -17,26 +19,25 @@ const nextProjects = [
     desc:
       "Unified monitoring system for internship progress and collaboration.",
     status: "Coming Soon",
-    progress: 0,
+    version: "v0.1",
   },
   {
     title: "B2F World Roblox",
-    desc:
-      "Virtual world for events and immersive interaction.",
+    desc: "Virtual world for events and immersive interaction.",
     status: "Coming Soon",
-    progress: 0,
+    version: "Concept",
   },
   {
     title: "Exam Prep Website",
     desc: "Exam preparation tools with analytics.",
     status: "Coming Soon",
-    progress: 0,
+    version: "v0.2",
   },
   {
     title: "Portfolio 2026",
     desc: "Next generation portfolio system.",
     status: "Finished",
-    progress: 100,
+    version: "v1.0",
   },
 ];
 
@@ -65,7 +66,7 @@ export default function NextProjectPage() {
   return (
     <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] pt-36 pb-24 px-6">
 
-      <div className="max-w-6xl mx-auto space-y-20">
+      <div className="max-w-4xl mx-auto space-y-20">
 
         {/* HEADER */}
 
@@ -90,53 +91,82 @@ export default function NextProjectPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             className="
-            relative overflow-hidden
-            p-10 rounded-3xl
+            p-8 rounded-2xl
             border border-[var(--accent)]
             bg-[var(--accent)]/10
-            backdrop-blur-xl
+            space-y-6
             "
           >
 
-            {/* glow */}
+            <span className="text-xs uppercase opacity-60">
+              Featured Project
+            </span>
 
-            <div className="absolute -top-20 -right-20 w-64 h-64 bg-[var(--accent)]/20 blur-3xl rounded-full"/>
+            <h2 className="text-2xl font-semibold">
+              {featured.title}
+            </h2>
 
-            <div className="relative">
+            <p className="opacity-70 max-w-xl">
+              {featured.desc}
+            </p>
 
-              <span className="text-xs uppercase opacity-60">
-                Featured Project
+
+            {/* VERSION */}
+
+            <span className="
+              inline-flex items-center gap-2
+              px-3 py-1 rounded-full
+              text-xs border border-[var(--border)]
+            ">
+              Release {featured.version}
+            </span>
+
+
+            {/* PROGRESS BAR */}
+
+            <div>
+
+              <div className="h-2 rounded-full bg-[var(--border)] overflow-hidden">
+
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${featured.progress}%` }}
+                  transition={{ duration: 1.2 }}
+                  className="h-full bg-[var(--accent)]"
+                />
+
+              </div>
+
+              <span className="text-xs opacity-60 mt-2 block">
+                {featured.progress}% completed
               </span>
 
-              <h2 className="text-3xl font-semibold mt-2">
-                {featured.title}
-              </h2>
-
-              <p className="mt-4 max-w-xl opacity-70">
-                {featured.desc}
-              </p>
+            </div>
 
 
-              {/* progress */}
+            {/* MILESTONES */}
 
-              <div className="mt-6">
+            <div className="flex justify-between text-xs opacity-70">
 
-                <div className="h-2 rounded-full bg-[var(--border)] overflow-hidden">
+              {featured.milestones.map((m, i) => (
+
+                <div key={i} className="flex flex-col items-center gap-1">
 
                   <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${featured.progress}%` }}
-                    transition={{ duration: 1 }}
-                    className="h-full bg-[var(--accent)]"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: i * 0.2 }}
+                    className="
+                    w-3 h-3 rounded-full
+                    bg-[var(--accent)]
+                    "
                   />
+
+                  {m}
 
                 </div>
 
-                <span className="text-xs opacity-60 mt-2 block">
-                  {featured.progress}% completed
-                </span>
-
-              </div>
+              ))}
 
             </div>
 
@@ -157,20 +187,16 @@ export default function NextProjectPage() {
 
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                whileHover={!reduceMotion ? { y: -6 } : {}}
+                whileHover={!reduceMotion ? { y: -4 } : {}}
                 className="
-                group
                 p-6 rounded-2xl
                 border border-[var(--border)]
-                bg-[var(--background)]/70 backdrop-blur-xl
                 hover:border-[var(--accent)]
                 transition
                 "
               >
 
-                <h3 className="font-semibold group-hover:text-[var(--accent)] transition">
+                <h3 className="font-semibold">
                   {p.title}
                 </h3>
 
@@ -178,20 +204,22 @@ export default function NextProjectPage() {
                   {p.desc}
                 </p>
 
+                <div className="flex items-center justify-between mt-4">
 
-                {/* STATUS */}
+                  <div
+                    className={`
+                    inline-flex items-center gap-2
+                    px-3 py-1 rounded-full text-xs border
+                    ${cfg.class}
+                    `}
+                  >
+                    <Icon icon={cfg.icon} width="16"/>
+                    {p.status}
+                  </div>
 
-                <div
-                  className={`
-                  mt-4 inline-flex items-center gap-2
-                  px-3 py-1 rounded-full text-xs border
-                  ${cfg.class}
-                  `}
-                >
-
-                  <Icon icon={cfg.icon} width="16"/>
-
-                  {p.status}
+                  <span className="text-xs opacity-60">
+                    {p.version}
+                  </span>
 
                 </div>
 
