@@ -14,28 +14,84 @@ export default function ExperiencePage() {
 
   const professional = [
   {
+    title: "UI/UX Designer Intern",
+    company: "Telkom Indonesia Kebayoran Baru",
+    period: "Nov 2025 — Present",
+    location: "Jakarta, Indonesia",
+    desc: "Designed user interface for digital products including dashboard and internal tools Conducted user research and created wireframes and prototypes using Figma to improve user experience Collaborated with developers and product team to ensure design implementation aligned with user needs and business goals",
+  },
+  {
     title: "Creative Media",
     company: "PT Yayasan Media Selaras Cendekiawan",
     period: "Jan 2025 — Aug 2025",
-    location: "Jawa Barat",
-    desc: "Designed social media content and branding assets for multiple departments ensuring consistent visual identity and improving audience engagement.",
+    location: "Jawa Barat, Indonesia",
+    desc: "Designed social media content including Instagram feeds stories and branding materials Created logos merchandise and visual assets for multiple departments Ensured consistent visual identity across digital platforms",
   },
   {
     title: "IT Project Manager",
     company: "PT Yayasan Media Selaras Cendekiawan",
     period: "Aug 2024 — Oct 2024",
-    location: "Jawa Barat",
-    desc: "Led cross functional teams including UI UX Frontend and Backend to deliver website projects Managed timelines monitored progress and ensured project completion aligned with objectives.",
+    location: "Jawa Barat, Indonesia",
+    desc: "Led cross functional teams including UI UX Frontend and Backend to deliver website projects Implemented structured project planning monitored progress and ensured project completion aligned with timeline and objectives",
+  },
+  {
+    title: "Data Analyst Intern",
+    company: "Telkom Indonesia Witel Lampung",
+    period: "Jul 2024 — Aug 2024",
+    location: "Lampung, Indonesia",
+    desc: "Analyzed customer installation data using SQL and developed a web based dashboard named Kedaton Connect to support monitoring and decision making Processed and visualized data to generate business insights",
+  },
+  {
+    title: "Web Developer Intern",
+    company: "Baparekraf Digital Talent Dicoding",
+    period: "Feb 2024 — Aug 2024",
+    location: "Jakarta, Indonesia",
+    desc: "Developed web based applications using HTML CSS JavaScript and PHP Designed user interface and built backend systems including database and API integration Collaborated with team to ensure system functionality and performance",
+  },
+  {
+    title: "Backend Developer",
+    company: "PPLK ITERA",
+    period: "Jun 2022 — Aug 2022",
+    location: "Lampung, Indonesia",
+    desc: "Designed and developed backend systems and database integration for PPLK ITERA website Collaborated with frontend team to ensure seamless system integration and performance",
   },
 ];
 
 const organizational = [
   {
     title: "Class Manager",
-    company: "Digistar Telkom",
-    period: "Aug 2024 — Nov 2024",
+    company: "Digistar Telkom Indonesia",
+    period: "Aug 2024 — Oct 2024",
     location: "Hybrid",
-    desc: "Coordinated communication between participants and facilitators monitored learning progress and supported evaluation to ensure effective program execution.",
+    desc: "Managed communication between mentees and Telkom team Evaluated participant performance and ensured learning process ran effectively",
+  },
+  {
+    title: "Human Resources Development",
+    company: "Duta Potensi Pemuda Indonesia",
+    period: "Apr 2024 — Dec 2024",
+    location: "Jakarta, Indonesia",
+    desc: "Designed and developed human resource programs Provided training and built networking to support participant growth and organizational goals",
+  },
+  {
+    title: "Event Division",
+    company: "Lampung Leadership Forum",
+    period: "Oct 2023 — Dec 2023",
+    location: "Lampung, Indonesia",
+    desc: "Prepared event concepts managed audience registration and coordinated with multiple divisions to ensure successful event execution",
+  },
+  {
+    title: "Head of Public Relations",
+    company: "PIEC ITERA",
+    period: "Mar 2023 — May 2023",
+    location: "Lampung, Indonesia",
+    desc: "Led communication strategy and managed relationships with stakeholders Ensured effective communication flow during event preparation and execution",
+  },
+  {
+    title: "Competition Division",
+    company: "Swarna Fest ITERA",
+    period: "Mar 2023 — May 2023",
+    location: "Lampung, Indonesia",
+    desc: "Designed competition system timeline and evaluation criteria Developed competition information system and coordinated event execution",
   },
 ];
 
