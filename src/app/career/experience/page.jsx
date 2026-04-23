@@ -13,31 +13,31 @@ export default function ExperiencePage() {
   const [filter, setFilter] = useState("all");
 
   const professional = [
-    {
-      title: "Creative Media",
-      company: "PT Yayasan Media Selaras Cendekiawan",
-      period: "Jan 2025 — Aug 2025",
-      location: "Jawa Barat",
-      desc: "Designed social media and brand assets across departments.",
-    },
-    {
-      title: "IT Project Manager",
-      company: "PT Yayasan Media Selaras Cendekiawan",
-      period: "Aug 2024 — Oct 2024",
-      location: "Jawa Barat",
-      desc: "Led cross-functional teams and project execution.",
-    },
-  ];
+  {
+    title: "Creative Media",
+    company: "PT Yayasan Media Selaras Cendekiawan",
+    period: "Jan 2025 — Aug 2025",
+    location: "Jawa Barat",
+    desc: "Designed social media content and branding assets for multiple departments ensuring consistent visual identity and improving audience engagement.",
+  },
+  {
+    title: "IT Project Manager",
+    company: "PT Yayasan Media Selaras Cendekiawan",
+    period: "Aug 2024 — Oct 2024",
+    location: "Jawa Barat",
+    desc: "Led cross functional teams including UI UX Frontend and Backend to deliver website projects Managed timelines monitored progress and ensured project completion aligned with objectives.",
+  },
+];
 
-  const organizational = [
-    {
-      title: "Class Manager",
-      company: "Digistar Telkom",
-      period: "Aug 2024 — Nov 2024",
-      location: "Hybrid",
-      desc: "Managed communication and evaluated participants.",
-    },
-  ];
+const organizational = [
+  {
+    title: "Class Manager",
+    company: "Digistar Telkom",
+    period: "Aug 2024 — Nov 2024",
+    location: "Hybrid",
+    desc: "Coordinated communication between participants and facilitators monitored learning progress and supported evaluation to ensure effective program execution.",
+  },
+];
 
   const data =
     filter === "pro"
