@@ -96,7 +96,7 @@ export default function Navbar() {
   ];
 
   const announcement =
-    "Happy Kartini Day 🌺 April 21 | Celebrating the spirit of R.A. Kartini and the empowerment of women across Indonesia. •";
+    "Happy World Book Day 📚 April 23 | Celebrating the power of books to inspire, educate, and transform lives. •"
 
   return (
     <>
