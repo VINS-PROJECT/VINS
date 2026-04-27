@@ -36,14 +36,11 @@ export default function AboutPage() {
             </h1>
 
             <p className="text-gray-600 leading-relaxed">
-              I’m a frontend-focused developer with an interest in UI/UX
-              and data-driven thinking. I enjoy building clean, responsive,
-              and user-friendly web applications that solve real problems.
+              I'm a passionate UI/UX designer and frontend developer based in Indonesia. With a strong focus on crafting engaging digital experiences, I specialize in creating visually stunning and user friendly websites that leave a lasting impression.
             </p>
 
             <p className="text-gray-600 leading-relaxed">
-              My work focuses on clarity, performance, and simplicity —
-              making sure users can interact with digital products easily.
+              My work combines creativity with technical expertise to deliver seamless and intuitive interfaces that resonate with users.
             </p>
 
             {/* 🔥 CTA BUTTONS */}
