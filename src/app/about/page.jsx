@@ -59,7 +59,7 @@ export default function AboutPage() {
 
               {/* DOWNLOAD CV */}
               <a
-                href="/cv.pdf"
+                href="https://drive.google.com/uc?export=download&id=1twRdA1e9g_7DthwC3mh_rf2PjKWxxPDY"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="
@@ -74,7 +74,7 @@ export default function AboutPage() {
 
               {/* VIEW PROJECTS */}
               <Link
-                href="/projects"
+                href="https://drive.google.com/file/d/1sfyJTJatmMH8Rfb2fa5wTuUh2Zz2SxPK/view?usp=sharing"
                 className="
                 px-5 py-2
                 border border-gray-300
