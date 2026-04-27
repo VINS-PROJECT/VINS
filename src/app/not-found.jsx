@@ -1,117 +1,60 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { AlertCircle, ArrowLeft, Home } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <main className="
-      relative min-h-screen flex items-center justify-center px-6
-      bg-[var(--background)] text-[var(--foreground)]
-      overflow-hidden
-    ">
+    <main className="min-h-screen flex items-center justify-center px-6 bg-white">
 
-      {/* BACKGROUND */}
-      <motion.div
-        aria-hidden
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.25 }}
-        transition={{ duration: 1.2 }}
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `
-            radial-gradient(60% 45% at 35% 30%, rgba(255,180,120,0.18) 0%, transparent 70%),
-            radial-gradient(55% 40% at 75% 65%, rgba(255,180,120,0.12) 0%, transparent 70%)
-          `,
-        }}
-      />
-
-      {/* CONTENT */}
-      <div className="relative z-10 text-center max-w-md">
-
-        {/* ICON */}
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="
-            mx-auto mb-6 w-16 h-16 rounded-2xl
-            flex items-center justify-center
-            bg-[var(--accent)]/15 text-[var(--accent)]
-          "
-        >
-          <AlertCircle className="w-8 h-8" />
-        </motion.div>
+      <div className="text-center max-w-sm">
 
         {/* TITLE */}
-        <motion.h1
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="
-            text-6xl font-extrabold tracking-tight
-            bg-clip-text text-transparent
-          "
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, var(--accent), #f5e6ca)",
-          }}
-        >
+        <h1 className="text-5xl font-semibold tracking-tight">
           404
-        </motion.h1>
+        </h1>
 
-        {/* MESSAGE */}
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 0.75, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.2 }}
-          className="mt-4 text-base md:text-lg"
-        >
-          The page you’re looking for doesn’t exist or has been moved.
-        </motion.p>
+        {/* TEXT */}
+        <p className="text-gray-500 mt-3 text-sm">
+          Page not found. The page you are looking for doesn’t exist.
+        </p>
 
         {/* ACTIONS */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.35 }}
-          className="mt-10 flex flex-col sm:flex-row gap-3 justify-center"
-        >
+        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+
           <button
             onClick={() => window.history.back()}
             className="
-              inline-flex items-center justify-center gap-2
-              px-6 py-3 text-sm font-semibold
-              rounded-xl
-              border border-[var(--border)]
-              hover:border-[var(--accent)]
-              hover:text-[var(--accent)]
-              transition
+            px-5 py-2.5 text-sm
+            border border-gray-200
+            rounded-full
+            hover:bg-gray-100
+            transition
             "
           >
-            <ArrowLeft size={16} />
-            Go Back
+            <span className="flex items-center justify-center gap-2">
+              <ArrowLeft size={14} />
+              Go Back
+            </span>
           </button>
 
           <Link
             href="/"
             className="
-              inline-flex items-center justify-center gap-2
-              px-6 py-3 text-sm font-semibold
-              rounded-xl
-              bg-[var(--accent)]
-              text-black
-              hover:scale-[1.03]
-              hover:shadow-[0_0_18px_var(--accent)]
-              transition
+            px-5 py-2.5 text-sm
+            bg-black text-white
+            rounded-full
+            hover:opacity-90
+            transition
             "
           >
-            <Home size={16} />
             Back to Home
           </Link>
-        </motion.div>
+
+        </div>
+
       </div>
+
     </main>
   );
 }
