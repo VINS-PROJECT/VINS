@@ -5,22 +5,22 @@ import { Code, Palette, Lightbulb, Users } from "lucide-react";
 const items = [
   {
     title: "Frontend Development",
-    desc: "Building responsive and performant web apps using React and Next.js.",
+    desc: "Building responsive and performant websites using modern technologies.",
     icon: Code,
   },
   {
     title: "UI / UX Design",
-    desc: "Designing clean and intuitive interfaces focused on usability.",
+    desc: "Designing intuitive interfaces with a focus on user experience and functionality.",
     icon: Palette,
   },
   {
     title: "Problem Solving",
-    desc: "Approaching projects with structured thinking and practical solutions.",
+    desc: "Approaching challenges with creativity and a focus on effective solutions.",
     icon: Lightbulb,
   },
   {
     title: "Collaboration",
-    desc: "Working effectively with teams to deliver reliable products.",
+    desc: "Working closely with clients and teams to bring ideas to life and achieve project goals.",
     icon: Users,
   },
 ];
