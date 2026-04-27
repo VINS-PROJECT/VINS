@@ -23,73 +23,61 @@ export default function Navbar() {
     return pathname.startsWith(href);
   };
 
-  // 🔥 AUTO CLOSE ON ROUTE CHANGE
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur border-b border-black/5">
+    <>
+      {/* HEADER */}
+      <header className="fixed top-0 left-0 w-full z-30 bg-white/80 backdrop-blur border-b border-black/5">
+        <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
 
-      <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
+          {/* LOGO */}
+          <Link href="/" className="flex items-center gap-2">
+            <Image src="/TP K.svg" alt="logo" width={28} height={28} />
+          </Link>
 
-        {/* LOGO */}
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/TP K.svg"
-            alt="logo"
-            width={28}
-            height={28}
-            priority
-          />
-        </Link>
+          {/* DESKTOP */}
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+            {navLinks.map((link) => {
+              const active = isActive(link.href);
 
-        {/* DESKTOP NAV */}
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-          {navLinks.map((link) => {
-            const active = isActive(link.href);
+              return (
+                <Link key={link.href} href={link.href} className="relative group">
+                  <span className={active ? "text-black" : "text-gray-500"}>
+                    {link.label}
+                  </span>
+                  <span
+                    className={`absolute left-0 -bottom-1 h-[2px] w-full bg-black transition ${
+                      active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                    }`}
+                  />
+                </Link>
+              );
+            })}
+          </nav>
 
-            return (
-              <Link key={link.href} href={link.href} className="relative group">
-                <span
-                  className={`transition ${
-                    active ? "text-black" : "text-gray-500"
-                  }`}
-                >
-                  {link.label}
-                </span>
+          {/* BUTTON */}
+          <button
+            onClick={() => setOpen((prev) => !prev)}
+            className="md:hidden z-[60]"
+          >
+            {open ? <X size={22} /> : <Menu size={22} />}
+          </button>
 
-                <span
-                  className={`absolute left-0 -bottom-1 h-[2px] w-full bg-black origin-left transition-transform duration-300 ${
-                    active
-                      ? "scale-x-100"
-                      : "scale-x-0 group-hover:scale-x-100"
-                  }`}
-                />
-              </Link>
-            );
-          })}
-        </nav>
+        </div>
+      </header>
 
-        {/* MOBILE BUTTON */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden z-50"
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
-
-      </div>
-
-      {/* 🔥 OVERLAY */}
+      {/* OVERLAY */}
       {open && (
         <div
           onClick={() => setOpen(false)}
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
+          className="fixed inset-0 bg-black/20 z-40 md:hidden"
         />
       )}
 
-      {/* 🔥 MOBILE MENU */}
+      {/* MOBILE MENU */}
       <div
         className={`
         md:hidden
@@ -120,7 +108,6 @@ export default function Navbar() {
 
         </div>
       </div>
-
-    </header>
+    </>
   );
 }
