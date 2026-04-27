@@ -36,14 +36,23 @@ export default function ProjectDetail() {
     <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
 
       {/* HERO */}
-
       <section className="pt-32 pb-20 px-6">
 
         <div className="max-w-6xl mx-auto">
 
+          {/* ✅ BACK BUTTON (FIXED) */}
           <Link
-            href="/works/project"
-            className="inline-flex items-center gap-2 mb-8 opacity-70 hover:opacity-100"
+            href="/projects"
+            className="
+            inline-flex items-center gap-2
+            px-4 py-2 mb-8
+            text-sm font-medium
+            border border-gray-200
+            rounded-full
+            text-gray-600
+            hover:bg-gray-100 hover:text-black
+            transition
+            "
           >
             <ArrowLeft size={16}/>
             Back to Projects
@@ -52,7 +61,6 @@ export default function ProjectDetail() {
           <div className="grid md:grid-cols-2 gap-14 items-center">
 
             {/* TEXT */}
-
             <div>
 
               <h1 className="text-4xl md:text-5xl font-bold">
@@ -68,12 +76,9 @@ export default function ProjectDetail() {
               </p>
 
               {/* TECH STACK */}
-
               {(project.tech ?? []).length > 0 && (
-
                 <div className="flex flex-wrap gap-2 mt-6">
-
-                  {(project.tech ?? []).map((t)=>(
+                  {project.tech.map((t)=>(
                     <span
                       key={t}
                       className="
@@ -86,13 +91,10 @@ export default function ProjectDetail() {
                       {t}
                     </span>
                   ))}
-
                 </div>
-
               )}
 
               {/* LINKS */}
-
               <div className="flex gap-3 mt-8">
 
                 {project.links?.live && (
@@ -125,21 +127,17 @@ export default function ProjectDetail() {
 
             </div>
 
-
-            {/* HERO IMAGE */}
-
+            {/* IMAGE */}
             <div
               onClick={()=>setPreview(project.image)}
               className="relative h-[380px] rounded-3xl overflow-hidden cursor-pointer"
             >
-
               <Image
                 src={project.image || "/placeholder.jpg"}
                 alt={project.title}
                 fill
                 className="object-cover hover:scale-105 transition"
               />
-
             </div>
 
           </div>
@@ -149,26 +147,14 @@ export default function ProjectDetail() {
       </section>
 
 
-      {/* INFO GRID */}
-
+      {/* INFO */}
       <section className="max-w-6xl mx-auto px-6 mb-24">
 
         <div className="grid md:grid-cols-3 gap-6">
 
-          <InfoCard
-            title="Category"
-            value={project.category}
-          />
-
-          <InfoCard
-            title="Year"
-            value={project.year}
-          />
-
-          <InfoCard
-            title="Status"
-            value={project.status || "Completed"}
-          />
+          <InfoCard title="Category" value={project.category} />
+          <InfoCard title="Year" value={project.year} />
+          <InfoCard title="Status" value={project.status || "Completed"} />
 
         </div>
 
@@ -176,9 +162,7 @@ export default function ProjectDetail() {
 
 
       {/* FEATURES */}
-
       {project.features?.length > 0 && (
-
         <section className="max-w-6xl mx-auto px-6 mb-24">
 
           <h2 className="text-2xl font-semibold mb-8">
@@ -188,7 +172,6 @@ export default function ProjectDetail() {
           <div className="grid md:grid-cols-2 gap-6">
 
             {project.features.map((f,i)=>(
-
               <div
                 key={i}
                 className="
@@ -198,28 +181,19 @@ export default function ProjectDetail() {
                 bg-[var(--card)]
                 "
               >
-
                 <Check className="text-[var(--accent)]"/>
-
-                <p className="text-sm opacity-80">
-                  {f}
-                </p>
-
+                <p className="text-sm opacity-80">{f}</p>
               </div>
-
             ))}
 
           </div>
 
         </section>
-
       )}
 
 
       {/* GALLERY */}
-
       {project.gallery?.length > 0 && (
-
         <section className="max-w-6xl mx-auto px-6 mb-32">
 
           <h2 className="text-2xl font-semibold mb-8">
@@ -229,7 +203,6 @@ export default function ProjectDetail() {
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
 
             {project.gallery.map((img,i)=>(
-
               <div
                 key={i}
                 onClick={()=>setPreview(img)}
@@ -240,29 +213,23 @@ export default function ProjectDetail() {
                 cursor-pointer
                 "
               >
-
                 <Image
                   src={img}
                   alt="Gallery"
                   fill
                   className="object-cover hover:scale-105 transition"
                 />
-
               </div>
-
             ))}
 
           </div>
 
         </section>
-
       )}
 
 
-      {/* RELATED PROJECTS */}
-
+      {/* RELATED */}
       {related.length > 0 && (
-
         <section className="max-w-6xl mx-auto px-6 pb-32">
 
           <h2 className="text-2xl font-semibold mb-8">
@@ -274,7 +241,7 @@ export default function ProjectDetail() {
             {related.map((p)=>(
               <Link
                 key={p.slug}
-                href={`/works/project/${p.slug}`}
+                href={`/projects/${p.slug}`}
                 className="
                 group border border-[var(--border)]
                 rounded-xl p-6
@@ -282,7 +249,6 @@ export default function ProjectDetail() {
                 transition
                 "
               >
-
                 <p className="font-medium group-hover:text-[var(--accent)]">
                   {p.title}
                 </p>
@@ -297,14 +263,11 @@ export default function ProjectDetail() {
           </div>
 
         </section>
-
       )}
 
 
-      {/* IMAGE PREVIEW */}
-
+      {/* PREVIEW */}
       {preview && (
-
         <div
           className="
           fixed inset-0 z-50
@@ -313,20 +276,15 @@ export default function ProjectDetail() {
           "
           onClick={()=>setPreview(null)}
         >
-
           <div className="relative w-[80vw] h-[80vh]">
-
             <Image
               src={preview}
               alt="Preview"
               fill
               className="object-contain"
             />
-
           </div>
-
         </div>
-
       )}
 
     </main>
@@ -335,27 +293,15 @@ export default function ProjectDetail() {
 
 
 /* INFO CARD */
-
-function InfoCard({ title, value }){
-
-  return(
-
+function InfoCard({ title, value }) {
+  return (
     <div className="
     p-6 rounded-2xl
     border border-[var(--border)]
     bg-[var(--card)]
     ">
-
-      <p className="text-xs opacity-50">
-        {title}
-      </p>
-
-      <p className="mt-2 font-semibold">
-        {value}
-      </p>
-
+      <p className="text-xs opacity-50">{title}</p>
+      <p className="mt-2 font-semibold">{value}</p>
     </div>
-
-  )
-
+  );
 }

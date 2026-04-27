@@ -1,17 +1,17 @@
 "use client";
 
+import Experience from "@/components/Experience";
 import Hero from "@/components/Hero";
-import Impact from "@/components/Impact";
-import Steps from "@/components/Steps";
-import WorkWith from "@/components/WorkWith";
+import Articles from "@/components/Articles";
+import Skills from "@/components/Skills";
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <WorkWith />
-      <Steps />
-      <Impact />
+      <Experience />
+      <Skills />
+      <Articles />
     </>
   );
 }
