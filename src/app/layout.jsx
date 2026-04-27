@@ -13,8 +13,8 @@ const poppins = Poppins({
 
 export const metadata = {
   title: {
-    default: "VINS #BornToRise",
-    template: "VINS #BornToRise | %s",
+    default: "VINS 2026 | UI/UX Designer & Frontend Developer",
+    template: "VINS 2026 | %s",
   },
   icons: {
     icon: "/TPN.ico",
