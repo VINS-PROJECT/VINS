@@ -47,13 +47,13 @@ Overall, Harvesty is developed to empower stakeholders in the agricultural secto
   {
     id: 2,
     title: "SIPAD (Data Analysis Monitoring Information System)",
-    desc: `SIPAD is a disaster data analysis prototype designed to support the understanding, processing, and presentation of disaster-related information in a structured and insightful manner. This project leverages Microsoft Excel as the primary tool for data cleaning, data processing, and visualization.
+    desc: `SIPAD is a disaster data analysis prototype designed to support the understanding, processing, and presentation of disaster related information in a structured and insightful manner. This project leverages Microsoft Excel as the primary tool for data cleaning, data processing, and visualization.
 
 The initial phase of SIPAD focuses on cleaning raw disaster data collected from various records. This includes standardizing data formats, removing duplicate entries, handling missing values, and organizing variables to ensure the dataset is reliable and ready for analysis.
 
-Once the data is structured, SIPAD transforms the processed information into meaningful visual representations such as summary tables, charts, and dashboards. These visualizations highlight disaster patterns, frequency, time-based trends, and potential impacts, making complex data easier to interpret.
+Once the data is structured, SIPAD transforms the processed information into meaningful visual representations such as summary tables, charts, and dashboards. These visualizations highlight disaster patterns, frequency, time based trends, and potential impacts, making complex data easier to interpret.
 
-The primary objective of SIPAD is to generate data-driven insights that support disaster management and decision-making processes. Through effective data representation, the prototype helps evaluate past disaster events, identify trends, and support risk mitigation planning.
+The primary objective of SIPAD is to generate data driven insights that support disaster management and decision making processes. Through effective data representation, the prototype helps evaluate past disaster events, identify trends, and support risk mitigation planning.
 
 Overall, SIPAD serves as both an analytical tool and a proof of concept, demonstrating how structured data processing and accessible visualization can contribute to more informed and responsive disaster management efforts.`,
     image: "/Projects/Projects1.png",
@@ -85,7 +85,13 @@ Overall, SIPAD serves as both an analytical tool and a proof of concept, demonst
   {
     id: 3,
     title: "REFORA (Reservation Food of ITERA)",
-    desc: `REFORA is a canteen food reservation prototype designed specifically for ITERA students to streamline the food ordering process and improve overall efficiency.`,
+    desc: `REFORA is a canteen food reservation prototype designed for ITERA students to streamline the food ordering process and improve overall efficiency. The system aims to simplify how students browse menus, select meals, and place orders in a more organized and time saving manner.
+
+Through REFORA, students can view available food options, check prices, and make reservations before arriving at the canteen. This helps reduce long queues, waiting times, and uncertainty about food availability, especially during peak hours. The prototype also supports better coordination between students and canteen vendors by providing a clearer overview of incoming orders.
+
+In addition, REFORA enhances the overall dining experience by promoting convenience and accessibility. By leveraging a structured digital approach, the system not only improves efficiency for students but also supports canteen management in handling demand more effectively.
+
+Overall, REFORA serves as a practical solution and proof of concept, demonstrating how a simple reservation system can optimize daily campus activities and create a more efficient food service environment.`,
     image: "/Projects/Projects3.png",
     category: "Design",
     tech: ["Figma", "Adobe Photoshop", "Canva"],
