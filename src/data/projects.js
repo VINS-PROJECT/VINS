@@ -76,10 +76,6 @@ Overall, SIPAD serves as both an analytical tool and a proof of concept, demonst
     gallery: [
       "/SIPAD/SIPAD1.png",
       "/SIPAD/SIPAD2.png",
-      "/SIPAD/SIPAD3.png",
-      "/SIPAD/SIPAD4.png",
-      "/SIPAD/SIPAD5.png",
-      "/SIPAD/SIPAD6.png",
     ],
     links: {
       figma: "https://www.figma.com/proto/xxxxx/SIPAD",
