@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,6 +9,7 @@ import { ArrowLeft } from "lucide-react";
 
 export default function ProjectDetail({ params }) {
   const project = projectsData.find((p) => p.slug === params.slug);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   if (!project) return notFound();
 
@@ -59,7 +63,6 @@ export default function ProjectDetail({ params }) {
 
         {/* INFO */}
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
-
           {[
             { label: "Year", value: project.year },
             { label: "Role", value: project.role },
@@ -67,18 +70,12 @@ export default function ProjectDetail({ params }) {
           ].map((item, i) => (
             <div
               key={i}
-              className="
-              p-4
-              border border-gray-200
-              rounded-xl
-              bg-gray-50
-              "
+              className="p-4 border border-gray-200 rounded-xl bg-gray-50"
             >
               <p className="text-xs text-gray-400">{item.label}</p>
               <p className="font-medium mt-1">{item.value}</p>
             </div>
           ))}
-
         </div>
 
         {/* TECH */}
@@ -123,7 +120,8 @@ export default function ProjectDetail({ params }) {
               {project.gallery.map((img, i) => (
                 <div
                   key={i}
-                  className="relative h-48 rounded-xl overflow-hidden"
+                  className="relative h-48 rounded-xl overflow-hidden cursor-pointer"
+                  onClick={() => setSelectedImage(img)}
                 >
                   <Image
                     src={img}
@@ -137,9 +135,37 @@ export default function ProjectDetail({ params }) {
           </div>
         )}
 
+        {/* 🔥 LIGHTBOX MODAL */}
+        {selectedImage && (
+          <div
+            className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
+            onClick={() => setSelectedImage(null)}
+          >
+            <div
+              className="relative max-w-5xl w-full px-6"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={selectedImage}
+                alt=""
+                width={1400}
+                height={900}
+                className="rounded-xl object-contain w-full"
+              />
+
+              {/* CLOSE BUTTON */}
+              <button
+                onClick={() => setSelectedImage(null)}
+                className="absolute top-4 right-6 text-white text-2xl"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* LINKS */}
         <div className="mt-12 flex gap-3 flex-wrap">
-
           {project.links?.live && (
             <a
               href={project.links.live}
@@ -169,7 +195,6 @@ export default function ProjectDetail({ params }) {
               Figma
             </a>
           )}
-
         </div>
 
       </div>
