@@ -103,9 +103,7 @@ Overall, SIPAD serves as both an analytical tool and a proof of concept, demonst
       "Student-centric user flow",
     ],
     gallery: [
-      "/projects/refora-1.png",
-      "/projects/refora-2.png",
-      "/projects/refora-3.png",
+      "/REFORA/REFORA1.png",
     ],
     links: {
       figma: "https://www.figma.com/proto/xxxxx/REFORA",
