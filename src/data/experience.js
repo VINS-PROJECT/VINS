@@ -1,7 +1,7 @@
 export const professional = [
   {
     type: "professional",
-    title: "UI/UX Designer Intern",
+    title: "UI/UX Designer",
     company: "Telkom Indonesia Kebayoran Baru",
     period: "Nov 2025 — Present",
     location: "Jakarta, Indonesia",
