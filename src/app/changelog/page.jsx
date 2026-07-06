@@ -1,204 +1,818 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CalendarDays, Sparkle, Hammer, Bug } from "lucide-react";
-import { version } from "react";
 
-/* ================= ICON STYLE ================= */
-const iconProps = {
-  size: 14,
-  strokeWidth: 1.25,
-  absoluteStrokeWidth: true,
-};
+import {
+  CalendarDays,
+  Sparkles,
+  Hammer,
+  Bug,
+} from "lucide-react";
 
-/* ================= DATA ================= */
+
+
+
+
+
 const CHANGELOGS = [
+
   {
-    version: "v3.0.1",
-    date: "2026-02-09",
-    changes: [
-      { text: " Fixed minor bugs in VINS+ platform.", type: "fix" },
-      { text: " Fixed responsive issues on mobile devices.", type: "fix" },
+    version:"v5.0.0",
+
+    date:"2026-07-05",
+
+    changes:[
+
+      {
+        text:"Released VINS Digital Experience redesign.",
+        type:"update",
+      },
+
+      {
+        text:"Implemented clean enterprise design system.",
+        type:"update",
+      },
+
+      {
+        text:"Improved performance and page structure.",
+        type:"fix",
+      },
+
     ],
   },
+
+
+
   {
-    version: "v3.0.0",
-    date: "2026-02-07",
-    changes: [
-      { text: " Revamped UI with new VINS design.", type: "update" },
-      { text: " Adding Item and Update VINS+ Menu", type: "update" },
-      { text: " Fixed bugs in project detail pages.", type: "fix" },
+    version:"v4.2.0",
+
+    date:"2026-05-20",
+
+    changes:[
+
+      {
+        text:"Added article management experience.",
+        type:"update",
+      },
+
+
+      {
+        text:"Improved portfolio case study layout.",
+        type:"update",
+      },
+
     ],
   },
+
+
+
+
   {
-    version: "v2.1.0",
-    date: "2026-01-15",
-    changes: [
-      { text: "Added new feature : Porfolio and Resume pages.", type: "update" },
-      { text: "Added new articles.", type: "update" },
-      { text: "Upgrade navigation bar design.", type: "update" },
-      { text: "Fixed minor bugs in user interface.", type: "fix" },
+    version:"v3.0.1",
+
+    date:"2026-02-09",
+
+    changes:[
+
+      {
+        text:"Fixed responsive issues on mobile devices.",
+        type:"fix",
+      },
+
+      {
+        text:"Fixed minor interface bugs.",
+        type:"fix",
+      },
+
     ],
   },
+
+
+
+
+
   {
-    version: "v2.0.0",
-    date: "2025-12-20",
-    changes: [
-      { text: "Major platform overhaul and V2 launch.", type: "update" },
-      { text: "Cross-device sync issues resolved.", type: "fix" },
-      { text: "Memory leak fixed in background services.", type: "bug" },
+    version:"v3.0.0",
+
+    date:"2026-02-07",
+
+    changes:[
+
+      {
+        text:"Introduced VINS+ ecosystem concept.",
+        type:"update",
+      },
+
+      {
+        text:"Updated navigation and project pages.",
+        type:"update",
+      },
+
+      {
+        text:"Fixed project detail rendering issues.",
+        type:"fix",
+      },
+
     ],
   },
+
+
+
+
+
+
   {
-    version: "v1.1.0",
-    date: "2025-12-08",
-    changes: [
-      { text: "Notification system released.", type: "update" },
-      { text: "Third-party plugin support added.", type: "update" },
-      { text: "Improved performance on large datasets.", type: "update" },
+    version:"v1.0.0",
+
+    date:"2025-12-06",
+
+    changes:[
+
+      {
+        text:"Initial portfolio release.",
+        type:"update",
+      },
+
     ],
   },
-  {
-    version: "v1.0.0",
-    date: "2025-12-06",
-    changes: [
-      { text: "Initial UI milestone release.", type: "update" },
-      { text: "Mobile stability improvements.", type: "fix" },
-    ],
-  },
+
 ];
 
-const TYPE_ICON = {
-  update: Sparkle,
-  fix: Hammer,
-  bug: Bug,
+
+
+
+
+
+
+
+const TYPE = {
+
+
+  update:{
+    icon:Sparkles,
+    label:"Added",
+  },
+
+
+  fix:{
+    icon:Hammer,
+    label:"Fixed",
+  },
+
+
+  bug:{
+    icon:Bug,
+    label:"Bug",
+  },
+
+
 };
 
-export default function ChangelogPage() {
+
+
+
+
+
+
+
+
+
+
+export default function ChangelogPage(){
+
+
+
   return (
-    <main className="relative min-h-screen bg-[var(--background)] text-[var(--foreground)] overflow-hidden">
 
-      {/* ================= GOLD DIAGONAL HEADER ================= */}
+    <main
+      className="
+      section-space
+
+      bg-white
+      "
+    >
+
+
+
       <div
-        aria-hidden
         className="
-          absolute top-0 left-0 w-full
-          h-[360px]
-          bg-gradient-to-br
-          from-[var(--accent)]/25
-          via-[var(--accent)]/12
-          to-transparent
-          -skew-y-6
-          origin-top-left
-          pointer-events-none
+        container-main
+
+        max-w-4xl
         "
-      />
+      >
 
-      {/* CUT FADE */}
-      <div
-        aria-hidden
-        className="
-          absolute top-[300px] left-0 w-full h-32
-          bg-gradient-to-b from-transparent to-[var(--background)]
-          pointer-events-none
-        "
-      />
 
-      {/* ================= CONTENT ================= */}
-      <div className="relative z-10 pt-32 pb-32">
-        <div className="max-w-3xl mx-auto px-6">
 
-          {/* ================= HEADER ================= */}
-          <motion.header
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mb-24"
+
+
+
+
+        {/* HEADER */}
+
+
+        <motion.div
+
+          initial={{
+            opacity:0,
+            y:30,
+          }}
+
+
+          animate={{
+            opacity:1,
+            y:0,
+          }}
+
+
+          className="
+          mb-20
+          "
+        >
+
+
+
+
+
+
+
+          <span
+            className="
+            mb-6
+
+
+            inline-flex
+
+
+            rounded-full
+
+
+            border
+            border-neutral-200
+
+
+            px-5
+            py-2
+
+
+
+            text-xs
+
+            font-semibold
+
+            tracking-[0.25em]
+
+
+            text-[#C9A646]
+            "
           >
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-              Change<span className="text-[var(--accent)]">log</span>
-            </h1>
 
-            <p className="mt-4 text-[var(--foreground)]/70 max-w-lg">
-              A transparent record of updates, improvements, and fixes across
-              the VINS+ platform.
-            </p>
-          </motion.header>
+            PRODUCT UPDATE
 
-          {/* ================= TIMELINE ================= */}
-          <div className="relative space-y-20">
 
-            {/* VERTICAL LINE */}
-            <div className="absolute left-[7px] top-0 w-px h-full bg-[var(--border)]" />
+          </span>
 
-            {CHANGELOGS.map((log, i) => (
-              <div key={log.version} className="relative pl-12">
+
+
+
+
+
+
+
+
+          <h1
+            className="
+            text-5xl
+            md:text-7xl
+
+
+            font-semibold
+
+
+            tracking-[-0.06em]
+
+
+            text-neutral-950
+            "
+          >
+
+            Change
+
+
+            <span
+              className="
+              text-[#C9A646]
+              "
+            >
+
+              log
+
+
+            </span>
+
+
+          </h1>
+
+
+
+
+
+
+
+
+          <p
+            className="
+            mt-8
+
+            max-w-xl
+
+
+            leading-8
+
+
+            text-neutral-500
+            "
+          >
+
+            A transparent record of improvements,
+            experiments, bug fixes, and updates
+            across VINS Digital Experience.
+
+
+          </p>
+
+
+
+
+
+
+        </motion.div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {/* TIMELINE */}
+
+
+        <div
+          className="
+          relative
+          "
+        >
+
+
+
+
+
+          {/* LINE */}
+
+
+          <div
+            className="
+            absolute
+
+            left-3
+            top-0
+
+
+            h-full
+
+            w-px
+
+
+            bg-neutral-200
+            "
+          />
+
+
+
+
+
+
+
+
+
+          <div
+            className="
+            space-y-10
+            "
+          >
+
+
+
+
+
+            {CHANGELOGS.map((log,index)=>(
+
+
+
+              <motion.div
+
+
+                key={log.version}
+
+
+
+                initial={{
+                  opacity:0,
+                  y:30,
+                }}
+
+
+                whileInView={{
+                  opacity:1,
+                  y:0,
+                }}
+
+
+
+                viewport={{
+                  once:true,
+                }}
+
+
+
+                transition={{
+                  delay:index * .05,
+                }}
+
+
+
+                className="
+                relative
+
+                pl-12
+                "
+              >
+
+
+
+
+
+
 
                 {/* DOT */}
+
+
+
                 <span
                   className="
-                    absolute left-0 top-2
-                    w-4 h-4 rounded-full
-                    bg-[var(--accent)]
-                    shadow-[0_0_0_6px_rgba(216,199,154,0.15)]
+                  absolute
+
+                  left-0
+                  top-8
+
+
+                  h-6
+                  w-6
+
+
+
+                  rounded-full
+
+
+                  border-4
+                  border-white
+
+
+                  bg-[#C9A646]
+
+
+                  shadow-[0_0_0_1px_#e5e5e5]
                   "
                 />
 
+
+
+
+
+
+
+
+
                 {/* CARD */}
-                <motion.div
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.35, delay: i * 0.05 }}
+
+
+
+                <div
                   className="
-                    p-6 rounded-2xl
-                    backdrop-blur-xl
-                    bg-[var(--card)]
-                    border border-[var(--border)]
-                    shadow-[0_20px_50px_rgba(0,0,0,0.35)]
+                  rounded-[28px]
+
+
+                  border
+                  border-neutral-200
+
+
+                  bg-white
+
+
+                  p-7
+
+
+                  transition
+
+
+
+                  hover:-translate-y-1
+
+
+                  hover:shadow-[0_24px_60px_rgba(0,0,0,.06)]
                   "
                 >
-                  {/* HEADER */}
-                  <div className="flex items-center justify-between mb-5">
-                    <span className="text-lg font-semibold tracking-tight">
+
+
+
+
+
+
+
+
+                  <div
+                    className="
+                    mb-8
+
+
+                    flex
+
+                    items-center
+                    justify-between
+
+                    gap-5
+                    "
+                  >
+
+
+
+
+
+
+
+                    <h2
+                      className="
+                      text-2xl
+
+
+                      font-semibold
+
+
+                      tracking-[-0.04em]
+                      "
+                    >
+
                       {log.version}
+
+
+                    </h2>
+
+
+
+
+
+
+
+
+
+                    <span
+                      className="
+                      flex
+
+                      items-center
+                      gap-2
+
+
+
+                      text-sm
+
+                      text-neutral-400
+                      "
+                    >
+
+                      <CalendarDays size={15}/>
+
+
+                      {log.date}
+
+
                     </span>
 
-                    <span className="flex items-center gap-2 text-xs text-[var(--foreground)]/60">
-                      <CalendarDays {...iconProps} />
-                      {log.date}
-                    </span>
+
+
+
+
+
                   </div>
 
-                  {/* LIST */}
-                  <ul className="space-y-3">
-                    {log.changes.map((c, idx) => {
-                      const Icon = TYPE_ICON[c.type];
+
+
+
+
+
+
+
+
+
+
+                  <div
+                    className="
+                    space-y-4
+                    "
+                  >
+
+
+
+
+
+                    {log.changes.map((item,i)=>{
+
+
+
+                      const Icon =
+                        TYPE[item.type].icon;
+
+
+
+
                       return (
-                        <li key={idx} className="flex gap-3 items-start">
-                          <Icon
-                            {...iconProps}
-                            className={
-                              c.type === "bug"
-                                ? "text-red-400"
-                                : c.type === "fix"
-                                ? "text-emerald-400"
-                                : "text-[var(--accent)]"
-                            }
-                          />
-                          <span className="text-sm leading-relaxed text-[var(--foreground)]/80">
-                            {c.text}
-                          </span>
-                        </li>
+
+
+                        <div
+
+                          key={i}
+
+
+                          className="
+                          flex
+
+                          items-start
+                          gap-3
+                          "
+                        >
+
+
+
+
+
+                          <div
+                            className="
+                            mt-1
+
+
+                            flex
+
+
+                            h-7
+                            w-7
+
+
+                            items-center
+                            justify-center
+
+
+
+                            rounded-full
+
+
+                            bg-neutral-100
+                            "
+                          >
+
+
+
+                            <Icon
+
+                              size={14}
+
+                              className="
+                              text-[#C9A646]
+                              "
+
+                            />
+
+
+
+                          </div>
+
+
+
+
+
+
+
+                          <div>
+
+
+                            <span
+                              className="
+                              text-xs
+
+
+                              uppercase
+
+                              tracking-widest
+
+
+                              text-[#C9A646]
+                              "
+                            >
+
+                              {TYPE[item.type].label}
+
+
+                            </span>
+
+
+
+
+
+
+
+                            <p
+                              className="
+                              mt-1
+
+
+                              text-sm
+
+
+                              leading-7
+
+
+                              text-neutral-500
+                              "
+                            >
+
+                              {item.text}
+
+
+                            </p>
+
+
+
+
+                          </div>
+
+
+
+
+
+                        </div>
+
+
                       );
+
+
                     })}
-                  </ul>
-                </motion.div>
-              </div>
+
+
+
+                  </div>
+
+
+
+
+                </div>
+
+
+
+
+
+
+              </motion.div>
+
+
+
             ))}
+
+
+
+
           </div>
+
+
+
+
         </div>
+
+
+
+
+
+
       </div>
+
+
     </main>
+
   );
+
+
 }
