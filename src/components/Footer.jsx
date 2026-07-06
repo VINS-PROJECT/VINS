@@ -23,7 +23,7 @@ export default function Footer() {
 
     {
       icon: "mdi:instagram",
-      url: "https://www.instagram.com/vins.ch/",
+      url: "https://www.instagram.com/kvinsimorangkir/",
     },
 
   ];
