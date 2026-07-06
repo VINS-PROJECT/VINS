@@ -1,67 +1,112 @@
 import "./globals.css";
-import ClientLayoutWrapper from "@/components/ClientLayoutWrapper";
-import SmoothScrollProvider from "@/components/SmoothScrollProvider";
-import PageTransition from "@/components/PageTransition";
-import { Poppins } from "next/font/google";
 
-const poppins = Poppins({
+import ClientLayoutWrapper from "@/components/ClientLayoutWrapper";
+import PageTransition from "@/components/PageTransition";
+
+import { Plus_Jakarta_Sans } from "next/font/google";
+
+
+const jakarta = Plus_Jakarta_Sans({
+
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-poppins",
+
+  weight: [
+    "400",
+    "500",
+    "600",
+    "700",
+    "800"
+  ],
+
+  variable: "--font-jakarta",
+
   display: "swap",
+
 });
 
+
 export const metadata = {
+
   title: {
-    default: "VINS 2026",
-    template: "VINS 2026 | %s",
+
+    default: "VDE 2K26",
+
+    template: "VDE 2K26 | %s",
+
   },
+
+
   icons: {
-    icon: "/TPN.ico",
-    shortcut: "/TPN.ico",
-    apple: "/TPN.ico",
+
+    icon: "/icon/favicon.ico",
+
+    shortcut: "/icon/TPN.ico",
+
+    apple: "/icon/TPN.ico",
+
   },
+
 };
 
+
+
+
 export default function RootLayout({ children }) {
+
+
   return (
+
     <html
       lang="id"
-      className={poppins.variable}
+      className={jakarta.variable}
       suppressHydrationWarning
     >
+
+
       <body
         className="
-        font-sans antialiased
-        bg-[var(--background)]
-        text-[var(--foreground)]
+        antialiased
+        bg-[var(--color-background)]
+        text-[var(--color-foreground)]
         overflow-x-hidden
-      "
+        "
       >
-        <SmoothScrollProvider>
 
-          <ClientLayoutWrapper>
 
-            <main
-              className="
-              relative
-              flex
-              flex-col
-              min-h-screen
+        <ClientLayoutWrapper>
+
+
+          <main
+            className="
+            relative
+            flex
+            flex-col
+            min-h-screen
             "
-            >
+          >
 
-              {/* PAGE TRANSITION */}
-              <PageTransition>
-                {children}
-              </PageTransition>
 
-            </main>
+            <PageTransition>
 
-          </ClientLayoutWrapper>
+              {children}
 
-        </SmoothScrollProvider>
+            </PageTransition>
+
+
+
+          </main>
+
+
+
+        </ClientLayoutWrapper>
+
+
+
       </body>
+
+
     </html>
+
   );
+
 }

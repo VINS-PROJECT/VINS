@@ -1,188 +1,631 @@
 import { slugify } from "@/lib/slugify";
 
 export const projectsData = [
+
   {
     id: 1,
-    title: "Harvesty - Sustainable Farming for a Healthier Future",
-    desc: `Harvesty is an agriculture-related information system designed to support and simplify agricultural activities and transactions. The name Harvesty is derived from the concept of harvesting, representing the core essence of agriculture and the process of transforming crops into valuable products. This system aims to bridge the gap between farmers and customers by providing a digital platform that facilitates agricultural transactions efficiently and transparently.
 
-The system is designed with a strong focus on simplicity and responsiveness, ensuring ease of use for all stakeholders, particularly farmers who may have varying levels of technological familiarity. With a clean interface and intuitive user experience, Harvesty enables users to access information, manage agricultural products, and conduct transactions without unnecessary complexity.
+    title:
+      "Harvesty - Sustainable Farming for a Healthier Future",
 
-Harvesty serves as a medium that connects farmers directly with customers, allowing both parties to interact within a single integrated system. Farmers can manage product listings, monitor agricultural outputs, and track transactions, while customers can browse available products, obtain relevant agricultural information, and complete purchases seamlessly.
+    desc:
+      `Harvesty is an agriculture information system designed to support digital transformation in the agricultural sector.
 
-Overall, Harvesty is developed to empower stakeholders in the agricultural sector by leveraging digital technology to enhance productivity, accessibility, and collaboration within the agricultural ecosystem.`,
-    image: "/Projects/Projects2.png",
-    category: "Frontend",
-    tech: ["Bootstrap", "JavaScript", "HTML", "CSS", "Figma", "Canva"],
-    year: 2024,
+Harvesty connects farmers and customers through an integrated digital platform that allows product management, agricultural information access, and online transactions.
 
-    status: "Finished",
-    role: "Frontend Developer",
-    team: "Team Project",
-    featured: false,
-    updatedAt: "2024-06-20",
+The system focuses on simplicity, accessibility, and responsive design to ensure that users with different technology backgrounds can easily operate the platform.`,
 
-    features: [
+    image:
+      "/Projects/Projects2.png",
+
+    category:
+      "Frontend",
+
+    tech:[
+      "Bootstrap",
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "Figma",
+      "Canva",
+    ],
+
+    year:
+      2024,
+
+
+    status:
+      "Finished",
+
+
+    role:
+      "Frontend Developer",
+
+
+    team:
+      "Team Project",
+
+
+    featured:
+      false,
+
+
+    updatedAt:
+      "2024-06-20",
+
+
+
+    features:[
+
       "Direct connection between farmers and customers",
-      "Agricultural product listing and management",
-      "Real-time product availability monitoring",
-      "Simple and intuitive transaction flow",
-      "Responsive design for mobile and desktop devices",
-      "User-friendly interface for non-technical users",
-      "Clear and structured product information display",
-      "Efficient digital-based agriculture transactions",
+
+      "Agricultural product management",
+
+      "Responsive website interface",
+
+      "Product information system",
+
+      "Digital transaction workflow",
+
     ],
-    gallery: [
-      "/projects/harvesty-1.png",
-      "/projects/harvesty-2.png",
-      "/projects/harvesty-3.png",
+
+
+    gallery:[
+
+      "/Harvesty/Harvesty1.png",
+
+      "/Harvesty/Harvesty2.png",
+
+      "/Harvesty/Harvesty3.png",
+
     ],
-    links: {
-      live: "https://example.com/harvesty",
-      github: "https://github.com/yourname/harvesty",
-      figma: "https://www.figma.com/proto/xxxxx/Harvesty",
+
+
+    links:{
+
+      live:
+        "https://example.com/harvesty",
+
+
+      github:
+        "https://github.com/yourname/harvesty",
+
+
+      figma:
+        "https://www.figma.com/proto/xxxxx/Harvesty",
+
+
+      pdf:
+        "/pdf/Harvesty-Case-Study.pdf",
+
     },
+
   },
 
+
+
+
+
+
+
+
+
   {
-    id: 2,
-    title: "SIPAD (Data Analysis Monitoring Information System)",
-    desc: `SIPAD is a disaster data analysis prototype designed to support the understanding, processing, and presentation of disaster related information in a structured and insightful manner. This project leverages Microsoft Excel as the primary tool for data cleaning, data processing, and visualization.
+    id:2,
 
-The initial phase of SIPAD focuses on cleaning raw disaster data collected from various records. This includes standardizing data formats, removing duplicate entries, handling missing values, and organizing variables to ensure the dataset is reliable and ready for analysis.
 
-Once the data is structured, SIPAD transforms the processed information into meaningful visual representations such as summary tables, charts, and dashboards. These visualizations highlight disaster patterns, frequency, time based trends, and potential impacts, making complex data easier to interpret.
+    title:
+      "SIPAD (Data Analysis Monitoring Information System)",
 
-The primary objective of SIPAD is to generate data driven insights that support disaster management and decision making processes. Through effective data representation, the prototype helps evaluate past disaster events, identify trends, and support risk mitigation planning.
 
-Overall, SIPAD serves as both an analytical tool and a proof of concept, demonstrating how structured data processing and accessible visualization can contribute to more informed and responsive disaster management efforts.`,
-    image: "/Projects/Projects1.png",
-    category: "Design",
-    tech: ["Figma", "Excel"],
-    year: 2025,
+    desc:
+      `SIPAD is a disaster data analysis prototype designed to process, analyze, and visualize disaster related information.
 
-    status: "Prototype",
-    role: "UI Designer & Data Analyst",
-    team: "Solo Project",
-    featured: true,
-    updatedAt: "2025-01-10",
+The project focuses on transforming raw disaster datasets into structured insights using data cleaning, processing, and dashboard visualization.
 
-    features: [
+SIPAD helps users understand disaster trends and supports better decision making through accessible data representation.`,
+
+
+
+    image:
+      "/Thumbnail/SIPAD_FR.png",
+
+
+
+    category:
+      "UI/UX Design",
+
+
+
+    tech:[
+
+      "Figma",
+
+      "Excel",
+
+    ],
+
+
+
+    year:
+      2025,
+
+
+
+    status:
+      "Prototype",
+
+
+
+    role:
+      "UI Designer & Data Analyst",
+
+
+
+    team:
+      "Solo Project",
+
+
+
+    featured:
+      true,
+
+
+
+    updatedAt:
+      "2025-01-10",
+
+
+
+
+    features:[
+
       "Disaster data cleaning",
-      "Data analysis and visualization",
-      "Insightful dashboards",
-      "Excel-based prototype",
+
+      "Data visualization dashboard",
+
+      "Information architecture",
+
+      "Excel based analytics",
+
     ],
-    gallery: [
+
+
+
+    gallery:[
+
       "/SIPAD/SIPAD1.png",
+
       "/SIPAD/SIPAD2.png",
+
     ],
-    links: {
-      figma: "https://www.figma.com/proto/xxxxx/SIPAD",
+
+
+
+
+    links:{
+
+      figma:
+        "https://www.figma.com/proto/xxxxx/SIPAD",
+
+
+      pdf:
+        "/pdf/SIPAD-Case-Study.pdf",
+
     },
+
+
   },
 
+
+
+
+
+
+
+
+
+
   {
-    id: 3,
-    title: "REFORA (Reservation Food of ITERA)",
-    desc: `REFORA is a canteen food reservation prototype designed for ITERA students to streamline the food ordering process and improve overall efficiency. The system aims to simplify how students browse menus, select meals, and place orders in a more organized and time saving manner.
+    id:3,
 
-Through REFORA, students can view available food options, check prices, and make reservations before arriving at the canteen. This helps reduce long queues, waiting times, and uncertainty about food availability, especially during peak hours. The prototype also supports better coordination between students and canteen vendors by providing a clearer overview of incoming orders.
 
-In addition, REFORA enhances the overall dining experience by promoting convenience and accessibility. By leveraging a structured digital approach, the system not only improves efficiency for students but also supports canteen management in handling demand more effectively.
+    title:
+      "REFORA (Reservation Food of ITERA)",
 
-Overall, REFORA serves as a practical solution and proof of concept, demonstrating how a simple reservation system can optimize daily campus activities and create a more efficient food service environment.`,
-    image: "/Projects/Projects3.png",
-    category: "Design",
-    tech: ["Figma", "Adobe Photoshop", "Canva"],
-    year: 2024,
 
-    status: "Prototype",
-    role: "UI/UX Designer",
-    team: "Team Project",
-    featured: false,
-    updatedAt: "2024-09-15",
 
-    features: [
-      "Canteen food ordering system",
-      "Optimized UI/UX workflow",
-      "Student-centric user flow",
+    desc:
+      `REFORA is a food reservation application prototype created to improve the ordering experience for ITERA students.
+
+The platform allows students to browse menus, reserve food, and reduce waiting time at campus canteens.
+
+REFORA focuses on user experience, simple interaction flow, and efficient digital food ordering.`,
+
+
+
+    image:
+      "/Projects/Projects3.png",
+
+
+
+    category:
+      "UI/UX Design",
+
+
+
+    tech:[
+
+      "Figma",
+
+      "Adobe Photoshop",
+
+      "Canva",
+
     ],
-    gallery: [
+
+
+
+    year:
+      2024,
+
+
+
+    status:
+      "Prototype",
+
+
+
+    role:
+      "UI/UX Designer",
+
+
+
+    team:
+      "Team Project",
+
+
+
+    featured:
+      false,
+
+
+
+    updatedAt:
+      "2024-09-15",
+
+
+
+
+
+    features:[
+
+      "Food reservation system",
+
+      "Mobile application prototype",
+
+      "Optimized ordering workflow",
+
+      "Student centered design",
+
+    ],
+
+
+
+
+    gallery:[
+
       "/REFORA/REFORA1.png",
+
     ],
-    links: {
-      figma: "https://www.figma.com/proto/xxxxx/REFORA",
-      case: "/File/REFORA-CaseStudy.pdf",
+
+
+
+
+    links:{
+
+
+      figma:
+        "https://www.figma.com/proto/xxxxx/REFORA",
+
+
+
+      pdf:
+        "/pdf/REFORA-Case-Study.pdf",
+
+
     },
+
+
   },
+
+
+
+
+
+
+
+
+
+
 
   {
-    id: 4,
-    title: "Namura Property Website",
-    desc: `Namura Property is a modern real estate platform designed to deliver reliable, transparent, and well-structured property information for individuals and businesses.
+    id:4,
 
-Each property listing is presented with comprehensive details including specifications, pricing, location insights, and supporting visuals. This structured presentation simplifies the property discovery process while maintaining clarity and accuracy.
 
-By combining organized content architecture with thoughtful visual design, the platform emphasizes data consistency and user experience.
+    title:
+      "Namura Property Website",
 
-Overall, the Namura Property website reflects a professional and forward-thinking approach to real estate presentation, positioning the brand as a trustworthy partner for buyers, investors, and business stakeholders.`,
-    image: "/Projects/Projects4.png",
-    category: "Full Stack",
-    tech: ["React", "Node.js", "Express", "MongoDB", "Figma", "Canva"],
-    year: 2025,
 
-    status: "Finished",
-    role: "Full Stack Developer",
-    team: "Solo Project",
-    featured: true,
-    updatedAt: "2025-02-05",
 
-    features: [
-      "Structured property listings",
-      "Client inquiry management",
-      "Admin dashboard for content control",
-      "Responsive and scalable layout",
+    desc:
+      `Namura Property is a modern real estate website designed to provide structured and professional property information.
+
+The website presents property listings, specifications, locations, and visual details through a clean digital experience.
+
+The goal is to improve property discovery and create a trustworthy online presence for real estate businesses.`,
+
+
+
+
+    image:
+      "/Projects/Projects4.png",
+
+
+
+
+    category:
+      "Full Stack",
+
+
+
+
+    tech:[
+
+      "Next.js",
+
+      "Tailwind CSS",
+
+      "Node.js",
+
+      "Figma",
+
     ],
-    gallery: [
-      "/projects/namura-1.png",
-      "/projects/namura-2.png",
-      "/projects/namura-3.png",
+
+
+
+
+    year:
+      2025,
+
+
+
+
+    status:
+      "Finished",
+
+
+
+
+    role:
+      "Full Stack Developer",
+
+
+
+
+    team:
+      "Solo Project",
+
+
+
+
+    featured:
+      true,
+
+
+
+
+    updatedAt:
+      "2025-02-05",
+
+
+
+
+
+    features:[
+
+      "Property listing",
+
+      "Search and filtering",
+
+      "Admin management",
+
+      "Responsive interface",
+
+      "KPR calculator",
+
     ],
-    links: {
-      live: "https://namuraproperty.com",
+
+
+
+
+    gallery:[
+
+      "/Namura/Namura1.png",
+
+      "/Namura/Namura2.png",
+
+      "/Namura/Namura3.png",
+
+    ],
+
+
+
+
+    links:{
+
+
+      live:
+        "https://namuraproperty.com",
+
+
+      pdf:
+        "/pdf/Namura-Case-Study.pdf",
+
+
     },
+
+
   },
+
+
+
+
+
+
+
+
+
 
   {
-    id: 5,
-    title: "VINSGawe",
-    desc: `VINSGawe is an event management platform tailored for VINSGawe events, designed to facilitate seamless event organization and participant engagement.`,
-    image: "/VINSGawe-Banner.png",
-    category: "Full Stack",
-    tech: ["React", "Node.js", "Express", "MongoDB", "Figma", "Canva"],
-    year: 2025,
+    id:5,
 
-    status: "In Progress",
-    role: "Full Stack Developer",
-    team: "Team Project",
-    featured: false,
-    updatedAt: "2025-03-01",
 
-    features: [
-      "Event listings",
-      "User registration system",
+    title:
+      "VINSGawe",
+
+
+
+
+    desc:
+      `VINSGawe is an event management platform designed to support event organization, registration, and participant management.
+
+The platform helps simplify event workflows through a centralized digital system.`,
+
+
+
+
+    image:
+      "/VINSGawe-Banner.png",
+
+
+
+
+    category:
+      "Full Stack",
+
+
+
+
+    tech:[
+
+      "React",
+
+      "Node.js",
+
+      "Express",
+
+      "MongoDB",
+
+      "Figma",
+
     ],
-    gallery: [
-      "/projects/vinsgawe-1.png",
-      "/projects/vinsgawe-2.png",
-      "/projects/vinsgawe-3.png",
+
+
+
+
+
+    year:
+      2025,
+
+
+
+
+    status:
+      "In Progress",
+
+
+
+
+
+    role:
+      "Full Stack Developer",
+
+
+
+
+    team:
+      "Team Project",
+
+
+
+
+    featured:
+      false,
+
+
+
+
+
+    updatedAt:
+      "2025-03-01",
+
+
+
+
+
+    features:[
+
+      "Event management",
+
+      "Registration system",
+
+      "Dashboard monitoring",
+
     ],
-    links: {
-      live: "https://gawe.kvn-code.asia",
+
+
+
+
+
+    gallery:[
+
+      "/VINSGawe/VINSGawe1.png",
+
+      "/VINSGawe/VINSGawe2.png",
+
+    ],
+
+
+
+
+
+    links:{
+
+
+      live:
+        "https://gawe.kvn-code.asia",
+
+
+      pdf:
+        "/pdf/VINSGawe-Case-Study.pdf",
+
+
     },
+
+
   },
-].map((p) => ({
+
+
+
+].map((p)=>({
+
   ...p,
-  slug: p.slug ?? slugify(p.title),
+
+
+  slug:
+
+    p.slug ?? slugify(p.title),
+
+
 }));

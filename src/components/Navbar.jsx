@@ -2,380 +2,1065 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
 
-export default function Navbar() {
+import { usePathname } from "next/navigation";
+
+import {
+  useState,
+  useEffect,
+} from "react";
+
+
+import {
+  Menu,
+  X,
+} from "lucide-react";
+
+
+
+
+
+
+
+
+
+export default function Navbar(){
+
+
+
   const pathname = usePathname();
 
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+
+
+  const [open,setOpen] =
+    useState(false);
+
+
+
+  const [scrolled,setScrolled] =
+    useState(false);
+
+
+
+
+
+
+
+
+
 
   const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/projects", label: "Projects" },
-    { href: "/about", label: "About" },
-    { href: "/article", label: "Articles" },
-    { href: "/contact", label: "Contact" },
+
+    {
+      href:"/",
+      label:"Home",
+    },
+
+
+    {
+      href:"/projects",
+      label:"Projects",
+    },
+
+
+    {
+      href:"/about",
+      label:"About",
+    },
+
+
+    {
+      href:"/article",
+      label:"Articles",
+    },
+
+
+    {
+      href:"/social-track",
+      label:"Social Track",
+      soon:true,
+    },
+
   ];
 
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+
+
+
+
+
+
+
+
+  useEffect(()=>{
+
+
+    const onScroll = ()=>
+      setScrolled(
+        window.scrollY > 30
+      );
+
+
+
+    onScroll();
+
+
+
+    window.addEventListener(
+      "scroll",
+      onScroll
+    );
+
+
+
+    return ()=>
+      window.removeEventListener(
+        "scroll",
+        onScroll
+      );
+
+
+  },[]);
+
+
+
+
+
+
+
+
+
+
+  useEffect(()=>{
+
+    setOpen(false);
+
+  },[pathname]);
+
+
+
+
+
+
+
+
+
+
+  useEffect(()=>{
+
+
+    document.body.style.overflow =
+      open ? "hidden" : "";
+
+
+    return ()=>{
+
+      document.body.style.overflow="";
+
     };
 
-    window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  },[open]);
 
-  const isActive = (href) => {
-    if (href === "/") return pathname === "/";
-    return pathname.startsWith(href);
-  };
+
+
+
+
+
+
+
+
+
+  const active = (href)=>
+
+    href === "/"
+
+      ?
+
+      pathname === "/"
+
+      :
+
+      pathname.startsWith(href);
+
+
+
+
+
+
+
+
+
+
+
 
   return (
+
     <>
-      {/* ===================== HEADER ===================== */}
+
+
+
+
+
+
+
+
+
+
+      {/* NAVBAR */}
+
+
 
       <header
-        className={`
-          fixed
-          top-0
-          inset-x-0
-          z-50
-          transition-all
-          duration-500
-          ease-out
-          ${scrolled ? "pt-4" : "pt-8"}
-        `}
+        className="
+        fixed
+
+        top-0
+        inset-x-0
+
+        z-50
+
+        px-5
+        pt-5
+        "
       >
+
+
+
+
         <div
           className={`
-            mx-auto
-            max-w-7xl
-            transition-all
-            duration-500
-            ease-out
+          mx-auto
 
-            ${
-              scrolled
-                ? `
-                  h-20
-                  rounded-full
-                  bg-white/90
-                  backdrop-blur-xl
-                  border
-                  border-white/40
-                  shadow-[0_20px_60px_rgba(0,0,0,.12)]
-                  px-8
-                `
-                : `
-                  h-24
-                  bg-transparent
-                  px-6
-                `
-            }
-          `}
-        >
-          <div className="flex h-full items-center justify-between">
+          flex
 
-            {/* ================= LOGO ================= */}
+          h-[72px]
 
-            <Link
-              href="/"
-              className="flex items-center gap-3"
-            >
-              <Image
-                src={scrolled ? "/TP K Black.svg" : "/TP K White.svg"}
-                alt="Logo"
-                width={175}
-                height={50}
-                priority
-                className="w-auto h-10 transition-all duration-300"
-              />
-            </Link>
 
-            {/* ================= DESKTOP MENU ================= */}
+          max-w-7xl
 
-            <nav className="hidden lg:flex items-center gap-2">
 
-              {navLinks.map((item) => {
+          items-center
+          justify-between
 
-                const active = isActive(item.href);
 
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`
-                      relative
-                      rounded-full
-                      px-5
-                      py-3
-                      text-[16px]
-                      font-medium
-                      transition-all
-                      duration-300
+          rounded-full
 
-                      ${
-                        scrolled
-                          ? active
-                            ? "bg-slate-100 text-slate-900"
-                            : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
-                          : active
-                          ? "bg-white/15 text-white"
-                          : "text-white hover:bg-white/10"
-                      }
-                    `}
-                  >
-                    {item.label}
-                  </Link>
-                );
 
-              })}
+          px-7
 
-            </nav>
 
-            {/* ================= RIGHT SIDE ================= */}
-
-            <div className="hidden lg:flex items-center gap-4">
-
-              <Link
-                href="/contact"
-                className={`
-                  rounded-full
-                  px-7
-                  py-3
-                  font-semibold
-                  transition-all
-                  duration-300
-
-                  ${
-                    scrolled
-                      ? `
-                        bg-[#0F172A]
-                        text-white
-                        hover:bg-slate-800
-                      `
-                      : `
-                        border
-                        border-white
-                        text-white
-                        hover:bg-white
-                        hover:text-black
-                      `
-                  }
-                `}
-              >
-                Contact Me
-              </Link>
-
-            </div>
-
-            {/* ================= MOBILE BUTTON ================= */}
-
-            <button
-              onClick={() => setOpen(!open)}
-              className={`
-                lg:hidden
-                transition
-
-                ${
-                  scrolled
-                    ? "text-slate-900"
-                    : "text-white"
-                }
-              `}
-            >
-              {open ? <X size={28} /> : <Menu size={28} />}
-            </button>
-
-          </div>
-        </div>
-      </header>
-
-            {/* ================= OVERLAY ================= */}
-
-      {open && (
-        <div
-          onClick={() => setOpen(false)}
-          className="
-            fixed
-            inset-0
-            z-40
-            bg-black/40
-            backdrop-blur-sm
-            lg:hidden
-            transition-all
-            duration-300
-          "
-        />
-      )}
-
-      {/* ================= MOBILE DRAWER ================= */}
-
-      <aside
-        className={`
-          fixed
-          top-0
-          right-0
-          z-50
-          h-screen
-          w-[85%]
-          max-w-sm
-          bg-white
-          shadow-2xl
           transition-all
           duration-500
-          ease-out
-          lg:hidden
+
 
           ${
-            open
-              ? "translate-x-0"
-              : "translate-x-full"
+            scrolled
+
+            ?
+
+            `
+            bg-white/85
+
+            backdrop-blur-xl
+
+
+            border
+            border-neutral-200
+
+
+            shadow-[0_20px_80px_rgba(0,0,0,.08)]
+            `
+
+
+            :
+
+            `
+            bg-white/60
+
+            backdrop-blur-md
+            `
           }
-        `}
-      >
 
-        {/* Header */}
+          `}
+        >
 
-        <div className="flex items-center justify-between px-6 pt-8 pb-6 border-b">
 
-          <Image
-            src="/TP K Black.svg"
-            alt="Logo"
-            width={150}
-            height={45}
-            className="w-auto h-9"
-          />
 
-          <button
-            onClick={() => setOpen(false)}
+
+
+
+
+
+
+          {/* LOGO */}
+
+
+
+          <Link href="/">
+
+
+            <Image
+
+              src="/Logos/VINS Black.svg"
+
+              alt="VINS Logo"
+
+              width={140}
+
+              height={35}
+
+              priority
+
+              className="
+              h-9
+              w-auto
+              "
+
+            />
+
+
+          </Link>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          {/* DESKTOP MENU */}
+
+
+          <nav
             className="
-              rounded-full
-              p-2
-              hover:bg-gray-100
-              transition
+            hidden
+
+            lg:flex
+
+            items-center
+
+            gap-1
             "
           >
-            <X size={24} />
-          </button>
 
-        </div>
 
-        {/* Navigation */}
 
-        <div className="px-6 py-8">
 
-          <div className="space-y-2">
 
-            {navLinks.map((item) => {
+            {navLinks.map((item)=>{
 
-              const active = isActive(item.href);
+
+
+
+
+              if(item.soon){
+
+
+                return (
+
+                  <div
+
+                    key={item.href}
+
+
+                    className="
+                    flex
+
+                    cursor-not-allowed
+
+
+                    items-center
+                    gap-2
+
+
+                    rounded-full
+
+
+                    px-5
+                    py-2.5
+
+
+                    text-sm
+                    font-medium
+
+
+                    text-neutral-400
+                    "
+                  >
+
+
+                    {item.label}
+
+
+
+
+                    <span
+                      className="
+                      rounded-full
+
+
+                      bg-[#C9A646]/10
+
+
+                      px-2
+                      py-0.5
+
+
+                      text-[10px]
+
+
+                      font-semibold
+
+
+                      text-[#C9A646]
+                      "
+                    >
+
+                      Soon
+
+
+                    </span>
+
+
+
+                  </div>
+
+
+                );
+
+
+              }
+
+
+
+
+
+
+
+
 
               return (
 
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`
-                    flex
-                    items-center
-                    justify-between
-                    rounded-2xl
-                    px-5
-                    py-4
-                    text-base
-                    font-medium
-                    transition-all
-                    duration-300
 
-                    ${
-                      active
-                        ? `
-                          bg-slate-900
-                          text-white
-                        `
-                        : `
-                          text-slate-700
-                          hover:bg-slate-100
-                        `
-                    }
+                <Link
+
+
+                  key={item.href}
+
+                  href={item.href}
+
+
+                  className={`
+                  relative
+
+
+                  rounded-full
+
+
+                  px-5
+                  py-2.5
+
+
+                  text-sm
+                  font-medium
+
+
+                  transition
+
+
+                  ${
+                    active(item.href)
+
+                    ?
+
+                    "text-black"
+
+                    :
+
+                    "text-neutral-500 hover:text-black"
+                  }
+
                   `}
                 >
 
+
                   {item.label}
 
-                  {active && (
+
+
+
+                  {active(item.href) && (
+
                     <span
                       className="
-                        h-2
-                        w-2
-                        rounded-full
-                        bg-white
+                      absolute
+
+
+                      left-1/2
+                      -bottom-1
+
+
+                      h-1
+                      w-1
+
+
+                      -translate-x-1/2
+
+
+                      rounded-full
+
+
+                      bg-[#C9A646]
                       "
                     />
+
                   )}
+
+
 
                 </Link>
 
+
+
               );
+
 
             })}
 
-          </div>
 
-          {/* Divider */}
 
-          <div className="my-8 border-t border-gray-200" />
+
+          </nav>
+
+
+
+
+
+
+
+
+
+
+
 
           {/* CTA */}
 
+
+
           <Link
+
             href="/contact"
+
+
             className="
-              flex
-              items-center
-              justify-center
-              rounded-full
-              bg-slate-900
-              py-4
-              text-white
-              font-semibold
-              transition-all
-              duration-300
-              hover:bg-slate-800
+            hidden
+
+            lg:flex
+
+
+            rounded-full
+
+
+            bg-neutral-950
+
+
+            px-6
+            py-3
+
+
+            text-sm
+            font-medium
+
+
+            text-white
+
+
+            transition
+
+
+            hover:bg-[#C9A646]
             "
           >
+
+
             Contact Me
+
+
           </Link>
 
-          {/* Footer */}
 
-          <div className="mt-10">
 
-            <p className="text-sm text-gray-500">
-              © 2026 Kevin Simorangkir
-            </p>
 
-            <p className="mt-2 text-xs text-gray-400 leading-6">
-              UI/UX Designer • Frontend Developer •
-              Project Manager
-            </p>
 
-          </div>
+
+
+
+
+
+
+
+
+          {/* MOBILE BUTTON */}
+
+
+
+          <button
+
+            onClick={()=>setOpen(true)}
+
+            className="
+            lg:hidden
+
+            text-black
+            "
+          >
+
+
+            <Menu size={28}/>
+
+
+          </button>
+
+
+
+
+
 
         </div>
 
+
+      </header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      {/* OVERLAY */}
+
+
+
+      {open && (
+
+        <div
+
+          onClick={()=>setOpen(false)}
+
+
+          className="
+          fixed
+
+          inset-0
+
+          z-40
+
+
+          bg-black/30
+
+          backdrop-blur-sm
+
+
+          lg:hidden
+          "
+
+        />
+
+
+      )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      {/* MOBILE DRAWER */}
+
+
+
+      <aside
+
+        className={`
+        fixed
+
+        top-0
+        right-0
+
+
+        z-50
+
+
+        h-screen
+
+
+        w-[85%]
+        max-w-sm
+
+
+        bg-white
+
+
+        transition-transform
+        duration-500
+
+
+        lg:hidden
+
+
+        ${
+          open
+
+          ?
+
+          "translate-x-0"
+
+          :
+
+          "translate-x-full"
+        }
+
+        `}
+      >
+
+
+
+
+
+
+
+        <div
+          className="
+          flex
+
+          items-center
+          justify-between
+
+
+          border-b
+          border-neutral-200
+
+
+          p-6
+          "
+        >
+
+
+
+          <Image
+
+            src="/Logos/VINS Black.svg"
+
+            alt="Logo"
+
+            width={130}
+
+            height={40}
+
+          />
+
+
+
+
+          <button
+
+            onClick={()=>setOpen(false)}
+
+
+            className="
+            rounded-full
+
+            p-2
+
+            hover:bg-neutral-100
+            "
+          >
+
+
+            <X/>
+
+
+          </button>
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+        <div
+          className="
+          space-y-2
+
+          p-6
+          "
+        >
+
+
+
+
+
+
+
+          {navLinks.map((item)=>{
+
+
+
+            if(item.soon){
+
+
+
+              return (
+
+                <div
+
+                  key={item.href}
+
+
+                  className="
+                  flex
+
+                  cursor-not-allowed
+
+
+                  items-center
+                  justify-between
+
+
+                  rounded-2xl
+
+
+                  px-5
+                  py-4
+
+
+                  font-medium
+
+
+                  text-neutral-400
+                  "
+                >
+
+
+
+                  {item.label}
+
+
+
+
+                  <span
+                    className="
+                    rounded-full
+
+
+                    bg-[#C9A646]/10
+
+
+                    px-2
+                    py-1
+
+
+                    text-[10px]
+
+
+                    text-[#C9A646]
+                    "
+                  >
+
+                    Soon
+
+
+                  </span>
+
+
+
+                </div>
+
+
+              );
+
+
+            }
+
+
+
+
+
+
+
+
+
+            return (
+
+
+              <Link
+
+                key={item.href}
+
+                href={item.href}
+
+
+                className={`
+                flex
+
+
+                rounded-2xl
+
+
+                px-5
+                py-4
+
+
+                font-medium
+
+
+                ${
+                  active(item.href)
+
+                  ?
+
+                  "bg-black text-white"
+
+                  :
+
+                  "text-neutral-600 hover:bg-neutral-100"
+
+                }
+
+                `}
+              >
+
+
+                {item.label}
+
+
+              </Link>
+
+
+            );
+
+
+          })}
+
+
+
+
+
+
+
+
+
+
+
+
+          <Link
+
+            href="/contact"
+
+            className="
+            mt-8
+
+
+            flex
+
+            justify-center
+
+
+            rounded-full
+
+
+            bg-[#C9A646]
+
+
+            py-4
+
+
+            font-semibold
+
+
+            text-white
+            "
+          >
+
+
+            Contact Me
+
+
+          </Link>
+
+
+
+
+
+
+
+
+
+
+          <p
+            className="
+            pt-12
+
+
+            text-sm
+
+
+            text-neutral-400
+            "
+          >
+
+            © 2026 Kevin Simorangkir
+
+
+          </p>
+
+
+
+
+
+
+        </div>
+
+
+
       </aside>
 
+
+
+
+
+
     </>
+
   );
+
+
 }

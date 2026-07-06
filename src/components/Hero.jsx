@@ -3,271 +3,352 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="h-screen bg-[#F3F5FA] p-5 overflow-hidden">
+    <section className="relative min-h-screen overflow-hidden bg-white">
 
-      {/* HERO CONTAINER */}
+      {/* BACKGROUND */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#f7efd8,transparent_35%)]" />
+
 
       <div
         className="
         relative
-        h-[calc(100vh-40px)]
-        overflow-hidden
-        rounded-[36px]
-        bg-black
+        mx-auto
+        grid
+        min-h-screen
+        max-w-[1400px]
+        items-center
+        gap-20
+        px-6
+        py-28
+        lg:grid-cols-2
+        lg:px-20
         "
       >
 
-        {/* ================= BACKGROUND ================= */}
 
-        <div
-          className="
-          absolute
-          inset-0
-          bg-[url('/pattern.svg')]
-          bg-repeat
-          opacity-[0.08]
-          "
-        />
+        {/* LEFT */}
 
-        <div
-          className="
-          absolute
-          -top-40
-          -left-40
-          h-[500px]
-          w-[500px]
-          rounded-full
-          bg-white/10
-          blur-[180px]
-          "
-        />
-
-        <div
-          className="
-          absolute
-          bottom-0
-          right-0
-          h-[600px]
-          w-[600px]
-          rounded-full
-          bg-[#D4AF37]/10
-          blur-[180px]
-          "
-        />
-
-        {/* ================= CONTENT ================= */}
-
-        <div
-          className="
-          relative
-          z-10
-          h-full
-          max-w-[1450px]
-          mx-auto
-          grid
-          lg:grid-cols-[38%_62%]
-          items-center
-          px-8
-          lg:px-12
-          "
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="max-w-3xl"
         >
 
-          {/* ================= LEFT ================= */}
 
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: .8 }}
-            className="max-w-[460px] lg:ml-8"
-          >
+          {/* TAG */}
 
-            {/* TITLE */}
-
-            <h1
-              className="
-              mt-2
-              text-[32px]
-              sm:text-[38px]
-              lg:text-[42px]
-              xl:text-[48px]
-              font-extrabold
-              leading-[1.05]
-              tracking-[-0.03em]
-              text-white
-              "
-            >
-              Building
-              <br />
-              <span className="text-[#D4AF37]">
-                Beautiful
-              </span>
-              <br />
-              Digital Products
-              <br />
-              for Modern
-              <br />
-              Businesses.
-            </h1>
-
-            {/* DESCRIPTION */}
-
-            <p
-              className="
-              mt-7
-              max-w-[440px]
-              text-[17px]
-              leading-8
-              text-gray-300
-              "
-            >
-              I'm Kevin Simorangkir, a UI/UX Designer &
-              Frontend Developer passionate about creating
-              premium digital experiences with modern
-              technologies and beautiful interfaces.
-            </p>
-
-            {/* CTA */}
-
-            <div className="mt-9 flex gap-4">
-
-              <Link
-                href="/projects"
-                className="
-                rounded-full
-                bg-[#D4AF37]
-                px-6
-                py-3
-                text-[15px]
-                font-semibold
-                text-white
-                hover:bg-[#C19A2E]
-                transition
-                "
-              >
-                View Projects
-              </Link>
-
-              <Link
-                href="/contact"
-                className="
-                rounded-full
-                border
-                border-white/20
-                bg-white/10
-                backdrop-blur-xl
-                px-6
-                py-3
-                text-[15px]
-                font-semibold
-                text-white
-                hover:bg-white/20
-                transition
-                "
-              >
-                Contact Me
-              </Link>
-
-            </div>
-
-          </motion.div>
-
-          {/* ================= RIGHT ================= */}
-
-          <motion.div
-            initial={{ opacity: 0, x: 80 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: .9 }}
+          <div
             className="
-            relative
-            h-full
-            hidden
-            lg:flex
-            items-end
-            justify-end
+            mb-8
+            inline-flex
+            items-center
+            gap-3
+            rounded-full
+            border
+            border-neutral-200
+            bg-white/70
+            px-5
+            py-2
+            backdrop-blur
             "
           >
-                    {/* Glow Behind Image */}
 
-            <div
+            <span
               className="
-                absolute
-                bottom-0
-                right-16
-                h-[520px]
-                w-[520px]
-                rounded-full
-                bg-[#D4AF37]/20
-                blur-[150px]
+              h-2
+              w-2
+              rounded-full
+              bg-[#C9A646]
               "
             />
 
-            {/* Decorative Blur */}
-
-            <div
+            <span
               className="
-                absolute
-                top-40
-                right-40
-                h-20
-                w-20
-                rounded-full
-                bg-white/10
-                blur-3xl
+              text-xs
+              font-semibold
+              tracking-[0.25em]
+              text-neutral-600
               "
-            />
+            >
+              VINS DIGITAL EXPERIENCE
+            </span>
 
-            {/* Hero Image */}
+          </div>
 
-            <div
+
+
+          {/* TITLE */}
+
+          <h1
+            className="
+            text-[52px]
+            font-semibold
+            leading-[0.95]
+            tracking-[-0.06em]
+            text-neutral-950
+
+            md:text-[78px]
+            lg:text-[88px]
+            "
+          >
+
+            Design.
+            <br />
+
+            Build.
+            <br />
+
+            Create
+            <br />
+
+            <span
               className="
-                relative
-                z-20
-                h-[92%]
-                w-full
-                flex
-                items-end
-                justify-end
+              bg-gradient-to-r
+              from-[#C9A646]
+              to-[#8b7435]
+              bg-clip-text
+              text-transparent
+              "
+            >
+              Impact.
+            </span>
+
+          </h1>
+
+
+
+          {/* DESC */}
+
+          <p
+            className="
+            mt-8
+            max-w-xl
+            text-[17px]
+            leading-8
+            text-neutral-500
+            "
+          >
+
+            I'm Kevin Simorangkir — a digital creator focused on
+            building meaningful experiences through UI/UX design,
+            technology, and creative solutions.
+
+          </p>
+
+
+
+
+          {/* ACTION */}
+
+          <div
+            className="
+            mt-10
+            flex
+            flex-wrap
+            gap-4
+            "
+          >
+
+
+            <Link
+
+              href="/projects"
+
+              className="
+              group
+              flex
+              items-center
+              gap-2
+              rounded-full
+              bg-neutral-950
+              px-7
+              py-4
+              text-sm
+              font-medium
+              text-white
+              transition
+
+              hover:bg-[#C9A646]
               "
             >
 
-              {/* GANTI hero.png DENGAN FOTO PNG KAMU */}
+              View Projects
 
-              <Image
-                src="/hero.png"
-                alt="Kevin Simorangkir"
-                fill
+
+              <ArrowUpRight
+                size={16}
                 className="
-                  object-contain
-                  object-bottom
-                  select-none
-                  pointer-events-none
-                  drop-shadow-[0_35px_70px_rgba(0,0,0,.45)]
+                transition
+                group-hover:translate-x-1
+                group-hover:-translate-y-1
                 "
               />
 
-            </div>
+            </Link>
+
+
+
+            <Link
+
+              href="/about"
+
+              className="
+              rounded-full
+              border
+              border-neutral-300
+              px-7
+              py-4
+              text-sm
+              font-medium
+              text-neutral-900
+              transition
+
+              hover:border-neutral-900
+              "
+            >
+
+              About Me
+
+            </Link>
+
+
+
+          </div>
+
+
+
+        </motion.div>
+
+
+
+
+
+        {/* RIGHT IMAGE */}
+
+        <motion.div
+
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+
+          className="
+          relative
+          hidden
+          justify-center
+          lg:flex
+          "
+        >
+
+
+          {/* IMAGE WRAPPER */}
+
+          <div
+            className="
+            relative
+            h-[620px]
+            w-full
+            overflow-hidden
+            rounded-[40px]
+            border
+            border-neutral-200
+            bg-gradient-to-b
+            from-neutral-50
+            to-[#f6f0df]
+            "
+          >
+
+
+            <Image
+
+              src="/hero.png"
+
+              alt="Kevin Simorangkir"
+
+              fill
+
+              priority
+
+              className="
+              object-contain
+              object-bottom
+              "
+            />
+
+
+
+          </div>
+
+
+
+
+
+          {/* CARD */}
+
+          <motion.div
+
+            initial={{ opacity:0, y:30 }}
+
+            animate={{ opacity:1, y:0 }}
+
+            transition={{ delay:.4 }}
+
+
+            className="
+            absolute
+            -bottom-6
+            left-10
+
+            rounded-3xl
+            border
+            border-white/50
+
+            bg-white/70
+            px-8
+            py-6
+
+            shadow-[0_20px_60px_rgba(0,0,0,0.08)]
+            backdrop-blur-xl
+            "
+          >
+
+
+            <h3
+              className="
+              text-4xl
+              font-semibold
+              tracking-tight
+              text-neutral-950
+              "
+            >
+              20+
+            </h3>
+
+
+            <p
+              className="
+              mt-1
+              text-sm
+              text-neutral-500
+              "
+            >
+              Digital Projects
+            </p>
+
+
 
           </motion.div>
 
-        </div>
 
-        {/* Bottom Gradient */}
 
-        <div
-          className="
-            absolute
-            bottom-0
-            inset-x-0
-            h-40
-            bg-gradient-to-t
-            from-black
-            via-black/80
-            to-transparent
-          "
-        />
+
+        </motion.div>
+
+
 
       </div>
 

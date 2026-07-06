@@ -1,198 +1,601 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { professional, organizational } from "@/data/experience";
+import { motion } from "framer-motion";
 
-export default function Experience() {
-  const [filter, setFilter] = useState("all");
-  const scrollRef = useRef(null);
+import {
+  Palette,
+  Code2,
+  Lightbulb,
+  Layers,
+  ArrowUpRight,
+} from "lucide-react";
 
-  const allData = [...professional, ...organizational];
 
-  const filtered =
-    filter === "all"
-      ? allData
-      : allData.filter((d) => d.type === filter);
 
-  const scroll = (dir) => {
-    if (!scrollRef.current) return;
-    scrollRef.current.scrollBy({
-      left: dir === "left" ? -320 : 320,
-      behavior: "smooth",
-    });
-  };
+const capabilities = [
+
+  {
+    number: "01",
+    title: "Product Design",
+    desc:
+      "Designing intuitive interfaces and meaningful digital experiences focused on usability and impact.",
+    skills: [
+      "UI/UX Design",
+      "Design System",
+      "Prototype",
+    ],
+    icon: Palette,
+  },
+
+
+  {
+    number: "02",
+    title: "Frontend Development",
+    desc:
+      "Building modern, responsive, and scalable web experiences using creative technologies.",
+    skills: [
+      "Next.js",
+      "React",
+      "Tailwind CSS",
+    ],
+    icon: Code2,
+  },
+
+
+  {
+    number: "03",
+    title: "Digital Strategy",
+    desc:
+      "Bridging creativity, technology, and business goals into effective digital solutions.",
+    skills: [
+      "Product Thinking",
+      "Leadership",
+      "Management",
+    ],
+    icon: Lightbulb,
+  },
+
+
+  {
+    number: "04",
+    title: "Creative Direction",
+    desc:
+      "Creating visual systems, digital identities, and creative concepts with strong storytelling.",
+    skills: [
+      "Branding",
+      "Content",
+      "Creative",
+    ],
+    icon: Layers,
+  },
+
+];
+
+
+
+
+
+
+
+export default function Capabilities() {
+
 
   return (
-    <section className="py-20 md:py-24 bg-white">
-      <div className="max-w-[1450px] mx-auto px-8 lg:px-12">
+
+    <section
+      className="section-space bg-white"
+    >
+
+
+      <div
+        className="
+        mx-auto
+
+        max-w-7xl
+
+        px-6
+        lg:px-8
+        "
+      >
+
+
+
+
+
+
 
         {/* ================= HEADER ================= */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-12 md:mb-16">
 
-          <div>
-            <h2
+
+
+        <motion.div
+
+          initial={{
+            opacity:0,
+            y:30,
+          }}
+
+          whileInView={{
+            opacity:1,
+            y:0,
+          }}
+
+          viewport={{
+            once:true,
+          }}
+
+          transition={{
+            duration:.7,
+          }}
+
+
+          className="
+          mb-20
+
+          max-w-3xl
+          "
+        >
+
+
+
+
+          <span
+            className="
+            mb-6
+
+            inline-flex
+
+            rounded-full
+
+            border
+            border-neutral-200
+
+            px-5
+            py-2
+
+            text-xs
+            font-semibold
+
+            tracking-[0.25em]
+
+            text-[#C9A646]
+            "
+          >
+
+            WHAT I DO
+
+          </span>
+
+
+
+
+
+
+
+          <h2
+            className="
+            text-5xl
+            md:text-7xl
+
+            font-semibold
+
+            leading-none
+
+            tracking-[-0.06em]
+
+            text-neutral-950
+            "
+          >
+
+            My Digital
+            <br />
+
+
+            <span
               className="
-              text-3xl
-              md:text-4xl
-              font-extrabold
-              tracking-[-0.02em]
+              text-[#C9A646]
               "
             >
-              My <span className="text-[#D4AF37]">Experience</span>
-            </h2>
-            <p className="text-gray-500 mt-2 text-sm md:text-base">
-              What I've worked on so far.
-            </p>
-          </div>
 
-          {/* FILTER — pill style, matching About/Project tabs */}
-          <div className="inline-flex items-center bg-[#F3F5FA] rounded-full p-1.5 w-fit gap-1">
-            {[
-              { key: "all", label: "All" },
-              { key: "professional", label: "Professional" },
-              { key: "organization", label: "Organization" },
-            ].map((f) => (
-              <button
-                key={f.key}
-                type="button"
-                onClick={() => setFilter(f.key)}
-                className={`
-                px-5
-                py-2.5
-                rounded-full
-                text-sm
-                font-semibold
-                transition
-                ${filter === f.key
-                  ? "bg-[#D4AF37] text-white"
-                  : "text-gray-500 hover:text-gray-800"}
-                `}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
+              Capabilities
 
-        </div>
+            </span>
 
-        {/* ================= SCROLL ================= */}
-        <div className="relative">
 
-          {/* LEFT ARROW */}
-          <button
-            type="button"
-            onClick={() => scroll("left")}
-            aria-label="Scroll left"
+          </h2>
+
+
+
+
+
+
+
+
+          <p
             className="
-            hidden md:flex
-            absolute left-0 top-1/2 -translate-y-1/2 z-10
-            -translate-x-1/2
-            bg-black
-            text-white
-            rounded-full p-2.5
-            hover:bg-[#D4AF37]
-            transition
+            mt-8
+
+            max-w-xl
+
+            text-lg
+
+            leading-8
+
+            text-neutral-500
             "
           >
-            <ChevronLeft size={18} />
-          </button>
 
-          {/* RIGHT ARROW */}
-          <button
-            type="button"
-            onClick={() => scroll("right")}
-            aria-label="Scroll right"
-            className="
-            hidden md:flex
-            absolute right-0 top-1/2 -translate-y-1/2 z-10
-            translate-x-1/2
-            bg-black
-            text-white
-            rounded-full p-2.5
-            hover:bg-[#D4AF37]
-            transition
-            "
-          >
-            <ChevronRight size={18} />
-          </button>
+            Combining design thinking, technology,
+            and creativity to craft digital products
+            with purpose.
 
-          {/* CARDS */}
-          <div
-            ref={scrollRef}
-            className="
-            flex gap-4 md:gap-6
-            overflow-x-auto scroll-smooth
-            px-1
-            scrollbar-hide
-            cursor-grab active:cursor-grabbing
-            "
-          >
-            {filtered.map((item, i) => (
-              <div
-                key={i}
+
+          </p>
+
+
+
+
+        </motion.div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        {/* ================= GRID ================= */}
+
+
+
+
+        <div
+          className="
+          grid
+
+          gap-6
+
+          md:grid-cols-2
+          "
+        >
+
+
+
+          {capabilities.map((item,index)=>{
+
+
+            const Icon = item.icon;
+
+
+
+            return (
+
+
+              <motion.article
+
+
+                key={item.number}
+
+
+                initial={{
+                  opacity:0,
+                  y:40,
+                }}
+
+
+                whileInView={{
+                  opacity:1,
+                  y:0,
+                }}
+
+
+                viewport={{
+                  once:true,
+                }}
+
+
+                transition={{
+                  delay:index * .08,
+                  duration:.6,
+                }}
+
+
+
+
                 className="
-                relative
-                min-w-[280px] sm:min-w-[320px] md:min-w-[340px]
-                max-w-[340px]
-                shrink-0
-                bg-black
-                rounded-[28px]
-                p-6 md:p-7
-                overflow-hidden
+                group
+
+                rounded-[32px]
+
+                border
+                border-neutral-200
+
+                bg-white
+
+                p-8
+                lg:p-10
+
+
+                transition-all
+                duration-500
+
+
                 hover:-translate-y-1
-                transition-transform
-                duration-300
+
+                hover:shadow-[0_24px_60px_rgba(0,0,0,.06)]
                 "
               >
 
-                {/* Pattern background */}
+
+
+
+
+
+                {/* TOP */}
+
+
+
                 <div
                   className="
-                  absolute
-                  inset-0
-                  bg-[url('/pattern.svg')]
-                  bg-repeat
-                  opacity-[0.08]
+                  flex
+                  items-center
+                  justify-between
                   "
-                />
+                >
 
-                {/* Accent rectangle */}
-                <div className="relative z-10 flex gap-4">
-                  <div className="w-1 shrink-0 rounded-full bg-[#D4AF37]" />
 
-                  <div className="min-w-0">
-                    <p className="text-xs text-white/50">
-                      {item.period}
-                    </p>
 
-                    <h3 className="text-base md:text-lg font-bold text-white mt-1">
-                      {item.title}
-                    </h3>
+                  <span
+                    className="
+                    text-sm
+                    text-neutral-400
+                    "
+                  >
 
-                    <p className="text-sm text-[#D4AF37] font-medium mt-0.5">
-                      {item.company}
-                    </p>
+                    {item.number}
 
-                    <p className="text-xs text-white/40 mt-1">
-                      {item.location}
-                    </p>
 
-                    <ul className="mt-4 text-xs md:text-sm text-white/70 list-disc pl-4 space-y-1.5">
-                      {item.desc.map((d, idx) => (
-                        <li key={idx}>{d}</li>
-                      ))}
-                    </ul>
+                  </span>
+
+
+
+
+
+                  <div
+                    className="
+                    flex
+
+                    h-12
+                    w-12
+
+                    items-center
+                    justify-center
+
+                    rounded-full
+
+                    bg-neutral-100
+
+                    text-neutral-800
+
+                    transition
+
+
+                    group-hover:bg-[#C9A646]
+                    group-hover:text-white
+                    "
+                  >
+
+
+                    <Icon size={21}/>
+
+
                   </div>
+
+
+
                 </div>
 
-              </div>
-            ))}
-          </div>
+
+
+
+
+
+
+
+
+                {/* CONTENT */}
+
+
+
+                <div
+                  className="
+                  mt-24
+                  "
+                >
+
+
+
+                  <h3
+                    className="
+                    text-3xl
+
+                    font-semibold
+
+                    tracking-[-0.04em]
+
+                    text-neutral-950
+                    "
+                  >
+
+                    {item.title}
+
+
+                  </h3>
+
+
+
+
+
+
+
+                  <p
+                    className="
+                    mt-5
+
+                    max-w-md
+
+                    leading-8
+
+                    text-neutral-500
+                    "
+                  >
+
+                    {item.desc}
+
+
+                  </p>
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                {/* SKILLS */}
+
+
+
+                <div
+                  className="
+                  mt-10
+
+                  flex
+                  items-center
+                  justify-between
+
+                  gap-6
+                  "
+                >
+
+
+
+
+                  <div
+                    className="
+                    flex
+                    flex-wrap
+
+                    gap-2
+                    "
+                  >
+
+
+
+                    {item.skills.map((skill)=>(
+
+
+                      <span
+
+                        key={skill}
+
+                        className="
+                        rounded-full
+
+                        bg-neutral-100
+
+                        px-4
+                        py-2
+
+                        text-xs
+                        font-medium
+
+                        text-neutral-600
+                        "
+                      >
+
+                        {skill}
+
+
+                      </span>
+
+
+                    ))}
+
+
+
+
+                  </div>
+
+
+
+
+
+                  <ArrowUpRight
+
+                    size={18}
+
+                    className="
+                    shrink-0
+
+                    text-neutral-300
+
+                    transition-all
+
+                    group-hover:text-[#C9A646]
+                    group-hover:translate-x-1
+                    group-hover:-translate-y-1
+                    "
+
+                  />
+
+
+
+
+                </div>
+
+
+
+
+
+              </motion.article>
+
+
+
+            );
+
+
+
+          })}
+
+
+
 
         </div>
 
+
+
+
       </div>
+
+
     </section>
+
   );
+
 }

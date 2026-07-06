@@ -3,61 +3,50 @@
 import { motion } from "framer-motion";
 
 import {
-  FileText,
-  Scale,
-  Shield,
-  Link2,
-  RefreshCcw,
-  Sparkles,
+  ShieldCheck,
+  Lock,
+  Database,
+  Cookie,
   Mail,
+  Eye,
 } from "lucide-react";
 
 
 
 
 
-
-const TERMS = [
+const POLICIES = [
 
   {
-    icon: Scale,
-    title: "Use of Platform",
+    icon: Database,
+    title: "Information Collection",
     desc:
-      "VINS Digital Experience is created as a personal digital platform to showcase projects, articles, experiments, and creative technology development.",
+      "VINS may collect basic information submitted through forms such as name, email address, and messages for communication purposes only.",
   },
 
 
   {
-    icon: Shield,
-    title: "Intellectual Property",
+    icon: Lock,
+    title: "Data Protection",
     desc:
-      "All designs, branding, written content, and selected creative works displayed on VINS belong to their respective owners and may not be copied without permission.",
+      "Personal information is handled responsibly and is not sold, shared, or distributed to third parties without permission.",
   },
 
 
   {
-    icon: Sparkles,
-    title: "Projects & Content",
+    icon: Cookie,
+    title: "Cookies & Analytics",
     desc:
-      "Portfolio projects, case studies, and articles are provided for informational purposes to demonstrate skills, experience, and development progress.",
+      "VINS may use cookies or analytics tools in future updates to improve user experience and understand platform performance.",
   },
 
 
   {
-    icon: Link2,
-    title: "External Links",
+    icon: Eye,
+    title: "Transparency",
     desc:
-      "VINS may contain links to external platforms such as GitHub, LinkedIn, Instagram, or third-party services. External websites follow their own policies.",
+      "Any future features involving data tracking, including Social Track, will clearly explain what data is used and why.",
   },
-
-
-  {
-    icon: RefreshCcw,
-    title: "Future Updates",
-    desc:
-      "Features, content, and services may change over time as VINS continues evolving through improvements and experiments.",
-  },
-
 
 ];
 
@@ -69,7 +58,7 @@ const TERMS = [
 
 
 
-export default function TermsPage(){
+export default function PrivacyPolicyPage(){
 
 
 
@@ -84,7 +73,6 @@ export default function TermsPage(){
     >
 
 
-
       <div
         className="
         container-main
@@ -92,8 +80,6 @@ export default function TermsPage(){
         max-w-5xl
         "
       >
-
-
 
 
 
@@ -119,6 +105,7 @@ export default function TermsPage(){
           }}
 
 
+
           className="
           mb-20
           "
@@ -130,11 +117,14 @@ export default function TermsPage(){
 
 
 
+
           <span
             className="
             mb-6
 
+
             inline-flex
+
 
 
             rounded-full
@@ -144,12 +134,14 @@ export default function TermsPage(){
             border-neutral-200
 
 
+
             px-5
             py-2
 
 
 
             text-xs
+
             font-semibold
 
 
@@ -160,10 +152,11 @@ export default function TermsPage(){
             "
           >
 
-            TERMS OF USE
+            PRIVACY POLICY
 
 
           </span>
+
 
 
 
@@ -190,13 +183,13 @@ export default function TermsPage(){
           >
 
 
-            Simple Rules.
+            Your Data.
 
 
             <br/>
 
 
-            Clear
+            Your
 
 
             <span
@@ -206,7 +199,7 @@ export default function TermsPage(){
             >
 
               {" "}
-              Terms.
+              Privacy.
 
 
             </span>
@@ -238,13 +231,12 @@ export default function TermsPage(){
             "
           >
 
-            These Terms explain the guidelines for accessing,
-            using, and interacting with the VINS Digital Experience
-            platform.
+            This Privacy Policy explains how VINS Digital Experience
+            handles information, protects user data, and maintains
+            transparency across the platform.
 
 
           </p>
-
 
 
 
@@ -265,7 +257,8 @@ export default function TermsPage(){
 
 
 
-        {/* FEATURE */}
+
+        {/* MAIN CARD */}
 
 
 
@@ -282,6 +275,7 @@ export default function TermsPage(){
             opacity:1,
             y:0,
           }}
+
 
 
           className="
@@ -305,7 +299,7 @@ export default function TermsPage(){
 
 
 
-          <FileText
+          <ShieldCheck
 
             size={42}
 
@@ -334,7 +328,7 @@ export default function TermsPage(){
             "
           >
 
-            Responsible Digital Experience
+            Privacy First Approach
 
 
           </h2>
@@ -359,9 +353,9 @@ export default function TermsPage(){
             "
           >
 
-            VINS is designed as a creative and professional
-            environment where technology, design, and information
-            are presented responsibly.
+            VINS is designed with respect for user privacy.
+            Information shared through this website is only used
+            to provide better communication and improve the experience.
 
 
           </p>
@@ -383,7 +377,10 @@ export default function TermsPage(){
 
 
 
-        {/* TERMS GRID */}
+
+
+
+        {/* POLICY GRID */}
 
 
         <section
@@ -398,14 +395,15 @@ export default function TermsPage(){
 
 
 
-          {TERMS.map((item,index)=>{
+
+          {POLICIES.map((item,index)=>{
 
 
             const Icon = item.icon;
 
 
 
-            return(
+            return (
 
 
 
@@ -434,10 +432,10 @@ export default function TermsPage(){
                 }}
 
 
+
                 transition={{
                   delay:index*.08,
                 }}
-
 
 
 
@@ -470,7 +468,6 @@ export default function TermsPage(){
 
 
 
-
                 <div
                   className="
                   flex
@@ -481,6 +478,7 @@ export default function TermsPage(){
 
                   items-center
                   justify-center
+
 
 
                   rounded-full
@@ -518,6 +516,7 @@ export default function TermsPage(){
                   "
                 >
 
+
                   {item.title}
 
 
@@ -536,7 +535,6 @@ export default function TermsPage(){
 
 
                   text-sm
-
 
                   leading-7
 
@@ -566,7 +564,6 @@ export default function TermsPage(){
 
 
 
-
         </section>
 
 
@@ -581,7 +578,10 @@ export default function TermsPage(){
 
 
 
-        {/* FOOTER NOTE */}
+
+
+        {/* CONTACT */}
+
 
 
         <section
@@ -600,10 +600,10 @@ export default function TermsPage(){
           p-8
 
 
-
           flex
 
           flex-col
+
 
           gap-5
 
@@ -627,11 +627,12 @@ export default function TermsPage(){
               className="
               text-2xl
 
+
               font-semibold
               "
             >
 
-              Questions About Terms?
+              Privacy Questions?
 
 
             </h3>
@@ -645,14 +646,14 @@ export default function TermsPage(){
               className="
               mt-2
 
+
               text-sm
 
               text-neutral-500
               "
             >
 
-              Reach out for questions about usage,
-              content, or permissions.
+              Contact the developer for privacy related inquiries.
 
 
             </p>
@@ -684,7 +685,6 @@ export default function TermsPage(){
             rounded-full
 
 
-
             bg-black
 
 
@@ -698,20 +698,19 @@ export default function TermsPage(){
             text-white
 
 
+            hover:bg-[#C9A646]
+
 
             transition
-
-
-            hover:bg-[#C9A646]
             "
           >
-
 
 
             <Mail size={16}/>
 
 
             Contact
+
 
 
           </a>
