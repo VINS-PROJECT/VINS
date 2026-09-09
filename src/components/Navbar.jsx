@@ -10,1057 +10,881 @@ import {
   useEffect,
 } from "react";
 
-
 import {
   Menu,
   X,
+  Sparkles,
+  ArrowUpRight,
 } from "lucide-react";
 
 
+/* ===========================================================
+   VDE 2K27 — NAVBAR
+   Premium Personal Portfolio Navigation
+   =========================================================== */
 
-
-
-
-
-
-
-export default function Navbar(){
-
-
+export default function Navbar() {
 
   const pathname = usePathname();
 
+  const [open, setOpen] = useState(false);
+
+  const [scrolled, setScrolled] = useState(false);
 
 
-  const [open,setOpen] =
-    useState(false);
-
-
-
-  const [scrolled,setScrolled] =
-    useState(false);
-
-
-
-
-
-
-
-
-
+  /* ===========================================================
+     NAVIGATION
+     =========================================================== */
 
   const navLinks = [
 
     {
-      href:"/",
-      label:"Home",
+      href: "/",
+      label: "Home",
     },
 
-
     {
-      href:"/projects",
-      label:"Projects",
+      href: "/projects",
+      label: "Projects",
     },
 
-
     {
-      href:"/about",
-      label:"About",
+      href: "/about",
+      label: "About",
     },
 
-
     {
-      href:"/article",
-      label:"Articles",
+      href: "/article",
+      label: "Articles",
     },
 
-
     {
-      href:"/social-track",
-      label:"Social Track",
-      soon:true,
+      href: "/ai",
+      label: "VINS AI",
+      ai: true,
     },
 
   ];
 
 
+  /* ===========================================================
+     SCROLL STATE
+     =========================================================== */
 
+  useEffect(() => {
 
+    const onScroll = () => {
 
-
-
-
-
-
-  useEffect(()=>{
-
-
-    const onScroll = ()=>
       setScrolled(
-        window.scrollY > 30
+        window.scrollY > 24
       );
 
-
+    };
 
     onScroll();
 
-
-
     window.addEventListener(
       "scroll",
-      onScroll
+      onScroll,
+      { passive: true }
     );
 
-
-
-    return ()=>
+    return () =>
       window.removeEventListener(
         "scroll",
         onScroll
       );
 
-
-  },[]);
-
+  }, []);
 
 
+  /* ===========================================================
+     CLOSE MOBILE MENU ON ROUTE CHANGE
+     =========================================================== */
 
-
-
-
-
-
-
-  useEffect(()=>{
+  useEffect(() => {
 
     setOpen(false);
 
-  },[pathname]);
+  }, [pathname]);
 
 
+  /* ===========================================================
+     BODY LOCK
+     =========================================================== */
 
+  useEffect(() => {
 
+    if (open) {
 
+      document.body.style.overflow = "hidden";
 
+    } else {
 
+      document.body.style.overflow = "";
 
+    }
 
+    return () => {
 
-  useEffect(()=>{
-
-
-    document.body.style.overflow =
-      open ? "hidden" : "";
-
-
-    return ()=>{
-
-      document.body.style.overflow="";
+      document.body.style.overflow = "";
 
     };
 
-
-  },[open]);
-
+  }, [open]);
 
 
+  /* ===========================================================
+     ESCAPE KEY
+     =========================================================== */
+
+  useEffect(() => {
+
+    const handleKeyDown = (event) => {
+
+      if (
+        event.key === "Escape" &&
+        open
+      ) {
+
+        setOpen(false);
+
+      }
+
+    };
+
+    window.addEventListener(
+      "keydown",
+      handleKeyDown
+    );
+
+    return () =>
+      window.removeEventListener(
+        "keydown",
+        handleKeyDown
+      );
+
+  }, [open]);
 
 
+  /* ===========================================================
+     ACTIVE STATE
+     =========================================================== */
+
+  const active = (href) => {
+
+    if (href === "/") {
+
+      return pathname === "/";
+
+    }
+
+    return pathname.startsWith(href);
+
+  };
 
 
-
-
-
-  const active = (href)=>
-
-    href === "/"
-
-      ?
-
-      pathname === "/"
-
-      :
-
-      pathname.startsWith(href);
-
-
-
-
-
-
-
-
-
-
-
+  /* ===========================================================
+     RENDER
+     =========================================================== */
 
   return (
-
     <>
-
-
-
-
-
-
-
-
-
-
-      {/* NAVBAR */}
-
-
+      {/* =====================================================
+          DESKTOP / GLOBAL NAVBAR
+          ===================================================== */}
 
       <header
         className="
-        fixed
-
-        top-0
-        inset-x-0
-
-        z-50
-
-        px-5
-        pt-5
+          fixed
+          top-0
+          inset-x-0
+          z-50
+          px-4
+          pt-4
+          sm:px-5
+          sm:pt-5
         "
       >
 
-
-
-
         <div
           className={`
-          mx-auto
-
-          flex
-
-          h-[72px]
-
-
-          max-w-7xl
-
-
-          items-center
-          justify-between
-
-
-          rounded-full
-
-
-          px-7
-
-
-          transition-all
-          duration-500
-
-
-          ${
-            scrolled
-
-            ?
-
-            `
-            bg-white/85
-
-            backdrop-blur-xl
-
+            mx-auto
+            flex
+            h-[68px]
+            max-w-[1280px]
+            items-center
+            justify-between
+            rounded-full
+            px-4
+            sm:px-6
+            lg:px-7
 
             border
-            border-neutral-200
 
+            transition-all
+            duration-500
+            ease-[cubic-bezier(.2,.8,.2,1)]
 
-            shadow-[0_20px_80px_rgba(0,0,0,.08)]
-            `
-
-
-            :
-
-            `
-            bg-white/60
-
-            backdrop-blur-md
-            `
-          }
-
+            ${
+              scrolled
+                ? `
+                  border-[var(--color-border)]
+                  bg-[color-mix(in_srgb,var(--color-background)_88%,transparent)]
+                  shadow-[0_18px_60px_rgba(0,0,0,.07)]
+                  backdrop-blur-2xl
+                `
+                : `
+                  border-transparent
+                  bg-[color-mix(in_srgb,var(--color-background)_68%,transparent)]
+                  backdrop-blur-xl
+                `
+            }
           `}
         >
 
+          {/* =================================================
+              LOGO
+              ================================================= */}
 
-
-
-
-
-
-
-
-          {/* LOGO */}
-
-
-
-          <Link href="/">
-
+          <Link
+            href="/"
+            aria-label="VDE 2K27 — Home"
+            className="
+              group
+              flex
+              shrink-0
+              items-center
+            "
+          >
 
             <Image
-
-              src="/Logos/VINS Black.svg"
-
-              alt="VINS Logo"
-
+              src="/"
+              alt="VINS"
               width={140}
-
               height={35}
-
               priority
-
               className="
-              h-9
-              w-auto
+                h-8
+                w-auto
+                transition
+                duration-300
+                group-hover:opacity-75
               "
-
             />
-
 
           </Link>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-          {/* DESKTOP MENU */}
-
+          {/* =================================================
+              DESKTOP NAVIGATION
+              ================================================= */}
 
           <nav
+            aria-label="Main navigation"
             className="
-            hidden
-
-            lg:flex
-
-            items-center
-
-            gap-1
+              hidden
+              items-center
+              gap-1
+              lg:flex
             "
           >
 
+            {navLinks.map((item) => {
 
-
-
-
-            {navLinks.map((item)=>{
-
-
-
-
-
-              if(item.soon){
-
-
-                return (
-
-                  <div
-
-                    key={item.href}
-
-
-                    className="
-                    flex
-
-                    cursor-not-allowed
-
-
-                    items-center
-                    gap-2
-
-
-                    rounded-full
-
-
-                    px-5
-                    py-2.5
-
-
-                    text-sm
-                    font-medium
-
-
-                    text-neutral-400
-                    "
-                  >
-
-
-                    {item.label}
-
-
-
-
-                    <span
-                      className="
-                      rounded-full
-
-
-                      bg-[#C9A646]/10
-
-
-                      px-2
-                      py-0.5
-
-
-                      text-[10px]
-
-
-                      font-semibold
-
-
-                      text-[#C9A646]
-                      "
-                    >
-
-                      Soon
-
-
-                    </span>
-
-
-
-                  </div>
-
-
-                );
-
-
-              }
-
-
-
-
-
-
-
-
+              const isActive =
+                active(item.href);
 
               return (
-
-
                 <Link
-
-
                   key={item.href}
-
                   href={item.href}
-
-
-                  className={`
-                  relative
-
-
-                  rounded-full
-
-
-                  px-5
-                  py-2.5
-
-
-                  text-sm
-                  font-medium
-
-
-                  transition
-
-
-                  ${
-                    active(item.href)
-
-                    ?
-
-                    "text-black"
-
-                    :
-
-                    "text-neutral-500 hover:text-black"
+                  aria-current={
+                    isActive
+                      ? "page"
+                      : undefined
                   }
+                  className={`
+                    group
+                    relative
+                    flex
+                    items-center
+                    gap-2
+                    rounded-full
+                    px-4
+                    py-2.5
+                    text-[13px]
+                    font-medium
+                    tracking-[-0.01em]
+                    transition-all
+                    duration-300
 
+                    ${
+                      isActive
+                        ? `
+                          text-[var(--color-foreground)]
+                        `
+                        : `
+                          text-[var(--color-muted)]
+                          hover:text-[var(--color-foreground)]
+                        `
+                    }
                   `}
                 >
 
+                  {/* Active background */}
 
-                  {item.label}
-
-
-
-
-                  {active(item.href) && (
-
-                    <span
-                      className="
+                  <span
+                    aria-hidden="true"
+                    className={`
                       absolute
-
-
-                      left-1/2
-                      -bottom-1
-
-
-                      h-1
-                      w-1
-
-
-                      -translate-x-1/2
-
-
+                      inset-0
+                      -z-10
                       rounded-full
+                      transition-all
+                      duration-300
+
+                      ${
+                        isActive
+                          ? `
+                            bg-[var(--color-surface-alt)]
+                            opacity-100
+                          `
+                          : `
+                            opacity-0
+                            group-hover:bg-[var(--color-surface-alt)]
+                            group-hover:opacity-100
+                          `
+                      }
+                    `}
+                  />
 
 
-                      bg-[#C9A646]
+                  {/* Label */}
+
+                  <span>
+                    {item.label}
+                  </span>
+
+
+                  {/* AI indicator */}
+
+                  {item.ai && (
+                    <Sparkles
+                      size={13}
+                      strokeWidth={2}
+                      className="
+                        text-[var(--color-brand)]
+                        transition-transform
+                        duration-300
+                        group-hover:rotate-12
                       "
                     />
-
                   )}
 
 
+                  {/* Active indicator */}
+
+                  {isActive && (
+                    <span
+                      aria-hidden="true"
+                      className="
+                        absolute
+                        -bottom-1
+                        left-1/2
+                        h-1
+                        w-1
+                        -translate-x-1/2
+                        rounded-full
+                        bg-[var(--color-brand)]
+                      "
+                    />
+                  )}
 
                 </Link>
-
-
-
               );
 
-
             })}
-
-
-
 
           </nav>
 
 
-
-
-
-
-
-
-
-
-
-
-          {/* CTA */}
-
-
+          {/* =================================================
+              DESKTOP CTA
+              ================================================= */}
 
           <Link
-
             href="/contact"
-
-
             className="
-            hidden
-
-            lg:flex
-
-
-            rounded-full
-
-
-            bg-neutral-950
-
-
-            px-6
-            py-3
-
-
-            text-sm
-            font-medium
-
-
-            text-white
-
-
-            transition
-
-
-            hover:bg-[#C9A646]
+              group
+              hidden
+              items-center
+              gap-2
+              rounded-full
+              bg-[var(--color-foreground)]
+              px-5
+              py-3
+              text-[13px]
+              font-semibold
+              text-[var(--color-background)]
+              transition-all
+              duration-300
+              hover:-translate-y-0.5
+              hover:bg-[var(--color-brand)]
+              hover:shadow-[0_10px_30px_rgba(173,145,70,.18)]
+              lg:flex
             "
           >
 
+            <span>
+              Let's Talk
+            </span>
 
-            Contact Me
-
+            <ArrowUpRight
+              size={14}
+              strokeWidth={2}
+              className="
+                transition-transform
+                duration-300
+                group-hover:translate-x-0.5
+                group-hover:-translate-y-0.5
+              "
+            />
 
           </Link>
 
 
-
-
-
-
-
-
-
-
-
-
-
-          {/* MOBILE BUTTON */}
-
-
+          {/* =================================================
+              MOBILE MENU BUTTON
+              ================================================= */}
 
           <button
-
-            onClick={()=>setOpen(true)}
-
+            type="button"
+            onClick={() => setOpen(true)}
+            aria-label="Open navigation menu"
+            aria-expanded={open}
             className="
-            lg:hidden
-
-            text-black
+              flex
+              h-10
+              w-10
+              items-center
+              justify-center
+              rounded-full
+              text-[var(--color-foreground)]
+              transition
+              duration-300
+              hover:bg-[var(--color-surface-alt)]
+              lg:hidden
             "
           >
 
-
-            <Menu size={28}/>
-
+            <Menu
+              size={23}
+              strokeWidth={1.8}
+            />
 
           </button>
 
-
-
-
-
-
         </div>
-
 
       </header>
 
 
+      {/* =====================================================
+          MOBILE OVERLAY
+          ===================================================== */}
 
-
-
-
-
-
-
-
-
-
-
-
-
-      {/* OVERLAY */}
-
-
-
-      {open && (
-
-        <div
-
-          onClick={()=>setOpen(false)}
-
-
-          className="
+      <div
+        aria-hidden={!open}
+        onClick={() => setOpen(false)}
+        className={`
           fixed
-
           inset-0
-
-          z-40
-
-
-          bg-black/30
-
-          backdrop-blur-sm
-
-
+          z-[60]
+          bg-black/35
+          backdrop-blur-md
+          transition-opacity
+          duration-300
           lg:hidden
-          "
 
-        />
-
-
-      )}
-
-
-
-
+          ${
+            open
+              ? "pointer-events-auto opacity-100"
+              : "pointer-events-none opacity-0"
+          }
+        `}
+      />
 
 
-
-
-
-
-
-
-
-
-      {/* MOBILE DRAWER */}
-
-
+      {/* =====================================================
+          MOBILE DRAWER
+          ===================================================== */}
 
       <aside
-
+        aria-label="Mobile navigation"
+        aria-hidden={!open}
         className={`
-        fixed
+          fixed
+          right-0
+          top-0
+          z-[70]
+          flex
+          h-dvh
+          w-[88%]
+          max-w-[420px]
+          flex-col
+          border-l
+          border-[var(--color-border)]
+          bg-[var(--color-background)]
+          shadow-[−20px_0_80px_rgba(0,0,0,.12)]
+          transition-transform
+          duration-500
+          ease-[cubic-bezier(.2,.8,.2,1)]
+          lg:hidden
 
-        top-0
-        right-0
-
-
-        z-50
-
-
-        h-screen
-
-
-        w-[85%]
-        max-w-sm
-
-
-        bg-white
-
-
-        transition-transform
-        duration-500
-
-
-        lg:hidden
-
-
-        ${
-          open
-
-          ?
-
-          "translate-x-0"
-
-          :
-
-          "translate-x-full"
-        }
-
+          ${
+            open
+              ? "translate-x-0"
+              : "translate-x-full"
+          }
         `}
       >
 
-
-
-
-
-
+        {/* =================================================
+            DRAWER HEADER
+            ================================================= */}
 
         <div
           className="
-          flex
-
-          items-center
-          justify-between
-
-
-          border-b
-          border-neutral-200
-
-
-          p-6
+            flex
+            h-[76px]
+            shrink-0
+            items-center
+            justify-between
+            border-b
+            border-[var(--color-border)]
+            px-5
           "
         >
-
-
-
-          <Image
-
-            src="/Logos/VINS Black.svg"
-
-            alt="Logo"
-
-            width={130}
-
-            height={40}
-
-          />
-
-
-
-
-          <button
-
-            onClick={()=>setOpen(false)}
-
-
-            className="
-            rounded-full
-
-            p-2
-
-            hover:bg-neutral-100
-            "
-          >
-
-
-            <X/>
-
-
-          </button>
-
-
-
-        </div>
-
-
-
-
-
-
-
-
-
-        <div
-          className="
-          space-y-2
-
-          p-6
-          "
-        >
-
-
-
-
-
-
-
-          {navLinks.map((item)=>{
-
-
-
-            if(item.soon){
-
-
-
-              return (
-
-                <div
-
-                  key={item.href}
-
-
-                  className="
-                  flex
-
-                  cursor-not-allowed
-
-
-                  items-center
-                  justify-between
-
-
-                  rounded-2xl
-
-
-                  px-5
-                  py-4
-
-
-                  font-medium
-
-
-                  text-neutral-400
-                  "
-                >
-
-
-
-                  {item.label}
-
-
-
-
-                  <span
-                    className="
-                    rounded-full
-
-
-                    bg-[#C9A646]/10
-
-
-                    px-2
-                    py-1
-
-
-                    text-[10px]
-
-
-                    text-[#C9A646]
-                    "
-                  >
-
-                    Soon
-
-
-                  </span>
-
-
-
-                </div>
-
-
-              );
-
-
-            }
-
-
-
-
-
-
-
-
-
-            return (
-
-
-              <Link
-
-                key={item.href}
-
-                href={item.href}
-
-
-                className={`
-                flex
-
-
-                rounded-2xl
-
-
-                px-5
-                py-4
-
-
-                font-medium
-
-
-                ${
-                  active(item.href)
-
-                  ?
-
-                  "bg-black text-white"
-
-                  :
-
-                  "text-neutral-600 hover:bg-neutral-100"
-
-                }
-
-                `}
-              >
-
-
-                {item.label}
-
-
-              </Link>
-
-
-            );
-
-
-          })}
-
-
-
-
-
-
-
-
-
-
-
 
           <Link
-
-            href="/contact"
-
-            className="
-            mt-8
-
-
-            flex
-
-            justify-center
-
-
-            rounded-full
-
-
-            bg-[#C9A646]
-
-
-            py-4
-
-
-            font-semibold
-
-
-            text-white
-            "
+            href="/"
+            aria-label="VDE 2K27 — Home"
           >
 
-
-            Contact Me
-
+            <Image
+              src="/"
+              alt="VINS"
+              width={130}
+              height={40}
+              className="
+                h-8
+                w-auto
+              "
+            />
 
           </Link>
 
 
-
-
-
-
-
-
-
-
-          <p
+          <button
+            type="button"
+            onClick={() => setOpen(false)}
+            aria-label="Close navigation menu"
             className="
-            pt-12
-
-
-            text-sm
-
-
-            text-neutral-400
+              flex
+              h-10
+              w-10
+              items-center
+              justify-center
+              rounded-full
+              text-[var(--color-foreground)]
+              transition
+              duration-300
+              hover:bg-[var(--color-surface-alt)]
             "
           >
 
-            © 2026 Kevin Simorangkir
+            <X
+              size={21}
+              strokeWidth={1.8}
+            />
 
-
-          </p>
-
-
-
-
-
+          </button>
 
         </div>
 
 
+        {/* =================================================
+            DRAWER CONTENT
+            ================================================= */}
+
+        <div
+          className="
+            flex
+            flex-1
+            flex-col
+            overflow-y-auto
+            px-5
+            py-6
+          "
+        >
+
+          {/* Navigation */}
+
+          <nav
+            aria-label="Mobile navigation"
+            className="
+              flex
+              flex-col
+              gap-1
+            "
+          >
+
+            {navLinks.map((item) => {
+
+              const isActive =
+                active(item.href);
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={
+                    isActive
+                      ? "page"
+                      : undefined
+                  }
+                  className={`
+                    group
+                    flex
+                    items-center
+                    justify-between
+                    rounded-2xl
+                    px-5
+                    py-4
+                    text-[15px]
+                    font-medium
+                    transition-all
+                    duration-300
+
+                    ${
+                      isActive
+                        ? `
+                          bg-[var(--color-foreground)]
+                          text-[var(--color-background)]
+                        `
+                        : `
+                          text-[var(--color-muted)]
+                          hover:bg-[var(--color-surface-alt)]
+                          hover:text-[var(--color-foreground)]
+                        `
+                    }
+                  `}
+                >
+
+                  <span className="flex items-center gap-2.5">
+
+                    {item.label}
+
+                    {item.ai && (
+                      <Sparkles
+                        size={14}
+                        strokeWidth={2}
+                        className="
+                          text-[var(--color-brand)]
+                        "
+                      />
+                    )}
+
+                  </span>
+
+
+                  {isActive && (
+                    <span
+                      className="
+                        h-1.5
+                        w-1.5
+                        rounded-full
+                        bg-[var(--color-brand)]
+                      "
+                    />
+                  )}
+
+                </Link>
+              );
+
+            })}
+
+          </nav>
+
+
+          {/* =================================================
+              AI CARD
+              ================================================= */}
+
+          <div
+            className="
+              mt-8
+              rounded-3xl
+              border
+              border-[var(--color-border)]
+              bg-[var(--color-surface)]
+              p-5
+            "
+          >
+
+            <div
+              className="
+                mb-4
+                flex
+                h-10
+                w-10
+                items-center
+                justify-center
+                rounded-full
+                bg-[var(--color-brand-soft)]
+                text-[var(--color-brand)]
+              "
+            >
+
+              <Sparkles
+                size={18}
+                strokeWidth={1.8}
+              />
+
+            </div>
+
+
+            <p
+              className="
+                mb-1
+                font-[var(--font-heading)]
+                text-base
+                font-bold
+                tracking-[-0.02em]
+              "
+            >
+              Meet VINS AI
+            </p>
+
+
+            <p
+              className="
+                mb-4
+                text-sm
+                leading-6
+                text-[var(--color-muted)]
+              "
+            >
+              Explore my portfolio through an
+              interactive AI assistant.
+            </p>
+
+
+            <Link
+              href="/ai"
+              className="
+                group
+                inline-flex
+                items-center
+                gap-2
+                text-sm
+                font-semibold
+                text-[var(--color-foreground)]
+              "
+            >
+
+              Ask VINS AI
+
+              <ArrowUpRight
+                size={15}
+                className="
+                  transition-transform
+                  duration-300
+                  group-hover:translate-x-0.5
+                  group-hover:-translate-y-0.5
+                "
+              />
+
+            </Link>
+
+          </div>
+
+
+          {/* =================================================
+              CONTACT CTA
+              ================================================= */}
+
+          <Link
+            href="/contact"
+            className="
+              mt-4
+              flex
+              items-center
+              justify-center
+              rounded-full
+              bg-[var(--color-brand)]
+              px-5
+              py-4
+              text-sm
+              font-semibold
+              text-white
+              transition-all
+              duration-300
+              hover:bg-[var(--color-brand-hover)]
+            "
+          >
+            Let's Talk
+          </Link>
+
+
+          {/* =================================================
+              FOOTER
+              ================================================= */}
+
+          <div
+            className="
+              mt-auto
+              pt-10
+            "
+          >
+
+            <div
+              className="
+                mb-4
+                h-px
+                w-full
+                bg-[var(--color-border)]
+              "
+            />
+
+
+            <p
+              className="
+                text-xs
+                leading-5
+                text-[var(--color-muted-light)]
+              "
+            >
+              VINS Digital Experience
+            </p>
+
+
+            <p
+              className="
+                mt-1
+                text-xs
+                text-[var(--color-muted-light)]
+              "
+            >
+              © 2027 Kevin Simorangkir
+            </p>
+
+          </div>
+
+        </div>
 
       </aside>
-
-
-
-
-
-
     </>
-
   );
-
-
 }

@@ -3,575 +3,189 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
+import { ArrowUpRight } from "lucide-react";
+
+const socials = [
+  {
+    label: "LinkedIn",
+    icon: "mdi:linkedin",
+    url: "https://www.linkedin.com/in/kevinsimorangkir/",
+  },
+  {
+    label: "GitHub",
+    icon: "mdi:github",
+    url: "https://github.com/kevinsimorangkir21/",
+  },
+  {
+    label: "Instagram",
+    icon: "mdi:instagram",
+    url: "https://www.instagram.com/kvinsimorangkir/",
+  },
+];
+
+const navigationLinks = [
+  ["Home", "/"],
+  ["Projects", "/projects"],
+  ["About", "/about"],
+  ["Articles", "/article"],
+  ["VINS AI", "/ai"],
+];
+
+const updateLinks = [
+  ["Changelog", "/changelog"],
+  ["Roadmap", "/roadmap"],
+  ["System Status", "/status"],
+  ["Developer Message", "/developer-message"],
+];
+
+const legalLinks = [
+  ["Privacy Policy", "/privacy"],
+  ["Terms of Use", "/terms"],
+];
 
 export default function Footer() {
-
-
-  const socials = [
-
-    {
-      icon: "mdi:linkedin",
-      url: "https://www.linkedin.com/in/kevinsimorangkir/",
-    },
-
-
-    {
-      icon: "mdi:github",
-      url: "https://github.com/kevinsimorangkir21/",
-    },
-
-
-    {
-      icon: "mdi:instagram",
-      url: "https://www.instagram.com/kvinsimorangkir/",
-    },
-
-  ];
-
-
-
-
-
-
   return (
+    <footer className="relative overflow-hidden border-t border-[var(--color-border)] bg-[var(--color-foreground)] text-white">
+      {/* =====================================================
+          BACKGROUND
+          ===================================================== */}
 
-    <footer
-      className="
-      mt-16
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute right-[-15%] top-[-20%] h-[500px] w-[500px] rounded-full bg-[var(--color-brand)] opacity-[0.06] blur-[120px]" />
 
-      border-t
-      border-neutral-200
+        <div className="absolute bottom-[-20%] left-[-10%] h-[400px] w-[400px] rounded-full bg-[var(--color-brand)] opacity-[0.04] blur-[100px]" />
+      </div>
 
-      bg-white
-      "
-    >
+      <div className="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-8">
+        {/* =====================================================
+            MAIN FOOTER
+            ===================================================== */}
 
-
-      <div
-        className="
-        mx-auto
-
-        max-w-7xl
-
-        px-6
-        py-14
-
-        lg:px-8
-        "
-      >
-
-
-
-
-
-
-        {/* ================= TOP ================= */}
-
-
-        <div
-          className="
-          grid
-
-          gap-12
-
-          sm:grid-cols-2
-          lg:grid-cols-4
-          "
-        >
-
-
-
-
-
-
-          {/* BRAND */}
-
+        <div className="grid gap-14 py-16 sm:grid-cols-2 lg:grid-cols-[1.5fr_0.75fr_0.75fr_0.75fr] lg:gap-12 lg:py-20">
+          {/* =================================================
+              BRAND
+              ================================================= */}
 
           <div>
-
-
-            <Link href="/">
-
-
+            <Link
+              href="/"
+              className="inline-flex"
+              aria-label="VINS Home"
+            >
               <Image
-
-                src="/Logos/VINS Gold.svg"
-
-                alt="VDE 2K26 Logo"
-
+                src="/"
+                alt="VINS Digital Experience"
                 width={140}
-
                 height={45}
-
-                className="
-                h-9
-                w-auto
-                "
-
+                className="h-9 w-auto"
               />
-
-
             </Link>
 
-
-
-
-
-
-            <p
-              className="
-              mt-6
-
-              max-w-sm
-
-              text-sm
-              leading-7
-
-              text-neutral-500
-              "
-            >
-
-
-              Building meaningful digital experiences through
-              design, technology, and creative solutions.
-
-
+            <p className="mt-7 max-w-sm font-[var(--font-body)] text-sm leading-7 text-white/45">
+              A personal digital experience built around design, technology,
+              creativity, and the continuous process of turning ideas into
+              something meaningful.
             </p>
 
+            {/* Socials */}
 
-
-
-
-
-
-            {/* SOCIAL */}
-
-
-            <div
-              className="
-              mt-6
-
-              flex
-
-              gap-3
-              "
-            >
-
-
-              {socials.map((item)=>(
-
-
+            <div className="mt-7 flex items-center gap-2.5">
+              {socials.map((social) => (
                 <a
-
-                  key={item.url}
-
-                  href={item.url}
-
+                  key={social.label}
+                  href={social.url}
                   target="_blank"
-
                   rel="noopener noreferrer"
-
-
-                  className="
-                  flex
-
-                  h-10
-                  w-10
-
-                  items-center
-                  justify-center
-
-                  rounded-full
-
-
-                  border
-                  border-neutral-200
-
-
-                  text-neutral-500
-
-
-                  transition
-
-
-                  hover:border-black
-                  hover:text-black
-                  "
+                  aria-label={social.label}
+                  className="group flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/50 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-brand)] hover:bg-[var(--color-brand)] hover:text-white"
                 >
-
-
                   <Icon
-
-                    icon={item.icon}
-
-                    width="18"
-
-                    height="18"
-
+                    icon={social.icon}
+                    width={17}
+                    height={17}
                   />
-
-
                 </a>
-
-
               ))}
-
-
-
             </div>
-
-
-
-
           </div>
 
-
-
-
-
-
-
-
-
-
-          {/* NAVIGATION */}
-
+          {/* =================================================
+              NAVIGATION
+              ================================================= */}
 
           <FooterColumn
-
-            title="Navigation"
-
-            links={[
-
-              [
-                "Home",
-                "/",
-              ],
-
-
-              [
-                "Projects",
-                "/projects",
-              ],
-
-
-              [
-                "About",
-                "/about",
-              ],
-
-
-
-              [
-                "Articles",
-                "/article",
-              ],
-
-
-
-              [
-                "Contact",
-                "/contact",
-              ],
-
-
-            ]}
-
-
+            title="Explore"
+            links={navigationLinks}
           />
 
-
-
-
-
-
-
-
-
-
-
-
-          {/* UPDATE */}
-
-
+          {/* =================================================
+              UPDATES
+              ================================================= */}
 
           <FooterColumn
-
-
             title="Updates"
-
-
-            links={[
-
-
-              [
-                "Developer Message",
-                "/developer-message",
-              ],
-
-
-
-              [
-                "Changelog",
-                "/changelog",
-              ],
-
-
-
-              [
-                "Roadmap",
-                "/roadmap",
-              ],
-
-
-
-              [
-                "System Status",
-                "/status",
-              ],
-
-
-
-            ]}
-
-
+            links={updateLinks}
           />
 
-
-
-
-
-
-
-
-
-
-
-
-          {/* LEGAL */}
-
+          {/* =================================================
+              LEGAL
+              ================================================= */}
 
           <FooterColumn
-
-
             title="Legal"
-
-
-            links={[
-
-
-              [
-                "Privacy Policy",
-                "/privacy",
-              ],
-
-
-
-              [
-                "Terms of Use",
-                "/terms",
-              ],
-
-
-
-            ]}
-
-
+            links={legalLinks}
           />
-
-
-
-
-
         </div>
 
+        {/* =====================================================
+            COPYRIGHT
+            ===================================================== */}
 
+        <div className="border-t border-white/10 py-6">
+          <div className="flex flex-col gap-2 font-[var(--font-body)] text-[11px] text-white/30 sm:flex-row sm:items-center sm:justify-between">
+            <span>
+              © {new Date().getFullYear()} Kevin Simorangkir. All rights
+              reserved.
+            </span>
 
-
-
-
-
-
-
-
-
-
-        {/* ================= BOTTOM ================= */}
-
-
-        <div
-          className="
-          mt-14
-
-          flex
-
-          flex-col
-          gap-4
-
-
-          border-t
-          border-neutral-200
-
-
-          pt-6
-
-
-          text-xs
-
-          text-neutral-400
-
-
-
-          md:flex-row
-          md:items-center
-          md:justify-between
-          "
-        >
-
-
-
-          <span>
-
-            © {new Date().getFullYear()} Kevin Simorangkir.
-            All rights reserved.
-
-
-          </span>
-
-
-
-
-
-
-
-          <span>
-
-            VINS Digital Experience · v5.0.0
-
-
-          </span>
-
-
-
-
+            <span>
+              Designed &amp; built with intention.
+            </span>
+          </div>
         </div>
-
-
-
-
-
-
       </div>
-
-
     </footer>
-
-
   );
-
-
 }
 
-
-
-
-
-
-
-
+/* =========================================================
+   FOOTER COLUMN
+   ========================================================= */
 
 function FooterColumn({ title, links }) {
-
-
   return (
-
-
     <div>
-
-
-
-      <h4
-        className="
-        mb-5
-
-        text-sm
-
-        font-semibold
-
-        text-neutral-950
-        "
-      >
-
+      <h3 className="mb-6 font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.2em] text-white/40">
         {title}
+      </h3>
 
-
-      </h4>
-
-
-
-
-
-
-      <div
-        className="
-        flex
-
-        flex-col
-
-        gap-3
-
-
-        text-sm
-
-        text-neutral-500
-        "
-      >
-
-
-
-        {links.map(([label,href])=>(
-
-
-
+      <nav className="flex flex-col gap-3.5">
+        {links.map(([label, href]) => (
           <Link
-
-
             key={label}
-
-
             href={href}
-
-
-
-            className="
-            transition
-
-
-            hover:text-[#C9A646]
-            "
+            className="group inline-flex w-fit items-center gap-1 font-[var(--font-body)] text-sm text-white/65 transition-colors duration-300 hover:text-[var(--color-brand-light)]"
           >
+            <span>{label}</span>
 
-
-            {label}
-
-
-
+            <ArrowUpRight
+              size={12}
+              strokeWidth={1.7}
+              className="translate-y-0 opacity-0 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100"
+            />
           </Link>
-
-
-
         ))}
-
-
-
-      </div>
-
-
-
+      </nav>
     </div>
-
-
   );
-
-
 }
