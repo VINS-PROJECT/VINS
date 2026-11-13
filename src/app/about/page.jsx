@@ -1,41 +1,22 @@
+
 "use client";
 
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+
 import {
   ArrowDownRight,
   ArrowUpRight,
   Download,
-  Briefcase,
   Check,
 } from "lucide-react";
 
 import { certificates } from "@/data/certificates";
 
-/* =========================================================
-   ANIMATION
-   ========================================================= */
-
-const fadeUp = {
-  hidden: {
-    opacity: 0,
-    y: 28,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.65,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
-
-/* =========================================================
+/* ===========================================================
    JOURNEY
-   ========================================================= */
+   =========================================================== */
 
 const journey = [
   {
@@ -64,9 +45,9 @@ const journey = [
   },
 ];
 
-/* =========================================================
+/* ===========================================================
    EXPERIENCE
-   ========================================================= */
+   =========================================================== */
 
 const experiences = [
   {
@@ -85,9 +66,9 @@ const experiences = [
   },
 ];
 
-/* =========================================================
+/* ===========================================================
    SKILLS
-   ========================================================= */
+   =========================================================== */
 
 const skills = [
   "UI/UX Design",
@@ -103,9 +84,9 @@ const skills = [
   "Photoshop",
 ];
 
-/* =========================================================
+/* ===========================================================
    CERTIFICATE CATEGORIES
-   ========================================================= */
+   =========================================================== */
 
 const certificateCategories = [
   "all",
@@ -116,9 +97,9 @@ const certificateCategories = [
   "Artificial Intelligence",
 ];
 
-/* =========================================================
+/* ===========================================================
    PAGE
-   ========================================================= */
+   =========================================================== */
 
 export default function AboutPage() {
   const [filter, setFilter] = useState("all");
@@ -126,16 +107,11 @@ export default function AboutPage() {
   const filteredCertificates =
     filter === "all"
       ? certificates
-      : certificates.filter(
-          (item) => item.category === filter
-        );
+      : certificates.filter((item) => item.category === filter);
 
   return (
     <main className="relative overflow-hidden bg-[var(--color-background)] text-[var(--color-foreground)]">
-      {/* =====================================================
-          BACKGROUND
-          ===================================================== */}
-
+      {/* BACKGROUND */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute right-[-15%] top-[5%] h-[500px] w-[500px] rounded-full bg-[var(--color-brand-soft)] opacity-40 blur-[130px]" />
 
@@ -143,20 +119,13 @@ export default function AboutPage() {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-32 sm:px-8 sm:pt-36 lg:px-8 lg:pb-36 lg:pt-44">
-
         {/* =====================================================
             01 — PROFILE
             ===================================================== */}
 
         <section id="profile">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            className="grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-end"
-          >
+          <div className="grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
             {/* TEXT */}
-
             <div>
               <div className="mb-7 flex items-center gap-3">
                 <span className="h-px w-8 bg-[var(--color-brand)]" />
@@ -187,18 +156,17 @@ export default function AboutPage() {
               </p>
 
               {/* CTA */}
-
               <div className="mt-9 flex flex-wrap gap-3">
                 <Link
                   href="/contact"
-                  className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-foreground)] px-6 py-3.5 font-[var(--font-body)] text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[var(--color-brand-hover)] hover:shadow-lg"
+                  className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-secondary)] px-6 py-3.5 font-[var(--font-body)] text-sm font-medium text-white transition-colors duration-200 hover:bg-[var(--color-brand)]"
                 >
                   Let's Talk
 
                   <ArrowUpRight
                     size={16}
                     strokeWidth={1.7}
-                    className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                   />
                 </Link>
 
@@ -206,37 +174,21 @@ export default function AboutPage() {
                   href="https://drive.google.com/uc?export=download&id=1twRdA1e9g_7DthwC3mh_rf2PjKWxxPDY"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-background)] px-6 py-3.5 font-[var(--font-body)] text-sm font-medium text-[var(--color-foreground)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-foreground)]"
+                  className="group inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-background)] px-6 py-3.5 font-[var(--font-body)] text-sm font-medium text-[var(--color-foreground)] transition-colors duration-200 hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]"
                 >
                   Resume
 
                   <Download
                     size={15}
                     strokeWidth={1.7}
-                    className="transition-transform duration-300 group-hover:translate-y-0.5"
+                    className="transition-transform duration-200 group-hover:translate-y-0.5"
                   />
                 </a>
               </div>
             </div>
 
             {/* IMAGE */}
-
-            <motion.div
-              initial={{
-                opacity: 0,
-                x: 35,
-              }}
-              animate={{
-                opacity: 1,
-                x: 0,
-              }}
-              transition={{
-                delay: 0.15,
-                duration: 0.75,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="relative"
-            >
+            <div className="relative">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[32px] border border-[var(--color-border)] bg-[var(--color-surface-alt)] lg:rounded-[40px]">
                 <Image
                   src="/profile.jpg"
@@ -255,19 +207,15 @@ export default function AboutPage() {
                       Digital Experience
                     </p>
 
-                    <p className="mt-1 font-[var(--font-heading)] text-xl font-semibold tracking-[-0.04em]">
+                    <p className="mt-1 font-[var(--font-heading)] text-xl font-semibold tracking-[-0.04em] text-[var(--color-secondary)]">
                       VDE 2K27
                     </p>
                   </div>
                 </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </section>
-
-        {/* =====================================================
-            DIVIDER
-            ===================================================== */}
 
         <SectionDivider />
 
@@ -290,20 +238,10 @@ export default function AboutPage() {
           />
 
           <div className="mt-14 grid gap-px overflow-hidden rounded-[30px] border border-[var(--color-border)] bg-[var(--color-border)] sm:grid-cols-2 lg:grid-cols-4 lg:rounded-[36px]">
-            {journey.map((item, index) => (
-              <motion.article
+            {journey.map((item) => (
+              <article
                 key={item.number}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{
-                  once: true,
-                  amount: 0.2,
-                }}
-                variants={fadeUp}
-                transition={{
-                  delay: index * 0.08,
-                }}
-                className="group bg-[var(--color-background)] p-7 transition-colors duration-300 hover:bg-[var(--color-surface)] sm:p-8 lg:min-h-[300px]"
+                className="group bg-[var(--color-background)] p-7 transition-colors duration-200 hover:bg-[var(--color-surface)] sm:p-8 lg:min-h-[300px]"
               >
                 <div className="flex items-center justify-between">
                   <span className="font-[var(--font-body)] text-xs font-semibold text-[var(--color-brand)]">
@@ -313,7 +251,7 @@ export default function AboutPage() {
                   <ArrowDownRight
                     size={17}
                     strokeWidth={1.5}
-                    className="text-[var(--color-border-strong)] transition-all duration-300 group-hover:translate-y-1 group-hover:translate-x-1 group-hover:text-[var(--color-brand)]"
+                    className="text-[var(--color-border-strong)] transition-colors duration-200 group-hover:text-[var(--color-brand)]"
                   />
                 </div>
 
@@ -326,7 +264,7 @@ export default function AboutPage() {
                     {item.description}
                   </p>
                 </div>
-              </motion.article>
+              </article>
             ))}
           </div>
         </section>
@@ -352,31 +290,19 @@ export default function AboutPage() {
           />
 
           <div className="mt-14">
-            {experiences.map((item, index) => (
-              <motion.article
+            {experiences.map((item) => (
+              <article
                 key={item.title}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{
-                  once: true,
-                  amount: 0.2,
-                }}
-                variants={fadeUp}
-                transition={{
-                  delay: index * 0.08,
-                }}
                 className="group grid gap-6 border-t border-[var(--color-border)] py-8 last:border-b sm:grid-cols-[150px_1fr] lg:grid-cols-[180px_1fr_280px]"
               >
                 {/* Period */}
-
                 <div>
-                  <span className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--color-brand-hover)]">
+                  <span className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--color-brand)]">
                     {item.period}
                   </span>
                 </div>
 
                 {/* Main */}
-
                 <div>
                   <h3 className="font-[var(--font-heading)] text-2xl font-semibold tracking-[-0.04em] sm:text-3xl">
                     {item.title}
@@ -388,7 +314,6 @@ export default function AboutPage() {
                 </div>
 
                 {/* Tags */}
-
                 <div className="flex flex-wrap content-start gap-2 lg:justify-end">
                   {item.tags.map((tag) => (
                     <span
@@ -399,7 +324,7 @@ export default function AboutPage() {
                     </span>
                   ))}
                 </div>
-              </motion.article>
+              </article>
             ))}
           </div>
         </section>
@@ -424,20 +349,11 @@ export default function AboutPage() {
             description="A mix of design, development, and creative tools used throughout my work."
           />
 
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{
-              once: true,
-              amount: 0.2,
-            }}
-            variants={fadeUp}
-            className="mt-14 grid gap-px overflow-hidden rounded-[30px] border border-[var(--color-border)] bg-[var(--color-border)] sm:grid-cols-2 lg:grid-cols-3"
-          >
+          <div className="mt-14 grid gap-px overflow-hidden rounded-[30px] border border-[var(--color-border)] bg-[var(--color-border)] sm:grid-cols-2 lg:grid-cols-3">
             {skills.map((skill, index) => (
               <div
                 key={skill}
-                className="group flex items-center justify-between bg-[var(--color-background)] px-6 py-6 transition-colors duration-300 hover:bg-[var(--color-surface)] sm:px-7"
+                className="group flex items-center justify-between bg-[var(--color-background)] px-6 py-6 transition-colors duration-200 hover:bg-[var(--color-surface)] sm:px-7"
               >
                 <div className="flex items-center gap-4">
                   <span className="font-[var(--font-body)] text-[10px] font-semibold text-[var(--color-brand)]">
@@ -452,11 +368,11 @@ export default function AboutPage() {
                 <ArrowUpRight
                   size={15}
                   strokeWidth={1.6}
-                  className="text-[var(--color-border-strong)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--color-brand)]"
+                  className="text-[var(--color-border-strong)] transition-colors duration-200 group-hover:text-[var(--color-brand)]"
                 />
               </div>
             ))}
-          </motion.div>
+          </div>
         </section>
 
         <SectionDivider />
@@ -480,7 +396,6 @@ export default function AboutPage() {
           />
 
           {/* FILTER */}
-
           <div className="mt-12 flex flex-wrap gap-2">
             {certificateCategories.map((category) => {
               const isActive = filter === category;
@@ -490,54 +405,37 @@ export default function AboutPage() {
                   key={category}
                   type="button"
                   onClick={() => setFilter(category)}
-                  className={`rounded-full border px-4 py-2.5 font-[var(--font-body)] text-xs font-medium transition-all duration-300 sm:px-5 sm:text-sm ${
+                  aria-pressed={isActive}
+                  className={`rounded-full border px-4 py-2.5 font-[var(--font-body)] text-xs font-medium transition-colors duration-200 sm:px-5 sm:text-sm ${
                     isActive
-                      ? "border-[var(--color-foreground)] bg-[var(--color-foreground)] text-white"
-                      : "border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-foreground)] hover:text-[var(--color-foreground)]"
+                      ? "border-[var(--color-secondary)] bg-[var(--color-secondary)] text-white"
+                      : "border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]"
                   }`}
                 >
-                  {category}
+                  {category === "all" ? "All Certificates" : category}
                 </button>
               );
             })}
           </div>
 
           {/* CERTIFICATE GRID */}
-
           {filteredCertificates.length > 0 ? (
-            <motion.div
-              layout
-              className="mt-8 grid gap-4 sm:grid-cols-2"
-            >
-              {filteredCertificates.map((certificate, index) => (
-                <motion.a
-                  layout
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {filteredCertificates.map((certificate) => (
+                <a
                   key={certificate.id}
                   href={certificate.pdf}
                   target="_blank"
                   rel="noopener noreferrer"
-                  initial={{
-                    opacity: 0,
-                    y: 20,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  transition={{
-                    delay: index * 0.04,
-                    duration: 0.4,
-                  }}
-                  className="group relative overflow-hidden rounded-[26px] border border-[var(--color-border)] bg-[var(--color-background)] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-border-strong)] hover:shadow-[0_24px_60px_rgba(0,0,0,0.05)] sm:p-7"
+                  className="group relative overflow-hidden rounded-[26px] border border-[var(--color-border)] bg-[var(--color-surface)] p-6 transition-colors duration-200 hover:border-[var(--color-brand)] sm:p-7"
                 >
                   {/* Top */}
-
                   <div className="flex items-center justify-between">
-                    <span className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--color-brand-hover)]">
+                    <span className="font-[var(--font-body)] text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--color-brand)]">
                       {certificate.category}
                     </span>
 
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface-alt)] text-[var(--color-muted)] transition-all duration-300 group-hover:bg-[var(--color-brand-soft)] group-hover:text-[var(--color-brand-hover)]">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-surface-alt)] text-[var(--color-muted)] transition-colors duration-200 group-hover:bg-[var(--color-brand-soft)] group-hover:text-[var(--color-brand)]">
                       <ArrowUpRight
                         size={15}
                         strokeWidth={1.6}
@@ -546,7 +444,6 @@ export default function AboutPage() {
                   </div>
 
                   {/* Content */}
-
                   <div className="mt-16">
                     <h3 className="max-w-md font-[var(--font-heading)] text-xl font-semibold tracking-[-0.04em] text-[var(--color-foreground)] sm:text-2xl">
                       {certificate.title}
@@ -558,7 +455,6 @@ export default function AboutPage() {
                   </div>
 
                   {/* Bottom */}
-
                   <div className="mt-8 flex items-center gap-2 border-t border-[var(--color-border)] pt-5">
                     <Check
                       size={13}
@@ -569,11 +465,11 @@ export default function AboutPage() {
                       View Certificate
                     </span>
                   </div>
-                </motion.a>
+                </a>
               ))}
-            </motion.div>
+            </div>
           ) : (
-            <div className="mt-8 rounded-[26px] border border-[var(--color-border)] px-6 py-20 text-center">
+            <div className="mt-8 rounded-[26px] border border-[var(--color-border)] bg-[var(--color-surface)] px-6 py-20 text-center">
               <p className="font-[var(--font-body)] text-sm text-[var(--color-muted)]">
                 No certificates found in this category.
               </p>
@@ -585,9 +481,9 @@ export default function AboutPage() {
   );
 }
 
-/* =========================================================
+/* ===========================================================
    SECTION HEADER
-   ========================================================= */
+   =========================================================== */
 
 function SectionHeader({
   number,
@@ -596,18 +492,8 @@ function SectionHeader({
   description,
 }) {
   return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{
-        once: true,
-        amount: 0.2,
-      }}
-      variants={fadeUp}
-      className="grid gap-8 lg:grid-cols-[180px_1fr_320px] lg:items-end"
-    >
+    <div className="grid gap-8 lg:grid-cols-[180px_1fr_320px] lg:items-end">
       {/* Number */}
-
       <div className="flex items-center gap-3">
         <span className="font-[var(--font-body)] text-xs font-semibold text-[var(--color-brand)]">
           {number}
@@ -621,23 +507,21 @@ function SectionHeader({
       </div>
 
       {/* Title */}
-
       <h2 className="font-[var(--font-heading)] text-[clamp(3rem,6vw,5.5rem)] font-semibold leading-[0.88] tracking-[-0.07em] text-[var(--color-foreground)]">
         {title}
       </h2>
 
       {/* Description */}
-
       <p className="max-w-sm font-[var(--font-body)] text-sm leading-7 text-[var(--color-muted)] lg:pb-1">
         {description}
       </p>
-    </motion.div>
+    </div>
   );
 }
 
-/* =========================================================
+/* ===========================================================
    DIVIDER
-   ========================================================= */
+   =========================================================== */
 
 function SectionDivider() {
   return (

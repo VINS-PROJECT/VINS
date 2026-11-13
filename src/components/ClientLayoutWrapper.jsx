@@ -1,3 +1,4 @@
+
 "use client";
 
 import { usePathname } from "next/navigation";
@@ -5,34 +6,39 @@ import { usePathname } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+/* ===========================================================
+   ROUTES WITHOUT PUBLIC LAYOUT
+   =========================================================== */
+
+const hideLayoutPrefixes = [
+  "/login",
+  "/register",
+  "/lupa-kata-sandi",
+  "/dashboard",
+  "/admin",
+  "/perusahaan",
+];
+
+/* ===========================================================
+   CLIENT LAYOUT WRAPPER
+   =========================================================== */
+
 export default function ClientLayoutWrapper({ children }) {
   const pathname = usePathname();
 
-  const hideLayoutPrefixes = [
-    "/login",
-    "/register",
-    "/lupa-kata-sandi",
-    "/dashboard",
-    "/admin",
-    "/perusahaan",
-  ];
-
-  const hideLayout = hideLayoutPrefixes.some((path) =>
-    pathname.startsWith(path)
-  );
+  const hideLayout = hideLayoutPrefixes.some((path) => {
+    return (
+      pathname === path ||
+      pathname.startsWith(`${path}/`)
+    );
+  });
 
   return (
     <>
-      {/* =====================================================
-          NAVBAR
-          ===================================================== */}
-
+      {/* Navbar */}
       {!hideLayout && <Navbar />}
 
-      {/* =====================================================
-          MAIN CONTENT
-          ===================================================== */}
-
+      {/* Main Content */}
       <main
         className="
           min-h-screen
@@ -45,10 +51,7 @@ export default function ClientLayoutWrapper({ children }) {
         {children}
       </main>
 
-      {/* =====================================================
-          FOOTER
-          ===================================================== */}
-
+      {/* Footer */}
       {!hideLayout && <Footer />}
     </>
   );

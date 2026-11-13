@@ -1,15 +1,19 @@
+
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+
 import {
   ArrowUpRight,
-  Sparkles,
   UserRound,
   BriefcaseBusiness,
 } from "lucide-react";
+
+/* ===========================================================
+   TABS
+   =========================================================== */
 
 const tabs = [
   {
@@ -24,6 +28,10 @@ const tabs = [
   },
 ];
 
+/* ===========================================================
+   CONTENT
+   =========================================================== */
+
 const content = {
   about: {
     eyebrow: "ABOUT ME",
@@ -36,6 +44,7 @@ const content = {
     imageLabel: "Creative Developer",
     imageTitle: "Kevin",
     imageSubtitle: "Simorangkir",
+    tags: ["Designer", "Developer", "Creative"],
   },
 
   project: {
@@ -49,32 +58,13 @@ const content = {
     imageLabel: "Selected Work",
     imageTitle: "Design",
     imageSubtitle: "Build · Create",
+    tags: ["UI/UX", "Web Development", "Creative Solutions"],
   },
 };
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: {
-    opacity: 0,
-    y: 24,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
+/* ===========================================================
+   COMPONENT
+   =========================================================== */
 
 export default function AboutProjectSection() {
   const [active, setActive] = useState("about");
@@ -84,58 +74,130 @@ export default function AboutProjectSection() {
   return (
     <section
       id="about-preview"
-      className="relative overflow-hidden bg-[var(--color-background)]"
+      className="
+        relative
+        overflow-hidden
+        bg-[var(--color-background)]
+      "
     >
-      {/* =====================================================
-          BACKGROUND
-          ===================================================== */}
-
+      {/* Background */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute right-[-12%] top-[10%] h-[420px] w-[420px] rounded-full bg-[var(--color-brand-soft)] opacity-40 blur-[120px]" />
+        <div
+          className="
+            absolute
+            -right-[12%]
+            top-[10%]
+            h-[420px]
+            w-[420px]
+            rounded-full
+            bg-[var(--color-brand-soft)]
+            opacity-40
+            blur-[120px]
+          "
+        />
 
-        <div className="absolute bottom-[-15%] left-[-10%] h-[360px] w-[360px] rounded-full bg-[var(--color-surface-alt)] opacity-50 blur-[100px]" />
+        <div
+          className="
+            absolute
+            -bottom-[15%]
+            -left-[10%]
+            h-[360px]
+            w-[360px]
+            rounded-full
+            bg-[var(--color-surface-alt)]
+            opacity-50
+            blur-[100px]
+          "
+        />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-6 py-24 sm:px-8 sm:py-28 lg:px-8 lg:py-36">
-        {/* =====================================================
-            HEADER
-            ===================================================== */}
+      <div
+        className="
+          relative
+          mx-auto
+          max-w-[1440px]
+          px-6
+          py-24
+          sm:px-8
+          sm:py-28
+          lg:px-16
+          lg:py-36
+          xl:px-20
+        "
+      >
+        {/* =================================================
+            SECTION HEADER
+            ================================================= */}
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{
-            once: true,
-            amount: 0.2,
-          }}
-          variants={containerVariants}
-          className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end"
+        <div
+          className="
+            flex
+            flex-col
+            gap-9
+            lg:flex-row
+            lg:items-end
+            lg:justify-between
+          "
         >
           {/* Heading */}
-
-          <motion.div variants={itemVariants}>
+          <div>
             <div className="mb-6 flex items-center gap-3">
-              <span className="h-px w-8 bg-[var(--color-brand)]" />
+              <span
+                className="
+                  h-[3px]
+                  w-8
+                  rounded-full
+                  bg-[var(--color-brand)]
+                "
+              />
 
-              <span className="font-[var(--font-body)] text-[10px] font-semibold tracking-[0.24em] text-[var(--color-muted)] sm:text-xs">
+              <span
+                className="
+                  font-[var(--font-body)]
+                  text-[11px]
+                  font-semibold
+                  tracking-[0.2em]
+                  text-[var(--color-muted)]
+                "
+              >
                 EXPLORE
               </span>
             </div>
 
-            <h2 className="max-w-4xl font-[var(--font-heading)] text-[clamp(3rem,7vw,6.5rem)] font-semibold leading-[0.9] tracking-[-0.07em] text-[var(--color-foreground)]">
+            <h2
+              className="
+                max-w-4xl
+                font-[var(--font-heading)]
+                text-[clamp(3rem,7vw,6.5rem)]
+                font-semibold
+                leading-[0.92]
+                tracking-[-0.07em]
+                text-[var(--color-foreground)]
+              "
+            >
               More than
               <br />
+
               <span className="text-[var(--color-brand)]">
                 just a portfolio.
               </span>
             </h2>
-          </motion.div>
+          </div>
 
-          {/* Tab */}
-
-          <motion.div
-            variants={itemVariants}
-            className="inline-flex w-fit rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] p-1"
+          {/* Tabs */}
+          <div
+            className="
+              inline-flex
+              w-fit
+              shrink-0
+              items-center
+              gap-1
+              rounded-full
+              border
+              border-[var(--color-border)]
+              bg-[var(--color-surface)]
+              p-1.5
+            "
           >
             {tabs.map((tab) => {
               const Icon = tab.icon;
@@ -147,195 +209,394 @@ export default function AboutProjectSection() {
                   type="button"
                   onClick={() => setActive(tab.key)}
                   aria-pressed={isActive}
-                  className={`relative inline-flex items-center gap-2 rounded-full px-4 py-2.5 font-[var(--font-body)] text-xs font-medium transition-all duration-300 sm:px-5 sm:text-sm ${
-                    isActive
-                      ? "bg-[var(--color-foreground)] text-white shadow-sm"
-                      : "text-[var(--color-muted)] hover:text-[var(--color-foreground)]"
-                  }`}
+                  className={`
+                    inline-flex
+                    items-center
+                    gap-2
+                    rounded-full
+                    px-4
+                    py-3
+                    font-[var(--font-body)]
+                    text-xs
+                    font-semibold
+                    transition-colors
+                    duration-200
+                    sm:px-5
+                    sm:text-sm
+                    ${
+                      isActive
+                        ? `
+                            bg-[var(--color-secondary)]
+                            text-white
+                          `
+                        : `
+                            text-[var(--color-muted)]
+                            hover:bg-[var(--color-brand-soft)]
+                            hover:text-[var(--color-brand)]
+                          `
+                    }
+                  `}
                 >
-                  <Icon
-                    size={14}
-                    strokeWidth={1.7}
-                  />
+                  <Icon size={15} strokeWidth={1.8} />
 
                   {tab.label}
                 </button>
               );
             })}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
-        {/* =====================================================
+        {/* =================================================
             MAIN CONTENT
-            ===================================================== */}
+            ================================================= */}
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active}
-            initial={{
-              opacity: 0,
-              y: 15,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            exit={{
-              opacity: 0,
-              y: -15,
-            }}
-            transition={{
-              duration: 0.4,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="mt-16 grid gap-5 lg:mt-24 lg:grid-cols-[0.95fr_1.05fr]"
+        <div
+          className="
+            mt-14
+            grid
+            gap-5
+            lg:mt-20
+            lg:grid-cols-[0.95fr_1.05fr]
+          "
+        >
+          {/* =================================================
+              IMAGE PANEL
+              ================================================= */}
+
+          <div
+            className="
+              group
+              relative
+              min-h-[480px]
+              overflow-hidden
+              rounded-[32px]
+              border
+              border-[var(--color-border)]
+              bg-gradient-to-b
+              from-[var(--color-surface)]
+              to-[var(--color-brand-soft)]
+              sm:min-h-[580px]
+              lg:rounded-[36px]
+            "
           >
-            {/* =================================================
-                IMAGE
-                ================================================= */}
+            {/* Decorative Shapes */}
+            <div
+              className="
+                pointer-events-none
+                absolute
+                -right-20
+                -top-20
+                h-72
+                w-72
+                rounded-full
+                border
+                border-[var(--color-brand-light)]/30
+              "
+            />
 
-            <div className="relative min-h-[500px] overflow-hidden rounded-[30px] border border-[var(--color-border)] bg-gradient-to-b from-[var(--color-surface)] to-[var(--color-brand-soft)] sm:min-h-[600px] lg:rounded-[36px]">
-              {/* Decorative circle */}
+            <div
+              className="
+                pointer-events-none
+                absolute
+                -left-16
+                top-[35%]
+                h-36
+                w-36
+                rounded-full
+                bg-[var(--color-brand-soft)]
+                blur-3xl
+              "
+            />
 
-              <div className="absolute right-[-80px] top-[-80px] h-64 w-64 rounded-full border border-[var(--color-brand-light)]/30" />
+            {/* Profile Image */}
+            <Image
+              src="/hero.png"
+              alt="Kevin Simorangkir"
+              fill
+              priority={active === "about"}
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="
+                relative
+                z-10
+                object-contain
+                object-bottom
+              "
+            />
 
-              <div className="absolute left-[-60px] top-[35%] h-32 w-32 rounded-full bg-[var(--color-brand-soft)] blur-3xl" />
+            {/* Bottom Gradient */}
+            <div
+              className="
+                pointer-events-none
+                absolute
+                inset-x-0
+                bottom-0
+                z-20
+                h-64
+                bg-gradient-to-t
+                from-[var(--color-brand-soft)]
+                via-[var(--color-brand-soft)]/40
+                to-transparent
+              "
+            />
 
-              {/* Image */}
-
-              <Image
-                src="/hero.png"
-                alt="VINS Digital Experience"
-                fill
-                priority={active === "about"}
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-contain object-bottom"
-              />
-
-              {/* Gradient */}
-
-              <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[var(--color-brand-soft)] via-[var(--color-brand-soft)]/30 to-transparent" />
-
-              {/* Floating label */}
-
-              <motion.div
-                initial={{
-                  opacity: 0,
-                  y: 15,
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                transition={{
-                  delay: 0.15,
-                  duration: 0.5,
-                }}
-                className="absolute bottom-6 left-6 right-6 z-10 flex items-end justify-between gap-5 sm:bottom-8 sm:left-8 sm:right-8"
+            {/* Image Information */}
+            <div
+              className="
+                absolute
+                bottom-6
+                left-6
+                right-6
+                z-30
+                flex
+                items-end
+                justify-between
+                gap-4
+                sm:bottom-8
+                sm:left-8
+                sm:right-8
+              "
+            >
+              <div
+                className="
+                  max-w-[85%]
+                  rounded-[22px]
+                  border
+                  border-white/60
+                  bg-white/80
+                  px-5
+                  py-4
+                  backdrop-blur-xl
+                  sm:px-6
+                  sm:py-5
+                "
               >
-                <div className="rounded-2xl border border-white/60 bg-white/75 px-5 py-4 shadow-[0_16px_50px_rgba(0,0,0,0.08)] backdrop-blur-xl sm:px-6 sm:py-5">
-                  <p className="font-[var(--font-body)] text-[10px] font-medium uppercase tracking-[0.16em] text-[var(--color-muted)]">
-                    {current.imageLabel}
-                  </p>
-
-                  <h3 className="mt-2 font-[var(--font-heading)] text-2xl font-semibold leading-none tracking-[-0.05em] text-[var(--color-foreground)] sm:text-3xl">
-                    {current.imageTitle}
-                  </h3>
-
-                  <p className="mt-1 font-[var(--font-heading)] text-sm font-medium tracking-tight text-[var(--color-brand-hover)]">
-                    {current.imageSubtitle}
-                  </p>
-                </div>
-
-                <div className="hidden h-11 w-11 items-center justify-center rounded-full border border-white/60 bg-white/70 text-[var(--color-foreground)] backdrop-blur-xl sm:flex">
-                  <Sparkles
-                    size={17}
-                    strokeWidth={1.6}
-                  />
-                </div>
-              </motion.div>
-            </div>
-
-            {/* =================================================
-                INFORMATION
-                ================================================= */}
-
-            <div className="flex min-h-[500px] flex-col justify-between rounded-[30px] border border-[var(--color-border)] bg-[var(--color-surface)] p-7 sm:p-9 lg:min-h-[600px] lg:rounded-[36px] lg:p-12">
-              {/* Top */}
-
-              <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-5">
-                <span className="font-[var(--font-body)] text-[10px] font-semibold tracking-[0.2em] text-[var(--color-muted-light)]">
-                  {current.eyebrow}
-                </span>
-
-                <span className="font-[var(--font-body)] text-xs text-[var(--color-muted-light)]">
-                  {current.year}
-                </span>
-              </div>
-
-              {/* Main */}
-
-              <div className="py-14 sm:py-16 lg:py-20">
-                <h3 className="max-w-2xl font-[var(--font-heading)] text-[clamp(2.25rem,4.5vw,4.5rem)] font-semibold leading-[0.96] tracking-[-0.06em] text-[var(--color-foreground)]">
-                  {current.title}
-                </h3>
-
-                <p className="mt-7 max-w-xl font-[var(--font-body)] text-sm leading-7 text-[var(--color-muted)] sm:text-base sm:leading-8">
-                  {current.description}
+                <p
+                  className="
+                    font-[var(--font-body)]
+                    text-[10px]
+                    font-semibold
+                    uppercase
+                    tracking-[0.16em]
+                    text-[var(--color-muted)]
+                  "
+                >
+                  {current.imageLabel}
                 </p>
 
-                <Link
-                  href={current.href}
-                  className="group mt-9 inline-flex items-center gap-2 rounded-full bg-[var(--color-foreground)] px-6 py-3.5 font-[var(--font-body)] text-sm font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[var(--color-brand-hover)] hover:shadow-lg"
+                <h3
+                  className="
+                    mt-2
+                    font-[var(--font-heading)]
+                    text-2xl
+                    font-semibold
+                    leading-none
+                    tracking-[-0.05em]
+                    text-[var(--color-foreground)]
+                    sm:text-3xl
+                  "
                 >
-                  {current.button}
+                  {current.imageTitle}
+                </h3>
 
-                  <ArrowUpRight
-                    size={16}
-                    strokeWidth={1.7}
-                    className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                  />
-                </Link>
+                <p
+                  className="
+                    mt-1
+                    font-[var(--font-heading)]
+                    text-sm
+                    font-medium
+                    tracking-tight
+                    text-[var(--color-brand-hover)]
+                  "
+                >
+                  {current.imageSubtitle}
+                </p>
               </div>
 
-              {/* Bottom */}
-
-              <div className="border-t border-[var(--color-border)] pt-6">
-                <div className="flex flex-wrap gap-2">
-                  {active === "about" ? (
-                    <>
-                      <span className="rounded-full bg-[var(--color-background)] px-4 py-2 text-xs text-[var(--color-muted)]">
-                        Designer
-                      </span>
-
-                      <span className="rounded-full bg-[var(--color-background)] px-4 py-2 text-xs text-[var(--color-muted)]">
-                        Developer
-                      </span>
-
-                      <span className="rounded-full bg-[var(--color-background)] px-4 py-2 text-xs text-[var(--color-muted)]">
-                        Creative
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="rounded-full bg-[var(--color-background)] px-4 py-2 text-xs text-[var(--color-muted)]">
-                        UI/UX
-                      </span>
-
-                      <span className="rounded-full bg-[var(--color-background)] px-4 py-2 text-xs text-[var(--color-muted)]">
-                        Web Development
-                      </span>
-
-                      <span className="rounded-full bg-[var(--color-background)] px-4 py-2 text-xs text-[var(--color-muted)]">
-                        Creative Solutions
-                      </span>
-                    </>
-                  )}
-                </div>
+              <div
+                className="
+                  hidden
+                  h-12
+                  w-12
+                  shrink-0
+                  items-center
+                  justify-center
+                  rounded-full
+                  border
+                  border-white/60
+                  bg-white/80
+                  text-[var(--color-brand)]
+                  backdrop-blur-xl
+                  sm:flex
+                "
+              >
+                <ArrowUpRight size={20} strokeWidth={1.7} />
               </div>
             </div>
-          </motion.div>
-        </AnimatePresence>
+          </div>
+
+          {/* =================================================
+              INFORMATION PANEL
+              ================================================= */}
+
+          <div
+            className="
+              flex
+              min-h-[480px]
+              flex-col
+              justify-between
+              rounded-[32px]
+              border
+              border-[var(--color-border)]
+              bg-[var(--color-surface)]
+              p-7
+              sm:min-h-[580px]
+              sm:p-9
+              lg:rounded-[36px]
+              lg:p-12
+            "
+          >
+            {/* Panel Header */}
+            <div
+              className="
+                flex
+                items-center
+                justify-between
+                gap-4
+                border-b
+                border-[var(--color-border)]
+                pb-5
+              "
+            >
+              <span
+                className="
+                  font-[var(--font-body)]
+                  text-[10px]
+                  font-semibold
+                  tracking-[0.2em]
+                  text-[var(--color-muted-light)]
+                "
+              >
+                {current.eyebrow}
+              </span>
+
+              <span
+                className="
+                  rounded-full
+                  bg-[var(--color-brand-soft)]
+                  px-3
+                  py-1.5
+                  font-[var(--font-body)]
+                  text-[10px]
+                  font-semibold
+                  tracking-wide
+                  text-[var(--color-brand)]
+                "
+              >
+                {current.year}
+              </span>
+            </div>
+
+            {/* Main Information */}
+            <div className="py-12 sm:py-14 lg:py-16">
+              <h3
+                className="
+                  max-w-2xl
+                  font-[var(--font-heading)]
+                  text-[clamp(2.25rem,4.5vw,4.5rem)]
+                  font-semibold
+                  leading-[0.96]
+                  tracking-[-0.06em]
+                  text-[var(--color-foreground)]
+                "
+              >
+                {current.title}
+              </h3>
+
+              <p
+                className="
+                  mt-7
+                  max-w-xl
+                  font-[var(--font-body)]
+                  text-sm
+                  leading-7
+                  text-[var(--color-muted)]
+                  sm:text-base
+                  sm:leading-8
+                "
+              >
+                {current.description}
+              </p>
+
+              <Link
+                href={current.href}
+                className="
+                  group
+                  mt-9
+                  inline-flex
+                  items-center
+                  gap-3
+                  rounded-full
+                  bg-[var(--color-secondary)]
+                  px-6
+                  py-3.5
+                  font-[var(--font-body)]
+                  text-sm
+                  font-semibold
+                  text-white
+                  transition-colors
+                  duration-200
+                  hover:bg-[var(--color-brand)]
+                  active:scale-95
+                "
+              >
+                {current.button}
+
+                <ArrowUpRight
+                  size={17}
+                  strokeWidth={1.8}
+                  className="
+                    transition-transform
+                    duration-200
+                    group-hover:translate-x-0.5
+                    group-hover:-translate-y-0.5
+                  "
+                />
+              </Link>
+            </div>
+
+            {/* Tags */}
+            <div
+              className="
+                flex
+                flex-wrap
+                gap-2
+                border-t
+                border-[var(--color-border)]
+                pt-6
+              "
+            >
+              {current.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="
+                    rounded-full
+                    border
+                    border-[var(--color-border)]
+                    bg-[var(--color-background)]
+                    px-4
+                    py-2
+                    font-[var(--font-body)]
+                    text-xs
+                    font-medium
+                    text-[var(--color-muted)]
+                  "
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
+
 "use client";
 
-import { motion } from "framer-motion";
 import {
   ArrowUpRight,
   Palette,
@@ -13,7 +13,6 @@ const capabilities = [
   {
     number: "01",
     title: "Product Design",
-    shortTitle: "Design",
     description:
       "Turning ideas and user needs into clear, intuitive, and purposeful digital experiences.",
     skills: [
@@ -23,11 +22,11 @@ const capabilities = [
       "Prototyping",
     ],
     icon: Palette,
+    theme: "light",
   },
   {
     number: "02",
     title: "Frontend Development",
-    shortTitle: "Development",
     description:
       "Building responsive and scalable digital experiences where thoughtful design meets reliable technology.",
     skills: [
@@ -37,11 +36,11 @@ const capabilities = [
       "Responsive Web",
     ],
     icon: Code2,
+    theme: "blue",
   },
   {
     number: "03",
     title: "Digital Strategy",
-    shortTitle: "Strategy",
     description:
       "Connecting product thinking, technology, and business goals to create solutions that solve real problems.",
     skills: [
@@ -51,11 +50,11 @@ const capabilities = [
       "Management",
     ],
     icon: Lightbulb,
+    theme: "indigo",
   },
   {
     number: "04",
     title: "Creative Direction",
-    shortTitle: "Creative",
     description:
       "Shaping visual identities and creative concepts with a consistent point of view and meaningful storytelling.",
     skills: [
@@ -65,194 +64,308 @@ const capabilities = [
       "Creative",
     ],
     icon: Layers,
+    theme: "light",
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-};
+function CapabilityCard({ item }) {
+  const Icon = item.icon;
 
-const itemVariants = {
-  hidden: {
-    opacity: 0,
-    y: 24,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
+  const themes = {
+    light: {
+      card: "bg-[var(--color-background)] border-[var(--color-border)]",
+      icon: "bg-[var(--color-brand-soft)] text-[var(--color-brand)]",
+      number: "text-[var(--color-muted-light)]",
+      title: "text-[var(--color-foreground)]",
+      description: "text-[var(--color-muted)]",
+      chip: "border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-muted)]",
+      arrow:
+        "border-[var(--color-border)] text-[var(--color-foreground)] group-hover:bg-[var(--color-secondary)] group-hover:text-white group-hover:border-[var(--color-secondary)]",
     },
-  },
-};
+
+    blue: {
+      card: "bg-[var(--color-brand)] border-[var(--color-brand)]",
+      icon: "bg-white/15 text-white",
+      number: "text-white/60",
+      title: "text-white",
+      description: "text-white/80",
+      chip: "border-white/20 bg-white/10 text-white/90",
+      arrow:
+        "border-white/30 text-white group-hover:bg-white group-hover:text-[var(--color-brand)]",
+    },
+
+    indigo: {
+      card: "bg-[var(--color-secondary)] border-[var(--color-secondary)]",
+      icon: "bg-white/10 text-white",
+      number: "text-white/50",
+      title: "text-white",
+      description: "text-white/75",
+      chip: "border-white/20 bg-white/10 text-white/85",
+      arrow:
+        "border-white/25 text-white group-hover:bg-white group-hover:text-[var(--color-secondary)]",
+    },
+  };
+
+  const style = themes[item.theme];
+
+  return (
+    <article
+      className={`
+        group relative flex min-h-[350px] flex-col
+        overflow-hidden rounded-[30px] border
+        p-7 transition-all duration-300
+        hover:-translate-y-1
+        hover:shadow-[0_18px_45px_rgba(32,26,61,0.08)]
+        sm:p-9 lg:min-h-[390px] lg:p-10
+        ${style.card}
+      `}
+    >
+      {/* Decorative Shape */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none absolute
+          -right-20 -top-24 h-64 w-64
+          rounded-full border border-current
+          opacity-[0.07]
+          transition-transform duration-500
+          group-hover:scale-110
+        "
+      />
+
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none absolute
+          -right-10 -top-14 h-40 w-40
+          rounded-full border border-current
+          opacity-[0.06]
+        "
+      />
+
+      {/* Card Header */}
+      <div className="relative flex items-start justify-between">
+        <div
+          className={`
+            flex h-14 w-14 items-center justify-center
+            rounded-[20px] ${style.icon}
+          `}
+        >
+          <Icon size={25} strokeWidth={1.7} />
+        </div>
+
+        <span
+          className={`
+            font-[var(--font-heading)]
+            text-sm font-medium tracking-wide
+            ${style.number}
+          `}
+        >
+          {item.number}
+        </span>
+      </div>
+
+      {/* Main Content */}
+      <div className="relative mt-9">
+        <h3
+          className={`
+            max-w-sm
+            font-[var(--font-heading)]
+            text-2xl font-semibold
+            tracking-[-0.045em]
+            sm:text-[28px]
+            ${style.title}
+          `}
+        >
+          {item.title}
+        </h3>
+
+        <p
+          className={`
+            mt-4 max-w-md
+            font-[var(--font-body)]
+            text-sm leading-7
+            sm:text-[15px]
+            sm:leading-8
+            ${style.description}
+          `}
+        >
+          {item.description}
+        </p>
+      </div>
+
+      {/* Skills */}
+      <div className="relative mt-auto flex flex-wrap gap-2 pt-8">
+        {item.skills.map((skill) => (
+          <span
+            key={skill}
+            className={`
+              rounded-full border
+              px-3.5 py-2
+              font-[var(--font-body)]
+              text-[11px] font-medium
+              sm:text-xs
+              ${style.chip}
+            `}
+          >
+            {skill}
+          </span>
+        ))}
+      </div>
+
+      {/* Arrow */}
+      <div
+        className={`
+          absolute bottom-7 right-7
+          flex h-10 w-10 items-center justify-center
+          rounded-full border
+          transition-all duration-300
+          group-hover:-translate-y-1
+          group-hover:translate-x-1
+          sm:bottom-9 sm:right-9
+          ${style.arrow}
+        `}
+      >
+        <ArrowUpRight size={18} strokeWidth={1.7} />
+      </div>
+    </article>
+  );
+}
 
 export default function Skills() {
   return (
     <section
       id="capabilities"
-      className="relative overflow-hidden bg-[var(--color-surface)]"
+      className="
+        relative overflow-hidden
+        bg-[var(--color-surface)]
+      "
     >
-      {/* =====================================================
-          BACKGROUND
-          ===================================================== */}
-
+      {/* Background */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute right-[-180px] top-[120px] h-[420px] w-[420px] rounded-full bg-[var(--color-brand-soft)] opacity-40 blur-[120px]" />
+        <div
+          className="
+            absolute -right-40 top-20
+            h-[500px] w-[500px]
+            rounded-full
+            bg-[var(--color-brand-soft)]
+            opacity-50 blur-[120px]
+          "
+        />
 
-        <div className="absolute bottom-[-180px] left-[-120px] h-[360px] w-[360px] rounded-full bg-[var(--color-surface-alt)] opacity-60 blur-[100px]" />
+        <div
+          className="
+            absolute -bottom-40 -left-40
+            h-[420px] w-[420px]
+            rounded-full
+            bg-[var(--color-secondary-soft)]
+            opacity-50 blur-[110px]
+          "
+        />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-6 py-24 sm:px-8 sm:py-28 lg:px-8 lg:py-36">
-        {/* =====================================================
-            HEADER
-            ===================================================== */}
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{
-            once: true,
-            amount: 0.2,
-          }}
-          variants={itemVariants}
-          className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end"
+      <div
+        className="
+          relative mx-auto max-w-[1440px]
+          px-6 py-24
+          sm:px-8 sm:py-28
+          lg:px-16 lg:py-36
+          xl:px-20
+        "
+      >
+        {/* Section Header */}
+        <div
+          className="
+            grid gap-8
+            lg:grid-cols-[0.75fr_1.25fr]
+            lg:items-end
+          "
         >
           {/* Label */}
-
           <div>
             <div className="inline-flex items-center gap-3">
-              <span className="h-px w-8 bg-[var(--color-brand)]" />
+              <span
+                className="
+                  h-[3px] w-8 rounded-full
+                  bg-[var(--color-brand)]
+                "
+              />
 
-              <span className="font-[var(--font-body)] text-[10px] font-semibold tracking-[0.24em] text-[var(--color-muted)] sm:text-xs">
+              <span
+                className="
+                  font-[var(--font-body)]
+                  text-[11px] font-semibold
+                  tracking-[0.2em]
+                  text-[var(--color-muted)]
+                "
+              >
                 CAPABILITIES
               </span>
             </div>
+
+            <p
+              className="
+                mt-5 max-w-xs
+                text-sm leading-7
+                text-[var(--color-muted)]
+              "
+            >
+              What I do and how I bring ideas to life through
+              thoughtful design and technology.
+            </p>
           </div>
 
           {/* Heading */}
-
           <div>
-            <h2 className="font-[var(--font-heading)] text-[clamp(3rem,7vw,6.5rem)] font-semibold leading-[0.9] tracking-[-0.07em] text-[var(--color-foreground)]">
+            <h2
+              className="
+                font-[var(--font-heading)]
+                text-[clamp(3rem,7vw,6.5rem)]
+                font-semibold
+                leading-[0.92]
+                tracking-[-0.07em]
+                text-[var(--color-foreground)]
+              "
+            >
               Ideas into
               <br />
-              <span className="text-[var(--color-brand)]">experiences.</span>
+
+              <span className="text-[var(--color-brand)]">
+                experiences.
+              </span>
             </h2>
 
-            <p className="mt-7 max-w-2xl font-[var(--font-body)] text-base leading-8 text-[var(--color-muted)] sm:text-lg">
-              A combination of design, technology, strategy, and creativity
-              used to build digital experiences that are useful, clear, and
-              meaningful.
+            <p
+              className="
+                mt-7 max-w-2xl
+                font-[var(--font-body)]
+                text-base leading-8
+                text-[var(--color-muted)]
+                sm:text-lg
+              "
+            >
+              A combination of design, technology, strategy,
+              and creativity used to build digital experiences
+              that are useful, clear, and meaningful.
             </p>
           </div>
-        </motion.div>
+        </div>
 
-        {/* =====================================================
-            CAPABILITY LIST
-            ===================================================== */}
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{
-            once: true,
-            amount: 0.08,
-          }}
-          variants={containerVariants}
-          className="mt-20 border-t border-[var(--color-border)] lg:mt-28"
+        {/* Capability Bento Grid */}
+        <div
+          className="
+            mt-16 grid grid-cols-1 gap-5
+            sm:grid-cols-2
+            lg:mt-20 lg:gap-6
+          "
         >
-          {capabilities.map((item) => {
-            const Icon = item.icon;
-
-            return (
-              <motion.article
-                key={item.number}
-                variants={itemVariants}
-                className="group relative border-b border-[var(--color-border)]"
-              >
-                {/* Hover Background */}
-
-                <div className="pointer-events-none absolute inset-0 -mx-6 bg-[var(--color-brand-soft)] opacity-0 transition-opacity duration-500 group-hover:opacity-60 sm:-mx-8 lg:-mx-12" />
-
-                <div className="relative grid gap-8 py-10 sm:py-12 lg:grid-cols-[80px_1fr_1.1fr_80px] lg:items-center lg:gap-10 lg:py-14">
-                  {/* Number */}
-
-                  <div>
-                    <span className="font-[var(--font-heading)] text-sm font-medium tracking-tight text-[var(--color-muted-light)] transition-colors duration-300 group-hover:text-[var(--color-brand-hover)]">
-                      {item.number}
-                    </span>
-                  </div>
-
-                  {/* Title */}
-
-                  <div className="flex items-center gap-5">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-background)] text-[var(--color-foreground)] transition-all duration-500 group-hover:border-[var(--color-brand)] group-hover:bg-[var(--color-brand)] group-hover:text-white sm:h-14 sm:w-14">
-                      <Icon
-                        size={21}
-                        strokeWidth={1.6}
-                      />
-                    </div>
-
-                    <div>
-                      <p className="mb-1 font-[var(--font-body)] text-[10px] font-medium uppercase tracking-[0.16em] text-[var(--color-muted-light)]">
-                        {item.shortTitle}
-                      </p>
-
-                      <h3 className="font-[var(--font-heading)] text-2xl font-semibold tracking-[-0.045em] text-[var(--color-foreground)] sm:text-3xl lg:text-[2rem]">
-                        {item.title}
-                      </h3>
-                    </div>
-                  </div>
-
-                  {/* Description + Skills */}
-
-                  <div>
-                    <p className="max-w-xl font-[var(--font-body)] text-sm leading-7 text-[var(--color-muted)] sm:text-base sm:leading-8">
-                      {item.description}
-                    </p>
-
-                    <div className="mt-5 flex flex-wrap gap-2">
-                      {item.skills.map((skill) => (
-                        <span
-                          key={skill}
-                          className="rounded-full border border-[var(--color-border)] bg-[var(--color-background)] px-3 py-1.5 font-[var(--font-body)] text-[10px] font-medium text-[var(--color-muted)] transition-colors duration-300 group-hover:border-[var(--color-border-strong)] group-hover:text-[var(--color-foreground)] sm:text-xs"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Arrow */}
-
-                  <div className="hidden justify-end lg:flex">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-background)] transition-all duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:border-[var(--color-brand)] group-hover:bg-[var(--color-brand)] group-hover:text-white">
-                      <ArrowUpRight
-                        size={18}
-                        strokeWidth={1.6}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Mobile Arrow */}
-
-                  <div className="flex lg:hidden">
-                    <ArrowUpRight
-                      size={19}
-                      strokeWidth={1.6}
-                      className="text-[var(--color-muted-light)] transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-[var(--color-brand)]"
-                    />
-                  </div>
-                </div>
-              </motion.article>
-            );
-          })}
-        </motion.div>
+          {capabilities.map((item) => (
+            <CapabilityCard
+              key={item.number}
+              item={item}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -1,188 +1,160 @@
+
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
-
 import { usePathname } from "next/navigation";
-
-import {
-  useState,
-  useEffect,
-} from "react";
+import { useState, useEffect } from "react";
 
 import {
   Menu,
   X,
-  Sparkles,
   ArrowUpRight,
 } from "lucide-react";
 
-
 /* ===========================================================
    VDE 2K27 — NAVBAR
-   Premium Personal Portfolio Navigation
+   Ocean Blue + Deep Indigo
+   Floating to Full Width Navigation
    =========================================================== */
 
-export default function Navbar() {
+/* External Logo */
+const LOGO_URL =
+  process.env.NEXT_PUBLIC_LOGO_URL ||
+  "https://your-domain.com/vins-logo.png";
 
+export default function Navbar() {
   const pathname = usePathname();
 
   const [open, setOpen] = useState(false);
-
   const [scrolled, setScrolled] = useState(false);
-
 
   /* ===========================================================
      NAVIGATION
      =========================================================== */
 
   const navLinks = [
-
     {
       href: "/",
       label: "Home",
     },
-
     {
       href: "/projects",
       label: "Projects",
     },
-
     {
       href: "/about",
       label: "About",
     },
-
     {
       href: "/article",
       label: "Articles",
     },
-
-    {
-      href: "/ai",
-      label: "VINS AI",
-      ai: true,
-    },
-
   ];
-
-
-  /* ===========================================================
-     SCROLL STATE
-     =========================================================== */
-
-  useEffect(() => {
-
-    const onScroll = () => {
-
-      setScrolled(
-        window.scrollY > 24
-      );
-
-    };
-
-    onScroll();
-
-    window.addEventListener(
-      "scroll",
-      onScroll,
-      { passive: true }
-    );
-
-    return () =>
-      window.removeEventListener(
-        "scroll",
-        onScroll
-      );
-
-  }, []);
-
-
-  /* ===========================================================
-     CLOSE MOBILE MENU ON ROUTE CHANGE
-     =========================================================== */
-
-  useEffect(() => {
-
-    setOpen(false);
-
-  }, [pathname]);
-
-
-  /* ===========================================================
-     BODY LOCK
-     =========================================================== */
-
-  useEffect(() => {
-
-    if (open) {
-
-      document.body.style.overflow = "hidden";
-
-    } else {
-
-      document.body.style.overflow = "";
-
-    }
-
-    return () => {
-
-      document.body.style.overflow = "";
-
-    };
-
-  }, [open]);
-
-
-  /* ===========================================================
-     ESCAPE KEY
-     =========================================================== */
-
-  useEffect(() => {
-
-    const handleKeyDown = (event) => {
-
-      if (
-        event.key === "Escape" &&
-        open
-      ) {
-
-        setOpen(false);
-
-      }
-
-    };
-
-    window.addEventListener(
-      "keydown",
-      handleKeyDown
-    );
-
-    return () =>
-      window.removeEventListener(
-        "keydown",
-        handleKeyDown
-      );
-
-  }, [open]);
-
 
   /* ===========================================================
      ACTIVE STATE
      =========================================================== */
 
   const active = (href) => {
-
     if (href === "/") {
-
       return pathname === "/";
-
     }
 
     return pathname.startsWith(href);
-
   };
 
+  /* ===========================================================
+     SCROLL STATE
+     =========================================================== */
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+
+    onScroll();
+
+    window.addEventListener("scroll", onScroll, {
+      passive: true,
+    });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  /* ===========================================================
+     CLOSE MOBILE MENU ON ROUTE CHANGE
+     =========================================================== */
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  /* ===========================================================
+     BODY LOCK
+     =========================================================== */
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  /* ===========================================================
+     ESCAPE KEY
+     =========================================================== */
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener(
+        "keydown",
+        handleKeyDown
+      );
+    };
+  }, []);
+
+  /* ===========================================================
+     LOGO
+     =========================================================== */
+
+  const Logo = ({ mobile = false }) => (
+    <Link
+      href="/"
+      aria-label="VDE 2K27 — Home"
+      className="group flex shrink-0 items-center"
+    >
+      <img
+        src={LOGO_URL}
+        alt="VINS"
+        width={mobile ? 130 : 140}
+        height={40}
+        className="
+          h-8
+          w-auto
+          max-w-[140px]
+          object-contain
+          transition-opacity
+          duration-300
+          group-hover:opacity-75
+        "
+      />
+    </Link>
+  );
 
   /* ===========================================================
      RENDER
@@ -195,32 +167,33 @@ export default function Navbar() {
           ===================================================== */}
 
       <header
-        className="
+        className={`
           fixed
           top-0
           inset-x-0
           z-50
-          px-4
-          pt-4
-          sm:px-5
-          sm:pt-5
-        "
-      >
+          transition-all
+          duration-500
+          ease-[cubic-bezier(.2,.8,.2,1)]
 
+          ${
+            scrolled
+              ? "px-0 pt-0"
+              : "px-4 pt-4 sm:px-5 sm:pt-5"
+          }
+        `}
+      >
         <div
           className={`
             mx-auto
             flex
-            h-[68px]
-            max-w-[1280px]
+            w-full
             items-center
             justify-between
-            rounded-full
+            border
             px-4
             sm:px-6
             lg:px-7
-
-            border
 
             transition-all
             duration-500
@@ -229,52 +202,30 @@ export default function Navbar() {
             ${
               scrolled
                 ? `
-                  border-[var(--color-border)]
-                  bg-[color-mix(in_srgb,var(--color-background)_88%,transparent)]
-                  shadow-[0_18px_60px_rgba(0,0,0,.07)]
-                  backdrop-blur-2xl
-                `
+                    h-[76px]
+                    max-w-none
+                    rounded-none
+                    border-[var(--color-border)]
+                    bg-[color-mix(in_srgb,var(--color-background)_95%,transparent)]
+                    shadow-[0_8px_30px_rgba(32,26,61,.08)]
+                    backdrop-blur-2xl
+                  `
                 : `
-                  border-transparent
-                  bg-[color-mix(in_srgb,var(--color-background)_68%,transparent)]
-                  backdrop-blur-xl
-                `
+                    h-[68px]
+                    max-w-[1280px]
+                    rounded-full
+                    border-transparent
+                    bg-[color-mix(in_srgb,var(--color-background)_68%,transparent)]
+                    backdrop-blur-xl
+                  `
             }
           `}
         >
-
           {/* =================================================
               LOGO
               ================================================= */}
 
-          <Link
-            href="/"
-            aria-label="VDE 2K27 — Home"
-            className="
-              group
-              flex
-              shrink-0
-              items-center
-            "
-          >
-
-            <Image
-              src="/"
-              alt="VINS"
-              width={140}
-              height={35}
-              priority
-              className="
-                h-8
-                w-auto
-                transition
-                duration-300
-                group-hover:opacity-75
-              "
-            />
-
-          </Link>
-
+          <Logo />
 
           {/* =================================================
               DESKTOP NAVIGATION
@@ -289,27 +240,21 @@ export default function Navbar() {
               lg:flex
             "
           >
-
             {navLinks.map((item) => {
-
-              const isActive =
-                active(item.href);
+              const isActive = active(item.href);
 
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   aria-current={
-                    isActive
-                      ? "page"
-                      : undefined
+                    isActive ? "page" : undefined
                   }
                   className={`
                     group
                     relative
                     flex
                     items-center
-                    gap-2
                     rounded-full
                     px-4
                     py-2.5
@@ -318,72 +263,29 @@ export default function Navbar() {
                     tracking-[-0.01em]
                     transition-all
                     duration-300
+                    ease-out
+                    active:scale-95
 
                     ${
                       isActive
                         ? `
-                          text-[var(--color-foreground)]
-                        `
+                            bg-[var(--color-secondary)]
+                            text-white
+                            shadow-[0_4px_14px_rgba(32,26,61,.15)]
+                          `
                         : `
-                          text-[var(--color-muted)]
-                          hover:text-[var(--color-foreground)]
-                        `
+                            text-[var(--color-muted)]
+                            hover:bg-[var(--color-brand-soft)]
+                            hover:text-[var(--color-brand)]
+                          `
                     }
                   `}
                 >
-
-                  {/* Active background */}
-
-                  <span
-                    aria-hidden="true"
-                    className={`
-                      absolute
-                      inset-0
-                      -z-10
-                      rounded-full
-                      transition-all
-                      duration-300
-
-                      ${
-                        isActive
-                          ? `
-                            bg-[var(--color-surface-alt)]
-                            opacity-100
-                          `
-                          : `
-                            opacity-0
-                            group-hover:bg-[var(--color-surface-alt)]
-                            group-hover:opacity-100
-                          `
-                      }
-                    `}
-                  />
-
-
                   {/* Label */}
 
-                  <span>
-                    {item.label}
-                  </span>
+                  <span>{item.label}</span>
 
-
-                  {/* AI indicator */}
-
-                  {item.ai && (
-                    <Sparkles
-                      size={13}
-                      strokeWidth={2}
-                      className="
-                        text-[var(--color-brand)]
-                        transition-transform
-                        duration-300
-                        group-hover:rotate-12
-                      "
-                    />
-                  )}
-
-
-                  {/* Active indicator */}
+                  {/* Active Indicator */}
 
                   {isActive && (
                     <span
@@ -396,18 +298,14 @@ export default function Navbar() {
                         w-1
                         -translate-x-1/2
                         rounded-full
-                        bg-[var(--color-brand)]
+                        bg-[var(--color-brand-light)]
                       "
                     />
                   )}
-
                 </Link>
               );
-
             })}
-
           </nav>
-
 
           {/* =================================================
               DESKTOP CTA
@@ -421,24 +319,22 @@ export default function Navbar() {
               items-center
               gap-2
               rounded-full
-              bg-[var(--color-foreground)]
+              bg-[var(--color-secondary)]
               px-5
               py-3
               text-[13px]
               font-semibold
-              text-[var(--color-background)]
+              text-white
               transition-all
               duration-300
               hover:-translate-y-0.5
               hover:bg-[var(--color-brand)]
-              hover:shadow-[0_10px_30px_rgba(173,145,70,.18)]
+              hover:shadow-[0_10px_30px_rgba(15,112,149,.18)]
+              active:scale-95
               lg:flex
             "
           >
-
-            <span>
-              Let's Talk
-            </span>
+            <span>Let's Talk</span>
 
             <ArrowUpRight
               size={14}
@@ -450,9 +346,7 @@ export default function Navbar() {
                 group-hover:-translate-y-0.5
               "
             />
-
           </Link>
-
 
           {/* =================================================
               MOBILE MENU BUTTON
@@ -471,24 +365,21 @@ export default function Navbar() {
               justify-center
               rounded-full
               text-[var(--color-foreground)]
-              transition
+              transition-all
               duration-300
-              hover:bg-[var(--color-surface-alt)]
+              hover:bg-[var(--color-brand-soft)]
+              hover:text-[var(--color-brand)]
+              active:scale-90
               lg:hidden
             "
           >
-
             <Menu
               size={23}
               strokeWidth={1.8}
             />
-
           </button>
-
         </div>
-
       </header>
-
 
       {/* =====================================================
           MOBILE OVERLAY
@@ -515,12 +406,12 @@ export default function Navbar() {
         `}
       />
 
-
       {/* =====================================================
           MOBILE DRAWER
           ===================================================== */}
 
       <aside
+        id="mobile-navigation"
         aria-label="Mobile navigation"
         aria-hidden={!open}
         className={`
@@ -536,7 +427,7 @@ export default function Navbar() {
           border-l
           border-[var(--color-border)]
           bg-[var(--color-background)]
-          shadow-[−20px_0_80px_rgba(0,0,0,.12)]
+          shadow-[-20px_0_80px_rgba(0,0,0,.12)]
           transition-transform
           duration-500
           ease-[cubic-bezier(.2,.8,.2,1)]
@@ -549,7 +440,6 @@ export default function Navbar() {
           }
         `}
       >
-
         {/* =================================================
             DRAWER HEADER
             ================================================= */}
@@ -566,25 +456,7 @@ export default function Navbar() {
             px-5
           "
         >
-
-          <Link
-            href="/"
-            aria-label="VDE 2K27 — Home"
-          >
-
-            <Image
-              src="/"
-              alt="VINS"
-              width={130}
-              height={40}
-              className="
-                h-8
-                w-auto
-              "
-            />
-
-          </Link>
-
+          <Logo mobile />
 
           <button
             type="button"
@@ -598,21 +470,19 @@ export default function Navbar() {
               justify-center
               rounded-full
               text-[var(--color-foreground)]
-              transition
+              transition-all
               duration-300
-              hover:bg-[var(--color-surface-alt)]
+              hover:bg-[var(--color-brand-soft)]
+              hover:text-[var(--color-brand)]
+              active:scale-90
             "
           >
-
             <X
               size={21}
               strokeWidth={1.8}
             />
-
           </button>
-
         </div>
-
 
         {/* =================================================
             DRAWER CONTENT
@@ -628,7 +498,6 @@ export default function Navbar() {
             py-6
           "
         >
-
           {/* Navigation */}
 
           <nav
@@ -636,23 +505,18 @@ export default function Navbar() {
             className="
               flex
               flex-col
-              gap-1
+              gap-2
             "
           >
-
             {navLinks.map((item) => {
-
-              const isActive =
-                active(item.href);
+              const isActive = active(item.href);
 
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   aria-current={
-                    isActive
-                      ? "page"
-                      : undefined
+                    isActive ? "page" : undefined
                   }
                   className={`
                     group
@@ -660,156 +524,52 @@ export default function Navbar() {
                     items-center
                     justify-between
                     rounded-2xl
+                    border
                     px-5
                     py-4
                     text-[15px]
                     font-medium
                     transition-all
                     duration-300
+                    ease-out
+                    active:scale-[0.98]
 
                     ${
                       isActive
                         ? `
-                          bg-[var(--color-foreground)]
-                          text-[var(--color-background)]
-                        `
+                            border-[var(--color-secondary)]
+                            bg-[var(--color-secondary)]
+                            text-white
+                            shadow-[0_8px_24px_rgba(32,26,61,.14)]
+                          `
                         : `
-                          text-[var(--color-muted)]
-                          hover:bg-[var(--color-surface-alt)]
-                          hover:text-[var(--color-foreground)]
-                        `
+                            border-transparent
+                            text-[var(--color-muted)]
+                            hover:border-[var(--color-border)]
+                            hover:bg-[var(--color-brand-soft)]
+                            hover:text-[var(--color-brand)]
+                          `
                     }
                   `}
                 >
-
-                  <span className="flex items-center gap-2.5">
-
-                    {item.label}
-
-                    {item.ai && (
-                      <Sparkles
-                        size={14}
-                        strokeWidth={2}
-                        className="
-                          text-[var(--color-brand)]
-                        "
-                      />
-                    )}
-
-                  </span>
-
+                  <span>{item.label}</span>
 
                   {isActive && (
                     <span
+                      aria-hidden="true"
                       className="
-                        h-1.5
-                        w-1.5
+                        h-2
+                        w-2
                         rounded-full
-                        bg-[var(--color-brand)]
+                        bg-[var(--color-brand-light)]
+                        shadow-[0_0_10px_rgba(59,145,176,.5)]
                       "
                     />
                   )}
-
                 </Link>
               );
-
             })}
-
           </nav>
-
-
-          {/* =================================================
-              AI CARD
-              ================================================= */}
-
-          <div
-            className="
-              mt-8
-              rounded-3xl
-              border
-              border-[var(--color-border)]
-              bg-[var(--color-surface)]
-              p-5
-            "
-          >
-
-            <div
-              className="
-                mb-4
-                flex
-                h-10
-                w-10
-                items-center
-                justify-center
-                rounded-full
-                bg-[var(--color-brand-soft)]
-                text-[var(--color-brand)]
-              "
-            >
-
-              <Sparkles
-                size={18}
-                strokeWidth={1.8}
-              />
-
-            </div>
-
-
-            <p
-              className="
-                mb-1
-                font-[var(--font-heading)]
-                text-base
-                font-bold
-                tracking-[-0.02em]
-              "
-            >
-              Meet VINS AI
-            </p>
-
-
-            <p
-              className="
-                mb-4
-                text-sm
-                leading-6
-                text-[var(--color-muted)]
-              "
-            >
-              Explore my portfolio through an
-              interactive AI assistant.
-            </p>
-
-
-            <Link
-              href="/ai"
-              className="
-                group
-                inline-flex
-                items-center
-                gap-2
-                text-sm
-                font-semibold
-                text-[var(--color-foreground)]
-              "
-            >
-
-              Ask VINS AI
-
-              <ArrowUpRight
-                size={15}
-                className="
-                  transition-transform
-                  duration-300
-                  group-hover:translate-x-0.5
-                  group-hover:-translate-y-0.5
-                "
-              />
-
-            </Link>
-
-          </div>
-
 
           {/* =================================================
               CONTACT CTA
@@ -818,10 +578,11 @@ export default function Navbar() {
           <Link
             href="/contact"
             className="
-              mt-4
+              mt-8
               flex
               items-center
               justify-center
+              gap-2
               rounded-full
               bg-[var(--color-brand)]
               px-5
@@ -832,23 +593,19 @@ export default function Navbar() {
               transition-all
               duration-300
               hover:bg-[var(--color-brand-hover)]
+              active:scale-[0.98]
             "
           >
             Let's Talk
-          </Link>
 
+            <ArrowUpRight size={16} />
+          </Link>
 
           {/* =================================================
               FOOTER
               ================================================= */}
 
-          <div
-            className="
-              mt-auto
-              pt-10
-            "
-          >
-
+          <div className="mt-auto pt-10">
             <div
               className="
                 mb-4
@@ -857,7 +614,6 @@ export default function Navbar() {
                 bg-[var(--color-border)]
               "
             />
-
 
             <p
               className="
@@ -869,7 +625,6 @@ export default function Navbar() {
               VINS Digital Experience
             </p>
 
-
             <p
               className="
                 mt-1
@@ -879,11 +634,8 @@ export default function Navbar() {
             >
               © 2027 Kevin Simorangkir
             </p>
-
           </div>
-
         </div>
-
       </aside>
     </>
   );
